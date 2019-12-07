@@ -1,0 +1,120 @@
+reset
+cd "d:/conf/mdanse2018/tp-sw/exemples"
+
+set terminal windows enhanced font "arial,18"
+set palette defined ( 0 "white", 0.2 "blue", 0.35 "cyan", 0.5 "green", 0.65 "yellow", 0.8 "orange", 0.95 "red", 1.0 "brown" )
+
+
+set pm3d map
+
+
+####### chaine ferromagnetique #######
+
+set xlabel "(h 0 0)"
+set ylabel "Energy (meV)"
+set ytics 2
+set xtics 0.5
+set cbrange[0:0.51]
+set cbtics 0.1
+set zrange[0:0.5]
+splot[:][0:10] "res-chaine-f-h00.txt" u 1:4:5 notitle
+
+
+####### chaine antiferromagnetique ########
+
+set xlabel "(h 0 0)"
+set ylabel "Energy (meV)"
+set ytics 2
+set xtics 0.5
+set cbrange[0:0.5]
+set cbtics 0.1
+set zrange[0:20]
+splot[:][0:10] "res-chaine-af-h00.txt" u ($1/2):4:5 notitle
+
+####### reseau 2D triangulaire ########
+
+set cbrange[0:20]
+set cbtics 5
+set zrange[0:50]
+set xlabel "(h 0 0)"
+set xtics 1
+set ylabel "Energy (meV)"
+set ytics 5
+splot[0:3][0:20] "res-ymno3-h00.txt" u 1:4:5 notitle
+
+
+####### LaMnO3 #######
+
+set cbrange[0:10]
+set zrange[0:40]
+set cbtics 2
+set xlabel "(h 0 0)"
+set xtics 0.1
+set ylabel "Energy (meV)"
+set ytics 5
+set xlabel "(h 0 1)"
+splot[0:0.5][0:20] "res-LaMnO3-h01.txt" u 1:4:5 notitle
+set xlabel "(0 0 l)"
+set xtics 0.2
+splot[1:2][0:20] "res-LaMnO3-00l.txt" u 3:4:5 notitle
+
+########## powder spectrum ########
+
+bose(x,t) = (x == 0 ? 0 : 1+1/(exp(x*11.6/t)-1))
+t=70
+set xlabel "Q (A^{-1})"
+set xtics 0.5
+set ylabel "Energy (meV)"
+set ytics 5
+set cbrange[0:8]
+splot[0:3][-25:25] "res-LaMnO3-pwd.txt" u 1:2:($3*bose($2,t)) notitle,\
+"res-LaMnO3-pwd.txt" u 1:(-$2):(-$3*bose(-$2,t)) notitle
+
+splot[0:3][-25:25] "res-LaMnO3-pwd18.txt" u 1:2:($3*bose($2,t)) notitle,\
+"res-LaMnO3-pwd18.txt" u 1:(-$2):(-$3*bose(-$2,t)) notitle
+ 
+####################################
+# illustration cours
+
+j=4
+s=0.5
+
+set xlabel "(h 0 0)"
+set ylabel "Energy (JS)
+set ytics 1
+set xtics 0.5
+set cbrange[0:0.51]
+set cbtics 0.1
+set zrange[0:0.5]
+splot[:][0:5] "res-chaine-f-h00.txt" u 1:($4/(j*s)):5 notitle
+
+
+####### chaine antiferromagnetique ########
+
+set xlabel "(h 0 0)"
+set ylabel "Energy (JS)"
+set ytics 2
+set xtics 0.5
+set cbrange[0:0.5]
+set cbtics 0.1
+set zrange[0:20]
+splot[:][0:5] "res-chaine-af-h00.txt" u ($1/2):($4/(j*s)):5 notitle
+
+####### reseau 2D triangulaire ########
+
+set cbrange[0:20]
+set cbtics 5
+set zrange[0:100]
+set xlabel "(h h 0)"
+set xtics 0.5
+set ylabel "Energy (JS)"
+set ytics 0.5
+splot[0:1][0:1] "res-triangle.txt" u ($1/3):($4/(j*s)):5 notitle
+splot[0:1][0:1] "res-triangle.txt" u ($1/3):($4/(j*s)):6 notitle
+splot[0:1][0:1] "res-triangle.txt" u ($1/3):($4/(j*s)):8 notitle
+
+splot[0:1][0:1] "res-triangle-gap.txt" u ($1/3):($4/(j*s)):5 notitle
+splot[0:1][0:1] "res-triangle-gap.txt" u ($1/3):($4/(j*s)):6 notitle
+splot[0:1][0:1] "res-triangle-gap.txt" u ($1/3):($4/(j*s)):8 notitle
+
+unset pm3d

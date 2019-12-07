@@ -1,0 +1,65 @@
+# -------------------------------------------
+# LaMnO3
+#
+AX  =  5.53
+AY  =  5.74
+AZ  =  7.66
+ALFA= 90.0
+BETA= 90.0
+GAMA= 90.0
+#
+# -------------------------------------------
+# Spin positions S=2 Mn3+ spins
+#
+I= 1,NOM=MN3, X= 0.50  ,Y= 0.00  ,Z=0.00,  SX=0,SY=0,SZ=1 , CX=1, B20=-0.3
+I= 2,NOM=MN3, X= 0.00  ,Y= 0.50  ,Z=0.00,  SX=0,SY=0,SZ=1 , CX=1, B20=-0.3
+I= 3,NOM=MN3, X= 0.50  ,Y= 0.00  ,Z=0.50,  SX=0,SY=0,SZ=1 , CX=1, B20=-0.3
+I= 4,NOM=MN3, X= 0.00  ,Y= 0.50  ,Z=0.50,  SX=0,SY=0,SZ=1 , CX=1, B20=-0.3
+#
+# -------------------------------------------
+#
+# First-neighbour coupling J1
+#
+I1= 1,I2= 2,J1=-1.7,D1= 4.1
+I1= 3,I2= 4,J1=-1.7,D1= 4.1
+#
+#
+# Second-neighbour (along c) J1
+#
+I1= 1,I2= 3,J1= 1.0,D1= 4.1
+I1= 2,I2= 4,J1= 1.0,D1= 4.1
+#
+# -------------------------------------------
+# Scan definition
+#
+Q0X=0.0,Q0Y=0.0,Q0Z=0.0
+DQX=0.005,DQY=0.005,DQZ=0.00
+NP=400
+FICH=res-LaMnO3-h00.txt
+#
+Q0X=0.0,Q0Y=0.0,Q0Z=1.0
+QX=0.005,DQY=0.005,DQZ=0.00
+NP=400
+FICH=res-LaMnO3-h01.txt
+#
+Q0X=0.0,Q0Y=0.0,Q0Z=1.0
+DQX=0.00,DQY=0.00,DQZ=0.01
+NP=400
+FICH=res-LaMnO3-00l.txt
+#
+TOF,NFIBO=16,QMIN=0.01,QMAX=3,NP=31
+FICH=res-LaMnO3-pwd18.txt
+#
+# -------------------------------------------
+# mean field
+#
+MF,NITER=50
+CALC=2,REG1=0.01,REG2=0.01,REG3=0.01
+#
+# --------------------------------------------------
+# options (energy width, number of points in energy)
+#
+REG1=0.01,REG2=0.01,REG3=0.01
+WMAX=25,NW=250,SIG=0.5
+#
+#

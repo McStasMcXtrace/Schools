@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>McStas: TAS Instrument at  Templates</TITLE>
+<LINK REV="made" HREF="mailto:peter.willendrup@risoe.dk">
+</HEAD>
+
+<BODY>
+
+<P ALIGN=CENTER>
+ [ <A href="#id">Identification</A>
+ | <A href="#desc">Description</A>
+ | <A href="#ipar">Input parameters</A>
+ | <A href="#opar">Output parameters</A>
+ | <A href="#links">Links</A> ]
+</P>
+
+<H1>The <CODE>TAS</CODE> Instrument</H1>
+
+Attempt to assemble a TAS in 10 minutes, no collimation etc.
+
+
+<H2><A NAME=id></A>Identification</H2>
+
+<UL>
+  <LI> <B>Site:    Templates</B>
+  <LI> <B>Author:</B> Peter Willendrup <pkwi@fysik.dtu.dk></B>
+  <LI> <B>Origin:</B> DTU</B>
+  <LI> <B>Date:</B> 20180918</B>
+  <LI> <B>Version:</B>(Unknown)</B>
+</UL>
+<H2><A NAME=desc></A>Description</H2>
+
+<PRE>
+Attempt to assemble a TAS in 10 minutes. Example is a mono rocking curve
+
+Example: mcrun TAS.instr A1=9,11 A2=20 A3=-10 A4=-20 A5=10 A6=20 lambda=1.2 dlambda=0.2 -N21
+
+</PRE>
+
+<H2><A NAME=ipar></A>Input parameters</H2>
+Parameters in <B>boldface</B> are required;
+the others are optional.
+<TABLE BORDER=1>
+<TR><TH>Name</TH>  <TH>Unit</TH>  <TH>Description</TH> <TH>Default</TH></TR>
+<TR> <TD>A1</TD>
+     <TD>deg</TD>
+     <TD>Mono takeoff angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>A2</TD>
+     <TD>deg</TD>
+     <TD>Mono scattering angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>A3</TD>
+     <TD>deg</TD>
+     <TD>Sample takeoff angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>A4</TD>
+     <TD>deg</TD>
+     <TD>Sample scattering angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>A5</TD>
+     <TD>deg</TD>
+     <TD>Ana takeoff angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>A6</TD>
+     <TD>deg</TD>
+     <TD>Ana scattering angle
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>lambda</TD>
+     <TD>AA</TD>
+     <TD>Central wavelength sampled at source
+</TD>
+<TD ALIGN=RIGHT>2.5</TD> </TR>
+<TR> <TD>dlambda</TD>
+     <TD>AA</TD>
+     <TD>Wavelength spread sampled at source
+</TD>
+<TD ALIGN=RIGHT>2.49</TD> </TR>
+</TABLE>
+
+
+<H2><A NAME=links></A>Links</H2>
+
+<UL>
+  <LI> <A HREF="/Users/pkwi/Dropbox/Work/MDANSE2018/25th_Tuesday/Practical_F_McStas,_TAS/Quick-n-dirty-TAS/">Source code</A> for <CODE>TAS.instr</CODE>.
+  <LI> Please use templateTAS instead :-)
+
+</UL>
+<HR>
+<P ALIGN=CENTER>
+ [ <A href="#id">Identification</A>
+ | <A href="#desc">Description</A>
+ | <A href="#ipar">Input parameters</A>
+ | <A href="#opar">Output parameters</A>
+ | <A href="#links">Links</A> ]
+</P>
+
+<ADDRESS>
+Generated automatically by McDoc, Peter Willendrup
+&lt;<A HREF="mailto:peter.willendrup@risoe.dk">peter.willendrup@risoe.dk</A>&gt; /
+Tue Sep 18 05:49:08 2018</ADDRESS>
+</BODY></HTML>

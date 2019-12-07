@@ -1,0 +1,43 @@
+# -------------------------------------------
+# definition of the lattice
+#
+AX  = 6.28
+AY  = 20.
+AZ  = 20.
+ALFA= 90.0
+BETA= 90.0
+GAMA= 90.0
+#
+# -------------------------------------------
+# Spin positions (SD2 is S=1/2) along the chain
+# here, on the nodes of the underlying lattice
+#
+I= 1,NOM=SD2, X= 0.00, Y= 0.00, Z=0.00, SX=0, SY=0, SZ=1, CX=0, CY=0, CZ=1, B20=0.0
+I= 2,NOM=SD2, X= 0.50 ,Y= 0.00, Z=0.00, SX=0, SY=0, SZ=1, CX=0, CY=0, CZ=1, B20=0.0
+#
+# -------------------------------------------
+#
+# First-neighbour coupling J1
+#
+I1= 1,I2= 2,J1= 4,D1= 7,J2=0.0,D2=14
+#
+# -------------------------------------------
+# Scan definition
+#
+Q0X=0.0,Q0Y=0.0,Q0Z=0.0
+DQX=0.01,DQY=0.00,DQZ=0.00
+NP=200
+#
+# outputfile
+FICH=res-chaine-af-h00.txt
+#
+# -------------------------------------------
+# mean field
+#
+MF,NITER=50
+CALC=2,REG1=0.01,REG2=0.01,REG3=0.01
+#
+# options (energy width, number of points in energy)
+WMAX=10,NW=200,SIG=0.5
+#
+#

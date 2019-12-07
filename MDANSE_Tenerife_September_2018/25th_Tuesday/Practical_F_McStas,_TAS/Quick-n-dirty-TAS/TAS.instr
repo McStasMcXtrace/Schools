@@ -1,0 +1,105 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: Peter Willendrup <pkwi@fysik.dtu.dk>
+* Date: 20180918
+* Origin: DTU
+* %INSTRUMENT_SITE: Templates
+*
+* Attempt to assemble a TAS in 10 minutes, no collimation etc.
+*
+* %D
+* Attempt to assemble a TAS in 10 minutes. Example is a mono rocking curve
+*
+* Example: mcrun TAS.instr A1=9,11 A2=20 A3=-10 A4=-20 A5=10 A6=20 lambda=1.2 dlambda=0.2 -N21
+*
+* %P
+* A1:      [deg] Mono takeoff angle
+* A2:      [deg] Mono scattering angle
+* A3:      [deg] Sample takeoff angle
+* A4:      [deg] Sample scattering angle
+* A5:      [deg] Ana takeoff angle
+* A6:      [deg] Ana scattering angle
+* lambda:  [AA]  Central wavelength sampled at source
+* dlambda: [AA]  Wavelength spread sampled at source
+*
+* %L
+* Please use templateTAS instead :-)
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT TAS(A1=0, A2=0, A3=0, A4=0, A5=0, A6=0, lambda=2.5, dlambda=2.49)
+
+DECLARE
+%{
+	
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+ COMPONENT source_gen = Source_gen(T1=683.7,I1=0.5874e+13,T2=257.7,I2=2.5099e+13,T3=16.7 ,I3=1.0343e+12, target_index=2, focus_xw=0.05, focus_yh=0.1, lambda0=lambda, dlambda=dlambda)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+  COMPONENT L_mon0 = L_monitor(filename="Lmon_source",xwidth=0.1, yheight=0.1, nL=51, Lmin=lambda-dlambda, Lmax=lambda+dlambda, restore_neutron=1)
+  AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT arm1 = Arm()
+AT (0, 0, 4) RELATIVE PREVIOUS
+ROTATED (0, A1, 0) RELATIVE PREVIOUS
+
+SPLIT 10 COMPONENT monochromator_flat = Monochromator_flat()
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT arm2 = Arm()
+AT (0, 0, 0) RELATIVE PREVIOUS
+ROTATED (0, A2, 0) RELATIVE origin
+
+  COMPONENT L_mon1 = L_monitor(filename="Lmon_mono",xwidth=0.1, yheight=0.1, nL=51, Lmin=lambda-dlambda, Lmax=lambda+dlambda, restore_neutron=1)
+  AT (0,0,1) RELATIVE PREVIOUS
+
+
+COMPONENT arm3 = Arm()
+AT (0, 0, 2) RELATIVE PREVIOUS
+ROTATED (0, A3, 0) RELATIVE PREVIOUS
+
+
+SPLIT 10 COMPONENT incoherent = Incoherent(
+    radius=0.005, 
+    yheight=0.07, 
+    focus_xw=0.05, 
+    focus_yh=0.1, 
+    target_index=2)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT arm4 = Arm()
+AT (0, 0, 0) RELATIVE PREVIOUS
+ROTATED (0, A4, 0) RELATIVE arm3
+
+COMPONENT arm5 = Arm()
+AT (0, 0, 2) RELATIVE PREVIOUS
+ROTATED (0, A5, 0) RELATIVE PREVIOUS
+
+SPLIT 10 COMPONENT monochromator_flat2 = Monochromator_flat()
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT arm6 = Arm()
+AT (0, 0, 0) RELATIVE PREVIOUS
+ROTATED (0, A6, 0) RELATIVE arm4
+
+  COMPONENT psd_monitor = PSD_monitor(filename="PSD")
+AT (0, 0, 1) RELATIVE PREVIOUS
+
+FINALLY
+
+%{
+%}
+
+END

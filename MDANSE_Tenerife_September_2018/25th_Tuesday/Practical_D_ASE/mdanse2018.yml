@@ -1,0 +1,15 @@
+name: mdanse_thr
+channels:
+- defaults
+- conda-forge
+dependencies:
+- python
+- ipython
+- numpy 
+- jupyter
+- ase
+- scikit-learn
+- pandas
+- nglview
+- pip:
+  - gpaw
