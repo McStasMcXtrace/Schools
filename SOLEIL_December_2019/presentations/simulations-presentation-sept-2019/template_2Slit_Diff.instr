@@ -1,0 +1,42 @@
+/*******************************************************************************
+* Instrument: template_2Slit_Diff
+* An example instrument showing a Young's double slit experiment
+* %Parameters
+* SLITW: [m] Width of the slit in question. The 
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT template_2Slit_Diff(SLITW=1e-6, SLITSEP=4e-6)
+
+DECLARE %{
+  double slit_offset;
+%}
+
+INITIALIZE %{
+  slit_offset=SLITSEP*0.5;
+%}
+
+TRACE
+
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT source=Source_pt(focus_xw=6e-6, focus_yh=0.8e-6, dist=1, 
+  lambda0=2.0, dE=0, gauss=1, randomphase=0)
+AT(0,0,0) RELATIVE Origin
+
+COMPONENT s1 = Slit(
+    xwidth=SLITW, yheight=0.8e-6, dist=1, focus_xw=200e-6,focus_yh=2e-6, focus_x0=0.0,focus_y0=0.0 )
+AT(slit_offset,0,1) RELATIVE source
+GROUP slits
+
+COMPONENT s2 = COPY(s1)()
+AT(-slit_offset,0,1) RELATIVE source
+GROUP slits
+
+COMPONENT psd0 = PSD_monitor_coh(
+    yheight=2e-6, xwidth=200e-6, nx=501, ny=1, filename="psd0")
+AT(0,0,2) RELATIVE source
+
+END
+
