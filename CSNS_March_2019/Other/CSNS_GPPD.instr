@@ -1,0 +1,374 @@
+/******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: CSNS_GPPD
+*
+* %Identification
+* Written by: Longwei Mei
+* Email: meilongwei@ihep.ac.cn
+* Date: 2015.9
+* Origin:  CSNS
+* Release: McStas 2.1
+* Version: 0.1
+* %INSTRUMENT_SITE: China Spallation Neutron Source (CSNS)
+*
+* This instrument models the CSNS-GPPD instrument.
+*
+* %Description
+* This instrument models the CSNS-GPPD instrument. 
+* In this instrument, Q transfer and d-spacing is calculated. 
+* There are 8 d-spacing examples for 30 degree detectors test.
+* Transformation of coordinates is necessary, 
+* there may be a minus difference between d-spacing formula directly located in user1 of monitor_nD and in EXTEND.
+* In DECLARE, two trigonometric functions ( c(x) and s(x) represent cosine and sine) are defined because we could not use sin(x) in COMPONENT directly
+*
+* From the author:
+* 
+*
+* %Parameters
+* Lmin: [AA] Minimum wavelength to produce at the source
+* Lmax: [AA] Maximum wavelength to produce at the source
+* environment: Enviroment material in PowderN.comp
+* powder: The sample powder laz/lau format file for PowderN.comp input.
+* container: Container crysatal, generally use Al.laz
+* alpha: 
+* %Link
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT CSNS_GPPD(Lmin=0.05, Lmax=80, 
+  string environment="Al.laz", 
+  string powder="Al2O3_sapphire.laz", 
+  string container="Al.laz") 
+  
+DECLARE
+%{ 
+  double flag_container, flag_sample, flag_env;
+  double Ei,Ef;
+  double vix, viy, viz, d_spacing, Q,theta;
+  
+   double c(double angle) {
+    // calculate cosine value of detector angle
+    return  cos(PI*angle/180);
+  }	
+  
+   double s(double angle) {
+    // calculate sine value of detector angle
+    return  sin(PI*angle/180);
+  }	  
+  
+%}
+
+INITIALIZE
+%{
+ 
+  
+%}
+
+/***************************************************************************/
+TRACE
+
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE 
+
+COMPONENT DPHM_Source = SNS_source(  /********** Decoupled Hydrogen Moderator *******/
+    filename ="CSNS-DPHM.dat", xwidth = 0.1, yheight = 0.1,
+    dist = 4.2, focus_xw = 0.04, focus_yh = 0.08, Emin = 81.81/(Lmax*Lmax),
+    Emax = 81.81/(Lmin*Lmin))
+  AT (0, 0, 0.1) RELATIVE Origin   
+  
+COMPONENT Lambda_Source=L_monitor(
+    nL=100, filename="Lambda_Source.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_Source=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=20000, restore_neutron=1, filename="TOF_Source.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS    
+  
+COMPONENT XY_Source=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS    
+ 
+COMPONENT Target_guide1=Guide(
+w1=0.04, h1=0.08, w2=0.04, h2=0.08, l=1.989, m=3) 
+  AT(0,0,4.3) RELATIVE PREVIOUS
+  
+COMPONENT T0_chopper=DiskChopper(
+  radius=0.3,yheight=0.08, theta_0=333.6, nu=25, nslit=1, phase=180)
+  AT(0,0,6.5) ABSOLUTE  
+   
+COMPONENT Lambda_T0_chopper=L_monitor(
+    nL=100, filename="Lambda_T0_chopper.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_T0_chopper=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=20000, restore_neutron=1, filename="TOF_T0_chopper.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS   
+  
+COMPONENT XY_T0_Chopper=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS       
+
+COMPONENT guide2=Guide(
+w1=0.04, h1=0.08, w2=0.04, h2=0.08, l=0.75, m=3)
+  AT(0,0,6.72) ABSOLUTE  
+  
+COMPONENT BW_Chopper1=DiskChopper(
+radius=0.3, yheight=0.08, theta_0=90.7, nu=12.5, nslit=1, delay=0.0115)
+  AT(0,0,7.5) ABSOLUTE  
+  
+COMPONENT Lambda_BW_Chopper1=L_monitor(
+    nL=100, filename="Lambda_BW_Chopper1.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_BW_Chopper1=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=20000, restore_neutron=1, filename="TOF_BW_Chopper1.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS   
+  
+COMPONENT XY_BW_Chopper1=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS    
+  
+COMPONENT guide3_1=Guide(
+w1=0.04, h1=0.08, w2=0.037, h2=0.074, l=2.47, m=3)
+  AT(0,0,7.53) ABSOLUTE
+  
+COMPONENT BW_Chopper2=DiskChopper(
+radius=0.3,yheight=0.0734, theta_0=120.3, nu=12.5, nslit=1, delay=0.0015)
+  AT(0,0,10.3) ABSOLUTE  
+  
+COMPONENT Lambda_BW_Chopper2=L_monitor(
+    nL=100, filename="Lambda_BW_Chopper2.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_BW_Chopper2=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=20000, restore_neutron=1, filename="TOF_BW_Chopper2.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS  
+  
+COMPONENT XY_BW_Chopper2=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS   
+  
+COMPONENT guide3_2=Guide(
+w1=0.037, h1=0.074, w2=0.035, h2=0.071, l=1.208, m=3)
+  AT(0,0,10.33)   ABSOLUTE   
+  
+COMPONENT BW_Chopper3_D1=DiskChopper(
+radius=0.3,yheight=0.0705, theta_0=252.6, nu=25, nslit=1, delay=0.0012)
+  AT(0,0,11.6) ABSOLUTE
+
+COMPONENT BW_Chopper3_D2=DiskChopper(   
+radius=0.3,yheight=0.0703, theta_0=254, nu=25, nslit=1, delay=0.0012)
+  AT(0,0,11.6) ABSOLUTE  
+  
+COMPONENT Lambda_BW_Chopper3=L_monitor(
+    nL=100, filename="Lambda_BW_Chopper3.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_BW_Chopper3=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=20000, restore_neutron=1, filename="TOF_BW_Chopper3.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS  
+  
+COMPONENT XY_BW_Chopper3=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS    
+  
+COMPONENT guide3_3=Guide(
+w1=0.035, h1=0.071, w2=0.02, h2=0.04, l=13.333, m=3)
+  AT(0,0,11.662) ABSOLUTE   
+  
+COMPONENT guide4=Guide(
+w1=0.02, h1=0.04, w2=0.02, h2=0.04, l=2.878, m=3)
+AT(0,0,25.176) ABSOLUTE     
+
+COMPONENT Lambda_guide4=L_monitor(
+    nL=100, filename="Lambda_guide4.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0,2.878)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_guide4=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=60000, restore_neutron=1, filename="TOF_guide4.dat")
+  AT (0, 0, 0) RELATIVE PREVIOUS 
+  
+COMPONENT XY_guide4=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=100, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS  
+
+COMPONENT collimator2=Collimator_linear(
+  xwidth=0.04,yheight=0.02,length=1.02,divergence=30)
+  AT (0, 0, 28.38) ABSOLUTE
+
+COMPONENT BananaPSD = Monitor_nD(
+    options = "banana, theta limits=[-10 10] bins=100, y bins=100",restore_neutron=1,
+    xwidth = 1.005, yheight = 0.5, filename="2D")
+  AT (0, 0, 1.02) RELATIVE PREVIOUS  
+     
+COMPONENT Lambda_before_Sample=L_monitor(
+    nL=100, filename="GPPD_collimator2.dat", xwidth=0.05,
+    yheight=0.05, Lmin=0, Lmax=20, restore_neutron=1)
+  AT (0, 0, 0.0001)  RELATIVE PREVIOUS   
+  
+COMPONENT TOF_before_Sample=TOF_monitor(
+    xwidth=0.05, yheight=0.05, nt=100, tmin=0, 
+    tmax=60000, restore_neutron=1, filename="TOF_collimator2.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+/************************************************************************** */
+  
+/************************ Sample position ********************************** */  
+COMPONENT XY_before_Sample=Monitor_nD(
+  xwidth=0.1, yheight=0.1,
+  options="x y",bins=500, restore_neutron=1)
+  AT (0, 0, 0) RELATIVE PREVIOUS
+
+SPLIT COMPONENT SamplePos=Arm()
+AT (0, 0, 30) ABSOLUTE
+EXTEND %{
+  flag_container=flag_sample=flag_env=0;
+  vix=vx; viy=vy; viz=vz;
+%}
+  
+COMPONENT Environment_in=PowderN(
+  radius = 1.2, yheight = 1.6, thickness=0.01,
+  reflections=environment, concentric=1, d_phi=RAD2DEG*atan2(0.5,0.5), 
+  p_transmit=0.9, p_inc=0, barns=1)
+  AT (0, 0, 0) RELATIVE SamplePos
+EXTEND %{
+  flag_env=SCATTERED;
+%}
+
+COMPONENT Container_in=PowderN(radius=0.008/2+1e-4, thickness=1e-3, yheight=0.05,
+  reflections=container, concentric=1, d_phi=RAD2DEG*atan2(0.5,0.5) ,
+  p_transmit=0.93, p_inc=0.05)
+  AT (0, 0, 0) RELATIVE SamplePos
+EXTEND %{
+  flag_container=SCATTERED;
+%}
+
+COMPONENT Sample=PowderN(reflections = powder, 
+    radius = 0.008/2, yheight = 0.03,
+    d_phi=RAD2DEG*atan2(0.5,0.5), p_transmit=0.08, p_inc=0.05)
+  AT (0, 0, 0) RELATIVE SamplePos
+EXTEND %{
+  if (SCATTERED)
+    flag_sample=SCATTERED;
+%}
+
+COMPONENT Container_out=COPY(Container_in)(concentric=0)
+  AT (0, 0, 0) RELATIVE SamplePos
+EXTEND %{
+  if (SCATTERED) flag_container=1;
+%}
+
+COMPONENT Environment_out=COPY(Environment_in)(concentric=0)
+  AT (0, 0, 0) RELATIVE SamplePos
+EXTEND %{
+  if (SCATTERED) flag_env=1;
+%}
+/***********************End Sample position ******************************** */ 
+
+/***********************Detectors after neutron diffracted by sample *************** */ 
+COMPONENT DetectorPos=Arm()
+AT (0, 0, 1.5) RELATIVE SamplePos
+
+COMPONENT Detector=Monitor_nD(  /*  XY detector */
+  options="x y", xwidth=1, yheight=1.118, bins=50, restore_neutron=1)
+  WHEN (flag_sample || flag_container || flag_env)
+  AT (0, 0, 0.01) RELATIVE PREVIOUS
+  
+COMPONENT Detector_Q=Monitor_nD( /* I(q) detector */
+  options="user1 limits=[0 10]", xwidth=160*12.7/1000, yheight=1.118, bins=500, restore_neutron=1,
+  user1=V2K*sqrt( (vx-vix)*(vx-vix)+(vy-viy)*(vy-viy)+(vz-viz)*(vz-viz) ), username1="Q transfer [Angs-1]" )
+  WHEN (flag_sample || flag_container || flag_env )
+  AT (0, 0, 0.01) RELATIVE PREVIOUS  
+
+COMPONENT Detector_d_spacing=Monitor_nD( /* This is the right expression of d_spacing */
+  options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+  user1=2*PI/(V2K*sqrt( (vx-vix)*(vx-vix)+(vy-viy)*(vy-viy)+(vz-viz)*(vz-viz) )),
+  username1="d_spacing [Angstrom]" )
+  WHEN (flag_sample || flag_container || flag_env )
+  AT (0, 0, 0.01) RELATIVE PREVIOUS 
+
+/*************************************************************************************************/
+/*********followed are theta=30 degree detector, 8 different monitors for test. ******************/
+/*************************************************************************************************/          
+COMPONENT Detector_d_spacing05=Monitor_nD( 
+   options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+   user1=2*PI/(V2K*sqrt( (vz*c(30)-vx*s(30)-viz)*(vz*c(30)-vx*s(30)-viz)+(vy-viy)*(vy-viy)+(vz*s(30)+vx*c(30)-vix)*(vz*s(30)+vx*c(30)-vix)) ), 
+   username1="d_spacing [Angs]" )
+  WHEN (flag_sample || flag_container || flag_env )                                                        
+  AT (0, 0, 1.5) RELATIVE SamplePos
+  ROTATED (0,30,0) RELATIVE SamplePos  
+  
+COMPONENT Detector_d_spacing005=Monitor_nD( 
+   options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+   user1=2*PI/(V2K*sqrt( (vz*c(30)-vx*s(30)-viz)*(vz*c(30)-vx*s(30)-viz)+(vy-viy)*(vy-viy)+(vz*s(30)+vx*c(30)-vix)*(vz*s(30)+vx*c(30)-vix)) ), 
+   username1="d_spacing [Angs]" )
+  WHEN (flag_sample || flag_container || flag_env )                                                        
+  AT (0, 0, 1.5) RELATIVE SamplePos
+  ROTATED (0,30,0) ABSOLUTE  
+
+COMPONENT Detector_d_spacing11=Monitor_nD( /* This is the right expression of d_spacing */
+  options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+  user1=2*PI/(V2K*sqrt( (vx-vix*c(30)-viz*s(30))*(vx-vix*c(30)-viz*s(30))+(vy-viy)*(vy-viy)+(vz-viz*c(30)-vix*s(30))*(vz-viz*c(30)-vix*s(30))) ),
+  username1="d_spacing [Angstrom]" )
+  WHEN (flag_sample || flag_container || flag_env )
+  AT (0, 0, 1.5) RELATIVE SamplePos
+  ROTATED (0,-30,0) RELATIVE SamplePos 
+    
+COMPONENT Detector_d_spacing13=Monitor_nD( /* This is the right expression of d_spacing */
+  options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+  user1=2*PI/(V2K*sqrt( (vx-vix*c(30)-viz*s(30))*(vx-vix*c(30)-viz*s(30))+(vy-viy)*(vy-viy)+(vz-viz*c(30)+vix*s(30))*(vz-viz*c(30)+vix*s(30))) ),
+  username1="d_spacing [Angstrom]" )
+  WHEN (flag_sample || flag_container || flag_env )
+  AT (0, 0, 1.5) RELATIVE SamplePos
+  ROTATED (0,-30,0) RELATIVE SamplePos  
+ 
+/*********************************************************************************************************/
+COMPONENT DetectorDirection3=Arm()
+AT (0, 0, 0) RELATIVE SamplePos
+ROTATED (0,-30,0) ABSOLUTE
+
+COMPONENT Detector_d_spacing52=Monitor_nD( 
+   options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+   user1=d_spacing, username1="d_spacing [Angs]" )
+  WHEN (flag_sample || flag_container || flag_env )                                                        
+  AT (0, 0, 1.5) RELATIVE DetectorDirection3
+  EXTEND %{
+   d_spacing=2*PI/(V2K*sqrt( (vx-vix)*(vx-vix)+(vy-viy)*(vy-viy)+(vz-viz)*(vz-viz) ));
+  %} 
+  
+COMPONENT Detector_d_spacing53=Monitor_nD( /* This is the right expression of d_spacing */
+  options="user1 limits=[0 3]", xwidth=160*12.7/1000, yheight=1.118, bins=1000, restore_neutron=1,
+  user1=2*PI/(V2K*sqrt( (vx-vix*c(30)-viz*s(30))*(vx-vix*c(30)-viz*s(30))+(vy-viy)*(vy-viy)+(vz-viz*c(30)+vix*s(30))*(vz-viz*c(30)+vix*s(30))) ),
+  username1="d_spacing [Angstrom]" )
+  WHEN (flag_sample || flag_container || flag_env )
+  AT (0, 0, 1.5) RELATIVE DetectorDirection3
+  
+COMPONENT EndOfInstrument=Arm()
+AT (0, 0, 0) RELATIVE PREVIOUS
+EXTEND %{ 
+  /* make sure this is the end of the simulation (do not propagate to following volumes)*/
+  ABSORB;
+%}
+
+END
+
+

@@ -1,0 +1,111 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT Idealized_SF(flip1_efficiency=1, flip2_efficiency=1)
+
+DECLARE
+%{
+
+  double Lmin,Lmax;
+  double sy_tmp;
+  double flip1_eff;
+  double flip2_eff;
+
+  %}
+
+INITIALIZE
+%{
+  Lmin=.8;
+  Lmax=10;
+  flip1_eff=flip1_efficiency;
+  flip2_eff=flip2_efficiency;
+
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT moderator = Moderator(
+    radius=0.02, Emin=1, Emax=100, 
+    dist=10, Ec=12, target_index=0)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT lm0 = L_monitor(Lmin=0, Lmax=20, filename="lm0", nL=100, xwidth=0.1, yheight=0.1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+COMPONENT sp0 = Set_pol(randomOn=1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+
+COMPONENT pl0 = 
+PolLambda_monitor(filename="pl0",Lmin=Lmin ,Lmax=Lmax,my=1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+COMPONENT sp=Set_pol(px=0,py=1,pz=0)
+AT(0,0,1) RELATIVE moderator
+
+COMPONENT pl1 = 
+PolLambda_monitor(filename="pl1",Lmin=Lmin ,Lmax=Lmax,my=1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+COMPONENT rfsf1 = Arm()
+AT(0,0,1) RELATIVE pl1
+EXTEND
+%{
+  sy_tmp=sy;
+  double r=rand01();
+  if (r<flip1_eff){
+    sy=-sy_tmp;
+  }
+  //sy=-1*flip1_eff*sy_tmp;
+%}
+
+
+COMPONENT pl2 = 
+PolLambda_monitor(filename="pl2",Lmin=Lmin ,Lmax=Lmax, my=1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+COMPONENT rfsf2 = Arm()
+AT(0,0,1) RELATIVE pl2
+EXTEND
+%{
+  sy_tmp=sy;
+  sy=-1*flip2_eff*sy_tmp;
+%}
+
+
+COMPONENT pl3 = 
+PolLambda_monitor(filename="pl3",Lmin=Lmin ,Lmax=Lmax, my=1)
+AT(0,0,1e-6) RELATIVE PREVIOUS
+
+
+FINALLY
+%{
+%}
+
+END
