@@ -1,0 +1,71 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(TH=45)
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT source_simple = Source_simple(
+    dist=2, 
+    focus_xw=0.01, 
+    focus_yh=0.01, 
+    lambda0=4, 
+    dlambda=.5)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT semi_mirror = Semi_mirror(zdepth=0.1, yheight=0.1, reflectivity=0.5)
+AT (0, 0, 2) RELATIVE PREVIOUS
+ROTATED(0,TH,0) RELATIVE PREVIOUS
+
+COMPONENT a1 = Arm()
+AT(0,0,0) RELATIVE semi_mirror
+ROTATED (0,TH,0) RELATIVE semi_mirror
+
+COMPONENT psd_behind=PSD_monitor(xwidth=0.2, yheight=0.2,filename="psd_behind")
+AT(0,0,3) RELATIVE source_simple 
+GROUP det
+
+COMPONENT psd_mirrored = COPY(psd_behind)(filename="psd_mirrored")
+AT(0,0,1) RELATIVE  a1
+GROUP det
+
+
+FINALLY
+%{
+%}
+
+END

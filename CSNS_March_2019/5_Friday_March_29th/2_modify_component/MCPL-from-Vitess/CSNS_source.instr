@@ -1,0 +1,79 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(string MCPLfile="CsnsH2coupled_1e7_05-20_AA_10x10cm_@_2m.mcpl.gz")
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// The Vitess/MCPL based source location
+COMPONENT CSNS = MCPL_input(
+    filename=MCPLfile)
+AT (0, 0, 0) RELATIVE origin
+
+// Emission position at the source
+COMPONENT psd_monitor_source = PSD_monitor(
+    filename="source_output_surface", xwidth=0.21, yheight=0.21, nx=211, ny=211, restore_neutron=1)
+AT (0, 0, 1e-6) RELATIVE origin
+
+// A quick look at source output in McStas coordinates
+COMPONENT psd_monitor_4pi = PSD_monitor_4PI(
+    filename="source_output", restore_neutron=1)
+AT (0, 0, 0) RELATIVE origin
+
+// Another quick look at source output in McStas coordinates
+COMPONENT psd_monitor = PSD_monitor(
+    filename="source_output_flat", xwidth=0.21, yheight=0.21, nx=211, ny=211, restore_neutron=1)
+AT (0, 0, 2) RELATIVE origin
+
+COMPONENT brilliance_monitor = Brilliance_monitor(
+    srcarea=100, 
+    lambda_0=0.4, 
+    lambda_1=20.1, 
+    Freq=25, 
+    tofcuts=1, 
+    toflambda=1, 
+    xwidth=0.1, 
+    yheight=0.1, 
+    source_dist=2, 
+    filename="Brilliance", t_1=15000, nt=1501)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+
+FINALLY
+%{
+%}
+
+END

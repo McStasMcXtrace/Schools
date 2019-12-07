@@ -1,0 +1,60 @@
+/*******************************************************************************
+*
+* McStas, neutron ray-tracing package
+*         Copyright 1997-2002, All rights reserved
+*         Risoe National Laboratory, Roskilde, Denmark
+*         Institut Laue Langevin, Grenoble, France
+*
+* Component: Arm
+*
+* %I
+*
+* Written by: Kim Lefmann and Kristian Nielsen
+* Date: September 1997
+* Version: $Revision$
+* Release: McStas 1.6
+* Origin: Risoe
+*
+* Semi permeable mirror
+*
+* %D
+* A Mirror with imperfect reflectivity
+*
+* %P
+* Input parameters:
+*
+* %E
+*******************************************************************************/
+
+DEFINE COMPONENT Semi_mirror
+DEFINITION PARAMETERS ()
+SETTING PARAMETERS (zdepth=0.1, yheight=0.1, reflectivity=0.5, fraction=0.9)
+OUTPUT PARAMETERS ()
+/* Neutron parameters: (x,y,z,vx,vy,vz,t,sx,sy,sz,p) */
+TRACE
+%{
+ /*move neutron to plane of mirror*/
+ PROP_X0;
+ /*check if it is within mirror boundaries*/
+ if( z<zdepth/2.0 && z>-zdepth/2.0 && y <yheight/2.0 && y>-yheight/2.0){
+   SCATTER;
+   double r=rand01();
+   /*if reflected adjust direction*/
+   if(r<fraction){
+     vx=-vx;
+     p = p*reflectivity/fraction;
+   }else{
+     p= p*(1-reflectivity)/(1-fraction);
+   }
+ }
+ /*adjust weight*/
+
+%}
+
+MCDISPLAY
+%{
+  /* A bit ugly; hard-coded dimensions. */
+  rectangle("yz",0,0,0,yheight,zdepth);  
+%}
+
+END
