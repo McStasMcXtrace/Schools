@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<TITLE>McStas: DiskChopper_test Instrument at  Tests</TITLE>
+<LINK REV="made" HREF="mailto:peter.willendrup@risoe.dk">
+</HEAD>
+
+<BODY>
+
+<P ALIGN=CENTER>
+ [ <A href="#id">Identification</A>
+ | <A href="#desc">Description</A>
+ | <A href="#ipar">Input parameters</A>
+ | <A href="#opar">Output parameters</A>
+ | <A href="#links">Links</A> ]
+</P>
+
+<H1>The <CODE>DiskChopper_test</CODE> Instrument</H1>
+
+Example instrument illustrating the use of the DiskChopper component
+
+
+<H2><A NAME=id></A>Identification</H2>
+
+<UL>
+  <LI> <B>Site:    Tests</B>
+  <LI> <B>Author:</B> Peter Willendrup <pkwi@fysik.dtu.dk></B>
+  <LI> <B>Origin:</B> DTU</B>
+  <LI> <B>Date:</B> 20190326</B>
+  <LI> <B>Version:</B>(Unknown)</B>
+</UL>
+<H2><A NAME=desc></A>Description</H2>
+
+<PRE>
+Example instrument illustrating the use of the DiskChopper component
+
+Examples: 
+    with guide: mcrun DiskChopper_test GUIDE=1
+ without guide: mcrun DiskChopper_test GUIDE=0
+
+</PRE>
+
+<H2><A NAME=ipar></A>Input parameters</H2>
+Parameters in <B>boldface</B> are required;
+the others are optional.
+<TABLE BORDER=1>
+<TR><TH>Name</TH>  <TH>Unit</TH>  <TH>Description</TH> <TH>Default</TH></TR>
+<TR> <TD>lambda0</TD>
+     <TD>AA</TD>
+     <TD>Mean wavelength emitted from the source
+</TD>
+<TD ALIGN=RIGHT>4</TD> </TR>
+<TR> <TD>dlambda</TD>
+     <TD>AA</TD>
+     <TD>Spread wavelength emitted from the source
+</TD>
+<TD ALIGN=RIGHT>3.99</TD> </TR>
+<TR> <TD>t0</TD>
+     <TD>s</TD>
+     <TD>Chopper initial opening time - corrected for half passage time
+</TD>
+<TD ALIGN=RIGHT>0.01</TD> </TR>
+<TR> <TD>nu</TD>
+     <TD>Hz</TD>
+     <TD>Chopper frequency
+</TD>
+<TD ALIGN=RIGHT>25</TD> </TR>
+<TR> <TD>nslit</TD>
+     <TD>1</TD>
+     <TD>Number of equidistantly placed slits
+</TD>
+<TD ALIGN=RIGHT>1</TD> </TR>
+<TR> <TD>tmax</TD>
+     <TD>mu-s</TD>
+     <TD>Maxmum ToF to measure on monitors
+</TD>
+<TD ALIGN=RIGHT>25000</TD> </TR>
+<TR> <TD>theta_0</TD>
+     <TD>deg</TD>
+     <TD>Chopper opening angle
+</TD>
+<TD ALIGN=RIGHT>20</TD> </TR>
+<TR> <TD>radius</TD>
+     <TD>m</TD>
+     <TD>source size -circle radius for source_simple, square radius x radius for Source_Maxwell_3
+</TD>
+<TD ALIGN=RIGHT>0.01</TD> </TR>
+<TR> <TD>focus</TD>
+     <TD>m</TD>
+     <TD>Beam size W x H at source focal point - at chopper with GUIDE=0 and at guide entrance with GUIDE=1
+</TD>
+<TD ALIGN=RIGHT>0.01</TD> </TR>
+<TR> <TD>GUIDE</TD>
+     <TD>1</TD>
+     <TD>Use a guide or not. 0 means no guide, 1 means insert guide.
+</TD>
+<TD ALIGN=RIGHT>0</TD> </TR>
+<TR> <TD>SIMPLE</TD>
+     <TD>1</TD>
+     <TD>Use Source_simple =1 or Source_Maxwell_3 =0. In case of Source_Maxwell_3 the intensity corresponds to PSI cold source
+</TD>
+<TD ALIGN=RIGHT>1</TD> </TR>
+</TABLE>
+
+
+<H2><A NAME=links></A>Links</H2>
+
+<UL>
+  <LI> <A HREF="/Users/pkwi/Projects/Schools/CSNS_March_2019/2_Tuesday_March_26th/5_choppers/DiskChopper_test.instr">Source code</A> for <CODE>DiskChopper_test.instr</CODE>.
+  <LI> <reference/HTML link>
+
+</UL>
+<HR>
+<P ALIGN=CENTER>
+ [ <A href="#id">Identification</A>
+ | <A href="#desc">Description</A>
+ | <A href="#ipar">Input parameters</A>
+ | <A href="#opar">Output parameters</A>
+ | <A href="#links">Links</A> ]
+</P>
+
+<ADDRESS>
+Generated automatically by McDoc, Peter Willendrup
+&lt;<A HREF="mailto:peter.willendrup@risoe.dk">peter.willendrup@risoe.dk</A>&gt; /
+Wed Mar 27 05:05:17 2019</ADDRESS>
+</BODY></HTML>

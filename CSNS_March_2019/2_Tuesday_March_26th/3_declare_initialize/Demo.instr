@@ -1,0 +1,79 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT template_body_simple(Omega=1, Len=0.2)
+
+DECLARE
+%{
+  double TwoTheta;
+%}
+
+INITIALIZE
+%{
+  TwoTheta = 2.0*Omega;
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+
+COMPONENT source_simple = Source_simple(
+    radius=0.01,
+    dist=10, 
+    focus_xw=0.1, 
+    focus_yh=0.1, 
+    lambda0=4, 
+    dlambda=3.99)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT arm1 = Arm()
+AT (0, 0, 10) RELATIVE PREVIOUS
+ROTATED (0, Omega, 0) RELATIVE PREVIOUS
+
+COMPONENT mirror = Mirror(
+    xwidth=Len, 
+    yheight=0.1,
+    center=1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+ROTATED (0, 90, 0) RELATIVE PREVIOUS
+EXTEND %{
+  //if(!SCATTERED) ABSORB;
+%}
+  
+COMPONENT arm2 = Arm()
+AT (0, 0, 0) RELATIVE PREVIOUS
+ROTATED (0, TwoTheta, 0) RELATIVE origin
+
+COMPONENT PSD = PSD_monitor(filename="PSD",xwidth=0.1, yheight=0.1)
+AT (0, 0, 5) RELATIVE PREVIOUS
+  
+FINALLY
+%{
+%}
+
+END
