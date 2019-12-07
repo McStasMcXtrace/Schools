@@ -1,0 +1,90 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT Laue_camera(Ry1=0 ,Ry2=0, Rz=0)
+
+DECLARE
+%{
+	char myvar;
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT source_simple = Source_simple(
+    radius=0.05, dist=5, focus_xw=0.02, 
+    focus_yh=0.05, lambda0=2, dlambda=1.9)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT guide = Guide(
+    w1=0.02, h1=0.05, w2=0.02, h2=0.05, l=20, m=1)
+AT(0,0,2) RELATIVE source_simple
+
+COMPONENT a1 = Arm()
+AT(0,0,20.5) RELATIVE guide
+ROTATED (0,Ry1,0) RELATIVE guide
+
+COMPONENT a2= Arm()
+AT(0,0,0) RELATIVE a1
+ROTATED (0,0,Rz) RELATIVE a1
+
+COMPONENT a3= Arm()
+AT(0,0,0) RELATIVE a2
+ROTATED (0,Ry2,0) RELATIVE a2
+
+COMPONENT single_crystal = Single_crystal(
+    reflections="Al2O3_sapphire.lau", 
+    yheight=0.05, radius=0.01, mosaic=1, delta_d_d=1e-4, 
+    az=4.757, ay=0, az=0, bx=2.3785, by=0, bz=-3.364, 
+    cx=0, cy=12.9877, cz=0, 
+    p_transmit=0.1,order=1)
+AT (0, 0,0) RELATIVE PREVIOUS
+EXTEND
+%{
+	myvar = hkl_info.type;
+%}
+
+COMPONENT fourpi = PSD_monitor_4PI(
+	radius=1, filename="fourpi.dat", nx=201, ny=201)
+AT(0,0,20.5) RELATIVE guide
+
+COMPONENT fourpi_coh = COPY(fourpi)(filename="fourpi_coh.dat")
+WHEN(myvar==99) AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT fourpi_inc = COPY(fourpi)(filename="fourpi_inc.dat")
+WHEN(myvar==105) AT (0,0,0) RELATIVE PREVIOUS
+
+FINALLY
+%{
+%}
+
+END

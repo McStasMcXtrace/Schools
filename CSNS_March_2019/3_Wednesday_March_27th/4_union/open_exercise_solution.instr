@@ -1,0 +1,239 @@
+/*******************************************************************************
+*
+* McStas, neutron ray-tracing package
+*         Copyright (C) 1997-2008, All rights reserved
+*         Risoe National Laboratory, Roskilde, Denmark
+*         Institut Laue Langevin, Grenoble, France
+*
+* Instrument: Union_demonstration
+*
+* %Identification
+* Written by: Mads Bertelsen
+* Date: Feb 2019
+* Origin: DMSC
+* %INSTRUMENT_SITE: Union_demos
+*
+* %Description
+* Demonstration of Union components.
+*
+*
+* %Parameters
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT Union_exercise(energy=5)
+
+DECLARE
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+// Material definitions
+// Vanadium
+COMPONENT Vanadium_incoherent = Incoherent_process(
+  sigma=2*4.935,packing_factor=1,unit_cell_volume=27.66)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Vanadium = Union_make_material(
+  my_absorption=100*5.08/27.66,
+  process_string="Vanadium_incoherent")
+AT (0,0,0) ABSOLUTE
+
+
+// Aluminium
+COMPONENT Al_incoherent = Incoherent_process(
+  sigma=4*0.0082,packing_factor=1,unit_cell_volume=66.4)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al_powder = Powder_process(reflections="Al.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Al = Union_make_material(
+  my_absorption=100*4*0.231/66.4,
+  process_string="Al_incoherent,Al_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Fe definition
+COMPONENT Fe_incoherent = Incoherent_process(
+  sigma=2*0.4,packing_factor=1,unit_cell_volume=24.04)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Fe_powder = Powder_process(reflections="Fe.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Fe = Union_make_material(
+  my_absorption=100*2*2.56/24.04,
+  process_string="Fe_incoherent,Fe_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Cu definition
+COMPONENT Cu_incoherent = Incoherent_process(
+  sigma=4*0.55,packing_factor=1,unit_cell_volume=47.22)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Cu_powder = Powder_process(reflections="Cu.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Cu = Union_make_material(
+  my_absorption=100*4*3.78/47.22,
+  process_string="Cu_incoherent,Cu_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Ag Au mix definition
+COMPONENT Ag_incoherent = Incoherent_process(
+  sigma=4*0.58,packing_factor=1,unit_cell_volume=68.22,packing_factor=0.5)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Ag_powder = Powder_process(reflections="Ag.laz",packing_factor=0.5)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Au_incoherent = Incoherent_process(
+  sigma=4*0.43,packing_factor=1,unit_cell_volume=67.87,packing_factor=0.5)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Au_powder = Powder_process(reflections="Au.laz",packing_factor=0.5)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Au_Ag_mix = Union_make_material(
+  my_absorption=0.5*100*4*3.78/68.22+0.5*100*4*98.65/67.87,
+  process_string="Ag_incoherent,Ag_powder,Au_incoherent,Au_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Cd definition
+COMPONENT Cd_incoherent = Incoherent_process(
+  sigma=2*3.46,packing_factor=1,unit_cell_volume=43.11)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Cd_powder = Powder_process(reflections="Cd.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Cd = Union_make_material(
+  my_absorption=100*2*2520/43.11,
+  process_string="Cd_incoherent,Cd_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Powder sample
+COMPONENT Na2Ca3Al2F14_incoherent = Incoherent_process(sigma=4*3.4176,packing_factor=1,unit_cell_volume=1079.1)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Na2Ca3Al2F14_powder = Powder_process(reflections="Na2Ca3Al2F14.laz")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Na2Ca3Al2F14 = Union_make_material(my_absorption=100*4*2.9464/1079.1,
+  process_string="Na2Ca3Al2F14_incoherent,Na2Ca3Al2F14_powder")
+AT (0,0,0) ABSOLUTE
+
+
+// Definition of sample material, here a YBaCuO super conductor single crystal
+COMPONENT super_conductor_incoherent = Incoherent_process(sigma=2.105,packing_factor=1,unit_cell_volume=173.28)
+AT (0,0,0) ABSOLUTE
+
+COMPONENT super_conductor_single_crystal = Single_crystal_process(mosaic=30,reflections="YBaCuO.lau")
+AT (0,0,0) ABSOLUTE
+
+COMPONENT super_conductor = Union_make_material(
+  my_absorption=100*14.82/173.28,
+  process_string="super_conductor_incoherent,super_conductor_single_crystal")
+AT (0,0,0) ABSOLUTE
+
+/*
+Overview of available materials
+    User defined materials:
+        Vanadium
+        Al
+        Fe
+        Cu
+        Au_Ag_mix
+        Cd
+        Na2Ca3Al2F14
+        super_conductor
+    Default materials:
+        Vacuum (no scattering or absorption)
+*/
+
+
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT source = Source_div(
+        xwidth=0.03, yheight=0.05,focus_aw=0.05, focus_ah=0.05,
+        //xwidth=0.3, yheight=0.3,focus_aw=0.05, focus_ah=0.05, // Larger source for absorption picture
+        E0 = energy,
+        dE = 0, flux = 1E13)
+AT (0,0,0) RELATIVE Origin
+
+// Position of sample
+COMPONENT sample_position = Arm()
+AT (0,0,1.0) RELATIVE source
+
+// Insert a sphere, cylinder and box to show the syntax
+COMPONENT sample = Union_sphere(
+  radius = 0.008,
+  priority = 100, material_string = "Na2Ca3Al2F14")
+AT (0,0,0) RELATIVE sample_position
+
+COMPONENT sample_holder_rod = Union_cylinder(
+  radius=0.002, yheight=0.04,
+  priority=99, material_string="Al")
+AT (0,-0.02,0) RELATIVE sample_position
+
+COMPONENT sample_holder = Union_box(
+  xwidth=0.01, yheight=0.05, zdepth=0.01,
+  priority=98, material_string="Al")
+AT (0,-0.038-0.025,0) RELATIVE sample_position
+
+
+// Solution is to add some sample environment arround.
+COMPONENT cryostat_shell = Union_cylinder(
+  radius = 0.1, yheight = 0.3,
+  priority = 50, material_string = "Al")
+AT (0,0,0) RELATIVE sample_position
+
+COMPONENT cryostat_shell_vacuum = Union_cylinder(
+  radius = 0.1-0.002, yheight = 0.3,
+  priority = 51, material_string = "Vacuum")
+AT (0,0.003,0) RELATIVE sample_position
+
+COMPONENT cryostat_inner_shell = Union_cylinder(
+  radius = 0.04, yheight = 0.3,
+  priority = 55, material_string = "Al")
+AT (0,0.05,0) RELATIVE sample_position
+
+COMPONENT cryostat_inner_shell_vacuum = Union_cylinder(
+  radius = 0.04-0.002, yheight = 0.3,
+  priority = 56, material_string = "Vacuum")
+AT (0,0.053,0) RELATIVE sample_position
+
+// Union master, collects information from all Union components and performs the simulation
+COMPONENT master = Union_master()
+AT(0,0,0) RELATIVE sample_position
+ROTATED(0,0,0) RELATIVE sample_position
+
+// Diffraction detector
+COMPONENT Banana_monitor = Monitor_nD(
+  radius=2, yheight=0.1,restore_neutron=1,
+  options="banana, theta limits=[10,170], bins=500",filename="banana.dat")
+AT (0,0,0) RELATIVE sample_position
+
+// Arm for remaininig detector components
+COMPONENT detector_position = Arm()
+AT (0,0,0.5) RELATIVE sample_position
+ROTATED(0,0,0) RELATIVE sample_position
+
+// Image monitor
+COMPONENT detector = PSD_monitor(xwidth=0.18, yheight=0.18, nx=600, ny=600, filename="PSD.dat", restore_neutron=1)
+AT (0,0,0) RELATIVE detector_position
+ROTATED (0,0,0) RELATIVE detector_position
+
+END
