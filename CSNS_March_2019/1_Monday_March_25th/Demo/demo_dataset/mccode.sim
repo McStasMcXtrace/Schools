@@ -1,0 +1,47 @@
+McStas simulation description file for template_body_simple.
+Date:    Mon Mar 18 15:22:13 2019
+Program: McStas 2.5 - Dec. 12, 2018
+
+begin instrument: template_body_simple
+  File: /Users/pkwi/Projects/Schools/CSNS_March_2019/1_Monday_March_25th/Demo/demo_20190318_152212/mccode
+  Source: demo.instr
+  Parameters:  Par1(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /Users/pkwi/Projects/Schools/CSNS_March_2019/1_Monday_March_25th/Demo/demo_20190318_152212
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 2.5 - Dec. 12, 2018
+  Instrument: demo.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1552939465
+  Directory: /Users/pkwi/Projects/Schools/CSNS_March_2019/1_Monday_March_25th/Demo/demo_20190318_152212
+  Param: Par1=1
+end simulation
+
+begin data
+  Date: Mon Mar 18 15:22:13 2019 (1552918933)
+  type: array_2d(401, 401)
+  Source: template_body_simple (demo.instr)
+  component: psd_monitor
+  position: 0 0 11
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD.dat
+  statistics: X0=-3.46152; dX=77.7345; Y0=3.06269; dY=50.0235;
+  signal: Min=0; Max=2.21397e-08; Mean=1.43142e-11;
+  values: 2.30174e-06 9.07474e-08 762423
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -100 100 -100 100
+  variables: I I_err N
+end data
