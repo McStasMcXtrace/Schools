@@ -1,0 +1,1166 @@
+/*******************************************************************************
+*
+* Written by: A. Cereser and E. Knudsen 
+* Based on code by K. Oikawa
+* Date: 12 September 2013
+*
+* BL18 SENJU at J-PARC
+*
+* Technical University of Denmark
+*
+* mcstas ./BL18_pxtal_event.instr
+*
+* %P
+* L_min (AA) lower edge of wavelength band to be emitted from the Source
+* L_max (AA) upper edge of wavelength band to be emitted from the Source
+* NX ( ) Number of voxels along X 
+* NY ( ) Number of voxels along Y
+* NZ ( ) Number of voxels along Z
+* XW (m) Width of the polycrystal hull.
+* YH (m) Height of the polycrystal hull
+* ZD (m) Depth og the polycrystal hull
+* map_fn ( ) name of file containing the orientation map
+* orts_fn ( ) name of file containing orientations
+* lau_fn ( ) name of file ocntaining the reflection list
+* AX ( ) X-component of unit cell vector a
+* ...
+* CZ ( ) Z-component of unit cell vector c
+* samplename ( ) name of the sample to produce SENJU style filenames 
+* runnumber ( ) runnumber to produce SENJU style filenames
+*
+* These are some lines from the original J-parc simulation
+*	E_min=81.8049/lmax/lmax;
+*	E_max=81.8049/lmin/lmin; 
+*	tof_min=dd*505.555*35.6*sin((TTT)/360*PI)-delt;
+*	tof_max=dd*505.555*35.6*sin((TTT)/360*PI)+delt;
+*	E_min=81.8049*(252.778*35.6/tof_max)*(252.778*35.6/tof_max);
+*	E_max=81.8049*(252.778*35.6/tof_min)*(252.778*35.6/tof_min);
+*
+**************************************************************************/
+DEFINE INSTRUMENT BL18_SENJU(L_min=0.4, L_max=4, XW=0.01, YH=0.01, ZD=0.01, 
+    string map_fn="default.map", string orts_fn="default.orts",string lau_fn="Fe.lau",
+    omega=0, string samplename="C0127", int runnumber=0)
+
+DECLARE
+%{
+  double lmin, lmax, E_min, E_max, tof_min, tof_max;
+  double TTS, UML;
+  double dd, delt;
+  double shtwin, shthin, shtwout, shthout, nchann;
+  double ddd, mos, ndd, detx;
+  double alpha,wsht, Pi, nD, m5;
+  double TG, TG1, TG2, TG3, TG4;
+  double mx_Vd, my_Vd;
+  double dsp, lam, lw, TT, TTT, TTD;
+  double tt0,tt1;
+  double ux,uy,uz;
+  double kux,kuy,kuz;
+  double anx,any,anz;
+  int xtal_scatter;
+  char crystal_file[]="Al.lau"; //the christal files are in /usr/local/lib/mcstas-2.0/data
+    
+  void compute_global_vector(char *s,double kx,double ky, double kz,double *gkx,double *gky, double *gkz, Rotation R){
+    Rotation TT;
+    rot_transpose(R, TT);
+    /* now make the coordinate system change */
+    coords_get(rot_apply(TT,coords_set(kx,ky,kz)),gkx,gky,gkz);
+    //if (*gx==0 && *gy==0 && *gz==0){
+    //    fprintf(stderr,"oddity: xyz=( %g %g %g ) transforms to gxgygz=( %g %g %g )\n",x,y,z,*gx,*gy,*gy);
+  }
+
+  void compute_global_coords(char *s,double x,double y, double z,double *gx,double *gy, double *gz, Coords A, Rotation R){
+    Rotation TT;
+    rot_transpose(R, TT);
+    /* now make the coordinate system change */
+    coords_get(coords_add(rot_apply(TT,coords_set(x,y,z)),A),gx,gy,gz);
+    //if (*gx==0 && *gy==0 && *gz==0){
+    //    fprintf(stderr,"oddity: xyz=( %g %g %g ) transforms to gxgygz=( %g %g %g )\n",x,y,z,*gx,*gy,*gy);
+  }
+  int sx_scatter;
+  int anton;
+  int oidx;
+
+  long long nid;
+
+  /*The lines below have been added to deal with the polycrystalline sample*/
+  %include "read_table-lib.h"
+  int nx;                 /*These are the number of voronoi regions we have in each direction*/
+  int ny;                 /*The number has to be the same in pixellation.m */
+  int nz;
+  int ix,iy,iz,crystal_miss;
+  int xtals;
+
+  double posx,posy,posz;
+
+  t_Table *map_table,*orts_table;
+
+  Coords ao,bo,co;
+
+  /*heres where we store the orientation dependent hkl_info pointers*/
+  struct hkl_info_struct *poly_hkl_info;
+  int initd;
+
+  int sx_background;
+  /*flag to indicate whether or not this is a void in the crystal*/
+
+  char det_fn[41][256];
+  char *det_fn_001=det_fn[1];
+  char *det_fn_002=det_fn[2];
+  char *det_fn_003=det_fn[3];
+  char *det_fn_004=det_fn[4];
+  char *det_fn_005=det_fn[5];
+  char *det_fn_006=det_fn[6];
+  char *det_fn_007=det_fn[7];
+  char *det_fn_008=det_fn[8];
+  char *det_fn_009=det_fn[9];
+  char *det_fn_010=det_fn[10];
+  char *det_fn_011=det_fn[11];
+  char *det_fn_012=det_fn[12];
+  char *det_fn_013=det_fn[13];
+  char *det_fn_014=det_fn[14];
+  char *det_fn_015=det_fn[15];
+  char *det_fn_016=det_fn[16];
+  char *det_fn_017=det_fn[17];
+  char *det_fn_018=det_fn[18];
+  char *det_fn_019=det_fn[19];
+  char *det_fn_020=det_fn[20];
+  char *det_fn_021=det_fn[21];
+  char *det_fn_022=det_fn[22];
+  char *det_fn_023=det_fn[23];
+  char *det_fn_024=det_fn[24];
+  char *det_fn_025=det_fn[25];
+  char *det_fn_026=det_fn[26];
+  char *det_fn_027=det_fn[27];
+  char *det_fn_028=det_fn[28];
+  char *det_fn_029=det_fn[29];
+  char *det_fn_030=det_fn[30];
+  char *det_fn_031=det_fn[31];
+  char *det_fn_032=det_fn[32];
+  char *det_fn_033=det_fn[33];
+  char *det_fn_034=det_fn[34];
+  char *det_fn_035=det_fn[35];
+  char *det_fn_036=det_fn[36];
+  char *det_fn_037=det_fn[37];
+  char *det_fn_038=det_fn[38];
+  char *det_fn_039=det_fn[39];
+  char *det_fn_040=det_fn[40];
+
+
+/*  ,*det_fn_002,*det_fn_003,*det_fn_004,*det_fn_005,*det_fn_006,*det_fn_007,*det_fn_008,*det_fn_009,*det_fn_010;*/
+/*  char *det_fn_011,*det_fn_012,*det_fn_013,*det_fn_014,*det_fn_015,*det_fn_016,*det_fn_017,*det_fn_018,*det_fn_019,*det_fn_020;*/
+/*  char *det_fn_021,*det_fn_022,*det_fn_023,*det_fn_024,*det_fn_025,*det_fn_026,*det_fn_027,*det_fn_028,*det_fn_029,*det_fn_030;*/
+/*  char *det_fn_031,*det_fn_032,*det_fn_033,*det_fn_034,*det_fn_035,*det_fn_036,*det_fn_037,*det_fn_038,*det_fn_039,*det_fn_040;*/
+
+%}
+
+INITIALIZE
+%{
+  Pi=3.14159;
+  alpha=3.0;
+  wsht=3e-3;
+
+  /*The section below has been added to work with the polycrystalline sample*/
+  
+
+
+  /*this to force initialization of all components before intrument and avoid inifite recursion*/
+    /*this block gets done before component initialization*/
+    /*set up detector filenames*/
+    
+    int j;
+    for (j=1;j<=40;j++){
+      sprintf(det_fn[j],"%s_%06d_%03d",samplename,runnumber,j);
+/*      if(j==1){*/
+/*        printf("detector filenames:\n%s\n .\n .\n .\n",det_fn[j]);*/
+/*      }else if(j==40){*/
+/*        printf("%s\n",det_fn[j]);*/
+/*      }  */
+    }
+
+    /*position SENJU far field detectors according to calibration*/
+
+%}
+
+TRACE
+
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+EXTEND
+%{
+ anton=0;
+ xtals=0;
+ nid=mcget_run_num();
+ //printf("%ld\n",nid);
+
+%}
+
+COMPONENT a1 = Arm()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT mod = SNS_source(
+  filename="source_BL18.txt",
+  xwidth=0.1, yheight=0.1,
+  dist = 15.19,
+  focus_xw = 0.041, focus_yh = 0.041, 
+  Emax=pow((2*M_PI/L_min)*K2V,2.0)*VS2E, Emin=pow((2*M_PI/L_max)*K2V,2.0)*VS2E      //lambda in AA; E probably in meV
+) AT (0,0,0) RELATIVE a1
+
+/*Uncomment the section below if you want a pencil beam
+
+COMPONENT mod=Modr_dcHPb_flux(
+	xws=0.1, yhs=0.1, angle=0.0,
+	Emin=E_min, Emax=E_max,
+  dist = 15.19,
+  xw = 0.041, yh = 0.041
+) AT (0,0,0)  RELATIVE a1
+*/
+
+COMPONENT slt_in = Slit(
+	xwidth = 0.070, yheight = 0.070)
+	AT (0, 0, 2.271) RELATIVE a1
+
+COMPONENT slt_out = Slit(
+	xwidth = 0.044, yheight = 0.044)
+	AT (0, 0, 15.140) RELATIVE a1
+
+COMPONENT guide1 = Guide(w1=0.03951,
+			 h1=0.03951, 
+			 w2=0.04146, 
+			 h2=0.04146, 
+			 l=0.8-0.0000001, R0=0.99, Qc=0.0217, alpha=4,m=4.0,W=0.0015)
+			 AT (0, 0, 15.2) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide2 = Guide(w1=0.04146,
+			 h1=0.04146, 
+			 w2=0.04347, 
+			 h2=0.04347, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217, alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 16.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide3 = Guide(w1=0.04347,
+			 h1=0.04347, 
+			 w2=0.04507, 
+			 h2=0.04507, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 17.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide4 = Guide(w1=0.04507,
+			 h1=0.04507, 
+			 w2=0.04630, 
+			 h2=0.04630, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217, alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 18.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide5 = Guide(w1=0.04630,
+			 h1=0.04630, 
+			 w2=0.04718, 
+			 h2=0.04718, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217, alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 19.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide6 = Guide(w1=0.04718,
+			 h1=0.04718, 
+			 w2=0.04774, 
+			 h2=0.04774, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 20.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide7 = Guide(w1=0.04774,
+			 h1=0.04774, 
+			 w2=0.04799, 
+			 h2=0.04799, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 21.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide8 = Guide(w1=0.04799,
+			 h1=0.04799, 
+			 w2=0.04799, 
+			 h2=0.04799, 
+			 l=0.6-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 22.0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide9 = Guide(w1=0.04799,
+			 h1=0.04799, 
+			 w2=0.04774, 
+			 h2=0.04774, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 22.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide10 = Guide(w1=0.04774,
+			 h1=0.04774, 
+			 w2=0.04718, 
+			 h2=0.04718, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 23.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide11 = Guide(w1=0.04718,
+			 h1=0.04718, 
+			 w2=0.04630, 
+			 h2=0.04630, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 24.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide12 = Guide(w1=0.04630,
+			 h1=0.04630, 
+			 w2=0.04507, 
+			 h2=0.04507, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 25.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide13 = Guide(w1=0.04507,
+			 h1=0.04507, 
+			 w2=0.04347, 
+			 h2=0.04347, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 26.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide14 = Guide(w1=0.04347,
+			 h1=0.04347, 
+			 w2=0.04146, 
+			 h2=0.04146, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217,  alpha=3,m=3.2,W=0.001)
+			 AT (0, 0, 27.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide15 = Guide(w1=0.04146,
+			 h1=0.04146, 
+			 w2=0.03840, 
+			 h2=0.03840, 
+			 l=1.2-0.0000001, R0=0.99, Qc=0.0217, alpha=4,m=4.0,W=0.0015)
+			 AT (0, 0, 28.6) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide16 = Guide(w1=0.03840,
+			 h1=0.03840, 
+			 w2=0.03519, 
+			 h2=0.03519, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217, alpha=4,m=4.0,W=0.0015)
+			 AT (0, 0, 29.8) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guide17 = Guide(w1=0.03519,
+			 h1=0.03519, 
+			 w2=0.03120, 
+			 h2=0.03120, 
+			 l=1.0-0.0000001, R0=0.99, Qc=0.0217, alpha=4,m=4.0,W=0.0015)
+			 AT (0, 0, 30.8) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT slt1 = Slit(
+	xwidth = 0.0292, yheight = 0.035)
+AT (0, 0, 31.845) RELATIVE a1 /*possibly should be 31.8624 given by present J-PARC staff*/
+
+/************************/
+/*interchangeable mirror*/
+/************************/
+
+/*
+COMPONENT guidesp1 = Guide(w1=0.02987,
+			 h1=0.02987, 
+			 w2=0.02800, 
+			 h2=0.02800, 
+			 l=0.39-0.0000001, R0=0.99, Qc=0.0217, alpha=4.5,m=5,W=0.0015)
+			 AT (0, 0, 31.95) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guidesp2 = Guide(w1=0.02800,
+			 h1=0.02800, 
+			 w2=0.02590, 
+			 h2=0.02590, 
+			 l=0.39-0.0000001, R0=0.99, Qc=0.0217, alpha=4.5,m=5,W=0.0015)
+			 AT (0, 0, 32.34) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guidesp3 = Guide(w1=0.02590,
+			 h1=0.02590, 
+			 w2=0.02353, 
+			 h2=0.02353, 
+			 l=0.39-0.0000001, R0=0.99, Qc=0.0217, alpha=4.5,m=5,W=0.0015)
+			 AT (0, 0, 32.73) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT guidesp4 = Guide(w1=0.02353,
+			 h1=0.02353, 
+			 w2=0.02079, 
+			 h2=0.02079, 
+			 l=0.39-0.0000001, R0=0.99, Qc=0.0217, alpha=4.5,m=5,W=0.0015)
+			 AT (0, 0, 33.12) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+*/
+
+COMPONENT slt2 = Slit(
+    xwidth = 0.0115, yheight = 0.022)
+AT (0, 0, 33.615) RELATIVE a1 /*possibly should be 33.6274 measured by J-PARC staff*/
+
+/* 33.12+0.39=33.51 */
+
+/******************/
+/*nose collimator*/
+/****************/
+
+/*COMPONENT psd20A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_20A.txt"*/
+/*) AT (0,0,33.706) RELATIVE a1*/
+/**/
+/*COMPONENT slt26 = Slit(*/
+/*	radius=0.013*/
+/*) AT (0,0,33.7159) RELATIVE a1*/
+/**/
+/*COMPONENT psd20B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_20B.txt"*/
+/*) AT (0,0,33.716) RELATIVE a1*/
+/**/
+/*COMPONENT psd19A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_19A.txt"*/
+/*) AT (0,0,33.803) RELATIVE a1*/
+/**/
+/*COMPONENT slt24 = Slit(*/
+/*	radius=0.012*/
+/*) AT (0,0,33.8129) RELATIVE a1*/
+/**/
+/*COMPONENT psd19B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_19B.txt"*/
+/*) AT (0,0,33.813) RELATIVE a1*/
+/**/
+/*COMPONENT psd18A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_18A.txt"*/
+/*) AT (0,0,33.900) RELATIVE a1*/
+/**/
+/*COMPONENT slt22 = Slit(*/
+/*	radius=0.011*/
+/*) AT (0,0,33.9099) RELATIVE a1*/
+/**/
+/*COMPONENT psd18B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_18B.txt"*/
+/*) AT (0,0,33.910) RELATIVE a1*/
+/**/
+/*COMPONENT psd17A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_17A.txt"*/
+/*) AT (0,0,33.997) RELATIVE a1*/
+/**/
+/*COMPONENT slt20 = Slit(*/
+/*	radius=0.010*/
+/*) AT (0,0,34.0069) RELATIVE a1*/
+/**/
+/*COMPONENT psd17B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_17B.txt"*/
+/*) AT (0,0,34.007) RELATIVE a1*/
+/**/
+/*COMPONENT psd16A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_16A.txt"*/
+/*) AT (0,0,34.094) RELATIVE a1*/
+/**/
+/*COMPONENT slt18 = Slit(*/
+/*	radius=0.009*/
+/*) AT (0,0,34.1039) RELATIVE a1*/
+/**/
+/*COMPONENT psd16B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_16B.txt"*/
+/*) AT (0,0,34.104) RELATIVE a1*/
+/**/
+/*COMPONENT psd15A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_15A.txt"*/
+/*) AT (0,0,34.191) RELATIVE a1*/
+/**/
+/*COMPONENT slt16 = Slit(*/
+/*	radius=0.008*/
+/*) AT (0,0,34.2009) RELATIVE a1*/
+/**/
+/*COMPONENT psd15B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_15B.txt"*/
+/*) AT (0,0,34.201) RELATIVE a1*/
+/**/
+/*COMPONENT psd14A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_14A.txt"*/
+/*) AT (0,0,34.288) RELATIVE a1*/
+/**/
+/*COMPONENT slt14 = Slit(*/
+/*	radius=0.007*/
+/*) AT (0,0,34.2979) RELATIVE a1*/
+/**/
+/*COMPONENT psd14B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_14B.txt"*/
+/*) AT (0,0,34.298) RELATIVE a1*/
+/**/
+/*COMPONENT psd13A = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_13A.txt"*/
+/*) AT (0,0,34.385) RELATIVE a1*/
+/**/
+/*COMPONENT slt12 = Slit(*/
+/*	radius=0.006*/
+/*) AT (0,0,34.3949) RELATIVE a1*/
+/**/
+/*COMPONENT psd13B = PSD_monitor(*/
+/* xwidth = 0.0256, yheight = 0.0256,*/
+/* nx = 64, ny = 64, filename = "PSD_13B.txt"*/
+/*) AT (0,0,34.395) RELATIVE a1*/
+
+//Here I add a slit, to be sure that the beam is effectively illuminating the sample
+
+/*COMPONENT final_slit = Slit(*/
+/*    radius = 0.015) //check if the sample is completely illuminated*/
+/*AT (0,0,34.600) RELATIVE a1*/
+
+/******************/
+/*sample position*/
+/****************/
+
+COMPONENT psdsamp = PSD_monitor(
+ xwidth = 0.0512, yheight = 0.0512,restore_neutron=1,
+ nx = 128, ny = 128, filename = "PSD_samp.txt"
+) AT (0,0,34.8025) RELATIVE a1
+
+COMPONENT tofsampl = TOF_monitor(
+  xwidth=0.0512, yheight=0.0512, restore_neutron=1, nt=2424, tmin=1, tmax=40000, filename="TOF_samp.txt"
+) AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT lsamp = L_monitor(
+  xwidth=0.0512, yheight=0.0512, restore_neutron=1,Lmin=0, Lmax=20, nL=100, filename="L_samp.txt"
+)AT (0,0,0)RELATIVE PREVIOUS
+
+SPLIT 20 COMPONENT splitpoint = Arm()
+AT(0,0,0) RELATIVE PREVIOUS
+
+
+COMPONENT SX = Single_crystal(
+    reflections="Al2O3_sapphire.lau", 
+    yheight=0.05, radius=0.01, mosaic=1, delta_d_d=1e-4, 
+    az=4.757, ay=0, az=0, bx=2.3785, by=0, bz=-3.364, 
+	cx=0, cy=12.9877, cz=0, 
+    p_transmit=0.1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+EXTEND
+%{
+    if(!SCATTERED) ABSORB;
+%}
+
+
+COMPONENT sx_exit = Arm()
+AT(0,0,0) RELATIVE splitpoint
+
+COMPONENT psd_direct_beam0 = PSD_monitor(
+      xwidth=XW,yheight=YH, nx=101, ny=101, filename="psd_direct_beam0",restore_neutron=1)
+AT(0,0,ZD/2.0+1e-6) RELATIVE psdsamp
+GROUP g0 
+
+COMPONENT psd_direct_beam_arm = Arm()
+AT(0,0,0) RELATIVE PREVIOUS
+GROUP g0
+EXTEND
+%{
+    SCATTER;
+%}
+
+COMPONENT psd_anton = PSD_monitor(
+    xwidth=0.028, yheight=0.028, nx=301, ny=301,filename="psd_anton.dat",restore_neutron=1)
+AT(0,0,0.2) RELATIVE psdsamp
+GROUP g1
+
+COMPONENT psd_anton_arm = Arm()
+AT(0,0,0) RELATIVE PREVIOUS
+GROUP g1
+EXTEND
+%{
+    SCATTER;
+%}
+
+/******************/
+/* far field detectors. u = up, d = down */
+/****************/
+
+COMPONENT det_001a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,67.4810,0) RELATIVE psdsamp
+COMPONENT det_001a1 = Arm()
+AT(0,0,0) RELATIVE det_001a0
+ROTATED (21.8420, 0,0) RELATIVE det_001a0
+COMPONENT det_001a = Arm()
+AT(0,0,0.8617400000000001) RELATIVE det_001a1
+ROTATED (-21.8420,0.0000,0.0000) RELATIVE det_001a1
+
+COMPONENT det_002a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,67.4400,0) RELATIVE psdsamp
+COMPONENT det_002a1 = Arm()
+AT(0,0,0) RELATIVE det_002a0
+ROTATED (-0.0073, 0,0) RELATIVE det_002a0
+COMPONENT det_002a = Arm()
+AT(0,0,0.79988) RELATIVE det_002a1
+ROTATED (0.0073,0.0000,0.1205) RELATIVE det_002a1
+
+COMPONENT det_003a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,67.5060,0) RELATIVE psdsamp
+COMPONENT det_003a1 = Arm()
+AT(0,0,0) RELATIVE det_003a0
+ROTATED (-21.7760, 0,0) RELATIVE det_003a0
+COMPONENT det_003a = Arm()
+AT(0,0,0.86134) RELATIVE det_003a1
+ROTATED (21.7760,0.0000,0.0000) RELATIVE det_003a1
+
+COMPONENT det_004a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,89.9280,0) RELATIVE psdsamp
+COMPONENT det_004a1 = Arm()
+AT(0,0,0) RELATIVE det_004a0
+ROTATED (21.8030, 0,0) RELATIVE det_004a0
+COMPONENT det_004a = Arm()
+AT(0,0,0.86187) RELATIVE det_004a1
+ROTATED (-21.8030,0.0000,0.0000) RELATIVE det_004a1
+
+COMPONENT det_005a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,89.9845,0) RELATIVE psdsamp
+COMPONENT det_005a1 = Arm()
+AT(0,0,0) RELATIVE det_005a0
+ROTATED (0.0045, 0,0) RELATIVE det_005a0
+COMPONENT det_005a = Arm()
+AT(0,0,0.80022) RELATIVE det_005a1
+ROTATED (-0.0045,0.0000,0.0352) RELATIVE det_005a1
+
+COMPONENT det_006a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,89.8980,0) RELATIVE psdsamp
+COMPONENT det_006a1 = Arm()
+AT(0,0,0) RELATIVE det_006a0
+ROTATED (-21.7400, 0,0) RELATIVE det_006a0
+COMPONENT det_006a = Arm()
+AT(0,0,0.86149) RELATIVE det_006a1
+ROTATED (21.7400,0.0000,0.0000) RELATIVE det_006a1
+
+COMPONENT det_007a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,112.4340,0) RELATIVE psdsamp
+COMPONENT det_007a1 = Arm()
+AT(0,0,0) RELATIVE det_007a0
+ROTATED (21.8070, 0,0) RELATIVE det_007a0
+COMPONENT det_007a = Arm()
+AT(0,0,0.86163) RELATIVE det_007a1
+ROTATED (-21.8070,0.0000,0.0000) RELATIVE det_007a1
+
+COMPONENT det_008a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,112.5060,0) RELATIVE psdsamp
+COMPONENT det_008a1 = Arm()
+AT(0,0,0) RELATIVE det_008a0
+ROTATED (-0.0311, 0,0) RELATIVE det_008a0
+COMPONENT det_008a = Arm()
+AT(0,0,0.7999700000000001) RELATIVE det_008a1
+ROTATED (0.0311,0.0000,0.0753) RELATIVE det_008a1
+
+COMPONENT det_009a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,112.4360,0) RELATIVE psdsamp
+COMPONENT det_009a1 = Arm()
+AT(0,0,0) RELATIVE det_009a0
+ROTATED (-21.7960, 0,0) RELATIVE det_009a0
+COMPONENT det_009a = Arm()
+AT(0,0,0.86156) RELATIVE det_009a1
+ROTATED (21.7960,0.0000,0.0000) RELATIVE det_009a1
+
+COMPONENT det_010a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,135.0700,0) RELATIVE psdsamp
+COMPONENT det_010a1 = Arm()
+AT(0,0,0) RELATIVE det_010a0
+ROTATED (21.7770, 0,0) RELATIVE det_010a0
+COMPONENT det_010a = Arm()
+AT(0,0,0.86165) RELATIVE det_010a1
+ROTATED (-21.7770,0.0000,0.0000) RELATIVE det_010a1
+
+COMPONENT det_011a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,134.8900,0) RELATIVE psdsamp
+COMPONENT det_011a1 = Arm()
+AT(0,0,0) RELATIVE det_011a0
+ROTATED (-0.0013, 0,0) RELATIVE det_011a0
+COMPONENT det_011a = Arm()
+AT(0,0,0.80016) RELATIVE det_011a1
+ROTATED (0.0013,0.0000,0.3403) RELATIVE det_011a1
+
+COMPONENT det_012a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,134.9800,0) RELATIVE psdsamp
+COMPONENT det_012a1 = Arm()
+AT(0,0,0) RELATIVE det_012a0
+ROTATED (-21.7640, 0,0) RELATIVE det_012a0
+COMPONENT det_012a = Arm()
+AT(0,0,0.8615700000000001) RELATIVE det_012a1
+ROTATED (21.7640,0.0000,0.0000) RELATIVE det_012a1
+
+COMPONENT det_013a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,157.4410,0) RELATIVE psdsamp
+COMPONENT det_013a1 = Arm()
+AT(0,0,0) RELATIVE det_013a0
+ROTATED (21.7570, 0,0) RELATIVE det_013a0
+COMPONENT det_013a = Arm()
+AT(0,0,0.85984) RELATIVE det_013a1
+ROTATED (-21.7570,0.0000,0.0000) RELATIVE det_013a1
+
+COMPONENT det_014a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,157.3970,0) RELATIVE psdsamp
+COMPONENT det_014a1 = Arm()
+AT(0,0,0) RELATIVE det_014a0
+ROTATED (0.0020, 0,0) RELATIVE det_014a0
+COMPONENT det_014a = Arm()
+AT(0,0,0.79859) RELATIVE det_014a1
+ROTATED (-0.0020,0.0000,-0.0284) RELATIVE det_014a1
+
+COMPONENT det_015a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,157.3810,0) RELATIVE psdsamp
+COMPONENT det_015a1 = Arm()
+AT(0,0,0) RELATIVE det_015a0
+ROTATED (-21.8660, 0,0) RELATIVE det_015a0
+COMPONENT det_015a = Arm()
+AT(0,0,0.8605) RELATIVE det_015a1
+ROTATED (21.8660,0.0000,0.0000) RELATIVE det_015a1
+
+COMPONENT det_016a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-157.4310,0) RELATIVE psdsamp
+COMPONENT det_016a1 = Arm()
+AT(0,0,0) RELATIVE det_016a0
+ROTATED (21.6430, 0,0) RELATIVE det_016a0
+COMPONENT det_016a = Arm()
+AT(0,0,0.8602000000000001) RELATIVE det_016a1
+ROTATED (-21.6430,0.0000,0.0000) RELATIVE det_016a1
+
+COMPONENT det_017a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-157.5000,0) RELATIVE psdsamp
+COMPONENT det_017a1 = Arm()
+AT(0,0,0) RELATIVE det_017a0
+ROTATED (0.0031, 0,0) RELATIVE det_017a0
+COMPONENT det_017a = Arm()
+AT(0,0,0.7995599999999999) RELATIVE det_017a1
+ROTATED (-0.0031,0.0000,0.0134) RELATIVE det_017a1
+
+COMPONENT det_018a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-157.3700,0) RELATIVE psdsamp
+COMPONENT det_018a1 = Arm()
+AT(0,0,0) RELATIVE det_018a0
+ROTATED (-21.9550, 0,0) RELATIVE det_018a0
+COMPONENT det_018a = Arm()
+AT(0,0,0.8620800000000001) RELATIVE det_018a1
+ROTATED (21.9550,0.0000,0.0000) RELATIVE det_018a1
+
+COMPONENT det_019a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-134.9350,0) RELATIVE psdsamp
+COMPONENT det_019a1 = Arm()
+AT(0,0,0) RELATIVE det_019a0
+ROTATED (21.7010, 0,0) RELATIVE det_019a0
+COMPONENT det_019a = Arm()
+AT(0,0,0.86102) RELATIVE det_019a1
+ROTATED (-21.7010,0.0000,0.0000) RELATIVE det_019a1
+
+COMPONENT det_020a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-134.9420,0) RELATIVE psdsamp
+COMPONENT det_020a1 = Arm()
+AT(0,0,0) RELATIVE det_020a0
+ROTATED (-0.0022, 0,0) RELATIVE det_020a0
+COMPONENT det_020a = Arm()
+AT(0,0,0.8) RELATIVE det_020a1
+ROTATED (0.0022,0.0000,0.1599) RELATIVE det_020a1
+
+COMPONENT det_021a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-134.8990,0) RELATIVE psdsamp
+COMPONENT det_021a1 = Arm()
+AT(0,0,0) RELATIVE det_021a0
+ROTATED (-21.8850, 0,0) RELATIVE det_021a0
+COMPONENT det_021a = Arm()
+AT(0,0,0.86213) RELATIVE det_021a1
+ROTATED (21.8850,0.0000,0.0000) RELATIVE det_021a1
+
+COMPONENT det_022a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-112.4970,0) RELATIVE psdsamp
+COMPONENT det_022a1 = Arm()
+AT(0,0,0) RELATIVE det_022a0
+ROTATED (21.6560, 0,0) RELATIVE det_022a0
+COMPONENT det_022a = Arm()
+AT(0,0,0.86133) RELATIVE det_022a1
+ROTATED (-21.6560,0.0000,0.0000) RELATIVE det_022a1
+
+COMPONENT det_023a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-112.4830,0) RELATIVE psdsamp
+COMPONENT det_023a1 = Arm()
+AT(0,0,0) RELATIVE det_023a0
+ROTATED (0.0000, 0,0) RELATIVE det_023a0
+COMPONENT det_023a = Arm()
+AT(0,0,0.80053) RELATIVE det_023a1
+ROTATED (-0.0000,0.0000,-0.0592) RELATIVE det_023a1
+
+COMPONENT det_024a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-112.4220,0) RELATIVE psdsamp
+COMPONENT det_024a1 = Arm()
+AT(0,0,0) RELATIVE det_024a0
+ROTATED (-21.8770, 0,0) RELATIVE det_024a0
+COMPONENT det_024a = Arm()
+AT(0,0,0.86265) RELATIVE det_024a1
+ROTATED (21.8770,0.0000,0.0000) RELATIVE det_024a1
+
+COMPONENT det_025a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-90.0070,0) RELATIVE psdsamp
+COMPONENT det_025a1 = Arm()
+AT(0,0,0) RELATIVE det_025a0
+ROTATED (21.7170, 0,0) RELATIVE det_025a0
+COMPONENT det_025a = Arm()
+AT(0,0,0.8619) RELATIVE det_025a1
+ROTATED (-21.7170,0.0000,0.0000) RELATIVE det_025a1
+
+COMPONENT det_026a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-89.9856,0) RELATIVE psdsamp
+COMPONENT det_026a1 = Arm()
+AT(0,0,0) RELATIVE det_026a0
+ROTATED (0.0000, 0,0) RELATIVE det_026a0
+COMPONENT det_026a = Arm()
+AT(0,0,0.80072) RELATIVE det_026a1
+ROTATED (-0.0000,0.0000,0.0371) RELATIVE det_026a1
+
+COMPONENT det_027a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-89.9630,0) RELATIVE psdsamp
+COMPONENT det_027a1 = Arm()
+AT(0,0,0) RELATIVE det_027a0
+ROTATED (-21.8660, 0,0) RELATIVE det_027a0
+COMPONENT det_027a = Arm()
+AT(0,0,0.86279) RELATIVE det_027a1
+ROTATED (21.8660,0.0000,0.0000) RELATIVE det_027a1
+
+COMPONENT det_028a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-67.5610,0) RELATIVE psdsamp
+COMPONENT det_028a1 = Arm()
+AT(0,0,0) RELATIVE det_028a0
+ROTATED (21.7720, 0,0) RELATIVE det_028a0
+COMPONENT det_028a = Arm()
+AT(0,0,0.86299) RELATIVE det_028a1
+ROTATED (-21.7720,0.0000,0.0000) RELATIVE det_028a1
+
+COMPONENT det_029a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-67.5510,0) RELATIVE psdsamp
+COMPONENT det_029a1 = Arm()
+AT(0,0,0) RELATIVE det_029a0
+ROTATED (0.0000, 0,0) RELATIVE det_029a0
+COMPONENT det_029a = Arm()
+AT(0,0,0.80143) RELATIVE det_029a1
+ROTATED (-0.0000,0.0000,0.0154) RELATIVE det_029a1
+
+COMPONENT det_030a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-67.4650,0) RELATIVE psdsamp
+COMPONENT det_030a1 = Arm()
+AT(0,0,0) RELATIVE det_030a0
+ROTATED (-21.8150, 0,0) RELATIVE det_030a0
+COMPONENT det_030a = Arm()
+AT(0,0,0.86325) RELATIVE det_030a1
+ROTATED (21.8150,0.0000,0.0000) RELATIVE det_030a1
+
+COMPONENT det_031a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-45.0700,0) RELATIVE psdsamp
+COMPONENT det_031a1 = Arm()
+AT(0,0,0) RELATIVE det_031a0
+ROTATED (21.7650, 0,0) RELATIVE det_031a0
+COMPONENT det_031a = Arm()
+AT(0,0,0.85966) RELATIVE det_031a1
+ROTATED (-21.7650,0.0000,0.0000) RELATIVE det_031a1
+
+COMPONENT det_032a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-45.0220,0) RELATIVE psdsamp
+COMPONENT det_032a1 = Arm()
+AT(0,0,0) RELATIVE det_032a0
+ROTATED (0.0000, 0,0) RELATIVE det_032a0
+COMPONENT det_032a = Arm()
+AT(0,0,0.79838) RELATIVE det_032a1
+ROTATED (-0.0000,0.0000,-0.0861) RELATIVE det_032a1
+
+COMPONENT det_033a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-45.0630,0) RELATIVE psdsamp
+COMPONENT det_033a1 = Arm()
+AT(0,0,0) RELATIVE det_033a0
+ROTATED (-21.8520, 0,0) RELATIVE det_033a0
+COMPONENT det_033a = Arm()
+AT(0,0,0.86019) RELATIVE det_033a1
+ROTATED (21.8520,0.0000,0.0000) RELATIVE det_033a1
+
+COMPONENT det_034a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-22.5830,0) RELATIVE psdsamp
+COMPONENT det_034a1 = Arm()
+AT(0,0,0) RELATIVE det_034a0
+ROTATED (21.8220, 0,0) RELATIVE det_034a0
+COMPONENT det_034a = Arm()
+AT(0,0,0.8623099999999999) RELATIVE det_034a1
+ROTATED (-21.8220,0.0000,0.0000) RELATIVE det_034a1
+
+COMPONENT det_035a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-22.5130,0) RELATIVE psdsamp
+COMPONENT det_035a1 = Arm()
+AT(0,0,0) RELATIVE det_035a0
+ROTATED (0.0000, 0,0) RELATIVE det_035a0
+COMPONENT det_035a = Arm()
+AT(0,0,0.80052) RELATIVE det_035a1
+ROTATED (-0.0000,0.0000,-0.0204) RELATIVE det_035a1
+
+COMPONENT det_036a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-22.5910,0) RELATIVE psdsamp
+COMPONENT det_036a1 = Arm()
+AT(0,0,0) RELATIVE det_036a0
+ROTATED (-21.8170, 0,0) RELATIVE det_036a0
+COMPONENT det_036a = Arm()
+AT(0,0,0.8622799999999999) RELATIVE det_036a1
+ROTATED (21.8170,0.0000,0.0000) RELATIVE det_036a1
+
+COMPONENT det_037a0 = Arm()
+AT(0,0,0) RELATIVE psdsamp
+ROTATED (0,-90.0000,0) RELATIVE psdsamp
+COMPONENT det_037a1 = Arm()
+AT(0,0,0) RELATIVE det_037a0
+ROTATED (90.0000, 0,0) RELATIVE det_037a0
+COMPONENT det_037a = Arm()
+AT(0,0,0.8) RELATIVE det_037a1
+ROTATED (180.0000,0.0000,0.0000) RELATIVE det_037a1
+
+/* Here isa 4pi detector*/
+
+COMPONENT fourpi_psd=PSD_monitor_4PI(
+    nx=301, ny=301,radius=0.2,filename="4pi_psd", restore_neutron=1
+)
+AT (0,0,0) RELATIVE psdsamp
+
+COMPONENT det_014 = Monitor_nD(
+        xwidth=0.256, yheight=0.256, options="x,y bins=64",
+    filename=(det_fn_014), restore_neutron=1
+)
+AT (0,0,0) RELATIVE det_014a
+GROUP det
+
+/*COMPONENT det_014 = HDB_monitor_new(*/
+/*        xwidth=0.256, yheight=0.256, filename=det_fn_014, noextrafiles=0)*/
+/*AT(0,0,0) RELATIVE det_014a*/
+/*GROUP det*/
+/**/
+COMPONENT det_015 = COPY(det_014)(filename=det_fn_015)
+AT (0,0,0) RELATIVE det_015a
+GROUP det
+
+COMPONENT det_013 = COPY(det_014)(filename=det_fn_013)
+AT (0,0,0) RELATIVE det_013a
+GROUP det
+
+COMPONENT det_011 = COPY(det_014)(filename=det_fn_011)
+AT (0,0,0) RELATIVE det_011a
+GROUP det
+
+COMPONENT det_012 = COPY(det_014)(filename=det_fn_012)
+AT (0,0,0) RELATIVE det_012a
+GROUP det
+
+COMPONENT det_010 = COPY(det_014)(filename=det_fn_010)
+AT (0,0,0) RELATIVE det_010a
+GROUP det
+
+COMPONENT det_008 = COPY(det_014)(filename=det_fn_008)
+AT (0,0,0) RELATIVE det_008a
+GROUP det
+
+COMPONENT det_009 = COPY(det_014)(filename=det_fn_009)
+AT (0,0,0) RELATIVE det_009a
+GROUP det
+
+COMPONENT det_007 = COPY(det_014)(filename=det_fn_007)
+AT (0,0,0) RELATIVE det_007a
+GROUP det
+
+COMPONENT det_005 = COPY(det_014)(filename=det_fn_005)
+AT (0,0,0) RELATIVE det_005a
+GROUP det
+
+COMPONENT det_006 = COPY(det_014)(filename=det_fn_006)
+AT (0,0,0) RELATIVE det_006a
+GROUP det
+
+COMPONENT det_004 = COPY(det_014)(filename=det_fn_004)
+AT (0,0,0) RELATIVE det_004a
+GROUP det
+
+COMPONENT det_002 = COPY(det_014)(filename=det_fn_002)
+AT (0,0,0) RELATIVE det_002a
+GROUP det
+
+COMPONENT det_003 = COPY(det_014)(filename=det_fn_003)
+AT (0,0,0) RELATIVE det_003a
+GROUP det
+
+COMPONENT det_001 = COPY(det_014)(filename=det_fn_001)
+AT (0,0,0) RELATIVE det_001a
+GROUP det
+
+
+/* N monitors */
+
+COMPONENT det_017 = Monitor_nD(
+    xwidth=0.256, yheight=0.256, options="x,y bins=64",
+    filename=det_fn_017, restore_neutron=1
+)
+AT (0,0,0) RELATIVE det_017a
+GROUP det
+
+/*COMPONENT det_017 = HDB_monitor_new(*/
+/*        xwidth=0.256, yheight=0.256, filename=det_fn_017, noextrafiles=0)*/
+/*AT(0,0,0) RELATIVE det_017a*/
+/*GROUP det*/
+
+COMPONENT det_018 = COPY(det_017)(filename=det_fn_018)
+AT (0,0,0) RELATIVE det_018a
+GROUP det
+
+COMPONENT det_016 = COPY(det_017)(filename=det_fn_016)
+AT (0,0,0) RELATIVE det_016a
+GROUP det
+
+COMPONENT det_020 = COPY(det_017)(filename=det_fn_020)
+AT (0,0,0) RELATIVE det_020a
+GROUP det
+
+COMPONENT det_021 = COPY(det_017)(filename=det_fn_021)
+AT (0,0,0) RELATIVE det_021a
+GROUP det
+
+COMPONENT det_019 = COPY(det_017)(filename=det_fn_019)
+AT (0,0,0) RELATIVE det_019a
+GROUP det
+
+COMPONENT det_023 = COPY(det_017)(filename=det_fn_023)
+AT (0,0,0) RELATIVE det_023a
+GROUP det
+
+COMPONENT det_024 = COPY(det_017)(filename=det_fn_024)
+AT (0,0,0) RELATIVE det_024a
+GROUP det
+
+COMPONENT det_022 = COPY(det_017)(filename=det_fn_022)
+AT (0,0,0) RELATIVE det_022a
+GROUP det
+
+COMPONENT det_026 = COPY(det_017)(filename=det_fn_026)
+AT (0,0,0) RELATIVE det_026a
+GROUP det
+
+COMPONENT det_027 = COPY(det_017)(filename=det_fn_027)
+AT (0,0,0) RELATIVE det_027a
+GROUP det
+
+COMPONENT det_025 = COPY(det_017)(filename=det_fn_025)
+AT (0,0,0) RELATIVE det_025a
+GROUP det
+
+COMPONENT det_029 = COPY(det_017)(filename=det_fn_029)
+AT (0,0,0) RELATIVE det_029a
+GROUP det
+
+COMPONENT det_030 = COPY(det_017)(filename=det_fn_030)
+AT (0,0,0) RELATIVE det_030a
+GROUP det
+
+COMPONENT det_028 = COPY(det_017)(filename=det_fn_028)
+AT (0,0,0) RELATIVE det_028a
+GROUP det
+
+COMPONENT det_032 = COPY(det_017)(filename=det_fn_032)
+AT (0,0,0) RELATIVE det_032a
+GROUP det
+
+COMPONENT det_033 = COPY(det_017)(filename=det_fn_033)
+AT (0,0,0) RELATIVE det_033a
+GROUP det
+
+COMPONENT det_031 = COPY(det_017)(filename=det_fn_031)
+AT (0,0,0) RELATIVE det_031a
+GROUP det
+
+COMPONENT det_035 = COPY(det_017)(filename=det_fn_035)
+AT (0,0,0) RELATIVE det_035a
+GROUP det
+
+COMPONENT det_036 = COPY(det_017)(filename=det_fn_036)
+AT (0,0,0) RELATIVE det_036a
+GROUP det
+
+COMPONENT det_034 = COPY(det_017)(filename=det_fn_034)
+AT (0,0,0) RELATIVE det_034a
+GROUP det
+
+COMPONENT det_037 = COPY(det_014)(filename=det_fn_037)
+AT(0,0,0) RELATIVE det_037a
+GROUP det
+
+COMPONENT catch_all = Arm()
+AT(0,0,0) RELATIVE PREVIOUS
+GROUP det
+EXTEND
+%{
+  SCATTER;
+%}
+
+/*Anton's detector has to come after the others - there's still an implicit ABSORB for unGROUPed monitors here*/
+/*COMPONENT mon_MCP = Monitor_nD(*/
+/*    xwidth=0.028, yheight=0.028, filename="mon_MCP",options="list all x,y,z,vx,vy,vz,t,sx,sy,sz",restore_neutron=1*/
+/*)*/
+/*AT(0,0,0.02) RELATIVE psdsamp  */
+/*GROUP mcp*/
+
+/*COMPONENT mon_MCP = FITS_monitor_new(*/
+/*        noextrafiles=1,xwidth=0.028, yheight=0.028, filename="mon_MCP",short_floats=1,nx=258,ny=258,nt=400,tmin=1, tmax=40000,restore_neutron=1*/
+/*)*/
+/*WHEN (side & 4) AT(0,0,0.02) RELATIVE psdsamp*/
+/*GROUP mcp*/
+
+/*COMPONENT psd_anton2 = PSD_monitor(*/
+/*    xwidth=0.028, yheight=0.028, nx=301, ny=301,filename="psd_anton2.dat",restore_neutron=1)*/
+/*AT(0,0,0.2) RELATIVE psdsamp*/
+/*GROUP mcp*/
+
+/*COMPONENT mon_MCP_not = Monitor_nD(*/
+/*    radius=0.025, filename="mon_MCP_not", options="t bins=400 limits=[1e-6 40000e-6]", restore_neutron=1)*/
+/*AT(0,0,0) RELATIVE psdsamp*/
+/*GROUP mcp*/
+/**/
+/*COMPONENT mon_MCP_catchall = Arm()*/
+/*AT(0,0,0) RELATIVE PREVIOUS*/
+/*GROUP mcp*/
+/*EXTEND*/
+/*%{*/
+/*  SCATTER;*/
+/*%}*/
+
+
+FINALLY
+%{
+%}
+
+END

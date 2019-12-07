@@ -1,0 +1,245 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: TestSANS
+*
+* %Identification
+* Written by: Martin Cramer Pedersen (mcpe@nbi.dk) and S&oslash;en Kynde (kynde@nbi.dk)
+* Modifications by: Christine Klauser (christine.klauser@psi.ch)
+* Date: October 29th, 2012
+* Version: $Revision$
+* Origin: KU-Science
+* Release: McStas 1.12c
+* %INSTRUMENT_SITE: Templates
+*
+* %Description
+* Toy model used for testing various sample components for solution-SANS.
+*
+* %Parameters
+* DistSrcPin1 : [m]	Distance to first pinhole from source.
+* DistSrcPin2 : [m] 	Distance to second pinhole - used for focussing rays.
+* DistPinSamp : [m]	Collimation length.
+* DistSampDet : [m]	Sample-detector-distance.
+* DetRadius   : [m]	Radius of the circular detector.
+* Lambda      : [AA] 	Wavelength of the rays emitted from source.
+* DLambda     : [AA]	Relative deviation of wavelength of the rays emitted from source.
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT Ex_9_5_SANS(
+	
+	DistPinSamp = 1.0,
+	DistSampDet = 10.0
+	
+	
+)
+
+
+DECLARE
+%{
+	double Lambda=4.5;
+	double dLambda=0.1;
+	double DetRadius=1.0;
+%}
+
+
+INITIALIZE
+%{
+%}
+
+
+TRACE
+COMPONENT Origin = Progress_bar()
+AT (0, 0, 0) ABSOLUTE
+
+	//------ Simple source mimicking the output of a velocity selector ------------
+
+COMPONENT Source = Source_simple(
+	radius = 0.02,
+	dist = 1.0, 
+	yheight = 0.01, 
+	xwidth = 0.01,
+	focus_xw=0.01, focus_yh=0.01, 
+	lambda0 = Lambda, 
+	dlambda = dLambda * Lambda)
+  AT (0, 0, 0) RELATIVE Origin
+	
+		// ------collimation------
+
+COMPONENT FirstPinhole = Slit(
+	radius = 0.01)
+  AT (0, 0, 1.0) RELATIVE Source
+
+
+COMPONENT SecondPinhole = Slit(
+	radius = 0.005)
+  AT (0, 0, 10.0) RELATIVE Source
+
+		// Insert sample here AT (0,0, DistSampDet) RELATIVE SecondPinhole
+
+COMPONENT Sample = Sans_spheres(
+R = 100, Phi = 1e-3, Delta_rho = 0.6, sigma_abs = 0, 
+xwidth=0.01, yheight=0.01, zdepth=0.01, focus_r=DetRadius, target_z=DistSampDet)
+  AT (0,0, DistSampDet) RELATIVE SecondPinhole
+
+
+/*COMPONENT Sample = SANSSpheres(
+	xwidth = 0.1,
+	yheight = 0.1, 
+	zdepth = 0.1,
+	R = 100.0,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+			
+
+/*COMPONENT Sample = SANSShells(
+	xwidth = 0.1,
+	yheight = 0.1, 
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius,
+	R = 50.0, 
+	Thickness = 20.0)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSCylinders(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSEllipticCylinders(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSLiposomes(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole
+*/
+
+/*COMPONENT Sample = SANSNanodiscs(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSNanodiscsWithTags(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSPDB(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius,
+	//PDBFilepath = "1EV3.pdb"
+	//PDBFilepath = "6LYZ.pdb"
+	PDBFilepath = "3V03.pdb")
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSCurve(
+	FileWithCurve = "Curve.mcp",
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSNanodiscsFast(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSNanodiscsWithTagsFast(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+
+/*COMPONENT Sample = SANSPDBFast(
+	xwidth = 0.1,
+	yheight = 0.1,
+	zdepth = 0.1,
+	SampleToDetectorDistance = DistSampDet,
+	DetectorRadius = DetRadius,
+	PDBFilepath = "6LYZ.pdb",
+    qMax = 0.9)
+AT (0, 0, DistSampDet) RELATIVE SecondPinhole*/
+
+		//-------removing the direct beam-------
+COMPONENT Beamstop = Beamstop(
+	radius = 0.1)
+AT (0, 0, DistSampDet - 0.000001) RELATIVE Sample
+
+
+COMPONENT Monitor = PSD_monitor(
+	filename = "PSDMonitor",
+	xwidth = 2.0 * DetRadius, 
+	yheight = 2.0 * DetRadius,
+	nx = 200,
+	ny = 200,
+	restore_neutron = 1)
+AT (0, 0, 0.00001) RELATIVE Beamstop
+
+	
+
+//Insert the RMonitor here
+		COMPONENT RMonitor=PSD_monitor_rad(
+				rmax=0.2, nr=200, filename="Output.psd", filename_av="Output_av.psd")
+						At(0, 0, 0.00001) RELATIVE PREVIOUS
+								
+// Insert  the SANSQMonitor here
+			COMPONENT QMonitor = SANSQMonitor(
+				RadiusDetector = DetRadius,
+				DistanceFromSample = DistSampDet,
+				LambdaMin = Lambda,
+				Lambda0 = Lambda,
+			    NumberOfBins = 100)
+			AT (0, 0, 0.00001) RELATIVE PREVIOUS
+
+
+FINALLY
+%{
+%}
+
+END
+
+
+
+
+

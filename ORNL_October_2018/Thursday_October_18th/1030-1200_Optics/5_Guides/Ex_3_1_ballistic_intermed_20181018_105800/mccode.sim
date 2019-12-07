@@ -1,0 +1,197 @@
+McStas simulation description file for Guide_B.
+Date:    Thu Oct 18 10:58:00 2018
+Program: McStas 2.4.1 - Jun. 26, 2017
+
+begin instrument: Guide_B
+  File: /Users/pkwi/Dropbox/Work/McStas-schools/ORNL_2018/Thursday_October_18th/1030-1200_Optics/5_Guides/Ex_3_1_ballistic_intermed_20181018_105800/mccode
+  Source: Ex_3_1_ballistic_intermed.instr
+  Parameters:  sa_pos(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /Users/pkwi/Dropbox/Work/McStas-schools/ORNL_2018/Thursday_October_18th/1030-1200_Optics/5_Guides/Ex_3_1_ballistic_intermed_20181018_105800
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 2.4.1 - Jun. 26, 2017
+  Instrument: Ex_3_1_ballistic_intermed.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1539943567
+  Directory: /Users/pkwi/Dropbox/Work/McStas-schools/ORNL_2018/Thursday_October_18th/1030-1200_Optics/5_Guides/Ex_3_1_ballistic_intermed_20181018_105800
+  Param: sa_pos=0.5
+end simulation
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_1d(200)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: Lmonsource1
+  position: 0 0 0.5
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: L_source.dat
+  statistics: X0=3.5743; dX=1.5816;
+  signal: Min=5.63401e+07; Max=6.08966e+09; Mean=9.18913e+08;
+  values: 1.83783e+11 8.83878e+08 116844
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 2 10
+  variables: L I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(100, 100)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: PSD_source
+  position: 0 0 0.5
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_source.dat
+  statistics: X0=-0.00123665; dX=1.13779; Y0=0.0199473; dY=3.24881;
+  signal: Min=0; Max=3.00308e+08; Mean=8.20056e+07;
+  values: 8.20056e+11 3.22389e+09 438499
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -2 2 -7 7
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(50, 50)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: PSD_sa1
+  position: 0 0 37.0001
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_sa1.dat
+  statistics: X0=-0.00516823; dX=0.574665; Y0=0.0224639; dY=0.585859;
+  signal: Min=0; Max=2.16253e+07; Mean=689949;
+  values: 1.72487e+09 1.15239e+08 2424
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -1 1 -1 1
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(50, 50)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: PSD_sa2
+  position: 0 0 37.0002
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_sa2.dat
+  statistics: X0=0.00278065; dX=0.303615; Y0=0.0267505; dY=0.271097;
+  signal: Min=0; Max=1.99586e+07; Mean=166187;
+  values: 4.15466e+08 5.52756e+07 606
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.5 0.5 -0.5 0.5
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(50, 50)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: PSD_sa3
+  position: 0 0 37.0003
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_sa3.dat
+  statistics: X0=0.0167294; dX=0.0222838; Y0=0.0171398; dY=0.0258693;
+  signal: Min=0; Max=7.4222e+06; Mean=5987.31;
+  values: 1.49683e+07 8.71394e+06 10
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.05 0.05 -0.05 0.05
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(50, 50)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: PSD_full
+  position: 0 0 37.0004
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_full.dat
+  statistics: X0=0.00932597; dX=2.59799; Y0=-0.072484; dY=4.7054;
+  signal: Min=0; Max=1.29095e+08; Mean=1.60585e+07;
+  values: 4.01462e+10 4.94566e+08 94075
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -10 10 -10 10
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_2d(100, 100)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: div_sa
+  position: 0 0 37.0005
+  title: Divergence monitor
+  Ncount: 1000000
+  filename: Div_sa.dat
+  statistics: X0=0.00506352; dX=0.276175; Y0=-0.00151729; dY=0.413922;
+  signal: Min=0; Max=1.97923e+08; Mean=1.91241e+06;
+  values: 1.91241e+10 3.64621e+08 32289
+  xvar: X 
+  yvar: Y 
+  xlabel: X divergence [deg]
+  ylabel: Y divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -3 3 -3 3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Oct 18 10:58:00 2018 (1539874680)
+  type: array_1d(100)
+  Source: Guide_B (Ex_3_1_ballistic_intermed.instr)
+  component: Lambda_guide
+  position: 0 0 37.0006
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: lambda_sa.dat
+  statistics: X0=3.55397; dX=1.91893;
+  signal: Min=1.22938e+07; Max=9.25432e+08; Mean=1.89451e+08;
+  values: 1.89451e+10 3.14737e+08 18415
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 1.5 11
+  variables: L I I_err N
+end data

@@ -1,0 +1,138 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: Ex_1_2 (rename also the example and DEFINE lines below)
+*
+* %Identification
+* Written by: Peter Willendrup
+* Date: Ven 2010
+* Origin: ESS
+* Release: McStas 1.12b
+* Version: 0.000000000001
+* %INSTRUMENT_SITE: Ven_2010
+*
+* Instrument excercise 1.2
+*
+* %Description
+* Instrument excercise 1.2, curved guide
+*
+*
+* %Parameters
+* M:        [1]   Guide reflectivity
+* Rotation: [deg] Rotation between each of the guide elements
+* %Link
+* www.essworkshop.org
+*
+* %End
+*******************************************************************************/
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT Ex_3_1_curved(M=1, Rotation=0.08)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+
+COMPONENT Source = Source_simple(
+    radius = 0.12, dist = 1.5, focus_xw = 0.06, focus_yh = 0.06,
+    lambda0 = 5.5, dlambda = 4.5)
+  AT (0, 0, 0) RELATIVE Origin
+
+COMPONENT Guide0 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 1.5) RELATIVE Source
+
+COMPONENT Guide1 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE PREVIOUS
+  ROTATED (0, Rotation, 0) RELATIVE PREVIOUS
+
+COMPONENT Guide2 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide1
+  ROTATED (0, Rotation, 0) RELATIVE Guide1
+
+COMPONENT Guide3 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide2
+  ROTATED (0, Rotation, 0) RELATIVE Guide2
+
+COMPONENT Guide4 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide3
+  ROTATED (0, Rotation, 0) RELATIVE Guide3
+
+COMPONENT Guide5 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide4
+  ROTATED (0, Rotation, 0) RELATIVE Guide4
+
+COMPONENT Guide6 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide5
+  ROTATED (0, Rotation, 0) RELATIVE Guide5
+
+COMPONENT Guide7 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE Guide6
+  ROTATED (0, Rotation, 0) RELATIVE Guide6
+
+COMPONENT Guide8 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE PREVIOUS
+  ROTATED (0, Rotation, 0) RELATIVE PREVIOUS
+
+COMPONENT Guide9 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE PREVIOUS
+  ROTATED (0, Rotation, 0) RELATIVE PREVIOUS
+
+COMPONENT Guide10 = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 2, m = M)
+  AT (0, 0, 2.01) RELATIVE PREVIOUS
+  ROTATED (0, Rotation, 0) RELATIVE PREVIOUS
+
+
+COMPONENT PSD = PSD_monitor(
+    filename = "psd.dat", xwidth = 0.07, yheight = 0.07)
+  AT (0, 0, 2.01) RELATIVE PREVIOUS
+
+
+COMPONENT Div = Divergence_monitor(
+    filename = "div.dat", xwidth = 0.06, yheight = 0.06,
+    maxdiv_h = 3, maxdiv_v = 3)
+  AT (0, 0, 0.01) RELATIVE PSD
+
+
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+

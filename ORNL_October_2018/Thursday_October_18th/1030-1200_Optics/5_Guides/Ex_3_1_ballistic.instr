@@ -1,0 +1,111 @@
+DEFINE INSTRUMENT Guide_B(sa_pos=0.5)
+   
+DECLARE
+%{
+ 
+
+ double R=0.86;
+ double Qc=0.0217;
+ double R0=0.995;
+ double W=1.0/350.0;
+ double M=2.5;
+ double alpha;
+ 
+ 
+%}
+
+INITIALIZE
+%{
+
+  alpha=(R0-R)/Qc/(M-1);
+
+%}
+
+TRACE
+
+COMPONENT a1 = Arm()
+  AT (0,0,0) ABSOLUTE
+
+	  COMPONENT source = Source_gen4(
+	  	          h=0.164, w=0.132,
+	  	          Lambda0=7.75,dLambda=7.25,Lmin=0.1, Lmax=20,
+	  	          dist=1.5, xw = 0.05, yh = 0.12,
+	  	          T1=27.63, I1=2.4E12/(2*PI),
+	  	         T2=130.76, I2=4.03E12/(2*PI), 
+	  	         T3=309.33, I3=1.24E13/(2*PI),
+	  	         HEtailA=7.59E11/(2*PI),HEtailL0=-0.374)
+	  	  AT (0,0,0) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1  	 
+		// additional slits to shape source output
+	  	  COMPONENT circular_plugin1 = Slit(radius=0.094)
+	  	    AT (0.028, 0, 0.0001) RELATIVE source
+
+	  	  COMPONENT circular_plugin2 = Slit(radius=0.094)
+	  	    AT (-0.028, 0, 0.0002) RELATIVE source
+
+	  	  COMPONENT circular_plugin3 = Slit(radius=0.082)
+	  	    AT (0.0, 0.0, 0.0003) RELATIVE source
+
+COMPONENT Lmonsource1 = L_monitor(
+    nL = 200, filename = "L_source.dat", xwidth=0.03,
+    yheight = 0.1, Lmin = 2.0, Lmax = 10.0)
+  AT (0, 0, 0.5) RELATIVE a1
+
+COMPONENT PSD_source = PSD_monitor(
+    nx = 100, ny = 100, filename = "PSD_source.dat",
+    xwidth = 0.04, yheight = 0.14)
+  AT (0, 0, 0.5) RELATIVE a1
+
+		/* ------ Insert here COMPONENT guide2 ---*/
+
+
+
+
+COMPONENT GuideEnd = Slit( 
+        xmin = -0.1 , xmax = 0.1,
+        ymin = -0.1, ymax = 0.1)
+  AT (0,0,36.5) RELATIVE a1 ROTATED (0,0,0) RELATIVE a1
+
+COMPONENT sa_arm = Arm()
+   AT (0, 0, sa_pos) RELATIVE GuideEnd 
+
+COMPONENT PSD_sa1 = PSD_monitor(
+        xmin = -0.01, xmax = 0.01, ymin = - 0.01, ymax = 0.01,
+        nx=50, ny=50, filename="PSD_sa1.dat")
+  AT (0, 0, 0.0001) RELATIVE sa_arm
+
+COMPONENT PSD_sa2 = PSD_monitor(
+        xmin = -0.005, xmax = 0.005, ymin = - 0.005, ymax = 0.005,
+        nx=50, ny=50, filename="PSD_sa2.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+
+COMPONENT PSD_sa3 = PSD_monitor(
+        xmin = -0.0005, xmax = 0.0005, ymin = - 0.0005, ymax = 0.0005,
+        nx=50, ny=50, filename="PSD_sa3.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+
+COMPONENT PSD_full = PSD_monitor(
+        xmin = -0.1, xmax = 0.1, ymin = - 0.1, ymax = 0.1,
+        nx=50, ny=50, filename="PSD_full.dat")
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+
+COMPONENT div_sa = Divergence_monitor(
+    nh = 100, nv = 100, filename = "Div_sa.dat", xmin = - 0.04,
+    xmax = 0.04, ymin = -0.04, ymax = 0.04, maxdiv_h = 3,
+    maxdiv_v = 3)
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+
+COMPONENT Lambda_guide = L_monitor(
+    nL = 100, filename = "lambda_sa.dat", xwidth = 0.05,
+    yheight = 0.15, Lmin = 1.5, Lmax = 11.0)
+  AT (0, 0, 0.0001) RELATIVE PREVIOUS
+
+
+END
+
+
+
+
+
+
+
+

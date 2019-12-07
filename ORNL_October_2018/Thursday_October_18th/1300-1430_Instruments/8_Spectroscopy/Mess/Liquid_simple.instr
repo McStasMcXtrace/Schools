@@ -1,0 +1,87 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT Liquid_simple(lambda=2.36, 
+  string coh = "Rb_liq_coh.sqw",
+  string inc = "Rb_liq_inc.sqw")
+
+DECLARE
+%{
+  int flag_scat=0;
+  char flag_type=0;
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+COMPONENT source_simple = Source_simple(
+    radius=0.005, 
+    focus_xw=0.01,
+    lambda0=lambda, 
+    dlambda=0.01*lambda/2,
+    focus_yh=0.01)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT sample = Isotropic_Sqw(
+    Sqw_coh=coh, 
+    Sqw_inc=inc, 
+    radius=0.01/2, 
+    yheight=0.05)
+AT (0, 0, 3) RELATIVE source_simple
+EXTEND %{
+  flag_scat=SCATTERED;
+  flag_type=(VarSqw.type == 'c' ? 1 : 2);
+%}
+
+COMPONENT monitor_nd = Monitor_nD(
+    yheight=0.3, 
+    radius=0.5, bins=100,
+    options="theta limits=[-120 120], y",
+restore_neutron=1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT monitor_nd_energy = Monitor_nD(
+    yheight=0.3, 
+    radius=0.5, bins=100,
+restore_neutron=1,
+    options="angle limits=[-120 120], energy auto")
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT monitor_nd_coh = COPY(monitor_nd)
+WHEN (flag_type == 1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT monitor_nd_inc = COPY(monitor_nd)
+WHEN (flag_type == 2)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+
+END

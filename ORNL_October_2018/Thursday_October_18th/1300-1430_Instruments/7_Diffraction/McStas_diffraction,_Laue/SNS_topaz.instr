@@ -1,0 +1,891 @@
+/*******************************************************************************
+*
+* McStas, neutron ray-tracing package
+*         Copyright (C) 1997-2008, All rights reserved
+*         Risoe National Laboratory, Roskilde, Denmark
+*         Institut Laue Langevin, Grenoble, France
+*
+* Instrument: SNS_test
+*
+* %Identification
+* Written by: E. Bergbäck Knudsen
+* Date: April 2011
+* Origin: SNS Project Oak Ridge National Laboratory
+* Version: $Revision: 1.0 $
+* %INSTRUMENT_SITE:SNS
+*
+* Model of the Topaz 4pi instrument at SNS.
+*
+* %Description
+*
+* %Example: filename="source_sct091_tu_02_1.dat" Detector: det_I=9.89304e+09
+*
+* %Link
+* Written by G. Granroth
+* SNS_source component
+* <A href="http://neutrons.ornl.gov/instrument_systems/components/moderators.shtml">Source files </A>
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT SNS_topaz(SSIM=0)
+
+DECLARE
+%{
+  double rd,ld,det_d;
+  char moderator[]="source_sct091_tu_02_1.dat";
+  const double RD=.4;
+%}
+
+INITIALIZE
+%{
+
+  ld=cos(M_PI/12.0)*RD;
+  det_d=15e-2;//M_SQRT2*sin(M_PI/12.0);
+  rd=RD;
+
+%}
+
+TRACE
+
+COMPONENT Origin=Progress_bar()
+AT(0,0,0) ABSOLUTE
+
+COMPONENT mod =Arm()
+  AT(0,0,0) RELATIVE Origin
+
+COMPONENT mod_real=SNS_source(filename=moderator,
+  xwidth=0.1, yheight=0.12,
+  dist=4.3080, focus_xw=27.35e-3, focus_yh=90e-3,
+  Emin=1.0,Emax=10.0)
+WHEN (SSIM==0) AT(0,0,0) RELATIVE Origin
+
+COMPONENT mod_simple=Source_simple(
+  xwidth=0.1, yheight=0.12,
+  dist=4.3080, focus_xw=27.35e-3, focus_yh=90e-3,
+  E0=5.5, dE=4.5)
+WHEN (SSIM) AT(0,0,0) RELATIVE Origin
+
+/*source monitor block*/
+COMPONENT dett_0=TOF_monitor(
+  xmin = -.025, xmax = .025,ymin = -.06, ymax = .06,nt=500, dt=10, filename="t0_out.det",restore_neutron=1)
+AT (0,0,1) RELATIVE mod
+COMPONENT detpsd_0=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd0_out.det", restore_neutron = 1)
+AT (0,0,1) RELATIVE mod
+/*end monitor block*/
+
+COMPONENT det=Monitor_nD(
+  xwidth = 1, yheight = 1,
+  options=" square x bins 100 limits=[-0.05 0.05]; y bins 100 limits=[-0.12 0.12]")
+AT (0,0,1.0000000000001) RELATIVE mod
+
+/*guide section 1*/
+  COMPONENT section1= Arm()
+AT(0,0,4.3080) RELATIVE mod
+
+COMPONENT topaz_guide_1110 = Guide_channeled(
+    w1 = 27.35e-3, h1 = 90e-3, w2 = 27.35e-3, h2 = 89.57e-3,
+    l = 0.1155, m = 2, nslit = 5)
+AT (0, 0, 0.0045) RELATIVE section1
+
+COMPONENT topaz_guide_1120 = COPY(topaz_guide_1110)(
+    h1 = 89.57e-3, h2 = 87.67e-3,l = 0.5)
+AT (0, 0, 0.1155) RELATIVE PREVIOUS
+ROTATED (0,-0.015,0) RELATIVE mod
+
+COMPONENT topaz_guide_1130 = COPY(topaz_guide_1120)(
+    h1 = 87.67e-3, h2 = 85.73e-3,l = 0.5)
+AT (0, 0, 0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.0354,0) RELATIVE mod
+
+COMPONENT topaz_guide_1140 = COPY(topaz_guide_1130)(
+    h1 = 85.73e-3, h2 = 83.72e-3,l = 0.5)
+AT(0,0,.5) RELATIVE PREVIOUS
+ROTATED (0,-0.0559,0) RELATIVE mod
+
+COMPONENT topaz_guide_1150 = COPY(topaz_guide_1140)(
+   h1=83.72e-3,h2=81.91e-3,l=0.4395)
+AT(0,0,0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.0763,0) RELATIVE mod
+
+COMPONENT end_section1=Arm()
+AT(0,0,0.0045+0.4395) RELATIVE PREVIOUS
+
+/*end of section 1*/
+
+COMPONENT middle_pt_1_2 = Arm()
+  AT(0,0,0.028) RELATIVE end_section1
+
+/*pre 1st chopper monitor block*/
+COMPONENT dett_1=TOF_monitor(
+    xwidth = .05,yheight = .12, nt = 500,  tmin=4000,tmax=14000,filename="t1_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_1_2
+COMPONENT detpsd_1=PSD_monitor(
+    xwidth = .05,yheight = .12,nx = 101,ny = 101,filename = "psd1_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_1_2
+/*end monitor block*/
+
+/*first chopper*/
+
+/*guide section 2*/
+COMPONENT section_2 = Arm()
+  AT(0,0,0.028) RELATIVE middle_pt_1_2
+
+COMPONENT topaz_guide_2110 = Guide_channeled(
+    w1 = 27.35e-3, h1 = 81.46e-3, w2 = 27.35e-3, h2 = 79.36e-3,
+    l = 0.4955, m = 2, nslit = 5)
+AT (0, 0, 0.0045) RELATIVE PREVIOUS
+ROTATED (0,-0.0968,0) RELATIVE mod
+
+COMPONENT topaz_guide_2120 = COPY(topaz_guide_2110)(
+    h1 = 79.36e-3, h2 = 77.18e-3, l = 0.5)
+AT (0, 0, 0.4955) RELATIVE PREVIOUS
+ROTATED (0,-0.1173,0) RELATIVE mod
+
+COMPONENT topaz_guide_2130 = COPY(topaz_guide_2120)(
+    h1 = 77.18e-3, h2 = 74.93e-3, l = 0.5)
+AT (0, 0, 0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.1377,0) RELATIVE mod
+
+COMPONENT topaz_guide_2140 = COPY(topaz_guide_2130)(
+    h1 = 74.93e-3, h2 = 72.62e-3, l = 0.5)
+AT(0,0,.5) RELATIVE PREVIOUS
+ROTATED (0,-0.1582,0) RELATIVE mod
+
+COMPONENT topaz_guide_2150 = COPY(topaz_guide_2140)(
+    h1 = 72.62e-3, h2 = 70.52e-3, l = 0.4395)
+AT(0,0,0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.1787,0) RELATIVE mod
+
+COMPONENT end_section2 = Arm()
+AT(0,0,0.0045+0.4395) RELATIVE PREVIOUS
+/*end of section 2*/
+
+/*chopper 2*/
+COMPONENT middle_pt_2_3 = Arm()
+  AT(0,0,0.028) RELATIVE end_section2
+
+/*pre 2nd chopper monitor block*/
+COMPONENT dett_2=TOF_monitor(
+    xwidth = .05,yheight = .12, nt = 500, dt=10, filename="t2_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_2_3
+COMPONENT detpsd_2=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd2_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_2_3
+/*end monitor block*/
+
+/*guide section 3*/
+COMPONENT section3 = Arm()
+  AT(0,0,0.028) RELATIVE middle_pt_2_3
+
+COMPONENT topaz_guide_3110 = Guide_channeled(
+    w1 = 27.35e-3, h1 = 70.02e-3, w2 = 27.35e-3, h2 = 67.58e-3,
+    l = 0.4955, m = 2, nslit = 5)
+AT (0, 0, 0.0045) RELATIVE PREVIOUS
+ROTATED (0,-0.1991,0) RELATIVE mod
+
+COMPONENT topaz_guide_3120 = COPY(topaz_guide_3110)(
+    h1 = 67.58e-3, h2 = 65.05e-3, l = 0.5)
+AT (0, 0, 0.4955) RELATIVE PREVIOUS
+ROTATED (0,-0.2196,0) RELATIVE mod
+
+COMPONENT topaz_guide_3130 = COPY(topaz_guide_3120)(
+    h1 = 65.05e-3, h2 = 62.42e-3, l = 0.5)
+AT (0, 0, 0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.2400,0) RELATIVE mod
+
+COMPONENT topaz_guide_3140 = COPY(topaz_guide_3130)(
+    h1 = 62.42e-3, h2 = 59.70e-3, l = 0.5)
+AT(0,0,.5) RELATIVE PREVIOUS
+ROTATED (0,-0.2605,0) RELATIVE mod
+
+COMPONENT topaz_guide_3150 = COPY(topaz_guide_3140)(
+    h1 = 59.70e-3, h2 = 56.90e-3, l = 0.4955)
+AT(0,0,0.5) RELATIVE PREVIOUS
+ROTATED (0,-0.2810,0) RELATIVE mod
+
+COMPONENT end_section3 = Arm()
+AT(0,0,0.4955+0.0045) RELATIVE PREVIOUS
+/*end of section 3*/
+
+COMPONENT middle_pt_3_4 = Arm()
+  AT(0,0,0.028) RELATIVE end_section3
+
+/*pre 3rd chopper monitor block*/
+COMPONENT dett_3=TOF_monitor(
+    xwidth = .05,yheight = .12, nt = 500, dt=10, filename="t3_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_3_4
+COMPONENT detpsd_3=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd3_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_3_4
+/*end monitor block*/
+
+/*guide section 4*/
+COMPONENT section4 = Arm()
+  AT(0,0,0.028) RELATIVE middle_pt_3_4
+
+COMPONENT topaz_guide_4110 = Guide_channeled(
+    w1 = 27.35e-3, h1 = 56.35e-3, w2 = 27.35e-3, h2 = 53.78e-3,
+    l = 0.4395, m = 2, nslit = 5)
+AT (0, 0, 0.0045) RELATIVE section4
+ROTATED (0,-0.3014,0) RELATIVE mod
+
+COMPONENT topaz_guide_4120 = COPY(topaz_guide_4110)(
+    h1 = 53.78e-3, h2 = 50.77e-3, l = 0.5)
+AT (0, 0, 0.4395) RELATIVE PREVIOUS
+ROTATED (0,-0.3219,0) RELATIVE mod
+
+COMPONENT topaz_guide_4130 = Guide(
+    w1 = 27.35e-3, h1= 50.77e-3, w2=27.26e-3, h2=47.67e-3,
+    l=0.5,m=2)
+AT(0,0,0.5) RELATIVE PREVIOUS
+ROTATED (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_4140 = COPY(topaz_guide_4130)(
+    w1 = 27.26e-3, h1=47.67e-3, w2=26.93e-3, h2=44.47e-3, l=0.5)
+AT(0,0,0.5) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_4150 = COPY(topaz_guide_4140)(
+    w1 = 26.93e-3, h1=44.47e-3, w2=26.32e-3, h2=41.17e-3, l=0.5)
+AT(0,0,0.5) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_4160 = COPY(topaz_guide_4150)(
+    w1 = 26.32e-3, h1=41.17e-3, w2=25.41e-3, h2=37.74e-3, l=0.5)
+AT(0,0,0.5) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_4170 = COPY(topaz_guide_4160)(
+    w1 = 25.41e-3, h1=37.74e-3, w2=24.14e-3, h2=34.15e-3, l=0.5)
+AT(0,0,0.5) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_4180 = COPY(topaz_guide_4170)(
+    w1 = 24.14e-3, h1 = 34.15e-3, w2=22.77e-3, h2=31.00e-3, l=0.4175)
+AT(0,0,0.5) RELATIVE PREVIOUS
+
+COMPONENT end_section4 = Arm()
+AT(0,0,0.0045+0.4175) RELATIVE PREVIOUS
+
+/*end of section 4*/
+
+/*middle pt monitor/slit*/
+COMPONENT middle_pt_4_5 = Arm()
+  AT(0,0,0.0666) RELATIVE end_section4
+
+  /*4th midpt monitor block*/
+COMPONENT dett_4=TOF_monitor(
+    xwidth = .05,yheight = .12, nt = 500, dt=10, filename="t4_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_4_5
+COMPONENT detpsd_4=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd4_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_4_5
+/*end monitor block*/
+
+/*guide section 5*/
+  COMPONENT section5 = Arm()
+  AT(0,0,0.0666) RELATIVE middle_pt_4_5
+
+COMPONENT topaz_guide_5110 = Guide(
+    w1=21.55e-3, h1 = 29.34e-3, w2 = 20.06e-3, h2 = 26.33e-3, 
+    l=0.3955, m=2)
+AT(0,0,0.0045) RELATIVE section5
+ROTATED (0,-0.3219,0) RELATIVE mod
+
+COMPONENT topaz_guide_5120 = COPY(topaz_guide_5110)(
+    w1 = 20.06e-3, h1 = 26.33e-3, w2 = 18.55e-3, h2=23.41e-3, l=0.36)
+AT(0,0,0.3955) RELATIVE PREVIOUS
+ 
+COMPONENT topaz_guide_5130 = COPY(topaz_guide_5120)(
+    w1 = 18.55e-3, h1 = 23.41e-3, w2 = 17.05e-3, h2=20.62e-3, l=0.32)
+AT(0,0,0.36) RELATIVE PREVIOUS
+ 
+COMPONENT topaz_guide_5140 = COPY(topaz_guide_5130)(
+    w1 = 17.05e-3, h1 = 20.62e-3, w2 = 15.54e-3, h2=17.93e-3, l=0.2855)
+AT(0,0,0.32) RELATIVE PREVIOUS
+
+COMPONENT end_section5 = Arm()
+AT(0,0,0.0045+0.2855) RELATIVE PREVIOUS
+/*end of section 5*/
+
+/*middle pt - space*/
+COMPONENT middle_pt_5_6 = Arm()
+  AT(0,0,0.00165) RELATIVE end_section5
+  
+/*5th midpt monitor block*/
+COMPONENT dett_5=TOF_monitor(
+    xwidth = .05,yheight = .12, nt = 500, dt=10, filename="t5_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_5_6
+COMPONENT detpsd_5=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd5_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_5_6
+/*end monitor block*/
+
+/*guide section 6*/
+COMPONENT section6 = Arm()
+AT(0,0,0.00165) RELATIVE middle_pt_5_6
+
+COMPONENT topaz_guide_6110 = Guide(
+    w1=15.37e-3, h1 = 17.74e-3, w2 = 14.01e-3, h2 = 15.43e-3, 
+    l=0.2255, m=2)
+AT(0,0,0.0045) RELATIVE section6
+ROTATED (0,-0.3219,0) RELATIVE mod
+
+COMPONENT topaz_guide_6120 = COPY(topaz_guide_6110)(
+    w1 = 14.01e-3, h1 = 15.43e-3, w2 = 12.70e-3, h2 = 13.31e-3, l=0.19)
+AT(0,0,0.2255) RELATIVE PREVIOUS
+
+COMPONENT topaz_guide_6130 = COPY(topaz_guide_6120)(
+    w1 = 12.70e-3, h1 = 13.31e-3, w2 = 11.56e-3, h2 = 11.56e-3, l = 0.1455)
+AT(0,0,0.19) RELATIVE PREVIOUS
+
+COMPONENT end_section6 = Arm()
+AT(0,0,0.0045+0.1455) RELATIVE PREVIOUS
+/*end of section 6*/
+
+COMPONENT middle_pt_6_7 = Arm()
+  AT(0,0,0.061) RELATIVE end_section6 
+
+/*guide exit monitor block*/
+COMPONENT dett_6=TOFlog_monitor(
+    xwidth = .05,yheight = .12, ndec = 100, tmin=1e2, tmax=1e6, filename="t6_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE middle_pt_6_7
+COMPONENT detpsd_6=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psd6_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE middle_pt_6_7
+/*end monitor block*/
+
+/*section 7 collimation/slits/sample etc*/
+
+COMPONENT section7 = Arm()
+  AT(0,0,0.061) RELATIVE middle_pt_6_7
+
+COMPONENT coarse_collimator_in = Slit(
+    radius=25.4e-3/2.0)
+AT(0,0,0) RELATIVE section7
+
+COMPONENT coarse_collimator_out = Slit(
+    radius=12.4e-3/2.0)
+AT(0,0,0.3505) RELATIVE coarse_collimator_in
+
+COMPONENT sample_mnt= Arm()
+  AT(0,0,0.101) RELATIVE coarse_collimator_out
+
+
+/*sample monitor block*/
+  COMPONENT dett_sam=TOFlog_monitor(
+    xwidth = .05,yheight = .12, tmin=1e4, tmax=1e6, ndec=100, filename="ts_out.det",restore_neutron=1)
+AT (0,0,0) RELATIVE sample_mnt
+COMPONENT detpsd_sam=PSD_monitor(
+    xwidth = 0.05,yheight = .12,nx = 101,ny = 101,filename = "psds_out.det", restore_neutron = 1)
+AT (0,0,0) RELATIVE sample_mnt
+/*end monitor block*/
+
+
+/*SPLIT 10 COMPONENT sample = PowderN (*/
+/*  d_phi=0,radius=0.01, yheight=0.05, DW=0,*/
+/*  pack=1, reflections = "Na2Ca3Al2F14.laz", barns=1, p_transmit=0, p_inc=0)*/
+/*AT ( 0, 0, 0) RELATIVE sample_mnt*/
+
+/*SPLIT 20 COMPONENT single_crystal = Single_crystal(*/
+/*    reflections="Al.lau",*/
+/*    yheight=0.05, radius=0.01, mosaic=0.001, delta_d_d=1e-4, */
+/*    az=4.0495, ay=0, az=0, bx=4.0495, by=0, bz=0, cx=0, cy=4.0495, cz=0, */
+/*    p_transmit=0.1)*/
+SPLIT 10 COMPONENT single_crystal = Single_crystal(
+    reflections="Al2O3_sapphire.lau", 
+    yheight=0.05, radius=0.01, mosaic=1, delta_d_d=1e-4, 
+    az=4.757, ay=0, az=0, bx=2.3785, by=0, bz=-3.364, 
+	cx=0, cy=12.9877, cz=0, 
+    p_transmit=0.1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+EXTEND
+%{
+    if(!SCATTERED) ABSORB;
+%}
+
+COMPONENT a0=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+
+COMPONENT fpi = PSD_monitor_4PI(radius=ld, filename="fourpi.dat", restore_neutron=1, nx=256, ny=256)
+AT(0,0,0) RELATIVE sample_mnt
+
+
+/*base block*/
+COMPONENT b07=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,-36*4,0) RELATIVE sample_mnt
+COMPONENT b08=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,-36*3,0) RELATIVE sample_mnt
+COMPONENT b09=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,-36*2,0) RELATIVE sample_mnt
+COMPONENT b10=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,-36*1,0) RELATIVE sample_mnt
+COMPONENT b01=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE sample_mnt
+COMPONENT b02=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,36*1,0) RELATIVE sample_mnt
+COMPONENT b03=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,36*2,0) RELATIVE sample_mnt
+COMPONENT b04=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,36*3,0) RELATIVE sample_mnt
+COMPONENT b05=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,36*4,0) RELATIVE sample_mnt
+COMPONENT b06=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,36*5,0) RELATIVE sample_mnt
+
+/*offset base block*/
+COMPONENT b16=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b07
+COMPONENT b17=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b08
+COMPONENT b18=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b09
+COMPONENT b19=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b10
+COMPONENT b20=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b01
+COMPONENT b11=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b02
+COMPONENT b12=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b03
+COMPONENT b13=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b04
+COMPONENT b14=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b05
+COMPONENT b15=Arm()
+AT (0,0,0) RELATIVE sample_mnt
+ROTATED (0,-18,0) RELATIVE b06
+
+
+/*upper block*/
+COMPONENT a07=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b07
+COMPONENT a08=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b08
+COMPONENT a09=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b09
+COMPONENT a10=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b10
+COMPONENT a01=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b01
+COMPONENT a02=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b02
+COMPONENT a03=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b03
+COMPONENT a04=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b04
+COMPONENT a05=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b05
+COMPONENT a06=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-36,0,0) RELATIVE b06
+
+/*upper middle block*/
+COMPONENT a16=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b16
+COMPONENT a17=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b17
+COMPONENT a18=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b18
+COMPONENT a19=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b19
+COMPONENT a20=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b20
+COMPONENT a11=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b11
+COMPONENT a12=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b12
+COMPONENT a13=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b13
+COMPONENT a14=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b14
+COMPONENT a15=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (-18,0,0) RELATIVE b15
+
+
+/*middle block*/
+COMPONENT a25=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b07
+COMPONENT a26=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b08
+COMPONENT a27=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b09
+COMPONENT a28=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b10
+COMPONENT a21=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b02
+COMPONENT a22=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b03
+COMPONENT a23=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b04
+COMPONENT a24=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (0,0,0) RELATIVE b05
+
+/*lower middle block*/
+COMPONENT a34=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b16
+COMPONENT a35=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b17
+COMPONENT a36=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b18
+COMPONENT a37=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b19
+COMPONENT a38=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b20
+COMPONENT a29=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b11
+COMPONENT a30=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b12
+COMPONENT a31=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b13
+COMPONENT a32=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b14
+COMPONENT a33=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (18,0,0) RELATIVE b15
+
+/*lower block*/
+COMPONENT a45=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b07
+COMPONENT a46=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b08
+COMPONENT a47=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b09
+COMPONENT a48=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b10
+COMPONENT a39=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b01
+COMPONENT a40=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b02
+COMPONENT a41=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b03
+COMPONENT a42=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b04
+COMPONENT a43=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b05
+COMPONENT a44=Arm()
+AT(0,0,0) RELATIVE sample_mnt
+ROTATED (36,0,0) RELATIVE b06
+
+/*theactual detectors*/
+/*COMPONENT psd0=Monitor_nD(*/
+/*    filename="m0.psd",xwidth=det_d,yheight=det_d,options="square x,y bins=100")*/
+/*WHEN (DIRECT) AT(0,0,ld) RELATIVE a0*/
+/*ROTATED (0,0,45) RELATIVE a0*/
+/*GROUP detectors*/
+/*EXTEND*/
+/*%{*/
+/*  if (SCATTERED) compute_global_coords(NAME_CURRENT_COMP,x,y,z,&ux,&uy,&uz,POS_A_CURRENT_COMP,ROT_A_CURRENT_COMP);*/
+/*%}*/
+
+
+
+/*upper row of detectors*/
+COMPONENT psd01 = Monitor_nD(
+    filename="m01.psd",xwidth=det_d,yheight=det_d,options="square x bins=256, y bins=256")
+AT(0,0,ld) RELATIVE a01
+ROTATED(0,0,45) RELATIVE a01
+GROUP detectors
+
+COMPONENT psd02 = COPY(psd01)(filename="m02.psd")
+AT(0,0,ld) RELATIVE a02
+ROTATED(0,0,45) RELATIVE a02
+GROUP detectors
+
+COMPONENT psd03 = COPY(psd01)(filename="m03.psd")
+AT(0,0,ld) RELATIVE a03
+ROTATED(0,0,45) RELATIVE a03
+GROUP detectors
+
+COMPONENT psd04 = COPY(psd01)(filename="m04.psd")
+AT(0,0,ld) RELATIVE a04
+ROTATED(0,0,45) RELATIVE a04
+GROUP detectors
+
+COMPONENT psd05 = COPY(psd01)(filename="m05.psd")
+AT(0,0,ld) RELATIVE a05
+ROTATED(0,0,45) RELATIVE a05
+GROUP detectors
+
+COMPONENT psd06 = COPY(psd01)(filename="m06.psd")
+AT(0,0,ld) RELATIVE a06
+ROTATED(0,0,45) RELATIVE a06
+GROUP detectors
+
+COMPONENT psd07 = COPY(psd01)(filename="m07.psd")
+AT(0,0,ld) RELATIVE a07
+ROTATED(0,0,45) RELATIVE a07
+GROUP detectors
+
+COMPONENT psd08 = COPY(psd01)(filename="m08.psd")
+AT(0,0,ld) RELATIVE a08
+ROTATED(0,0,45) RELATIVE a08
+GROUP detectors
+
+COMPONENT psd09 = COPY(psd01)(filename="m09.psd")
+AT(0,0,ld) RELATIVE a09
+ROTATED(0,0,45) RELATIVE a09
+GROUP detectors
+
+COMPONENT psd10 = COPY(psd01)(filename="m10.psd")
+AT(0,0,ld) RELATIVE a10
+ROTATED(0,0,45) RELATIVE a10
+GROUP detectors
+
+/*upper middle row of detectors*/
+COMPONENT psd11 = COPY(psd01)(filename="m11.psd")
+AT(0,0,ld) RELATIVE a11
+ROTATED(0,0,45) RELATIVE a11
+GROUP detectors
+
+COMPONENT psd12 = COPY(psd01)(filename="m12.psd")
+AT(0,0,ld) RELATIVE a12
+ROTATED(0,0,45) RELATIVE a12
+GROUP detectors
+
+COMPONENT psd13 = COPY(psd01)(filename="m13.psd")
+AT(0,0,ld) RELATIVE a13
+ROTATED(0,0,45) RELATIVE a13
+GROUP detectors
+
+COMPONENT psd14 = COPY(psd01)(filename="m14.psd")
+AT(0,0,ld) RELATIVE a14
+ROTATED(0,0,45) RELATIVE a14
+GROUP detectors
+
+COMPONENT psd15 = COPY(psd01)(filename="m15.psd")
+AT(0,0,ld) RELATIVE a15
+ROTATED(0,0,45) RELATIVE a15
+GROUP detectors
+
+COMPONENT psd16 = COPY(psd01)(filename="m16.psd")
+AT(0,0,ld) RELATIVE a16
+ROTATED(0,0,45) RELATIVE a16
+GROUP detectors
+
+COMPONENT psd17 = COPY(psd01)(filename="m17.psd")
+AT(0,0,ld) RELATIVE a17
+ROTATED(0,0,45) RELATIVE a17
+GROUP detectors
+
+COMPONENT psd18 = COPY(psd01)(filename="m18.psd")
+AT(0,0,ld) RELATIVE a18
+ROTATED(0,0,45) RELATIVE a18
+GROUP detectors
+
+COMPONENT psd19 = COPY(psd01)(filename="m19.psd")
+AT(0,0,ld) RELATIVE a19
+ROTATED(0,0,45) RELATIVE a19
+GROUP detectors
+
+COMPONENT psd20 = COPY(psd01)(filename="m20.psd")
+AT(0,0,ld) RELATIVE a20
+ROTATED(0,0,45) RELATIVE a20
+GROUP detectors
+
+/*middle row of detectors*/
+COMPONENT psd21 = COPY(psd01)(filename="m21.psd")
+AT(0,0,ld) RELATIVE a21
+ROTATED(0,0,45) RELATIVE a21
+GROUP detectors
+
+COMPONENT psd22 = COPY(psd01)(filename="m22.psd")
+AT(0,0,ld) RELATIVE a22
+ROTATED(0,0,45) RELATIVE a22
+GROUP detectors
+
+COMPONENT psd23 = COPY(psd01)(filename="m23.psd")
+AT(0,0,ld) RELATIVE a23
+ROTATED(0,0,45) RELATIVE a23
+GROUP detectors
+
+COMPONENT psd24 = COPY(psd01)(filename="m24.psd")
+AT(0,0,ld) RELATIVE a24
+ROTATED(0,0,45) RELATIVE a24
+GROUP detectors
+
+COMPONENT psd25 = COPY(psd01)(filename="m25.psd")
+AT(0,0,ld) RELATIVE a25
+ROTATED(0,0,45) RELATIVE a25
+GROUP detectors
+
+COMPONENT psd26 = COPY(psd01)(filename="m26.psd")
+AT(0,0,ld) RELATIVE a26
+ROTATED(0,0,45) RELATIVE a26
+GROUP detectors
+
+COMPONENT psd27 = COPY(psd01)(filename="m27.psd")
+AT(0,0,ld) RELATIVE a27
+ROTATED(0,0,45) RELATIVE a27
+GROUP detectors
+
+COMPONENT psd28 = COPY(psd01)(filename="m28.psd")
+AT(0,0,ld) RELATIVE a28
+ROTATED(0,0,45) RELATIVE a28
+GROUP detectors
+
+COMPONENT psd29 = COPY(psd01)(filename="m29.psd")
+AT(0,0,ld) RELATIVE a29
+ROTATED(0,0,45) RELATIVE a29
+GROUP detectors
+
+COMPONENT psd30 = COPY(psd01)(filename="m30.psd")
+AT(0,0,ld) RELATIVE a30
+ROTATED(0,0,45) RELATIVE a30
+GROUP detectors
+
+COMPONENT psd31 = COPY(psd01)(filename="m31.psd")
+AT(0,0,ld) RELATIVE a31
+ROTATED(0,0,45) RELATIVE a31
+GROUP detectors
+
+COMPONENT psd32 = COPY(psd01)(filename="m32.psd")
+AT(0,0,ld) RELATIVE a32
+ROTATED(0,0,45) RELATIVE a32
+GROUP detectors
+
+COMPONENT psd33 = COPY(psd01)(filename="m33.psd")
+AT(0,0,ld) RELATIVE a33
+ROTATED(0,0,45) RELATIVE a33
+GROUP detectors
+
+COMPONENT psd34 = COPY(psd01)(filename="m34.psd")
+AT(0,0,ld) RELATIVE a34
+ROTATED(0,0,45) RELATIVE a34
+GROUP detectors
+
+COMPONENT psd35 = COPY(psd01)(filename="m35.psd")
+AT(0,0,ld) RELATIVE a35
+ROTATED(0,0,45) RELATIVE a35
+GROUP detectors
+
+COMPONENT psd36 = COPY(psd01)(filename="m36.psd")
+AT(0,0,ld) RELATIVE a36
+ROTATED(0,0,45) RELATIVE a36
+GROUP detectors
+
+COMPONENT psd37 = COPY(psd01)(filename="m37.psd")
+AT(0,0,ld) RELATIVE a37
+ROTATED(0,0,45) RELATIVE a37
+GROUP detectors
+
+COMPONENT psd38 = COPY(psd01)(filename="m38.psd")
+AT(0,0,ld) RELATIVE a38
+ROTATED(0,0,45) RELATIVE a38
+GROUP detectors
+
+/*lower row of detectors*/
+COMPONENT psd39 = COPY(psd01)(filename="m39.psd")
+AT(0,0,ld) RELATIVE a39
+ROTATED(0,0,45) RELATIVE a39
+GROUP detectors
+
+COMPONENT psd40 = COPY(psd01)(filename="m40.psd")
+AT(0,0,ld) RELATIVE a40
+ROTATED(0,0,45) RELATIVE a40
+GROUP detectors
+
+COMPONENT psd41 = COPY(psd01)(filename="m41.psd")
+AT(0,0,ld) RELATIVE a41
+ROTATED(0,0,45) RELATIVE a41
+GROUP detectors
+
+COMPONENT psd42 = COPY(psd01)(filename="m42.psd")
+AT(0,0,ld) RELATIVE a42
+ROTATED(0,0,45) RELATIVE a42
+GROUP detectors
+
+COMPONENT psd43 = COPY(psd01)(filename="m43.psd")
+AT(0,0,ld) RELATIVE a43
+ROTATED(0,0,45) RELATIVE a43
+GROUP detectors
+
+COMPONENT psd44 = COPY(psd01)(filename="m44.psd")
+AT(0,0,ld) RELATIVE a44
+ROTATED(0,0,45) RELATIVE a44
+GROUP detectors
+
+COMPONENT psd45 = COPY(psd01)(filename="m45.psd")
+AT(0,0,ld) RELATIVE a45
+ROTATED(0,0,45) RELATIVE a45
+GROUP detectors
+
+COMPONENT psd46 = COPY(psd01)(filename="m46.psd")
+AT(0,0,ld) RELATIVE a46
+ROTATED(0,0,45) RELATIVE a46
+GROUP detectors
+
+COMPONENT psd47 = COPY(psd01)(filename="m47.psd")
+AT(0,0,ld) RELATIVE a47
+ROTATED(0,0,45) RELATIVE a47
+GROUP detectors
+
+COMPONENT psd48 = COPY(psd01)(filename="m48.psd")
+AT(0,0,ld) RELATIVE a48
+ROTATED(0,0,45) RELATIVE a48
+GROUP detectors
+
+END
+
+
