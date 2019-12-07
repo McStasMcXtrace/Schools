@@ -1,0 +1,636 @@
+/*******************************************************************************
+*
+*  McStas, neutron ray-tracing package
+*  Copyright(C) 2007 Risoe National Laboratory.
+*
+* %I
+* Written by: Victor Laliena
+* Date: 28.07.17
+* Origin: 
+*
+* A component to simulate neutron inelastic scattering (incoherent approximation)
+*
+* %D
+*
+*
+* Part of the Union components, a set of components that work together and thus
+*  sperates geometry and physics within McStas.
+* The use of this component requires other components to be used.
+*
+* 1) One specifies a number of processes using process components like this one
+* 2) These are gathered into material definitions using Union_make_material
+* 3) Geometries are placed using Union_box / Union_cylinder, assigned a material
+* 4) A Union_master component placed after all of the above
+*
+* Only in step 4 will any simulation happen, and per default all geometries
+*  defined before the master, but after the previous will be simulated here.
+*
+* There is a dedicated manual available for the Union_components
+*
+* Algorithm:
+* Described elsewhere
+*
+* %P
+* INPUT PARAMETERS:
+* T:                 [K]      Temperature
+* density:           [g/cm3]  Material density
+* M:                 [amu]    Ion mass
+* sigmaCoh:          [barns]  Coherent scattering cross section
+* sigmaInc:          [barns]  Incoherent scattering cross section
+* dwfB:              [A-2]    Debye-Waller factor parameter B, DW = exp(-B*k*k)
+* dosfn:             [string] Path to the file that contains the DoS
+* Interact_fraction  [1]      How large a part of the scattering events should use this process 0-1 (sum of all processes in material = 1)
+*
+* OUTPUT PARAMETERS:
+*
+* This_process
+* IncoherentPhonon_storage
+*
+* %L
+* The test/example instrument <a href="../examples/Test_Phonon.instr">Test_Phonon.instr</a>.
+*
+* %E
+******************************************************************************/
+
+DEFINE COMPONENT IncoherentPhonon_process
+DEFINITION PARAMETERS ()
+SETTING PARAMETERS(T=295,density=2.7,M=26.98,sigmaCoh=1.495,sigmaInc=0.0082,dwfB=0.7993,char *dosfn="dos_Al.txt",nxs=1000,kabsmin=0.1,kabsmax=10,interact_fraction=-1)
+OUTPUT PARAMETERS (This_process,IncoherentPhonon_storage)
+
+/* Neutron parameters: (x,y,z,vx,vy,vz,t,sx,sy,sz,p) */
+
+SHARE
+%{
+#ifndef Union
+#define Union $Revision: 0.8 $
+
+#include "Union_functions.c"
+#include "Union_initialization.c"
+
+#endif
+
+#ifndef INCOHERENTPHONON
+#define INCOHERENTPHONON
+#define maxIter    100             // maximum number of iterations for sampling rejection method
+#define KS2E       2.0721          // conversion from wavenumber to energy [meV/A^2]
+#define kB         8.6173342e-2    // Boltzmann constant in meV/K 
+#define amu        1.66053892e-27  // atomic mass unit in kg
+#define barn2cmsq  1.0e-24         // conversion from bran to cm2
+#endif
+
+struct IncoherentPhonon_physics_storage_struct{
+// Variables that needs to be transfered between any of the following places:
+// The initialize in this component
+// The function for calculating my
+// The function for calculating scattering
+
+//Physical parameters
+  double T;           // Temperature [K] 
+  double density;     // Material density [g/cm3] 
+  double M;           // Ion mass [amu]
+  double sigmaCoh;    // Coherent cross section [barn] 
+  double sigmaInc;    // Incoherent cross section [barn] 
+  double dwfB;        // Debye-Waller factor B [A-2]
+  double kBT;         // Boltzmann constant times temperature [meV]
+
+//Inelastic cross section
+  double muPhonon;    // Linear attenuation coefficient for phonon stattering [m-1]
+  double sigma0;      // Inelastic cross  section factor [barn]
+  int nxs;            // Number of kabs points at which the cross section is precomputed
+  double kabsmin;     // Lower cut-off for neutron wave vector [A-1]
+  double kabsmax;     // Higher cut-off for neutron wave vector [A-1]
+  double *kabs;       // array of kabs points (of length nxs) at which the cross section is precomputed 
+  double *xsTot;      // array of precomputed cross sections at the given kabs points (length nxs) 
+  double *xsTotXmax;  // array with the energy transfer (X) at which the cross section is maximum, at the given kabs points (length nxs) 
+  double *xsTotMax;   // array with the maximum cross sections at the given kabs points (length nxs) 
+
+
+//Density of States
+  int np;             // number of energy points at which the DoS is known
+  double *e;          // array with the energy at which the DoS is known (length np)
+  double *Z;          // array with the DoS at the energies at which it is known (length np)
+  double Emax;        // cut-off energy for DoS (DoS vanishes above Emax)
+  double dosPar;      // parabolic form of the DoS for E->0: DoS(E) = dosPar*E*E for E->0
+  char dosfn[250];    // Path to the DoS file
+
+//Computation parameters
+  double alpha0;      // A parameter that appears in the computation of cross sections (see algorithm)
+
+//Log file
+  FILE *filep;
+};
+
+// internal function declarations
+void readDoS(struct IncoherentPhonon_physics_storage_struct *data);
+double dos(double E, struct IncoherentPhonon_physics_storage_struct *data);
+double computeXStotPhonon(struct IncoherentPhonon_physics_storage_struct *data);
+double xsTotPhonon(int n, double kabs, struct IncoherentPhonon_physics_storage_struct *data);
+void xsDiffPhononMax(int n, double kabs, struct IncoherentPhonon_physics_storage_struct *data, double *xm, double *xsDiffMax);
+double xsDiffPhonon(double x, double E, double alpha, double beta, struct IncoherentPhonon_physics_storage_struct *data);
+double xsTotPhononInterp(double kabs, struct IncoherentPhonon_physics_storage_struct *data);
+double xsDiffPhononMaxInterp(double kabs, struct IncoherentPhonon_physics_storage_struct *data);
+double xsDiffPhononDir(double z, double x, double alpha);
+double sampleKprime(double kabs, double alpha, double beta, struct IncoherentPhonon_physics_storage_struct *data);
+double sampleDir(double x, double alpha);
+
+void setParams(struct IncoherentPhonon_physics_storage_struct *data, 
+               double T, double density, double M, double sigmaCoh, 
+               double sigmaInc, double dwfB, double kabsmin, double kabsmax, int nxs, char *dosfn);
+//////
+
+// Function for calculating my in Incoherent phonon case
+int IncoherentPhonon_physics_my(double *my,double *k_initial, union data_transfer_union data_transfer, struct focus_data_struct *focus_data) {
+    double kabs = sqrt(k_initial[0]*k_initial[0] +  k_initial[1]*k_initial[1] + k_initial[2]*k_initial[2]);
+    struct IncoherentPhonon_physics_storage_struct *data = data_transfer.pointer_to_a_IncoherentPhonon_physics_storage_struct;
+    *my = (data->muPhonon)*xsTotPhononInterp(kabs,data);
+    return 1;
+};
+
+// Function for incoherent phonon scattering event
+int IncoherentPhonon_physics_scattering(double *k_final, double *k_initial, double *weight, union data_transfer_union data_transfer, struct focus_data_struct *focus_data) {
+    double kabs, E, alpha, beta, x, ct, st, phi, cp, sp;
+    double ki[3], t1[3], t2[3], kprime[3];
+    struct IncoherentPhonon_physics_storage_struct *data = data_transfer.pointer_to_a_IncoherentPhonon_physics_storage_struct;
+
+    ki[0] = k_initial[0];
+    ki[1] = k_initial[1];
+    ki[2] = k_initial[2];
+
+    kabs = sqrt(ki[0]*ki[0]+ki[1]*ki[1]+ki[2]*ki[2]);
+    E = KS2E*kabs*kabs;
+    alpha = (data->alpha0)*kabs*kabs;
+    beta = E/(2.*(data->kBT));
+
+    //Sample energy
+    x = sampleKprime(kabs,alpha,beta,data);
+    if(x<0) { 
+       fprintf(data->filep,"sampleKprime returns negative: %f It seems maxIter=%d exceeded. Exiting\n",x,maxIter);
+       exit(1);
+    }
+
+    // Sample polar direction	
+    ct = sampleDir(x,alpha);
+    if(ct<-1) { 
+       fprintf(data->filep,"sampleDir returns < -1: %f It seems maxIter exceeded. Exiting\n",ct);
+       exit(1);
+    }
+    st = sqrt(1.-ct*ct);
+
+    // sample azimuthal direction
+    phi = 2.*PI*rand01();
+    cp = cos(phi);
+    sp = sin(phi);
+
+    // build kprime (ki,t1,t2) orthonormal right handed triad
+    NORM(ki[0],ki[1],ki[2]);
+    normal_vec(t1[0],t1[1],t1[2],ki[0],ki[1],ki[2]);
+    vec_prod(t2[0],t2[1],t2[2],ki[0],ki[1],ki[2],t1[0],t1[1],t1[2]);
+
+    kprime[0] = ct*ki[0] + st*(cp*t1[0] + sp*t2[0]);
+    kprime[1] = ct*ki[1] + st*(cp*t1[1] + sp*t2[1]);
+    kprime[2] = ct*ki[2] + st*(cp*t1[2] + sp*t2[2]);
+
+    // x = kprime/k, with normalized kprime
+    kabs = x*kabs/sqrt(kprime[0]*kprime[0]+kprime[1]*kprime[1]+kprime[2]*kprime[2]);  
+
+
+    k_final[0] = kabs*kprime[0]; 
+    k_final[1] = kabs*kprime[1];
+    k_final[2] = kabs*kprime[2];
+
+    *weight = 1.0;
+
+    return 1;
+};
+
+////////////////////////
+// internal functions //
+////////////////////////
+
+// function to read the DoS
+void readDoS(struct IncoherentPhonon_physics_storage_struct *data)
+{
+  char *snp = "#np:", s[100]="";
+  int i, np, nptrim, nread;
+  double *e, *Z;
+  FILE *filep;
+
+  filep = fopen(data->dosfn,"r");
+
+  if(filep==NULL) {
+    fprintf(data->filep,"readDos: dos file %s not found\n",data->dosfn);
+    fprintf(data->filep,"stopping computation\n");
+    printf("component IncoherentPhonon_process %s:\n",NAME_CURRENT_COMP);
+    printf("readDos: dos file %s not found\n",data->dosfn);
+    printf("stopping computation\n");
+    exit(1);
+  }
+
+  while(strcmp(s,snp)) {
+     nread = fscanf(filep,"%s",s);
+     if(nread!=1) { fprintf(data->filep,"readDoS: not valid file %s\n",data->dosfn); exit(1); }
+  }
+  nread = fscanf(filep,"%d",&np);	
+
+  e = (double *)malloc(np*sizeof(double));
+  Z = (double *)malloc(np*sizeof(double));
+
+  for(i=0;i<np;i++) {
+     nread = fscanf(filep,"%lf %lf",e+i,Z+i);
+  }
+
+  fclose(filep);
+
+  // Make DoS vanish at E=0
+  for(i=np-1;i>=0;i--) { Z[i] -= Z[0]; }
+
+  //trim the dos
+  nptrim = 0;
+  for(i=np-1;i>=0;i--) { 
+    if(Z[i]>1.0e-12) {
+      nptrim = i+2;
+      break;
+    }
+  }
+
+  data->np = nptrim;
+  data->e = (double *)malloc(nptrim*sizeof(double));
+  data->Z = (double *)malloc(nptrim*sizeof(double));
+  for(i=0;i<nptrim&&i<np;i++) {
+    (data->e)[i] = e[i];
+    (data->Z)[i] = Z[i];
+  }
+  if(nptrim > np) {
+    (data->e)[nptrim-1] = 2.*e[np-1] - e[nptrim-2];
+  }
+  (data->Z)[nptrim-1] = 0;
+
+  // parameters
+  data->dosPar = (data->Z)[1]/pow((data->e)[1]-(data->e)[0],2);
+  data->Emax = (data->e)[nptrim-1];
+
+  free(e);
+  free(Z);
+
+  /*
+  filep = fopen("interpDoS.txt","w");
+  for(i=0;i<10001;i++) {
+     fprintf(filep,"%f %f\n",i*(data->Emax)/10000,dos(i*(data->Emax)/10000,data));
+  }
+  fclose(filep);
+  */
+}
+
+double dos(double E, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  int i, imin, imax;
+  double Emax = data->Emax;
+  double *e = data->e;
+  double *Z = data->Z;
+  int np = data->np;
+
+  if(E<=0 || E>=Emax) { return 0; }
+
+  // parabolic around E=0
+  if(E<=e[1]) {
+    return (data->dosPar)*E*E;
+  }
+
+  // linear interpolation elsewhere
+  imin=1; imax=np-1;
+  while(imax-imin>1) {
+    i = (imax + imin)/2;
+    if (E<e[i]) { imax = i; } else { imin = i; }
+  }
+
+  return Z[imin]+(E-e[imin])*(Z[imax]-Z[imin])/(e[imax]-e[imin]);
+}
+
+double computeXStotPhonon(struct IncoherentPhonon_physics_storage_struct *data)
+{
+  int i;
+  int nxs = data->nxs;
+  double kabsmin = data->kabsmin;
+  double kabsmax = data->kabsmax;
+
+  double *kabs = (double *)malloc(nxs*sizeof(double));
+  double *xsTot = (double *)malloc(nxs*sizeof(double));
+  double *xsTotMax = (double *)malloc(nxs*sizeof(double));
+  double *xsTotXmax = (double *)malloc(nxs*sizeof(double));
+
+  double dk = (kabsmax - kabsmin)/(nxs-1);
+  double k = kabsmin;
+
+  fprintf(data->filep,"nxs: %d\n",nxs);
+
+  //FILE *filep = fopen("XS.txt","w");
+  for(i=0;i<nxs;i++) {
+    kabs[i] = k;
+    // total cross section
+    xsTot[i] = xsTotPhonon(10000,k,data);
+    // maximum cross section (xmax,cross section at xmax)
+    xsDiffPhononMax(1000,k,data,xsTotXmax+i,xsTotMax+i);
+    //fprintf(filep,"%f %f %f %f\n",kabs[i],xsTot[i],xsTotXmax[i],xsTotMax[i]);
+    k += dk;
+  }
+  //fclose(filep);
+
+  data->kabs = kabs;
+  data->xsTot = xsTot;
+  data->xsTotMax = xsTotMax;
+  data->xsTotXmax = xsTotXmax;
+}
+
+double xsTotPhonon(int n, double kabs, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  int i;
+  double E, Erat, alpha, beta;
+  double x, xmax, xmin, dx, hdx, s1, s2, ss;
+
+  E = KS2E*kabs*kabs;
+  alpha = (data->alpha0)*kabs*kabs;
+  beta = E/(2.*(data->kBT));
+
+  Erat = (data->Emax)/E;
+  xmax = sqrt(1. + Erat);
+  if(Erat<1.0) { xmin = sqrt(1.0-Erat); } else { xmin = 0; }
+
+  dx = (xmax-xmin)/n;
+  hdx = 0.5*dx;
+
+  ss = 0;
+  x = xmin;
+  s1 = xsDiffPhonon(x,E,alpha,beta,data);
+  for(i=0;i<n;i++) {
+    x += dx;
+    s2 = xsDiffPhonon(x,E,alpha,beta,data);
+    ss += hdx*(s1+s2);
+    s1 = s2;
+  }
+
+  return E*ss;
+}
+
+void xsDiffPhononMax(int n, double kabs, struct IncoherentPhonon_physics_storage_struct *data, double *xm, double *xsDiffMax)
+{
+  int i;
+  double E, alpha, beta;
+  double x, xmax, dx, ss;
+
+  E = KS2E*kabs*kabs;
+  alpha = (data->alpha0)*kabs*kabs;
+  beta = E/(2.*(data->kBT));
+
+  xmax = sqrt(1.+(data->Emax)/E);
+  dx = xmax/n;
+
+  x = 0;
+  *xm = 0;
+  *xsDiffMax = xsDiffPhonon(x,E,alpha,beta,data);
+  for(i=0;i<n;i++) {
+    x += dx;
+    ss = xsDiffPhonon(x,E,alpha,beta,data);
+    if(ss>(*xsDiffMax)) { *xsDiffMax = ss; *xm = x; }
+  }
+  ss = xsDiffPhonon(xmax,E,alpha,beta,data);
+  if(ss>(*xsDiffMax)) { *xsDiffMax = ss; *xm = xmax; }
+}
+
+double xsDiffPhonon(double x, double E, double alpha, double beta, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  // x = kprime/k
+  double ax, x2, x2p1, x2m1, shd, chd, p;
+  double k = sqrt(E/KS2E);
+
+  if(x<0 || x>=sqrt(1.+(data->Emax)/E)) { return 0; }
+
+  ax = alpha*x;
+  x2 = x*x;
+  x2p1 = 1.0 + x2;
+  x2m1 = 1.0 - x2;
+
+  if(fabs(ax)>1.0e-4) {
+    shd = sinh(ax)/ax;
+    chd = (cosh(ax)-shd)/ax;
+  } else {
+    shd = 1.0 + ax*ax/6.0;
+    chd = ax*ax/3.0;
+  }
+
+  p = x2*x2p1*exp(-0.5*alpha*x2p1);
+  if(fabs(x2m1)>1.0e-4) {
+    p *= (dos(E*fabs(x2m1),data)/x2m1)*(1./tanh(beta*x2m1)+1.0);
+  } else {
+    p *= (data->dosPar)*E*E/beta;
+  }
+  p *= (shd - (2.*x/x2p1)*chd);
+
+  return p;
+}
+
+double xsTotPhononInterp(double kabs, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  int i, imin, imax;
+  int nxs = data->nxs;
+  double xs;
+  double *kabsp = data->kabs;
+  double *xsTot = data->xsTot;
+
+  // interpolate the computed cross section
+  if(kabs < (data->kabsmin) || kabs > (data->kabsmax)) {
+    // Returning no inelastic scattering (for kabs>kabsmax this is wrong. Need multiphonon effects)
+    return 0;
+  }
+
+  imin=0; imax=nxs-1;
+  while(imax-imin>1) {
+    i = (imax + imin)/2;
+    if (kabs<kabsp[i]) { imax = i; } else { imin = i; }
+  }
+
+  xs = xsTot[imin] + (kabs-kabsp[imin])*(xsTot[imax]-xsTot[imin])/(kabsp[imax]-kabsp[imin]);
+  
+  return xs;
+}
+
+double xsDiffPhononMaxInterp(double kabs, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  // interpolate the computed maximum cross section
+  int i, imin, imax;
+  double *kabsp = data->kabs;
+  double *xsTotMax = data->xsTotMax;
+
+  if(kabs < data->kabsmin || kabs > data->kabsmax) { return 0; }
+
+  imin=0; imax=(data->nxs)-1;
+  while(imax-imin>1) {
+    i = (imax + imin)/2;
+    if (kabs<kabsp[i]) { imax = i; } else { imin = i; }
+  }
+
+  return xsTotMax[imin]+(kabs-kabsp[imin])*(xsTotMax[imax]-xsTotMax[imin])/(kabsp[imax]-kabsp[imin]);
+}
+
+double xsDiffPhononDir(double z, double x, double alpha)
+{
+  // x = kprime/k
+  // z = cos(theta)
+  if(z<-1 || z>=1) { return 0; }
+  return (1.0-2.0*z*x/(1.+x*x))*exp(alpha*x*z);
+}
+
+double sampleKprime(double kabs, double alpha, double beta, struct IncoherentPhonon_physics_storage_struct *data)
+{
+  //x = kprime/k
+  int i;
+  double E = KS2E*kabs*kabs;
+  double rnd;
+
+  double pxmax = xsDiffPhononMaxInterp(kabs,data);
+  double xmax = sqrt(1.+(data->Emax)/E);
+  double x, px;
+  for(i=0;i<maxIter;i++) {
+    x =  xmax*rand01();
+    px = xsDiffPhonon(x,E,alpha,beta,data);
+    rnd = rand01();
+    if(px/pxmax>rnd) { return x; }
+  }
+  //What happens if maxIter is exceeded?? return negative value to control
+  return -1;
+}
+
+double sampleDir(double x, double alpha)
+{
+  // return z=cos(theta)
+  int i;
+  double pzmax;
+  double pz1 = xsDiffPhononDir(-1,x,alpha);
+  double pz2 = xsDiffPhononDir(-1./(x*alpha),x,alpha);
+  if(pz1>pz2) { pzmax = pz1; } else { pzmax = pz2; }
+  double z, pz;
+  for(i=0;i<maxIter;i++) {
+    z = -1. + 2.*rand01();
+    pz = xsDiffPhononDir(z,x,alpha);
+    if(pz/pzmax>rand01()) { return z; }
+  }
+  //What happens if maxIter is exceeded?? return -1000 to control
+  return -1000;
+}
+
+void setParams(struct IncoherentPhonon_physics_storage_struct *data, 
+               double T, double density, double M, double sigmaCoh, 
+               double sigmaInc, double dwfB, double kabsmin, double kabsmax, int nxs, char *dosfn)
+{
+  // initialize parameters
+  data->T = T;
+  data->density = density;
+  data->M = M;
+  data->sigmaCoh = sigmaCoh;
+  data->sigmaInc = sigmaInc;
+  data->dwfB = dwfB;
+  data->kabsmin = kabsmin;
+  data->kabsmax = kabsmax;
+  data->nxs = nxs;
+  data->kBT = kB*T;
+  data->sigma0 = ((MNEUTRON/amu)/M)*(sigmaCoh + sigmaInc);
+  data->muPhonon = 100*(density/M)*NA*barn2cmsq*(data->sigma0); // NA: avogadro, from McStas, the factor 100 to convert from cm-1 to m-1
+  data->alpha0 = dwfB/(4.*PI*PI);
+
+  strcpy(data->dosfn,dosfn);
+
+  readDoS(data);
+  computeXStotPhonon(data);
+
+  fprintf(data->filep,"Parameters computed\n");	
+}
+
+//////////////////////////////
+//// end internal functions //
+//////////////////////////////
+
+%}
+
+DECLARE
+%{
+// Needed for transport to the main component
+struct global_process_element_struct global_process_element;
+struct scattering_process_struct This_process;
+
+#ifndef PROCESS_DETECTOR
+	//struct pointer_to_global_process_list global_process_list = {0,NULL};
+	#define PROCESS_DETECTOR dummy
+#endif
+
+// Declare for this component, to do calculations on the input / store in the transported data
+struct IncoherentPhonon_physics_storage_struct IncoherentPhonon_storage;
+
+%}
+
+INITIALIZE
+%{
+
+  // Initialize done in the component
+  double kabs, mu, xs; 
+  FILE *filep;
+  char filelog[250];
+  sprintf(filelog,"IncoherentPhonon_process_%s.log",NAME_CURRENT_COMP);
+  IncoherentPhonon_storage.filep = fopen(filelog,"w");
+  fprintf(IncoherentPhonon_storage.filep,"Initializing component %s\n",NAME_CURRENT_COMP);
+
+  setParams(&IncoherentPhonon_storage,T,density,M,sigmaCoh,sigmaInc,dwfB,kabsmin,kabsmax,nxs,dosfn);
+
+  // Need to specify if this process is isotropic
+  This_process.non_isotropic_rot_index = -1; // Yes (powder)
+  //This_process.non_isotropic_rot_index =  1;  // No (single crystal)
+
+  // Packing the data into a structure that is transported to the main component
+  sprintf(This_process.name,NAME_CURRENT_COMP);
+  This_process.process_p_interact = interact_fraction;
+  This_process.data_transfer.pointer_to_a_IncoherentPhonon_physics_storage_struct = &IncoherentPhonon_storage;
+
+  This_process.probability_for_scattering_function = &IncoherentPhonon_physics_my;
+  This_process.scattering_function = &IncoherentPhonon_physics_scattering;
+
+  // This will be the same for all process's, and can thus be moved to an include.
+  sprintf(global_process_element.name,NAME_CURRENT_COMP);
+  global_process_element.component_index = INDEX_CURRENT_COMP;
+  global_process_element.p_scattering_process = &This_process;
+  add_element_to_process_list(&global_process_list,global_process_element);
+
+  fprintf(IncoherentPhonon_storage.filep,"Initialization done\n");	
+
+  filep=fopen("mu.txt","w");
+  kabs = kabsmin;
+  while(kabs<kabsmax) {
+     mu = (IncoherentPhonon_storage.muPhonon)*xsTotPhononInterp(kabs,&IncoherentPhonon_storage);
+     xs = (IncoherentPhonon_storage.sigma0)*xsTotPhononInterp(kabs,&IncoherentPhonon_storage);
+     fprintf(filep,"%f %.6e %.6e\n",kabs,mu,xs); 
+     kabs += 0.001;
+  }
+  fclose(filep);
+  
+%}
+
+TRACE
+%{
+%}
+
+FINALLY
+%{
+// deallocate allocated memory
+struct IncoherentPhonon_physics_storage_struct *data = This_process.data_transfer.pointer_to_a_IncoherentPhonon_physics_storage_struct;
+
+if(data->kabs != NULL) { free(data->kabs); data->kabs=NULL;}
+if(data->xsTot != NULL) { free(data->xsTot); data->xsTot=NULL;}
+if(data->xsTotXmax != NULL) { free(data->xsTotXmax); data->xsTotXmax=NULL;}
+if(data->xsTotMax != NULL) { free(data->xsTotMax); data->xsTotMax=NULL;}
+if(data->e != NULL) { free(data->e); data->e=NULL;}
+if(data->Z != NULL) { free(data->Z); data->Z=NULL;}
+
+fprintf(data->filep,"IncoherentPhonon_process %s: finished\n",NAME_CURRENT_COMP);
+
+if(data->filep!=NULL) { fclose(data->filep); data->filep=NULL; }
+
+%}
+
+END
