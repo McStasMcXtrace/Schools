@@ -1,0 +1,565 @@
+/***************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: OSIRIS
+*
+* %Identification
+* Written by: Peter Christiansen with input from Mark Telling, updates by P Willendrup
+* Date: November 2015
+* Origin: DTU Fysik, RISOE and ISIS
+* %INSTRUMENT_SITE: ISIS
+*
+* A simulation of the indirect TOF geometry part of the OSIRIS instrument.
+*
+* %Description
+*
+* If LAMBDA = 0, the choppers are disabled, else the choppers are
+* centered to chop around this wavelength and the source is studied in the
+* interval LAMBDA +- DLAMBDA.
+*
+* IMPORTANT NOTES:
+*
+* 1) Monchromator is not realistic in the sense that it does NOT
+*    smear the beam out according to the mosaicity, only does the N=1
+*    reflection, and the d-spread is handled in a simple way
+*
+* 2) The instrument is not validated or certified by ISIS. Is only put in
+*    McStas for completeness.
+*
+* %Parameters
+*
+* %Link
+*
+* %End
+****************************************************************************/
+DEFINE INSTRUMENT ISIS_OSIRIS(double LAMBDA=6.66, double DLAMBDA=0.1, double GUIDEREFLECTIVITY=1.0, SAMPLE=0, string coh="NULL", string inc="NULL",tmin=0,tmax=1)
+
+DECLARE
+%{
+  double calcAlpha(double length, double radius) {
+    // calculate angle of arm after curved guide
+    return RAD2DEG * length/radius;
+  }
+
+  double calcX(double length, double radius) {
+    // calculate position and angle of arm after curved guide
+    double alpha = DEG2RAD * calcAlpha(length, radius);
+    return radius*(1.0-cos(alpha));
+  }
+
+  double calcZ(double length, double radius) {
+    // calculate position and angle of arm after curved guide
+    double alpha = DEG2RAD * calcAlpha(length, radius);
+    return radius*sin(alpha);
+  }
+
+  double calcT0(double lambda, double distance) {
+    // calculate phaseoffset in s of chopper
+    double k = 0;
+
+    if(lambda<=0)
+      return 0;
+
+    k = 2*PI/lambda;
+    return distance/(k*K2V);
+  }
+
+  // BEAM PARAMETERS
+  const double MODSIZEX = 0.; // m (use default)
+  const double MODSIZEY = 0.; // m (use default)
+  double LAMBDAMIN  =   1.0; // - means use wavelength (AA)
+  double LAMBDAMAX  =  22.0; // - means use wavelength (AA)
+
+  // GUIDE SECTION PARAMETERS
+  const double GUIDEWIDTH      =     0.043; // m
+  const double GUIDEHEIGHT     =     0.065; // m
+  const double GUIDEENDWIDTH   =     0.022; // m
+  const double GUIDEENDHEIGHT  =     0.044; // m
+
+  const double DMODGUIDE       =    1.6980; // m
+  const double DSTRAIGHTGUIDE1 =    4.5440; // m (include 6.6 cm space window)
+  const double DCHOPPER1       =    0.0404; // m
+  const double DCURVEDGUIDE1   =    3.6800; // m
+  const double DCHOPPER2       =    0.0404; // m
+  const double DCURVEDGUIDE2   =   21.2977; // m
+  const double CURVERADIUS     = 2050.0000; // m
+  const double DSTRAIGHTGUIDE2 =    0.8656; // m (include 8.76cm+17.8cm space windows)
+  const double DSUPERGUIDE     =    1.5063; // m
+  const double DGUIDETARGET    =    0.2500; // m
+  double DMODTARGET;
+
+  // chopper parameters
+  const double CHOPPERRADIUS  =     0.308; // m
+  const double CHOPPERHEIGHT  =     0.091; // m
+
+  double CHOPPER1OMEGA  =  50*2*PI; // rad/s
+  double CHOPPER1WINDOW =       66; // deg
+
+  double CHOPPER2OMEGA  = -50*2*PI; // rad/s
+  double CHOPPER2WINDOW =       98; // deg
+
+  // TARGET SECTION PARAMETERS
+  const double VANADIUMHEIGHT      =  0.07; // m
+  /* This variable helps us select which target to interact with*/
+  double probTarget;
+
+  // ANALYZER SECTION PARAMETERS
+  const double ANARADIUS     = 0.9068; // m
+  const double ANAHEIGHT     = 0.01; // m
+  const double ANAWIDTH      = 0.01; // m
+  const double ANAMOSAIC     = 0.8*60; // arc minutes
+  //  const double anad          = 3.354; //
+  const double ANAQ          = 2*PI/3.354; // AA-1
+
+  // He DETECTOR PARAMETERS
+  const double DETECTORDISTANCE = 0.67; //m
+  // effective detectorwidth and height: sqrt(3.141*((1.27/2.0)**2))=1.125cm
+  const double DETECTORWIDTH  = 0.01125; //m (half inch)
+  const double DETECTORHEIGHT = 0.01125; //m (half inch)
+
+  // Variable to help classify hits from different analyzer crystals
+  int groupNumber = 0;
+  double LDS = 2.3; /* distance from deflector to sample */
+  double LSD = 0.25;/* sample to detector */
+  double LSA = 1.0; /* sample to analyser */
+
+  double RotateNeutronX; /* the angle to rotate neutron so that neutrons go to the analyser */
+  double RotateNeutronY; /* the angle to rotate neutron so that neutrons go to the analyser */
+  double RVA;            /* curvature of analyser (local approx) */
+
+  double flag_mono_transmitted=0;
+  double flag_sample=0;
+  double Vi,IN13energy;
+  char   tofopts[1024];
+
+  %}
+
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+
+  DMODTARGET = DMODGUIDE+DSTRAIGHTGUIDE1+DCHOPPER1+DCURVEDGUIDE1+
+    DCHOPPER2+DCURVEDGUIDE2+DSTRAIGHTGUIDE2+DSUPERGUIDE+DGUIDETARGET; // m
+
+  if(LAMBDA > 0) {
+
+    // make a narrow interval around the selected LAMBDA
+
+    LAMBDAMIN =  LAMBDA - DLAMBDA;
+    LAMBDAMAX =  LAMBDA + DLAMBDA;
+    if (LAMBDAMIN < 1.0)
+      LAMBDAMIN = 1.0;
+
+  }
+
+  printf("\nParameters:\nLambda: %f AA", LAMBDA);
+  printf("\nLambdamin, max: %f AA, %f AA", LAMBDAMIN, LAMBDAMAX);
+  printf("\nDistance from moderator to target", DMODTARGET);
+  printf("\nChopper1 - omega: %f rad/s, window: %f deg",
+	 CHOPPER1OMEGA, CHOPPER1WINDOW);
+  printf("\nChopper2 - omega: %f rad/s, window: %f deg\n\n",
+	 CHOPPER2OMEGA, CHOPPER2WINDOW);
+
+  Vi=(2*PI/LAMBDA)*AA2MS;
+
+  IN13energy = VS2E*Vi*Vi;
+  sprintf(tofopts,"banana, theta limits=[-240 -60] bins=180 tof bins=1000 limits=[%g %g]",tmin,tmax);
+  %}
+
+TRACE
+
+//
+// MODERATOR/SOURCE
+//
+
+COMPONENT armStart = Progress_bar()
+     AT (0,0,0) ABSOLUTE
+
+COMPONENT isis_mod =
+ISIS_moderator(Face="iris", Emin = -LAMBDAMIN, Emax = -LAMBDAMAX, dist = DMODGUIDE,
+	       focus_xw = GUIDEWIDTH, focus_yh = GUIDEHEIGHT, xwidth = MODSIZEX,
+	       yheight = MODSIZEY, CAngle = 0.0, SAC = 1)
+     AT (0, 0, 0) RELATIVE armStart
+
+COMPONENT tofSource =
+TOF_monitor(nt=200, tmin=0, tmax=2000, filename = "tofSource.dat",
+	    xwidth = 0.20, yheight = 0.20)
+     AT (0, 0, 0) RELATIVE isis_mod
+
+//
+// FIRST STRAIGHT GUIDE SECTION
+//
+
+COMPONENT armStraight1 = Arm()
+     AT (0, 0, DMODGUIDE) RELATIVE armStart
+
+COMPONENT lamStart =
+L_monitor(nL = 120, filename = "lambdaStart.dat",
+	  xwidth = 0.10, yheight = 0.10,
+	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX)
+     AT (0, 0, 0) RELATIVE armStraight1
+
+COMPONENT psdStart =
+PSD_monitor(nx=60, ny=60, filename = "psdStart.dat",
+	    xwidth = 0.10, yheight = 0.10)
+     AT (0, 0, 0) RELATIVE armStraight1
+
+COMPONENT guide_straight_1 =
+Guide(w1 = GUIDEWIDTH, h1 = GUIDEHEIGHT,
+      w2 = GUIDEWIDTH, h2 = GUIDEHEIGHT,
+      l = DSTRAIGHTGUIDE1, m = 2.0, R0=GUIDEREFLECTIVITY)
+     AT (0, 0, 0) RELATIVE armStraight1
+
+//
+// FIRST CHOPPER
+//
+COMPONENT armChopper1 = Arm()
+     AT (0, 0, DSTRAIGHTGUIDE1) RELATIVE armStraight1
+
+/* COMPONENT tofLambda1 = */
+/* TOFLambda_monitor(nlam = 24, nt = 500, filename = "tofLambda1.dat", */
+/* 		  t_0 = 0, t_1 = 25000, xwidth = 0.2, yheight = 0.2, */
+/* 		  lambda_0 = 0, lambda_1 = 12) */
+/*      AT (0, 0, 0) RELATIVE armChopper1 */
+
+/* COMPONENT lamChopper1 = */
+/* L_monitor(nchan = 120, filename = "lambdaChopper1.dat",  */
+/* 	  xwidth = 0.1, yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0) RELATIVE armChopper1 */
+
+/* COMPONENT psdChopper1 = */
+/* PSD_monitor(nx=60, ny=60, filename = "psdChopper1.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0) RELATIVE armChopper1 */
+
+COMPONENT chopper1 =
+DiskChopper(theta_0 = CHOPPER1WINDOW, radius = CHOPPERRADIUS, yheight = CHOPPERHEIGHT,
+	    nu = CHOPPER1OMEGA/(2*PI), nslit = 1,
+	    delay = calcT0(LAMBDA, DMODGUIDE+DSTRAIGHTGUIDE1))
+     WHEN (LAMBDA > 0) AT (0, 0, 0) RELATIVE armChopper1
+
+/* COMPONENT tofLambda2 = */
+/* TOFLambda_monitor(nlam = 24, nt = 500, filename = "tofLambda2.dat", */
+/* 		  t_0 = 0, t_1 = 25000, xwidth = 0.2, yheight = 0.2, */
+/* 		  lambda_0 = 0, lambda_1 = 12) */
+/*      AT (0, 0, 0) RELATIVE armChopper1 */
+
+//
+// FIRST CURVED GUIDE SECTION
+//
+
+COMPONENT armCurved1 = Arm()
+     AT (0, 0, DCHOPPER1) RELATIVE armChopper1
+
+/* COMPONENT lamCurved1 =  */
+/* L_monitor(nchan = 120, filename = "lambdaCurved1.dat",  */
+/* 	  xwidth = 0.10, yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0) RELATIVE armCurved1 */
+
+/* COMPONENT psdCurved1 =  */
+/* PSD_monitor(nx=60, ny=60, filename = "psdCurved1.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0) RELATIVE armCurved1 */
+
+COMPONENT guide_curved1 =
+Guide_curved(w1 = GUIDEWIDTH, h1 = GUIDEHEIGHT, l = DCURVEDGUIDE1, m = 2.0,
+	     curvature = CURVERADIUS, R0=GUIDEREFLECTIVITY)
+     AT (0, 0, 0) RELATIVE armCurved1
+
+//
+// SECOND CHOPPER
+//
+COMPONENT armChopper2 = Arm()
+     AT (calcX(DCURVEDGUIDE1, CURVERADIUS), 0, calcZ(DCURVEDGUIDE1, CURVERADIUS)) RELATIVE armCurved1
+ROTATED (0, calcAlpha(DCURVEDGUIDE1, CURVERADIUS), 0) RELATIVE armCurved1
+
+/* COMPONENT tofLambda3 = */
+/* TOFLambda_monitor(nlam = 24, nt = 500, filename = "tofLambda3.dat", */
+/* 		  t_0 = 0, t_1 = 25000, xwidth = 0.2, yheight = 0.2, */
+/* 		  lambda_0 = 0, lambda_1 = 12) */
+/*      AT (0, 0, 0) RELATIVE armChopper2 */
+
+/* COMPONENT lamChopper2 = */
+/* L_monitor(nchan = 120, filename = "lambdaChopper2.dat",  */
+/* 	  xwidth = 0.1,yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0) RELATIVE armChopper2 */
+
+/* COMPONENT psdChopper2 = */
+/* PSD_monitor(nx=60, ny=60, filename = "psdChopper2.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0) RELATIVE armChopper2 */
+
+COMPONENT chopper2 =
+DiskChopper(theta_0 = CHOPPER2WINDOW, radius = CHOPPERRADIUS, yheight = CHOPPERHEIGHT,
+	    nu = CHOPPER2OMEGA/(2*PI), nslit = 1,
+	    delay= calcT0(LAMBDA, DMODGUIDE+DSTRAIGHTGUIDE1+DCHOPPER1+DCURVEDGUIDE1))
+     WHEN (LAMBDA > 0) AT (0, 0, 0) RELATIVE armChopper2
+
+/* COMPONENT tofLambda4 = */
+/* TOFLambda_monitor(nlam = 24, nt = 500, filename = "tofLambda4.dat", */
+/* 		  t_0 = 0, t_1 = 25000, xwidth = 0.2, yheight = 0.2, */
+/* 		  lambda_0 = 0, lambda_1 = 12) */
+/*      AT (0, 0, 0) RELATIVE armChopper2 */
+
+
+//
+// SECOND CURVED GUIDE SECTION
+//
+
+COMPONENT armCurved2 = Arm()
+     AT (0, 0, DCHOPPER2) RELATIVE armChopper2
+
+/* COMPONENT lamCurved2 =  */
+/* L_monitor(nchan = 120, filename = "lambdaCurved2.dat",  */
+/* 	  xwidth = 0.1,yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0) RELATIVE armCurved2 */
+
+/* COMPONENT psdCurved2 =  */
+/* PSD_monitor(nx=60, ny=60, filename = "psdCurved2.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0) RELATIVE armCurved2 */
+
+COMPONENT guide_curved2 =
+Guide_curved(w1 = GUIDEWIDTH, h1 = GUIDEHEIGHT, l = DCURVEDGUIDE2,
+	     m = 2.0, curvature = CURVERADIUS, R0=GUIDEREFLECTIVITY)
+     AT (0, 0, 0) RELATIVE armCurved2
+
+//
+// SECOND STRAIGHT GUIDE SECTION
+//
+
+COMPONENT armStraight2 = Arm()
+     AT (calcX(DCURVEDGUIDE2, CURVERADIUS), 0, calcZ(DCURVEDGUIDE2, CURVERADIUS)) RELATIVE armCurved2
+ROTATED (0, calcAlpha(DCURVEDGUIDE2, CURVERADIUS), 0) RELATIVE armCurved2
+
+/* COMPONENT lamStraight2 =  */
+/* L_monitor(nchan = 120, filename = "lambdaStraight2.dat",  */
+/* 	  xwidth = 0.10, yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0.0) RELATIVE armStraight2 */
+
+/* COMPONENT psdStraight2 =  */
+/* PSD_monitor(nx=60, ny=60, filename = "psdStraight2.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0.0) RELATIVE armStraight2 */
+
+COMPONENT guide_straight_2 =
+Guide(w1 = GUIDEWIDTH, h1 = GUIDEHEIGHT,
+      w2 = GUIDEWIDTH, h2 = GUIDEHEIGHT,
+      l = DSTRAIGHTGUIDE2, m = 2.0, R0=GUIDEREFLECTIVITY)
+     AT (0, 0, 0) RELATIVE armStraight2
+
+
+//
+// SUPER GUIDE SECTION
+//
+
+COMPONENT armSuper = Arm()
+     AT (0, 0, DSTRAIGHTGUIDE2) RELATIVE armStraight2
+
+/* COMPONENT lamSuper =  */
+/* L_monitor(nchan = 120, filename = "lambdaSuper.dat",  */
+/* 	  xwidth = 0.10, yheight = 0.10,  */
+/* 	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX) */
+/*      AT (0, 0, 0.0) RELATIVE armSuper */
+
+/* COMPONENT psdSuper =  */
+/* PSD_monitor(nx=60, ny=60, filename = "psdSuper.dat",  */
+/* 	    xwidth = 0.10, yheight = 0.10) */
+/*      AT (0, 0, 0.0) RELATIVE armSuper */
+
+COMPONENT guide_super =
+Guide(w1 = GUIDEWIDTH, h1 = GUIDEHEIGHT,
+      w2 = GUIDEENDWIDTH, h2 = GUIDEENDHEIGHT,
+      l = DSUPERGUIDE, m = 3.6, R0=GUIDEREFLECTIVITY)
+     AT (0, 0, 0) RELATIVE armSuper
+
+//
+// TARGET SECTION
+//
+
+SPLIT 100 COMPONENT armTarget = Arm()
+     AT (0, 0, DSUPERGUIDE+DGUIDETARGET) RELATIVE armSuper
+EXTEND
+%{
+  probTarget = rand01();
+%}
+
+  COMPONENT SamplePos = Arm()
+  AT (0,0,0) RELATIVE armTarget
+  ROTATED (0,0,0) RELATIVE armTarget
+
+  /*COMPONENT lamTarget =
+L_monitor(nL = 120, filename = "lambdaTarget.dat",
+	  xwidth = 0.10, yheight = 0.10,
+	  Lmin = 0.98*LAMBDAMIN, Lmax = 1.02*LAMBDAMAX, restore_neutron=1)
+     AT (0, 0, 0) RELATIVE armTarget
+
+COMPONENT psdTarget =
+PSD_monitor(nx=100, ny=100, filename = "psdTarget.dat",
+	    xwidth = 0.10, yheight = 0.10, restore_neutron=1)
+	    AT (0, 0, 0) RELATIVE armTarget */
+
+COMPONENT vsample1 =
+Incoherent(thickness=0.00004, radius = 0.02,
+	   yheight = VANADIUMHEIGHT)
+     WHEN (SAMPLE==0 && LAMBDA > 0 && probTarget<1.0/3.0) AT (0, 0, 0) RELATIVE armTarget
+
+COMPONENT vsample2 =
+Incoherent(thickness=0.00004, radius = 0.016,
+	   yheight = VANADIUMHEIGHT)
+     WHEN (SAMPLE==0 && LAMBDA > 0 && probTarget>=1.0/3.0 && probTarget<2.0/3.0) AT (0, 0, 0) RELATIVE armTarget
+
+COMPONENT vsample3 =
+Incoherent(thickness=0.00004, radius = 0.01,
+	 yheight = VANADIUMHEIGHT)
+     WHEN (SAMPLE==0 && LAMBDA > 0 && probTarget>=2.0/3.0) AT (0, 0, 0) RELATIVE armTarget
+
+  COMPONENT Sample = Isotropic_Sqw(/*d_phi=2*atan2(0.62/2,LSA)*RAD2DEG, */ Sqw_coh=coh, Sqw_inc=inc, radius=0.02,yheight=VANADIUMHEIGHT,yheight=0.04, order=1)
+WHEN (SAMPLE==1 && LAMBDA > 0)
+  AT (0, 0, 0)     RELATIVE SamplePos
+  ROTATED (0,0,0) RELATIVE SamplePos
+  EXTEND %{
+    if (!SCATTERED) ABSORB;
+    flag_sample = SCATTERED;
+  %}
+
+  /*COMPONENT beamStop =
+Beamstop(radius=0.1)
+AT (0, 0, 0.1) RELATIVE armTarget*/
+
+COMPONENT PSD_scattered = Monitor_nD
+  (xwidth=2, bins=180, yheight=1,
+    options = "sphere theta limits=[-60 120], y limits=[-0.17 0.17]",
+    restore_neutron=1)
+  AT (0,0,0) RELATIVE SamplePos
+
+/* now we should rotate the neutron by RotateNeutron angle to bring it in the YZ plane */
+COMPONENT RotateNeutron = Arm()
+  AT (0,0,0)       RELATIVE SamplePos
+  ROTATED (0,90,0) RELATIVE SamplePos
+  EXTEND %{
+
+/* this code is copied from Rotator.comp which parameters are set static at INIT
+ * here we want a dynamic rotation for every neutron
+ * the rotation angle must be computed modulo the maximum divergence, so that we 
+ * retain the full beam divergence on the analyser.
+ * The max divergence is given by the deflector size seen from the sample, adding
+ * the sample size. Deflector: width=0.05, height=9*1.5e-2
+ */
+    Rotation R;
+    double   n;
+    double   RX, RY;
+    
+    RotateNeutronX  = atan2(0.05+0.03, LDS);
+    RX              = atan2(vx,vz);
+    n               = nearbyint(RX/RotateNeutronX); /* e.g. 2 deg */
+    RotateNeutronX *= n; /* RotateNeutronX is quantified */
+    
+    rot_set_rotation(R, 0, RotateNeutronX, 0); /* will rotate neutron instead of comp: negative side */
+    /* apply rotation to centered coordinates */
+    coords_get(rot_apply(R, coords_set(x,y,z)),    &x, &y, &z);
+    /* rotate speed */
+    coords_get(rot_apply(R, coords_set(vx,vy,vz)), &vx, &vy, &vz);
+    
+    RotateNeutronY  = atan2(9*1.5e-2+0.05, LDS); /* e.g. 4.6 deg */
+    RY              = atan2(vy,vz);
+    n               = nearbyint(RY/RotateNeutronY);
+    RotateNeutronY *= n; /* RotateNeutronY is quantified */
+    
+    rot_set_rotation(R, -RotateNeutronY, 0, 0); /* will rotate neutron instead of comp: negative side */
+    /* apply rotation to centered coordinates */
+    coords_get(rot_apply(R, coords_set(x,y,z)),    &x, &y, &z);
+    /* rotate speed */
+    coords_get(rot_apply(R, coords_set(vx,vy,vz)), &vx, &vy, &vz);
+    RotateNeutronY *= RAD2DEG;
+    RY             *= RAD2DEG;
+    RX             *= RAD2DEG;
+    
+    /* absorb if the rotation does not fit in the analyser active area */
+    if (!(-60 < RX && RX < 120)) ABSORB;
+    if (!(-17 < RY && RY < 17)) ABSORB;
+    
+    /* keep exact rotation angle for the final detector */
+    RotateNeutronX  = RX;
+    
+  %}
+ 
+/* install the analyser. */
+COMPONENT AnalyserMount = Arm()
+  AT (0,0,LSA)       RELATIVE RotateNeutron
+
+/* d-spacing is CaF2 one, at reference T=301 K */
+
+/* in case you want to see how the beam is gathered onto a smaller analyser plate:
+COMPONENT Analyser_In = Monitor_nD(
+  xwidth=2*atan2(0.05+0.03, LDS)*LSA, yheight=2*atan2(9*1.5e-2+0.05, LDS)*LSA,
+  options="x y", restore_neutron=1)
+AT (0,0,0)       RELATIVE AnalyserMount
+*/
+COMPONENT Analyser = Monochromator_curved(
+  width=2*atan2(0.05+0.03, LDS)*LSA, height=2*atan2(9*1.5e-2+0.05, LDS)*LSA, 
+  RV=RVA, RH=RVA, NV=10, NH=10, mosaic=ANAMOSAIC, gap=0)  //DM=1.1115 )
+  AT (0,0,0)       RELATIVE AnalyserMount
+  ROTATED(0,90,0)  RELATIVE AnalyserMount
+  EXTEND %{
+    if (!SCATTERED) ABSORB; /* perfect beam stop to account for the B4C block */
+  %}
+
+/* compensate the initial rotation: rotate back to recover vertical beam distribution */
+COMPONENT Sample_copy = COPY(Sample)(p_interact=0.1)
+  AT (0, 0, 0)     RELATIVE SamplePos
+  ROTATED (0,45,0) RELATIVE SamplePos
+  EXTEND %{
+    flag_sample += SCATTERED;
+    
+    rot_set_rotation(R, RotateNeutronY*DEG2RAD, 0, 0); 
+
+    coords_get(rot_apply(R, coords_set(x,y,z)),    &x, &y, &z);
+
+    coords_get(rot_apply(R, coords_set(vx,vy,vz)), &vx, &vy, &vz);
+  %}
+  
+/* detector is backwards 
+   35 tubes + PSD small angle = 3 more angles (integrated in angle)
+   height 25 cm, diameter 2.54 P=4bars+1bars
+   4440 cm3 at 5 bars: 20 bar.L
+   could use 2-3 layers of 1/2" tubes
+*/
+
+COMPONENT DetectorMount = Arm()
+  AT (0,0,-LSD) RELATIVE RotateNeutron
+  
+COMPONENT Detector = Monitor_nD(
+  xwidth=0.1, yheight=.25, user1=RotateNeutronX, username1="Angle [deg]",
+  options="user1 limits=[-60 120], y", restore_neutron=1, bins=100)
+  AT (0, 0, 0)       RELATIVE DetectorMount
+  
+COMPONENT DetectorEnergy = Monitor_nD(
+    options="energy",
+    bins=100, min=IN13energy-20e-3, max=IN13energy+20e-3,
+    restore_neutron = 1,
+    xwidth=.1, yheight=.25)
+  AT (0, 0, 0) RELATIVE DetectorMount
+  
+COMPONENT DetectorShape = Monitor_nD(
+  xwidth=LSD*2, yheight=.25,
+  options="banana, theta limits=[-240 -60]")
+  AT (0, 0, 0) RELATIVE SamplePos
+
+
+COMPONENT DetectorTOF = Monitor_nD(
+  xwidth=LSD*2, yheight=.25,
+  options=tofopts)
+  AT (0, 0, 0) RELATIVE SamplePos
+
+
+/* End of section bastardised from ILL-Lagrange */
+
+END

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IDF generated using McStas McDisplay and the Mantid backend -->
+<!-- For help on the notation used to specify an Instrument Definition File see http://www.mantidproject.org/IDF -->
+<instrument name="TOSCA_Mantid_2.out" valid-from   ="1900-01-31 23:59:59"
+valid-to     ="2100-01-31 23:59:59" last-modified="Thu Sep 27 22:09:05 2018">
+<defaults>
+	<length unit="meter"/>
+	<angle unit="degree"/>
+	<reference-frame>
+		<!-- The z-axis is set parallel to and in the direction of the beam. The y-axis points up and the coordinate system is right handed. -->
+		<along-beam axis="z"/>
+		<pointing-up axis="y"/>
+		<handedness val="right"/>
+	</reference-frame>
+		<default-view axis-view="z-"/>
+	</defaults>
+
+<!-- LIST OF PHYSICAL COMPONENTS (which the instrument consists of) -->
+
+<type name="Othercomp"></type>
+
+<component type="sourceMantid-type" name="sourceMantid">
+<location x=" 0" y=" 0" z=" 1e-05"  />
+</component>
+
+<component type="sampleMantid-type" name="sampleMantid">
+<location x=" 0" y=" 0" z=" 17"  rot="180" axis-x="0" axis-y="1" axis-z="0" />
+</component>
+
+
+<type name="arm1-type"  >
+</type>
+
+<type name="line-sourceMantid-0" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0.2" y="0" z="0" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="line-sourceMantid-1" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0" y="0.2" z="0" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="line-sourceMantid-2" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0" y="0" z="0.2" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="sourceMantid-type" is="Source" >
+	<component type="line-sourceMantid-0" >
+		<location x="0" y="0" z="0" />
+	</component >
+	<component type="line-sourceMantid-1" >
+		<location x="0" y="0" z="0" />
+	</component >
+	<component type="line-sourceMantid-2" >
+		<location x="0" y="0" z="0" />
+	</component >
+</type>
+
+<type name="TOF_sample-type"  >
+</type>
+
+<type name="line-sampleMantid-0" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0.2" y="0" z="0" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="line-sampleMantid-1" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0" y="0.2" z="0" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="line-sampleMantid-2" >
+	<cylinder id="dummy" >
+		<centre-of-bottom-base x="0" y="0" z="0" />
+		<axis x="0" y="0" z="0.2" />
+		<radius val="0.005" />
+		<height val="0.2" />
+	</cylinder >
+</type>
+
+<type name="sampleMantid-type" is="SamplePos" >
+	<component type="line-sampleMantid-0" >
+		<location x="0" y="0" z="0" />
+	</component >
+	<component type="line-sampleMantid-1" >
+		<location x="0" y="0" z="0" />
+	</component >
+	<component type="line-sampleMantid-2" >
+		<location x="0" y="0" z="0" />
+	</component >
+</type>
+
+<type name="sqw-type"  >
+</type>
+
+<type name="sqw2-type"  >
+</type>
+
+<type name="Eabs-type"  >
+</type>
+
+<type name="Sphere-type"  >
+</type>
+
+<component type="MonNDtype-0" name="nD_Mantid_1" idstart="0" idfillbyfirst="x" idstepbyrow=" 2">
+	<location x=" 5.01587e-17" y=" -0.409577" z=" 16.5345"  rot="180" axis-x="0" axis-y="0" axis-z="-1" />
+</component>
+
+<type name="MonNDtype-0" is="RectangularDetector" type="pixel-0"
+	xpixels=" 2" xstart="-0.05" xstep="0.1"
+	ypixels=" 13" ystart="-0.0813230769230769" ystep="0.0135538461538462">
+</type>
+<type is="detector" name="pixel-0">
+	<cuboid id="pixel-shape-0">
+		<left-front-bottom-point x="0.05" y="-0.00677692307692308" z="0.0" />
+		<left-front-top-point x="0.05" y="0.00677692307692308" z="0.0" />
+		<left-back-bottom-point x="0.05" y="-0.00677692307692308" z="0.00005" />
+		<right-front-bottom-point x="-0.05" y="-0.00677692307692308" z="0.0" />
+	</cuboid>
+	<algebra val="pixel-shape-0" />
+</type>
+
+
+<component type="MonNDtype-1" name="nD_Mantid_2" idstart="100" idfillbyfirst="x" idstepbyrow=" 2">
+	<location x=" -1.07164e-16" y=" -0.409577" z=" 17.4655"  rot="180" axis-x="-1" axis-y="0" axis-z="0" />
+</component>
+
+<type name="MonNDtype-1" is="RectangularDetector" type="pixel-1"
+	xpixels=" 2" xstart="-0.05" xstep="0.1"
+	ypixels=" 13" ystart="-0.0813230769230769" ystep="0.0135538461538462">
+</type>
+<type is="detector" name="pixel-1">
+	<cuboid id="pixel-shape-1">
+		<left-front-bottom-point x="0.05" y="-0.00677692307692308" z="0.0" />
+		<left-front-top-point x="0.05" y="0.00677692307692308" z="0.0" />
+		<left-back-bottom-point x="0.05" y="-0.00677692307692308" z="0.00005" />
+		<right-front-bottom-point x="-0.05" y="-0.00677692307692308" z="0.0" />
+	</cuboid>
+	<algebra val="pixel-shape-1" />
+</type>
+
+</instrument>
