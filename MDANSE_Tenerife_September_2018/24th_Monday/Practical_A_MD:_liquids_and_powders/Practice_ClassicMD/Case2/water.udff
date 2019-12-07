@@ -1,0 +1,38 @@
+# Udff file for DL_FIELD version 4.1 onwards
+# udff for TIP4P/2005 water
+
+POTENTIAL OPLS2005
+
+UNIT kcal/mol
+
+ATOM_TYPE		Key	element	mass	Remark
+O_tip4p2005             OW      O       15.9994 
+HO_tip4p2005            HW      H       1.00797 
+END ATOM_TYPE
+
+MOLECULE_TYPE		key	mw  	   Remark
+tip4p2005_water         WT05   18.015     
+END MOLECULE_TYPE
+
+MOLECULE tip4p2005_water 4 0.0       
+O    O_tip4p2005       0.00
+H1   HO_tip4p2005      0.5564
+H2   HO_tip4p2005      0.5564
+Q4   Q4_pseudo        -1.1128
+CONNECT O   > H1 H2
+CONNECT H1  > O
+CONNECT H2  > O
+CONNECT Q4  > Q4
+RIGID O H1 H2 Q4
+END MOLECULE 
+
+VDW	sigma/angstrom	eps/kcal/mol    Remark
+OW       3.1589          0.1852          !
+HW       0.000           0.000           !
+END VDW
+
+END POTENTIAL
+
+
+
+

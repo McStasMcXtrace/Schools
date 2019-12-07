@@ -1,0 +1,29 @@
+Benzene crystal phase I (108 molecules), NPT simulation
+
+integrator leapfrog verlet  # type of integration algorithm: leapfrog/velocity
+
+temperature 290.0 K
+pressure    3.0 kbar
+ensemble npt ber 1.0 1.0    # Berensen NPT and relax times
+
+
+steps    10000 
+equil     5000 
+cap       1000 
+print     1000 
+stack     1000 
+stats     1000      
+
+timestep  0.001 ps
+
+cutoff      10.0 # general cut-off
+rvdw cutoff 10.0 # cut-off for VDW forces
+delr width   1.0 # width of Verlet neighbour list
+
+ewald precision 1e-6 # Ewald sum for electrostatics with automatic parameters
+
+job time  1000.0 # maximum time allocated to job in seconds
+close time 100.0 # job closure time in seconds
+
+finish 
+

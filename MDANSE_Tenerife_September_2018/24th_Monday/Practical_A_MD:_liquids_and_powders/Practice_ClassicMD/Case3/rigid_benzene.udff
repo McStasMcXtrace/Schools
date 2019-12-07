@@ -1,0 +1,44 @@
+# Udff file for DL_FIELD version 4.1 onwards
+# udff for rigid benzene
+
+POTENTIAL OPLS2005
+
+UNIT kcal/mol
+
+MOLECULE_TYPE           key     mw         Remark
+benzene                 BENZ   78.114     
+END MOLECULE_TYPE
+
+MOLECULE benzene 12 90.0     Benzene
+C1  C_benzene  
+H1  HC_benzene           H3      H2
+C2  C_benzene             \     /
+H2  HC_benzene            C3==C2
+C3  C_benzene             /     \
+H3  HC_benzene        H4-C4      C1-H1
+C4  C_benzene            \\     // 
+H4  HC_benzene            C5--C6
+C5  C_benzene             /     \
+H5  HC_benzene           H5      H6
+C6  C_benzene  
+H6  HC_benzene  
+CONNECT C1 > C2 C6 H1
+CONNECT H1 > C1
+CONNECT C2 > C1 C3 H2
+CONNECT H2 > C2
+CONNECT C3 > C2 C4 H3
+CONNECT H3 > C3
+CONNECT C4 > C3 C5 H4
+CONNECT H4 > C4
+CONNECT C5 > C4 C6 H5
+CONNECT H5 > C5
+CONNECT C6 > C1 C5 H6
+CONNECT H6 > C6
+RIGID C1 H1 C2 H2 C3 H3 C4 H4 C5 H5 C6 H6
+END MOLECULE benzene
+
+END POTENTIAL
+
+
+
+

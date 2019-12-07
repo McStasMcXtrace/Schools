@@ -1,0 +1,31 @@
+%BLOCK lattice_abc
+    8.0   8.0   4.0
+    90.0 90.0 120.0
+%ENDBLOCK lattice_abc
+
+%BLOCK species_pot
+C C_00.recpot
+H H_04.recpot
+%ENDBLOCK species_pot
+
+%BLOCK positions_abs
+C    1.18661    0.68509   0.0
+C    1.18661   -0.68509   0.0
+C    0.0        1.37018  0.0
+C    0.0       -1.37018   0.0
+C   -1.18661    0.68509   0.0
+C   -1.18661   -0.68509   0.0
+H    2.136441   1.233475  0.0
+H    2.136441  -1.233475  0.0
+H    0.0        2.46695   0.0
+H    0.0       -2.46695   0.0
+H   -2.136441   1.233475  0.0
+H   -2.136441  -1.233475  0.0
+%ENDBLOCK positions_abs
+
+%BLOCK kpoints_list
+    0.0000000000    0.0000000000    0.0000000000    1.0000000000
+%ENDBLOCK kpoints_list
+
+FIX_ALL_CELL true
+
