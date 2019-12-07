@@ -1,0 +1,122 @@
+.
+|-- Friday_October_19th
+|   |-- 0830-0915_Atomistic_McStas_iFit
+|   |-- 0915-1000_MCViNE
+|   |-- 1030-1200_McStas+Mantid
+|   |   |-- 12_ESS_DMSC_McStas_Mantid_Ex_June_2018.pdf
+|   |   |-- 12_ESS_DMSC_McStas_Mantid_June_2018.pdf
+|   |   |-- Track1
+|   |   |-- Track2
+|   |   `-- Track3
+|   |-- 1200-1300_McStas_Union_concept
+|   |   `-- McStas_Union_talk.key
+|   |-- 1300-1430_Instruments_contd
+|   |   |-- Diffraction
+|   |   |-- LSS
+|   |   `-- Spectroscopy
+|   |-- 1500-1530_Polarisation_Larmor
+|   |-- 1530-1600_How_to_proceed
+|   `-- 1600-1630_Feedback
+|-- Other
+|   |-- Antette_Errorbars.pdf
+|   |-- JDN-18.pdf
+|   |-- Lefmann_JNR2008_Virtual_Exp.pdf
+|   |-- Templates
+|   |   |-- ORNL_2018.kth
+|   |   |-- ORNL_2018.otp
+|   |   `-- ORNL_2018.potx
+|   `-- UCPH_Neutron_Course_2015.pdf
+|-- Programme\ Oak\ Ridge\ (Final).pdf
+|-- Programme\ Oak\ Ridge\ (Final).xlsx
+|-- Thursday_October_18th
+|   |-- 0830-1000_Intro
+|   |   |-- 2_McStas_Monitors_sources.key
+|   |   |-- 6_McStas_various_utils.key
+|   |   |-- 8_extras-tools.key
+|   |   |-- McStas-useful-links.pdf
+|   |   |-- McStas_intro_PWillendrup.key
+|   |   `-- McStas_tool_overview_PWillendrup.key
+|   |-- 1030-1200_Optics
+|   |   |-- 3_Guides.pptx
+|   |   |-- 4.1_Slits_and_collimators
+|   |   |   |-- 4.1_slits_and_collimators.key
+|   |   |   |-- 4.1_slits_and_collimators.pdf
+|   |   |   |-- Test_Collimator_Radial_ex.instr
+|   |   |   `-- Ven2010_Ex_2.3-4_slits_collimators.key
+|   |   |-- Pulsed
+|   |   |   `-- 4.2_Moving_optics
+|   |   |       |-- 4.2_moving_optics.pdf
+|   |   |       |-- 4.2_moving_optics.pptx
+|   |   |       |-- 7_moving_optics.pdf
+|   |   |       |-- DiskChopper.comp
+|   |   |       |-- Ex_7_1_selector.instr
+|   |   |       |-- Ex_7_2_DiskChopper.instr
+|   |   |       |-- Ex_7_2_chopper_soln.instr
+|   |   |       |-- ILL_SANS_instrument_D11_1_Velocity_selector_4_5.gif
+|   |   |       `-- Ven2010_Ex_2.2_moving_optics.key
+|   |   `-- Reactors
+|   |       `-- 4.3_Monochromators
+|   |           |-- 4.3_monochromators.key
+|   |           |-- 4.3_monochromators.pdf
+|   |           |-- JDN-18.pdf
+|   |           `-- Ven2010_monochromators.pdf
+|   |-- 1200-1300_Samples_lunch_talk
+|   |   |-- McStas_Union_talk.odp
+|   |   `-- Morning_McStas_samples.odp
+|   |-- 1300-1430_Instruments
+|   |   |-- Diffraction
+|   |   |   `-- Practical_J_McStas_samples.odp
+|   |   |-- LSS
+|   |   `-- Spectroscopy
+|   |       |-- 20180927-McStas_LiqPow_Inel.odp
+|   |       |-- 20180927-McStas_LiqPow_Inel.pdf
+|   |       |-- BCC_fake.lau
+|   |       |-- Liquid_simple.instr
+|   |       |-- Magnon_bcc.comp
+|   |       |-- Magnon_bcc_visualisation.instr
+|   |       |-- McStas-SX_dynamics.key
+|   |       |-- McStas-SX_dynamics.pdf
+|   |       |-- McStas-SX_dynamics.pptx
+|   |       |-- Sample-overview.pdf
+|   |       |-- Sample_dataset
+|   |       |   |-- Test_Magnon_bcc_2D_visualisation.instr
+|   |       |   |-- mccode.sim
+|   |       |   |-- psd.dat
+|   |       |   |-- qa_vs_qb_0.dat
+|   |       |   |-- qa_vs_qb_1.dat
+|   |       |   |-- qa_vs_qb_10.dat
+|   |       |   |-- qa_vs_qb_11.dat
+|   |       |   |-- qa_vs_qb_12.dat
+|   |       |   |-- qa_vs_qb_13.dat
+|   |       |   |-- qa_vs_qb_14.dat
+|   |       |   |-- qa_vs_qb_15.dat
+|   |       |   |-- qa_vs_qb_16.dat
+|   |       |   |-- qa_vs_qb_17.dat
+|   |       |   |-- qa_vs_qb_18.dat
+|   |       |   |-- qa_vs_qb_19.dat
+|   |       |   |-- qa_vs_qb_2.dat
+|   |       |   |-- qa_vs_qb_20.dat
+|   |       |   |-- qa_vs_qb_21.dat
+|   |       |   |-- qa_vs_qb_22.dat
+|   |       |   |-- qa_vs_qb_23.dat
+|   |       |   |-- qa_vs_qb_3.dat
+|   |       |   |-- qa_vs_qb_4.dat
+|   |       |   |-- qa_vs_qb_5.dat
+|   |       |   |-- qa_vs_qb_6.dat
+|   |       |   |-- qa_vs_qb_7.dat
+|   |       |   |-- qa_vs_qb_8.dat
+|   |       |   |-- qa_vs_qb_9.dat
+|   |       |   `-- qa_vs_qb_Sum.dat
+|   |       |-- Sqq_w_monitor.comp
+|   |       |-- TAS_Magnon.instr
+|   |       |-- graphics
+|   |       |   |-- sqq.eps
+|   |       |   |-- sqq.fig
+|   |       |   `-- sqq.pdf
+|   |       `-- loadvol.m
+|   `-- 1500-1630_Instruments_contd
+|       |-- Diffraction
+|       `-- Spectroscopy
+`-- contents
+
+35 directories, 84 files
