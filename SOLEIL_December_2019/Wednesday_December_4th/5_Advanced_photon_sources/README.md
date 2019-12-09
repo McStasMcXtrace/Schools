@@ -36,8 +36,8 @@ Download and unzip the files. In both cases the filename encodes the relevant en
 3rd harmonic: Emin=37 Emax=58 keV
 
 * Start a new simulation .instr file and insert a Source_spectra. Set parameter values for 
-**spectra_stem_x=""sp8sU_h1_e7p44_18p6_x/sp8sU_h1_e7p44_18p6_x"
- spectra_stem_y=""sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y"
+**spectra_stem_x="sp8sU_h1_e7p44_18p6_x/sp8sU_h1_e7p44_18p6_x",
+ spectra_stem_y="sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y",
  nE=11, Emin=7.44, Emax=18.6**.  
  Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
 * Insert monitors downstream of the source to monitor the source radiation. Catch the radiation on an energy resolved monitor and see what the peak looks like.
