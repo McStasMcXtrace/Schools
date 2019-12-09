@@ -20,7 +20,7 @@ If you do not have it already you may download SPECTRA freely from the riken web
 
 ### Details for the actual data files:
 1. Generated using SPECTRA 10.0, using the Standard Spring-8 linear Undulator model, and standard beamline settings, I.e. as generic as possible. The opening screen look like this:
-![spectra mani screen](images/spectra_main.png?raw=true "")
+![spectra main screen](images/spectra_main.png?raw=true "")
 
 2. The type of calculation that McXtrace expects is:`Photon distribution at source point -> Wigner function -> Phase-space profile -> x-x' Plane (Projected)`, and correspondingly for the `x-y'` plane. These two filesets may then be used to drive a source in McXtrace.
 3. Energy ranges may be generated automatically using the detuning parameter. 
@@ -33,12 +33,12 @@ There are some limitations in this incarnation:
 ### Set up a simulation of this.
 Download and unzip the files. In both cases the filename encodes the relevant energy interval:
 1st harmonic: Emin=7.44 keV Emax=15.8 keV
-3rd harmonic: Emin=37 Emax=58 kev TODO check these values
+3rd harmonic: Emin=37 Emax=58 keV
 
 * Start a new simulation .instr file and insert a Source_spectra. Set parameter values for 
 **spectra_stem_x=""sp8sU_h1_e7p44_18p6_x/sp8sU_h1_e7p44_18p6_x"
- spectra_stem_y=""sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y"  
-nx=21 npx=21 ny=21 npy=21, nE=11, Emin=7.44, Emax=18.6**. Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
+ spectra_stem_y=""sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y"
+ nE=11, Emin=7.44, Emax=18.6**. Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
 * Insert monitors downstream of the source to monitor the source radiation. Catch the radiation on an energy resolved monitor see what the peak looks like.
 * Try to move a point-like energy resolved detector around the radiation field. Does it beahve as you thing.
 * Insert a slit 5 m downstream of the source on the optical axis. This mimicks the 1st order behaviour of front-end apertures. Scan the pinhole size to investigate the energy spectrum as a function of slit opening.  
