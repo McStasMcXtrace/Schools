@@ -38,11 +38,15 @@ Download and unzip the files. In both cases the filename encodes the relevant en
 * Start a new simulation .instr file and insert a Source_spectra. Set parameter values for 
 **spectra_stem_x=""sp8sU_h1_e7p44_18p6_x/sp8sU_h1_e7p44_18p6_x"
  spectra_stem_y=""sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y"
- nE=11, Emin=7.44, Emax=18.6**. Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
-* Insert monitors downstream of the source to monitor the source radiation. Catch the radiation on an energy resolved monitor see what the peak looks like.
-* Try to move a point-like energy resolved detector around the radiation field. Does it beahve as you thing.
+ nE=11, Emin=7.44, Emax=18.6**.  
+ Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
+* Insert monitors downstream of the source to monitor the source radiation. Catch the radiation on an energy resolved monitor and see what the peak looks like.
+
+The reason that you only see radiation in one quadrant is that the spectra datafiles (to save space) only contain data in this quadrant. By setting the parameters **symmetricx=1**, and **symmetricy=1**, the radiation field is mirrored in the ZX-, and ZY-planes respectively.
+
+* Try to move a point-like energy resolved detector around the radiation field. Does it behave as you think it should.
 * Insert a slit 5 m downstream of the source on the optical axis. This mimicks the 1st order behaviour of front-end apertures. Scan the pinhole size to investigate the energy spectrum as a function of slit opening.  
-* Focus the beam again using one of the techniques from yesterdays exercise. 
+* It is apparent that these supplied data-files are far too coarsely sampled. For a really useful simulation it is necessary to create bigger datafiles, for instance such as [1st harmonic long](data/sp8sU_1h_3.zip).
 
 ## Exercise: Use SRW-generated output to simulate a beamline.
 
