@@ -25,10 +25,11 @@ We will insert a source and two monitors and then modify these to examine some i
     - wavelength range: 0.1Å to 9.9Å  
     - T1=27.63[K], I1=2.4E12 [n/s/cm2/st/AA], T2=130.76[K],  
     - I2=4.03E12[n/s/cm2/st/AA] ,T3=309.33[K], I3=1.24E13[n/s/cm2/st/AA]  
-1. Add the following monitors at two different distances from the source, at 1.5m and 4.5m:  
+1. Add the following monitors at two different distances from the source, at 1.5m and 4.5m:
     - PSD monitor (PSD_monitor)  
     - A linear PSD monitor for the y-direction (PSDlin_monitor)  
     - Wavelength monitor (L_monitor)  
     - 2D Divergence monitor (Divergence_monitor)  
     - Divergence-position monitor for the x-direction (DivPos_monitor)  
 1. Try to replace the monitors by Monitor_nD-instances. You will need to use `mcdoc Monitor_nD` for this.
+2. Try to change your source into a pulsed source, for instance by adding an EXTEND block to your source where you set the neutron clock to something known. Then add two (or more) TOF_monitors and check the behaviour of you neutron beam - does it work as you expected?
