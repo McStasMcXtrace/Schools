@@ -74,6 +74,10 @@ COMPONENT source = Source_simple(
   focus_xw=0.03,focus_yh=0.05,dist=2.0,
   lambda0=wavelength*0.6,dlambda=wavelength*0.45)
 AT (0,0,0) RELATIVE Origin
+EXTEND
+%{
+  t=0;
+%}
 
 // guide starting 2 m after source
 COMPONENT guide = Guide_gravity(
@@ -85,7 +89,7 @@ COMPONENT guide = Guide_gravity(
 AT (0,0,2) RELATIVE source
 
 COMPONENT chopper = DiskChopper(
-  theta_0 = 20,
+  theta_0 = 2,
   radius=0.45,
   yheight=0.08,
   nu=120, // chopper frequency
@@ -103,7 +107,7 @@ COMPONENT guide2 = Guide_gravity(
 AT (0,0,source_chopper_distance - 2.0 + 0.05) RELATIVE guide
 
 // monitors
-// Position sensetive detector
+// Position sensitive detector
 COMPONENT PSD_2D = PSD_monitor(
   xwidth=0.05,nx=200,
   yheight=0.05,ny=200,
@@ -122,13 +126,6 @@ COMPONENT Wavelength_1D = L_monitor(
   xwidth=0.05,yheight=0.05,
   Lmin=wavelength*0.1,Lmax=wavelength*1.1,nL=600,
   filename="Wavelength_1D.dat",restore_neutron=1)
-AT (0,0,0) RELATIVE PREVIOUS
-
-// Acceptance diagram
-COMPONENT POS_DIV_2D = DivPos_monitor(
-  xwidth=0.05,yheight=0.05,nh=200,
-  ndiv=200,maxdiv_h=3.0,
-  filename="POS_DIV_2D.dat",restore_neutron=1)
 AT (0,0,0) RELATIVE PREVIOUS
 
 /* The END token marks the instrument definition end */

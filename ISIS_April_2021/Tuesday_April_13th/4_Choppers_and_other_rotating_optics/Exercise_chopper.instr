@@ -45,7 +45,7 @@ double chopper_delay;
 /* (C code). You may use them as component parameter values.         */
 INITIALIZE
 %{
-wavevector = 2.0*PI/(wavelength-0.5);
+wavevector = 2.0*PI/wavelength;
 
 // Calculate the arrival time of the desired neutrons at the chopper.
 // Use the built in conversion factor K2V from wavevector to velocity.
@@ -74,6 +74,10 @@ COMPONENT source = Source_simple(
   focus_xw=0.03,focus_yh=0.05,dist=2.0,
   lambda0=wavelength*0.6,dlambda=wavelength*0.45)
 AT (0,0,0) RELATIVE Origin
+EXTEND
+%{
+  t=0;
+%}
 
 // guide starting 2 m after source
 COMPONENT guide = Guide_gravity(
@@ -85,7 +89,7 @@ COMPONENT guide = Guide_gravity(
 AT (0,0,2) RELATIVE source
 
 // monitors
-// Position sensetive detector
+// Position sensitive detector
 COMPONENT PSD_2D = PSD_monitor(
   xwidth=0.05,nx=200,
   yheight=0.05,ny=200,
