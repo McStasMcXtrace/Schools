@@ -10,8 +10,7 @@ part of the sources and monitor exercise.
 * Use declare and initialize to calculate appropriate delay
 * McStas has a constant called K2V that converts from wavevector to velocity
 
-## INTERPRETATION
-Higher orders of scattering from monochromator should be removed.
+You _may_ cheat by looking at the solution file
 
 ### TASK2 - Velocity_selector
 Replace the higher order suppressing chopper with a velocity selector which only
