@@ -9,7 +9,7 @@ We will insert a source and two monitors and then modify these to examine some i
 ![First Results mcplot](images/2_sources_and_monitors_1st.png?raw=true "")
 
 ## Variations on the starting point
-3. Move the PSD_monitor up close to the sourfce. What happens to the spatial distribution?
+3. Move the PSD_monitor up close to the source. What happens to the spatial distribution?
 4. Add the parmeter "gauss=1" to the source and see what happens.
 5. Now change the source to be of the type Source_div. This also implies replacing the "focus_xw", "focus_yh", and "dist" parameter with the angular focusing parameters: "focus_ah" and "focus_aw".
 6. Try to switch "gauss" off, to see what happens.
