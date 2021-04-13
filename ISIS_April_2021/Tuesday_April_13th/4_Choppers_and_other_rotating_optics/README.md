@@ -1,5 +1,7 @@
 ## TASK 1 - DiskChopper
-Imagine if the higher orders were a problem, introduce a chopper into the guide to eliminate them
+Let's try to limit the wavelength band coming through the optics.
+If you got that far you may use information from the last
+part of the sources and monitor exercise.
 
 ## HINTS
 * The guide has to be split into two segments to accommodate the chopper
