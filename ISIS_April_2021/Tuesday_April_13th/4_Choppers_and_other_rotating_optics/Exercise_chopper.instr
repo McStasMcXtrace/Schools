@@ -37,7 +37,6 @@ DEFINE INSTRUMENT reference(guide_length=3,wavelength=3)
 DECLARE
 %{
 double wavevector;
-double monochromator_theta;
 double source_chopper_distance=4.5; // Distance from source to chopper
 double chopper_delay;
 %}
@@ -46,15 +45,7 @@ double chopper_delay;
 /* (C code). You may use them as component parameter values.         */
 INITIALIZE
 %{
-// Wish to calculate at what angle the monochromator should be rotated
-//  in order to reflect the desired wavelength. First calculate the
-//  wavevector using the built in constant PI.
 wavevector = 2.0*PI/wavelength;
-// Next the equation for elastic scattering Q = 2ksin(theta) is used to
-//  calculate the scattering angle for a monochromator with PG which
-//  has Q = 3.355. The result will be in radians, so it is converted
-//  to degress using the built in constant RAD2DEG.
-monochromator_theta = asin(3.355/2.0/wavevector)*RAD2DEG;
 
 // Calculate the arrival time of the desired neutrons at the chopper.
 // Use the built in conversion factor K2V from wavevector to velocity.
@@ -83,6 +74,10 @@ COMPONENT source = Source_simple(
   focus_xw=0.03,focus_yh=0.05,dist=2.0,
   lambda0=wavelength*0.6,dlambda=wavelength*0.45)
 AT (0,0,0) RELATIVE Origin
+EXTEND
+%{
+  t=0;
+%}
 
 // guide starting 2 m after source
 COMPONENT guide = Guide_gravity(
@@ -93,48 +88,13 @@ COMPONENT guide = Guide_gravity(
   G=-9.82)
 AT (0,0,2) RELATIVE source
 
-COMPONENT chopper = DiskChopper(
-  theta_0 = 20,
-  radius=0.45,
-  yheight=0.08,
-  nu=120, // chopper frequency
-  delay=chopper_delay, // delay in seconds
-  isfirst=0,
-  nslit=1)
-AT (0,0,source_chopper_distance) RELATIVE source
-
-COMPONENT guide2 = Guide_gravity(
-  w1=0.03,h1=0.05,
-  w2=0.03,h2=0.05,
-  l=guide_length - source_chopper_distance + 2.0 - 0.1,
-  R0=0.99,m=3,Qc=0.0217,alpha=2.0,W=0.003,
-  G=-9.82)
-AT (0,0,source_chopper_distance - 2.0 + 0.05) RELATIVE guide
-
-// monochromator 30 cm after guide
-COMPONENT monochromator = Monochromator_curved(
-  NV=5,NH=1, // five crystals stack vertically
-  yheight=0.01,zwidth=0.03, // each crystal 1 cm tall, 3 cm wide
-  gap=0.005, // 5 mm gap between the crystals
-  mosaic=30,r0=1.0, // 30 arc min mosaic, 100 % reflection
-  Q=3.355,order=0, // base scattering vector and all orders simulated
-  RV=1.0,RH=0) // focusing vertically 1.0 m from monochromator
-AT (0,0,guide_length+0.3) RELATIVE guide
-ROTATED (0,monochromator_theta,0) RELATIVE guide
-
-// An additional component is used to define the direction of
-//  two theta so that the z direction match the beam direction.
-COMPONENT two_theta_direction = Arm()
-AT (0,0,0) RELATIVE monochromator
-ROTATED (0,monochromator_theta,0) RELATIVE monochromator
-
 // monitors
-// Position sensetive detector
+// Position sensitive detector
 COMPONENT PSD_2D = PSD_monitor(
   xwidth=0.05,nx=200,
   yheight=0.05,ny=200,
   filename="PSD_2D.dat",restore_neutron=1)
-AT (0,0,1.0) RELATIVE two_theta_direction
+AT (0,0,guide_length+0.3) RELATIVE guide
 
 // Divergence monitor
 COMPONENT DIV_2D = Divergence_monitor(
@@ -148,13 +108,6 @@ COMPONENT Wavelength_1D = L_monitor(
   xwidth=0.05,yheight=0.05,
   Lmin=wavelength*0.1,Lmax=wavelength*1.1,nL=600,
   filename="Wavelength_1D.dat",restore_neutron=1)
-AT (0,0,0) RELATIVE PREVIOUS
-
-// Acceptance diagram
-COMPONENT POS_DIV_2D = DivPos_monitor(
-  xwidth=0.05,yheight=0.05,nh=200,
-  ndiv=200,maxdiv_h=3.0,
-  filename="POS_DIV_2D.dat",restore_neutron=1)
 AT (0,0,0) RELATIVE PREVIOUS
 
 /* The END token marks the instrument definition end */
