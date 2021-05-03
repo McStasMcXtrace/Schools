@@ -16,7 +16,7 @@ We will insert a source and two monitors and then modify these to examine some i
 
 ## Exercise 2: More Monitors
 
-1. Start a new ionstrument file, named ‘sources_monitors_ex.instr’.
+1. Start a new instrument file, named ‘sources_monitors_ex.instr’.
    HINT: you can use the ‘template.instr’ file that exists in today’s class folder and you can open it with the editor of your liking, or open it from the McStas gui by clicking: File —> New (python)
 1. Add a source using the Source\_Maxwell\_3.comp component, with:  
     - source dimensions: (w)0.132m X (h)0.164m  
