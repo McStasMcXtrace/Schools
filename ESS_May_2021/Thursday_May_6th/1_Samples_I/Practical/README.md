@@ -84,8 +84,8 @@ Look into the instrument file and find the sample.
 Run a simulation with the default parameters and see if the result make sense.
 
 Now try to modify the instrument to resolve the signal in the vertical direction. We will do this by increasing the height of the banana 
-shaped detector: 'options="banana, theta y auto limits bins=20", yheight=0.3' in th eappropriate place.
-https://dtudk.zoom.us/j/67333994447?pwd=cDNiVmJ0VnBod1NwVlZ1OG1FZ3R4UT09
+shaped detector: 'options="banana, theta y auto limits bins=20", yheight=0.3' in the appropriate place.
+
 See if you can get a signal by replacing the Powder sample with the single crystal Al block you used before.
 
 
