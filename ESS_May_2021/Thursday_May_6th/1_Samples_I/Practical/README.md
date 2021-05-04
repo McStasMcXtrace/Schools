@@ -49,11 +49,15 @@ specify a filename - otherwise you will get no output data.
 ## Run your simulation
 You may now try your Laue camera out - you ought to see something like the images below. It is probably a good idea to increase the statistics
 of your run to something like 10^7 neutron rays (the ncount). 
-Remember that if you press L the monitor will be displayed on a log scale, to avoid being overwhelmed by the direct beam signal. An obvious
-way to avoid the direct beam is to include a beamstop by adding
+![The four pi monitor, linear scale](fpi.png)
+
+Remember that if you press L the monitor will be displayed on a log scale, to avoid being overwhelmed by the direct beam signal. 
+![The four pi monitor, log scale](fpi_log.png)
+
+An obvious way to avoid the direct beam is to include a beamstop by adding
 <code>
-COMPONENT beamstop = Beamstop(xwidth=0.025,yheight=0.0551)
-AT(0,0,0.1)RELATIVE PREVIOUS
+COMPONENT beamstop = Beamstop(xwidth=0.025,yheight=0.055)
+AT(0,0,0.1) RELATIVE PREVIOUS
 </code>
 immediately after the sample.
 
