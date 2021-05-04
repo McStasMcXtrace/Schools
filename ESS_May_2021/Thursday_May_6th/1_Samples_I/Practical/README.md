@@ -47,11 +47,17 @@ Add the ideal Laue camera monitor covering 4 pi: PSD_monitor_4PI. Fpr instance s
 specify a filename - otherwise you will get no output data.
 
 ## Run your simulation
-You may now try your Laue camera out - you ought to see something like the image below. It is probably a good idea to increase the statistics
+You may now try your Laue camera out - you ought to see something like the images below. It is probably a good idea to increase the statistics
 of your run to something like 10^7 neutron rays (the ncount). 
-Remember that if you press L the monitor will be displayed on a log scale which may be clearer (see below).
+Remember that if you press L the monitor will be displayed on a log scale, to avoid being overwhelmed by the direct beam signal. An obvious
+way to avoid the direct beam is to include a beamstop by adding
+<code>
+COMPONENT beamstop = Beamstop(xwidth=0.025,yheight=0.0551)
+AT(0,0,0.1)RELATIVE PREVIOUS
+</code>
+immediately after the sample.
 
-## Play around with example instrument.
+## Play around with the example instrument.
 - Add an Arm-component before the sample to allow a rotation around the Y-axis and set the sample RELATIVE to that. Does that change your scattering 
 pattern? If not you might want to check that your monitor does not rotate with the sample.
 - Add more sample rotations to emulate an Eulerian cradle. (Y,X,Y) rotations.
@@ -69,7 +75,7 @@ AT (0, 0, 0) RELATIVE PREVIOUS
 # PART 2 - Powder scattering
 Start a new instrument simulation, but this time start with the PSI_DMC instrument model that is included in the McStas distribution.
 Look into the instrument file and find the sample.
-Run a simulation wuth the default parameters and see if the result make sense.
+Run a simulation with the default parameters and see if the result make sense.
 
 Now try to modify the instrument to resolve the signal in the vertical direction. We will do this by increasing the height of the banana 
 shaped detector: 'options="banana, theta y auto limits bins=20", yheight=0.3' in th eappropriate place.
