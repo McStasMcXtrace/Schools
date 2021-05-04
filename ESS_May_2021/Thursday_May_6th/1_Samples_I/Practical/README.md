@@ -48,11 +48,13 @@ specify a filename - otherwise you will get no output data.
 
 ## Run your simulation
 You may now try your Laue camera out - you ought to see something like the images below. It is probably a good idea to increase the statistics
-of your run to something like 10^7 neutron rays (the ncount). 
-![The four pi monitor, linear scale](fpi.png)
+of your run to something like 10^7 neutron rays (the ncount).
+
+<img src="fpi.png" title="The four pi monitor - linear scale" width=600></img>
 
 Remember that if you press L the monitor will be displayed on a log scale, to avoid being overwhelmed by the direct beam signal. 
-![The four pi monitor, log scale](fpi_log.png)
+
+<img src="fpi_log.png" title="The four pi monitor - log scale" width=600></img>
 
 An obvious way to avoid the direct beam is to include a beamstop by adding
 <code>
@@ -83,7 +85,7 @@ Run a simulation with the default parameters and see if the result make sense.
 
 Now try to modify the instrument to resolve the signal in the vertical direction. We will do this by increasing the height of the banana 
 shaped detector: 'options="banana, theta y auto limits bins=20", yheight=0.3' in th eappropriate place.
-
+https://dtudk.zoom.us/j/67333994447?pwd=cDNiVmJ0VnBod1NwVlZ1OG1FZ3R4UT09
 See if you can get a signal by replacing the Powder sample with the single crystal Al block you used before.
 
 
