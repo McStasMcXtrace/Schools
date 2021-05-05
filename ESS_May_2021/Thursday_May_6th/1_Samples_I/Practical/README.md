@@ -1,4 +1,4 @@
-# Single Crystal laue camera
+# Part 1. Single Crystal laue camera
 In this exercise we will build a _very_ simple Laue camera and scatter neutrons on a single crystal in 4 steps.
 
 ## Step 1 Add a new file and add a sourceCOMPONENT single_crystal = Single_crystal(
