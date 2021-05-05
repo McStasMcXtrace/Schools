@@ -8,7 +8,7 @@ part of the sources and monitor exercise, otherwise you may start from Exercise_
 * The guide has to be split into two segments to accommodate the chopper
 * Use DiskChopper, but set is_first to 0
 * Ensure the distance between source and chopper is known
-* Use declare and initialize to calculate appropriate delay
+* You may (buit you don't have to) use declare and initialize to calculate appropriate delay
 * McStas has a constant called K2V that converts from wavevector to velocity
 
 You _may_ cheat by looking at the solution file
