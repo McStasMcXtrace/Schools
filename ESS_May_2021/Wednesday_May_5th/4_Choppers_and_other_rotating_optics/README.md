@@ -1,7 +1,8 @@
 ## TASK 1 - DiskChopper
-Let's try to limit the wavelength band coming through the optics.
+Using a broadband source, let's try to limit the wavelength band coming through the optics.
 If you got that far you may use information from the last
-part of the sources and monitor exercise.
+part of the sources and monitor exercise, otherwise you may start from Exercise_chopper.instr
+
 
 ## HINTS
 * The guide has to be split into two segments to accommodate the chopper
