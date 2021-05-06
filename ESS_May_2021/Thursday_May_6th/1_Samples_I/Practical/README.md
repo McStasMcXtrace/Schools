@@ -27,7 +27,7 @@ COMPONENT single_crystal = Single_crystal(
   yheight=0.05, radius=0.01, mosaic=1, delta_d_d=1e-4,
   az=4.757, ay=0, az=0, bx=2.3785, by=0, bz=-3.364, cx=0, cy=12.9877, cz=0,
   p_transmit=0.1)
-AT (0, 0, 0) RELATIVE PREVIOUS
+AT (0, 0, 21) RELATIVE PREVIOUS
 </code>
 
 As you now know the ax,ay, ...., cz - parameters specify the crystal's unit cell vector in the coordinate system defined by the crystal AT-position.
