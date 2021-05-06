@@ -1,7 +1,7 @@
 # Part 1. Single Crystal laue camera
 In this exercise we will build a _very_ simple Laue camera and scatter neutrons on a single crystal in 4 steps.
 
-## Step 1 Add a new file and add a source
+## Step 1 Start a new file and add a source
 Open a new template instrument file as you have done before. (In the GUI CTRL-N)
 
 Insert a source component: Source_simple. I should have the following parameters (or similar):
