@@ -1,4 +1,4 @@
-# Recipe for writing a perfectly falt semipermeable mirror
+# Recipe for writing a perfectly flat semipermeable mirror
 
 * Copy ```Arm.comp``` from ```$MCSTAS/optics``` to the local workdir, rename to ```Mirror_simple.comp```
 * Edit the file changing all instances of Arm to Mirror_simple
