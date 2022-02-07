@@ -1,0 +1,195 @@
+COMPONENT mythen_0a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tth0,0,0) RELATIVE pxrd_1d_pt
+
+COMPONENT mythen_1a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_0a
+
+COMPONENT mythen_2a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_1a
+
+COMPONENT mythen_3a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_2a
+
+COMPONENT mythen_4a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_3a
+
+COMPONENT mythen_5a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_4a
+
+COMPONENT mythen_6a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_5a
+
+COMPONENT mythen_7a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_6a
+
+COMPONENT mythen_8a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_7a
+
+COMPONENT mythen_9a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_8a
+
+COMPONENT mythen_10a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_9a
+
+COMPONENT mythen_11a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_10a
+
+COMPONENT mythen_12a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_11a
+
+COMPONENT mythen_13a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_12a
+
+COMPONENT mythen_14a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_13a
+
+COMPONENT mythen_15a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_14a
+
+COMPONENT mythen_16a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_15a
+
+COMPONENT mythen_17a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_16a
+
+COMPONENT mythen_18a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_17a
+
+COMPONENT mythen_19a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_18a
+
+COMPONENT mythen_20a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_19a
+
+COMPONENT mythen_21a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_20a
+
+COMPONENT mythen_22a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_21a
+
+COMPONENT mythen_23a = Arm()
+AT(0,0,0) RELATIVE pxrd_1d_pt
+ROTATED(-dm_strip_tthc-dm_strip_tthg,0,0) RELATIVE mythen_22a
+
+
+
+
+COMPONENT mythen_0 = PSD_monitor(
+restore_xray=1, ny=1280, nx=1, yheight=dm_strip_deth, xwidth=dm_strip_detw,filename="mythen_0")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_0a
+GROUP mythen
+
+COMPONENT mythen_1 = COPY(mythen_0)(filename="mythen_1")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_1a
+GROUP mythen
+
+COMPONENT mythen_2 = COPY(mythen_0)(filename="mythen_2")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_2a
+GROUP mythen
+
+COMPONENT mythen_3 = COPY(mythen_0)(filename="mythen_3")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_3a
+GROUP mythen
+
+COMPONENT mythen_4 = COPY(mythen_0)(filename="mythen_4")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_4a
+GROUP mythen
+
+COMPONENT mythen_5 = COPY(mythen_0)(filename="mythen_5")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_5a
+GROUP mythen
+
+COMPONENT mythen_6 = COPY(mythen_0)(filename="mythen_6")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_6a
+GROUP mythen
+
+COMPONENT mythen_7 = COPY(mythen_0)(filename="mythen_7")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_7a
+GROUP mythen
+
+COMPONENT mythen_8 = COPY(mythen_0)(filename="mythen_8")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_8a
+GROUP mythen
+
+COMPONENT mythen_9 = COPY(mythen_0)(filename="mythen_9")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_9a
+GROUP mythen
+
+COMPONENT mythen_10 = COPY(mythen_0)(filename="mythen_10")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_10a
+GROUP mythen
+
+COMPONENT mythen_11 = COPY(mythen_0)(filename="mythen_11")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_11a
+GROUP mythen
+
+COMPONENT mythen_12 = COPY(mythen_0)(filename="mythen_12")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_12a
+GROUP mythen
+
+COMPONENT mythen_13 = COPY(mythen_0)(filename="mythen_13")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_13a
+GROUP mythen
+
+COMPONENT mythen_14 = COPY(mythen_0)(filename="mythen_14")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_14a
+GROUP mythen
+
+COMPONENT mythen_15 = COPY(mythen_0)(filename="mythen_15")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_15a
+GROUP mythen
+
+COMPONENT mythen_16 = COPY(mythen_0)(filename="mythen_16")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_16a
+GROUP mythen
+
+COMPONENT mythen_17 = COPY(mythen_0)(filename="mythen_17")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_17a
+GROUP mythen
+
+COMPONENT mythen_18 = COPY(mythen_0)(filename="mythen_18")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_18a
+GROUP mythen
+
+COMPONENT mythen_19 = COPY(mythen_0)(filename="mythen_19")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_19a
+GROUP mythen
+
+COMPONENT mythen_20 = COPY(mythen_0)(filename="mythen_20")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_20a
+GROUP mythen
+
+COMPONENT mythen_21 = COPY(mythen_0)(filename="mythen_21")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_21a
+GROUP mythen
+
+COMPONENT mythen_22 = COPY(mythen_0)(filename="mythen_22")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_22a
+GROUP mythen
+
+COMPONENT mythen_23 = COPY(mythen_0)(filename="mythen_23")
+WHEN (PXRD_STRIP) AT (0,0,SDD_1D) RELATIVE mythen_23a
+GROUP mythen

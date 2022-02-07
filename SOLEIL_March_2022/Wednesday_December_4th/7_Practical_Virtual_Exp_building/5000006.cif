@@ -1,0 +1,86 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-01-29 18:39:59 +0200 (Fri, 29 Jan 2016) $
+#$Revision: 175294 $
+#$URL: svn://www.crystallography.net/cod/cif/5/00/00/5000006.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_5000006
+loop_
+_publ_author_name
+'Koetzle, T. F.'
+'Frey, M. N.'
+'Lehmann, M. S.'
+'Hamilton, W. C.'
+_publ_section_title
+;
+ Precision neutron diffraction structure determination of protein
+ and nucleic acid components. XIII. Molecular and crystal structure
+ of the amino acid L-glutamine
+;
+_journal_issue                   11
+_journal_name_full               'Acta Crystallographica Section B'
+_journal_page_first              2571
+_journal_page_last               2575
+_journal_paper_doi               10.1107/S0567740873007028
+_journal_volume                  29
+_journal_year                    1973
+_chemical_formula_sum            'C5 H10 N2 O3'
+_space_group_IT_number           19
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      19
+_symmetry_space_group_name_Hall  'P 2ac 2ab'
+_symmetry_space_group_name_H-M   'P 21 21 21'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_formula_units_Z            4
+_cell_length_a                   16.02(1)
+_cell_length_b                   7.762(6)
+_cell_length_c                   5.119(4)
+_cod_database_code               5000006
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 x,y,z
+2 1/2+x,1/2-y,-z
+3 -x,1/2+y,1/2-z
+4 1/2-x,-y,1/2+z
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+C1 C 0.49240 0.58510 0.72500
+C2 C 0.41040 0.66590 0.62900
+C3 C 0.34180 0.52980 0.61540
+C4 C 0.36350 0.37620 0.44510
+C5 C 0.29780 0.23690 0.45120
+H1 H 0.45760 0.67160 0.24470
+H2 H 0.32990 0.48600 0.81650
+H3 H 0.28430 0.59040 0.54440
+H4 H 0.26690 0.01470 0.26390
+H5 H 0.35430 0.11600 0.14380
+H6 H 0.37440 0.41380 0.24250
+H7 H 0.36730 0.77400 0.27950
+H8 H 0.42080 0.31690 0.51330
+H9 H 0.45410 0.86670 0.39950
+H10 H 0.39210 0.76780 0.76480
+N1 N 0.42310 0.75000 0.36910
+N2 N 0.30540 0.11620 0.26800
+O1 O 0.54990 0.56400 0.56650
+O2 O 0.24190 0.23520 0.61530
+O3 O 0.49210 0.54070 0.96180
+loop_
+_atom_type_symbol
+_atom_type_radius_bond
+C 0.68
+H 0.20
+N 0.68
+O 0.68
