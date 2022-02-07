@@ -76,6 +76,5 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 ![DTU](images/dtu_logo.gif  "DTU")
 ![ESRF](images/esrf_logo.png  "ESRF")
 ![NBI](images/nbi-logo.png  "NBI")
-![SAXSLAB](images/saxslab-logo.jpg  "SAXSLAB")
 ![SOLEIL](images/soleil-logo.png  "SOLEIL")
 
