@@ -31,15 +31,15 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 
 (The below table is derived from an earlier programme and is in *DRAFT* status)
 
-|         |  Tuesday, Dec 3rd 2019 | Wednesday Dec 4th 2019 |
-|-------|-------------------|----------------------------|
-| 09:00-10:30 | [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/1_Introduction)  | Practical: [Advanced photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/5_Advanced_photon_sources)   |
+|         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
+|-------|-------------------|----------------------------|----------------------------|
+| 09:00-10:30 | [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/1_Introduction)  | Practical: [Advanced photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/5_Advanced_photon_sources)   | |
 | 10:30-10:45 |	Coffee break |	Coffee break |
-| 10:45-12:00 | Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/2_1st_Beamline)  |  [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/6_Advanced_Tricks)   |
-| 12:00-14:00 |	Lunch |	Lunch |
-| 14:00-16:00 | Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/3_Components)  |   Practical: [Samples and Virtual Experiments / part 1](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/7_Practical_Virtual_Exp_building)  |
+| 10:45-12:00 | Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/2_1st_Beamline)  |  [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/6_Advanced_Tricks)   | |
+| 12:00-14:00 |	Lunch |	Lunch | Lunch |
+| 14:00-16:00 | Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/3_Components)  |   Practical: [Samples and Virtual Experiments / part 1](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/7_Practical_Virtual_Exp_building)  | |
 | 16:00-16:15 |	Coffee break |	Coffee break |
-| 16:15-18:00 	 | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/4_Optics) |  Practical: [Samples and Virtual Experiments / part 2](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/8_Practical_Virtual_Exp_using)  |
+| 16:15-18:00 	 | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Tuesday_December_3rd/4_Optics) |  Practical: [Samples and Virtual Experiments / part 2](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_December_2019/Wednesday_December_4th/8_Practical_Virtual_Exp_using)  | |
 
 You will use the computers in the training room, which will be configured with a virtual machine running McXtrace. No installation is needed on your side. The training material will also be provided to attendees on USB sticks.
 
@@ -47,10 +47,9 @@ You will use the computers in the training room, which will be configured with a
 
 The school is organised by:
 - [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
-- [Erik Knudsen](http://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=7041&tab=2&qt=dtupublicationquery) , DTU Copenhagen, DK
-- [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU Copenhagen, DK
+- [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU, DK
 
-Registration is free (20 seats), and consists in sending an email to emmanuel.farhi@synchrotron-soleil.fr with subject "Inscription tutorial McXtrace 2019". Deadline for registration is Nov 28th 2019.
+Registration is free (20 seats), and consists in sending an email to emmanuel.farhi@synchrotron-soleil.fr with subject "Inscription tutorial McXtrace 2022". Deadline for registration is February XX 2022.
 
 This training is entirely funded by the Experiment Division at SOLEIL, with support from the Administrative Division.
 
@@ -66,13 +65,13 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 
 **References:**
 1. McXtrace http://www.mcxtrace.org/
-2. Downloads (version 1.5 from 24th of october 2019) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-1.5/
+2. Downloads (versions 3.0 from XX February 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.0/
 3. E Bergbäck Knudsen, Andrea Prodi, Jana Baltser, Maria Thomsen, P Kjær Willendrup, M Sanchez del Rio, Claudio Ferrero, Emmanuel Farhi, Kristoffer Haldrup, Anette Vickery, et al. "Mcxtrace: a monte carlo software package for simulating x-ray optics, beamlines and experiments". _Journal of Applied Crystallography_, **46(3)**:679-696, 2013.
 4. McXtrace/McStas Wiki https://github.com/McStasMcXtrace/McCode/wiki
 5. McXtrace/McStas repository https://github.com/McStasMcXtrace/McCode
 
 ***
-*McXtrace training - 2019*
+*McXtrace training - 2022*
 
 ![DTU](images/dtu_logo.gif  "DTU")
 ![ESRF](images/esrf_logo.png  "ESRF")
