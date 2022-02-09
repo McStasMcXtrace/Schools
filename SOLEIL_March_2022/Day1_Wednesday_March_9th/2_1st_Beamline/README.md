@@ -36,6 +36,7 @@ We now have a complete (albeit boring) beamline which we can run. Click the `Run
 
 You should now be presented with a new dialog asking you to set some parameters for your simulation. For now the default should suffice, so click the `Run` button to start the simulation. If all  goes well, this should return us to the main window where we may click `Plot` once the simulation is finished.
 This ought to give you a plot like:
+
 ![First Simulation Results](images/mxplot_first_sim.png?raw=true "")
 
 # Step 6. Get acquainted with the documentation tools
