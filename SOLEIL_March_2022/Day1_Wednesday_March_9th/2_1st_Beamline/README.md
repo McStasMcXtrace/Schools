@@ -7,7 +7,10 @@ The McXtrace main window should now open, looking like this.
 ![McXtrace main window](images/mxgui_main.png?raw=true "")
 
 # Step 2. Start a new instrument description.
-In the 'File' menu, please choose the 'New Instrument' item. This opens a file dialog window where you can choose a name for your new instrument file. Do so and click save. This now opens the Editor window of the GUI where you can edit a very simple template instrument file. ![McXtrace editor window](images/mxgui_editor.png?raw=true "")
+In the 'File' menu, please choose the 'New Instrument' item. This opens a file dialog window where you can choose a name for your new instrument file. Do so and click save. This now opens the Editor window of the GUI where you can edit a very simple template instrument file. 
+
+![McXtrace editor window](images/mxgui_editor.png?raw=true "")
+
 A McXtrace instrument description is a text-file just like any other program you write. Generally the suffix `.instr` is used but you could use whatever you like for this.
 
 # Step 3. Insert a source.
@@ -37,18 +40,23 @@ This ought to give you a plot like:
 
 # Step 6. Get acquainted with the documentation tools
 From the mxgui Help menu, the following entry points are available
+
 ![mxgui Help  Menu](images/mxdocfromGUI.png?raw=true "")
 
 mxdoc current instrument (will present you with information on the currently loaded instrument, if available)
 
 mxdoc Component Reference (will give you access to online-docs for all installed McXtrace components)
+
 ![mxdoc Component Reference](images/mxdoc_browser_overview.png?raw=true "")
+
 ![mxdoc component view](images/mxdoc_component.png?raw=true "")
 
 mcxtrace User Manual (will open your McXtrace user manual as a PDF)
+
 ![mxdoc User Manual](images/mxdoc_manual.png?raw=true "")
 
 mcxtrace Component Manual (will open your McXtrace component manual as a PDF)
+
 ![mxdoc User Manual](images/component_manual_front.png?raw=true "")
 
 mcxtrace Web Page (will take you to the McXtrace website)
