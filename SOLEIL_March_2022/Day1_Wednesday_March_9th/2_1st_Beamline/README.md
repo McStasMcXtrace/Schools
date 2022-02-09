@@ -4,6 +4,7 @@ In this exercise we will all together build an extremely simple beamline consist
 # Step 1. Open mxtrace.
 Start by either typing mxgui in ta terminal, double clicking the McXtrace icon, or choosing McXtrace from the application/start menu. Whatever is approprioate for your system,
 The McXtrace main window should now open, looking like this.
+
 ![McXtrace main window](images/mxgui_main.png?raw=true "")
 
 # Step 2. Start a new instrument description.
