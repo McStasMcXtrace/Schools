@@ -30,7 +30,7 @@ They use additional data files e.g.:
 - structure factors vs HKL or d-spacing. These are stored in `laz` (for Powders, with multiplicity) or `lau` (for single crystals and powders) F<sup>2</sup>(HKL) files. We generate such files from CIF data.
 - material files from e.g. [NIST](https://physics.nist.gov/PhysRefData/FFast/html/form.html) which contain Form Factors, Attenuation (absorption) and Scattering Cross-sections.
 
-The F<sup>2</sup>(HKL) reflection list is given as a text file such as the [Mo.lau](http://www.mcxtrace.org/download/components/data/Mo.lau) file. It may be computed from a [CIF](http://crystallography.net/) file using the [cif2hkl](http://www.mcstas.org/download/share/cif2hkl.F90) tool, which is provided with McXtrace (e.g. as `/usr/share/mcxtrace/1.5/bin/cif2hkl`). There is also a web service at http://barns.ill.fr/cif2hkl.html (no guaranty this persists in the future !).
+The F<sup>2</sup>(HKL) reflection list is given as a text file such as the [Mo.lau](http://www.mcxtrace.org/download/components/3.0/data/Mo.lau) file. It may be computed from a [CIF](http://crystallography.net/) file using the [cif2hkl](http://www.mcstas.org/download/share/cif2hkl.F90) tool, which is provided with McXtrace (e.g. as `/usr/share/mcxtrace/1.5/bin/cif2hkl`). There is also a web service at http://barns.ill.fr/cif2hkl.html (no guaranty this persists in the future !).
 
 For powders (Bragg lines with multiplicity)
 ``` bash
@@ -52,14 +52,14 @@ The support for absorption is not fully functional yet, but we work on it.
 Many laboratories are equipped with e.g. rotating anode X-ray sources. Indeed, powder diffraction is an efficient yet simple technique for material structure characterisation. A diffractogram allows to determine the nature and arrangement of atoms in a material. It is a very robust technique.
 
 In this exercise, we shall simulate a simple diffractometer with:
-- the [PowderN](http://www.mcxtrace.org/download/components/samples/PowderN.html) sample component ;
-- the [Test_Powder](http://www.mcxtrace.org/download/components/examples/Test_Powder.html) example (using PowderN).
+- the [PowderN](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html) sample component ;
+- the [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_Powder.html) example (using PowderN).
 
 We shall start the MxGUI interface, and load the *Test_PowderN* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The PowderN component
 
-The [PowderN](http://www.mcxtrace.org/download/components/samples/PowderN.html) component takes as input:
+The [PowderN](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html) component takes as input:
 -  some geometrical parameters (the sample shape) ;
 - a list of F<sup>2</sup>(HKL) `reflections` which takes into account the crystal structure (space group, atom type and location, lattice parameters). We use the `lau` or `laz` extension, but this is arbitrary, and any other will work as long as the information is there ;
 - an optional `material` file that provides absorption information.
@@ -82,7 +82,7 @@ where  &lambda; = 2 &pi;/k is the incident wavelength, _d_ is a distance separat
 
 #### Step A.1: incident photon energy parameter and single calculation
 
-The [Test_Powder](http://www.mcxtrace.org/download/components/examples/Test_Powder.html) description has only one input parameter `TTH`, which is not so useful to us.
+The [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_Powder.html) description has only one input parameter `TTH`, which is not so useful to us.
 
 Change `TTH` into an `E0` incident photon energy (in keV with default value 15), update the documentation accordingly, and forward this value to the source component `src`. 
 
@@ -135,14 +135,14 @@ mxplot <output_dir>
 ## Exercise B: Macromolecular crystallography (MX)
 
 In this exercise, we aim to demonstrate how an MX measurement can be simulated (in a simplified way). For this, we shall use:
-- the [Single_crystal](http://www.mcxtrace.org/download/components/samples/Single_crystal.html) sample component ;
-- the [Test_SX](http://www.mcxtrace.org/download/components/examples/Test_SX.html) example (using the Single_crystal).
+- the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) sample component ;
+- the [Test_SX](http://www.mcxtrace.org/download/components/3.0/examples/Test_SX.html) example (using the Single_crystal).
 
 We shall start the MxGUI interface, and load the *Test_SX* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The Single_crystal component
 
-To date, the [Single_crystal](http://www.mcxtrace.org/download/components/samples/Single_crystal.html) is one of our most complex McXtrace component. It takes as input:
+To date, the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) is one of our most complex McXtrace component. It takes as input:
 - some geometrical parameters (the sample shape) ;
 - a list of F<sup>2</sup>(HKL) `reflections` which takes into account the crystal structure (space group, atom type and location, lattice parameters). We use the `lau` extension, but this is arbitrary, and any other will work as long as the information is there ;
 - an optional `material` file that provides absorption information.
@@ -156,7 +156,7 @@ COMPONENT sample = Single_crystal(reflections="Mo.lau",
 
 #### Step B.1: Add a Progress_bar and clean-up some components
 
-In order to monitor the execution of the simulation, and get an estimate of the computation time, we can add a [Progress_bar](http://www.mcxtrace.org/download/components/misc/Progress_bar.html) component. Position the cursor right after the `TRACE` keyword in the [Test_SX](http://www.mcxtrace.org/download/components/examples/Test_SX.html) example, and add the component, with no parameter, on the Origin (ABSOLUTE positioning).
+In order to monitor the execution of the simulation, and get an estimate of the computation time, we can add a [Progress_bar](http://www.mcxtrace.org/download/components/3.0/misc/Progress_bar.html) component. Position the cursor right after the `TRACE` keyword in the [Test_SX](http://www.mcxtrace.org/download/components/3.0/examples/Test_SX.html) example, and add the component, with no parameter, on the Origin (ABSOLUTE positioning).
 
 Remove the `ttarm` and `detector2` components, that we won't use here. Extend the remaining detector pixel size by a factor 10 on each axis (e.g. 2k x 2k) so that it matches better a real detector binning.
 
@@ -194,7 +194,7 @@ Specify rotations `rotX` and `rotY` along axis X and Y of the sample component. 
 
 We can remove the central beam spot in three different ways:
 1. use an EXTEND block and remove all non scattered events immediately (perfect beam-stop)
-2. use a [Beamstop](http://www.mcxtrace.org/download/components/optics/Beamstop.html) component 
+2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html) component 
 3. use a variable of our own to record when a ray has scattered or not, and make use of it with EXTEND and WHEN keywords afterwards.
 
 The first solution is extremely simple. Right after the sample component block, add an EXTEND block (with `%{` and `%}` delimiters), and write a C statement that implements:

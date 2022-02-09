@@ -11,65 +11,65 @@ The [McXtrace](http://www.mcxtrace.org) components are the building blocks of a 
 
 You can get an overview of all components from the Help menu in the MxGUI window, or by typing the command `mxdoc.pl` in a Terminal window. A browser window appears. Clicking on the *comp* item provides its description (header) and source code (and its location in the URL).
 
-You can also access the list of all available components on-line [HERE](http://www.mcxtrace.org/download/components/).
+You can also access the list of all available components on-line [HERE](http://www.mcxtrace.org/download/components/3.0/).
 
 ## Overview of Source components
 
 ### Synchrotron Insertion Devices
-- [Bending magnet](http://www.mcxtrace.org/download/components/sources/Bending_magnet.html)  see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
-- [Undulator](http://www.mcxtrace.org/download/components/sources/Undulator.html) see K.J. Kim, AIP, conf. proc., 184, 1989
-- [Wiggler](http://www.mcxtrace.org/download/components/sources/Wiggler.html) see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+- [Bending magnet](http://www.mcxtrace.org/download/components/3.0/sources/Bending_magnet.html)  see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+- [Undulator](http://www.mcxtrace.org/download/components/3.0/sources/Undulator.html) see K.J. Kim, AIP, conf. proc., 184, 1989
+- [Wiggler](http://www.mcxtrace.org/download/components/3.0/sources/Wiggler.html) see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
 
 ### Lab/ideal stuff
-- [Laboratory X-ray tube](http://www.mcxtrace.org/download/components/sources/Source_lab.html)  (e.g. rotating anode)
+- [Laboratory X-ray tube](http://www.mcxtrace.org/download/components/3.0/sources/Source_lab.html)  (e.g. rotating anode)
 - Ideal, point and Gaussian
 
 ### Interfaces with other software
 
 By its modularity and open source design, McXtrace can communicate with other X-ray simulation software (R: read, W: write).
 
-- [Spectra](http://www.mcxtrace.org/download/components/sources/Source_spectra.html) (R) <http://spectrax.org/spectra/>
-- [Simplex](http://www.mcxtrace.org/download/components/sources/Source_simplex.html) (R) <http://spectrax.org/simplex/index.html >
-- [Genesis](http://www.mcxtrace.org/download/components/sources/Source_genesis13.html) (R) <http://genesis.web.psi.ch/>
-- [Shadow](http://www.mcxtrace.org/download/components/misc/Shadow_input.html) (RW) <https://github.com/oasys-kit/shadow3>
-- [MCPL](http://www.mcxtrace.org/download/components/misc/MCPL_input.html) (GEANT4, PHITS, MCNP,SRW) (RW) <https://mctools.github.io/mcpl/>
+- [Spectra](http://www.mcxtrace.org/download/components/3.0/sources/Source_spectra.html) (R) <http://spectrax.org/spectra/>
+- [Simplex](http://www.mcxtrace.org/download/components/3.0/sources/Source_simplex.html) (R) <http://spectrax.org/simplex/index.html >
+- [Genesis](http://www.mcxtrace.org/download/components/3.0/sources/Source_genesis13.html) (R) <http://genesis.web.psi.ch/>
+- [Shadow](http://www.mcxtrace.org/download/components/3.0/misc/Shadow_input.html) (RW) <https://github.com/oasys-kit/shadow3>
+- [MCPL](http://www.mcxtrace.org/download/components/3.0/misc/MCPL_input.html) (GEANT4, PHITS, MCNP,SRW) (RW) <https://mctools.github.io/mcpl/>
 - SRW (R) <https://github.com/ochubar/SRW> Our converter generates an MCPL exchange file from SRW
 
 ## Optics components
 
 There is a dedicated session about this topic, but we here list a few components that are available to describe beam-lines.
 
-- [Bragg crystal](http://www.mcxtrace.org/download/components/optics/Bragg_crystal.html) (monochromator, incl. [bent](http://www.mcxtrace.org/download/components/optics/Bragg_crystal_bent.html))
-- [Capillary](http://www.mcxtrace.org/download/components/optics/Capillary.html)
-- [Filter](http://www.mcxtrace.org/download/components/optics/Filter.html) (absorption and refraction)
-- [Lenses](http://www.mcxtrace.org/download/components/optics/Lens_simple.html)
-- Mirrors ([flat](http://www.mcxtrace.org/download/components/optics/Mirror.html), [curved](http://www.mcxtrace.org/download/components/optics/Mirror_curved.html), [multi-layers](http://www.mcxtrace.org/download/components/optics/Multilayer_elliptic.html), [twin KB](http://www.mcxtrace.org/download/components/optics/TwinKB_ML.html)  multi-layer)
-- [Zone plate](http://www.mcxtrace.org/download/components/optics/ZonePlate.html)
-- [Grating](http://www.mcxtrace.org/download/components/contrib/Reflective_grating.html) (lamellar, blazed)
-- [Slit](http://www.mcxtrace.org/download/components/optics/Slit.html), [beam-stop](http://www.mcxtrace.org/download/components/optics/Beamstop.html), ...
+- [Bragg crystal](http://www.mcxtrace.org/download/components/3.0/optics/Bragg_crystal.html) (monochromator, incl. [bent](http://www.mcxtrace.org/download/components/3.0/optics/Bragg_crystal_bent.html))
+- [Capillary](http://www.mcxtrace.org/download/components/3.0/optics/Capillary.html)
+- [Filter](http://www.mcxtrace.org/download/components/3.0/optics/Filter.html) (absorption and refraction)
+- [Lenses](http://www.mcxtrace.org/download/components/3.0/optics/Lens_simple.html)
+- Mirrors ([flat](http://www.mcxtrace.org/download/components/3.0/optics/Mirror.html), [curved](http://www.mcxtrace.org/download/components/3.0/optics/Mirror_curved.html), [multi-layers](http://www.mcxtrace.org/download/components/3.0/optics/Multilayer_elliptic.html), [twin KB](http://www.mcxtrace.org/download/components/3.0/optics/TwinKB_ML.html)  multi-layer)
+- [Zone plate](http://www.mcxtrace.org/download/components/3.0/optics/ZonePlate.html)
+- [Grating](http://www.mcxtrace.org/download/components/3.0/contrib/Reflective_grating.html) (lamellar, blazed)
+- [Slit](http://www.mcxtrace.org/download/components/3.0/optics/Slit.html), [beam-stop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html), ...
 
 ## Samples
 
 Samples are essential to build so-called virtual beam-lines, and reproduce data that look like real experiments. There are dedicated sessions on this topic.
 
-- [SAXS sample](http://www.mcxtrace.org/download/components/samples/SasView_model.html) : 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), [sphere](http://www.mcxtrace.org/download/components/samples/Saxs_spheres.html),  …
-- [Powder](http://www.mcxtrace.org/download/components/samples/PowderN.html): diffraction
-- [Polycrystal](http://www.mcxtrace.org/download/components/samples/Polycrystal.html): diffraction
-- [Pump-probe](http://www.mcxtrace.org/download/components/samples/Molecule_2state.html) (2 states) molecule
-- [Single crystal](http://www.mcxtrace.org/download/components/samples/Single_crystal.html): diffraction, also for MX
+- [SAXS sample](http://www.mcxtrace.org/download/components/3.0/samples/SasView_model.html) : 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), [sphere](http://www.mcxtrace.org/download/components/3.0/samples/Saxs_spheres.html),  …
+- [Powder](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html): diffraction
+- [Polycrystal](http://www.mcxtrace.org/download/components/3.0/samples/Polycrystal.html): diffraction
+- [Pump-probe](http://www.mcxtrace.org/download/components/3.0/samples/Molecule_2state.html) (2 states) molecule
+- [Single crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html): diffraction, also for MX
 
 All samples can have simple geometric shapes (incl. hollow).
 Powder and SX can have any shape (PLY/OFF).
 Powder sample supports multiple concentric geometries (e.g. for cryostat, containers, ...).
-McXtrace comes with a [material data base](http://www.mcxtrace.org/download/components/data) , and can use e.g. NIST files.
+McXtrace comes with a [material data base](http://www.mcxtrace.org/download/components/3.0/data) , and can use e.g. NIST files.
 
 ## Monitors
 
-There are plenty of monitors. Some are specific (e.g. a [PSD](http://www.mcxtrace.org/download/components/monitors/PSD_monitor.html), others are versatile (e.g. [Monitor_nD](http://www.mcxtrace.org/download/components/monitors/Monitor_nD.html)).
+There are plenty of monitors. Some are specific (e.g. a [PSD](http://www.mcxtrace.org/download/components/3.0/monitors/PSD_monitor.html), others are versatile (e.g. [Monitor_nD](http://www.mcxtrace.org/download/components/3.0/monitors/Monitor_nD.html)).
 
 ## Exercise: look at a component and modify it
 
-In this hands-on, we shall copy an existing component, and change its behaviour. We start from the Session 1 *[First beam-line](../2_1st_Beamline)*. The monitor used is *[PSD_monitor](http://www.mcxtrace.org/download/components/monitors/PSD_monitor.html)*. 
+In this hands-on, we shall copy an existing component, and change its behaviour. We start from the Session 1 *[First beam-line](../2_1st_Beamline)*. The monitor used is *[PSD_monitor](http://www.mcxtrace.org/download/components/3.0/monitors/PSD_monitor.html)*. 
 
 This is a very simple example. When you get more experienced with McXtrace, we encourage you to contribute by sending to us (via [GitHub](https://github.com/McStasMcXtrace/McCode) or email at mcxtrace-users@mcxtrace.org) your own components, so that they become available to others.
 
