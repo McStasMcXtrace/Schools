@@ -49,7 +49,7 @@ The school is organised by:
 - [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
 - [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU, DK
 
-Registration is free (20 seats), and consists in sending an email to emmanuel.farhi@synchrotron-soleil.fr with subject "Inscription tutorial McXtrace 2022". Deadline for registration is February XX 2022.
+[Registration](https://indico.synchrotron-soleil.fr/event/37/) is free (20 seats). Deadline for registration is February 28 2022.
 
 This training is entirely funded by the Experiment Division at SOLEIL, with support from the Administrative Division.
 
