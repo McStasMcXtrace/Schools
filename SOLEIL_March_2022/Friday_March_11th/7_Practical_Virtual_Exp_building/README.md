@@ -218,4 +218,4 @@ You may repeat the calculation with the L-glutamine from http://crystallography.
 - Comment on the missing contributions.
 
 ---
-*McXtrace training - 2019*
+*McXtrace training - 2022*

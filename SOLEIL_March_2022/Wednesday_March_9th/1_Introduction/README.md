@@ -48,4 +48,4 @@ The  [McXtrace](http://www.mcxtrace.org) software has been derived in 2009 from 
 ## Tips and Tricks / How to get help
 
 ---
-*McXtrace training - 2019*
+*McXtrace training - 2022*

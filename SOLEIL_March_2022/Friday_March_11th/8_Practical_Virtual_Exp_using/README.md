@@ -167,4 +167,4 @@ Look at individual scan steps (e.g. directories 0,1,2, ...).
 The container contribution should keep calm, while the crystal Bragg spots should move around.
 
 ---
-*McXtrace training - 2019*
+*McXtrace training - 2022*

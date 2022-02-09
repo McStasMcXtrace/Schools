@@ -115,4 +115,4 @@ Change the `DEFINE ... (Par1=1 )` line into DEFINE ... `(E0=15)`. We turn the `P
 Plot the results and comment.
 
 ---
-*McXtrace training - 2019*
+*McXtrace training - 2022*
