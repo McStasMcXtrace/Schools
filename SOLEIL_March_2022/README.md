@@ -74,7 +74,5 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 *McXtrace training - 2022*
 
 ![DTU](images/dtu_logo.gif  "DTU")
-![ESRF](images/esrf_logo.png  "ESRF")
-![NBI](images/nbi-logo.png  "NBI")
 ![SOLEIL](images/soleil-logo.png  "SOLEIL")
 
