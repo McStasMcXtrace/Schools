@@ -33,13 +33,13 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 
 |         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
 |-------|-------------------|----------------------------|----------------------------|
-| 09:00-10:30 | |  Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Thursday_March_10th/3_Components) | Practical: [Samples and Virtual Experiments / part 1](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Friday_March_11th/7_Practical_Virtual_Exp_building) |
+| 09:00-10:30 | |  Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Practical: [Samples and Virtual Experiments / part 1](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/7_Practical_Virtual_Exp_building) |
 | 10:30-10:45 | |	Coffee break |Coffee break|
-| 10:45-12:00 | | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Thursday_March_10th/4_Optics) | Practical: [Samples and Virtual Experiments / part 2](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Friday_March_11th/8_Practical_Virtual_Exp_using) |
+| 10:45-12:00 | | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/4_Optics) | Practical: [Samples and Virtual Experiments / part 2](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_using) |
 | 12:00-14:00 |	Lunch |	Lunch | Lunch |
-| 14:00-16:00 |[Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Wednesday_March_9th/1_Introduction)  | Practical: [Advanced photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Thursday_March_10th/5_Advanced_photon_sources) | |
+| 14:00-16:00 |[Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Advanced photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Advanced_photon_sources) | |
 | 16:00-16:15 |	Coffee break |	Coffee break |
-| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Wednesday_March_9th/2_1st_Beamline) |  [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Thursday_March_10th/6_Advanced_Tricks) | |
+| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) |  [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Advanced_Tricks) | |
 
 You will use the computers in the training room, which will be configured with a virtual machine running McXtrace. No installation is needed on your side. The training material will also be provided to attendees on USB sticks.
 
