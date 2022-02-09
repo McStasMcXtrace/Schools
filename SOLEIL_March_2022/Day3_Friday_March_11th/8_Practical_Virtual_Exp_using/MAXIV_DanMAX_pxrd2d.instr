@@ -114,9 +114,13 @@ DECLARE
     const int pxrd_2d_nx=1475;
     const int pxrd_2d_ny=1679;
     int h;
-    char flag_sample, flag_container;
-    double russian=0;
 
+%}
+
+USERVARS %{
+  int flag_sample;
+  int flag_container;
+  double russian;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -501,7 +505,7 @@ COMPONENT powdern = PowderN(
     radius=sample_radius,
     yheight=10e-3, d_phi = 90,
     pack = 0.6, Vc=71.830, density = 4.72, thickness=-1e-6)
-    WHEN(container && strlen(container) && strcmp(container,"NULL") && strcmp(container,"0") && russian < 0.05)
+  WHEN(container && strlen(container) && strcmp(container,"NULL") && strcmp(container,"0") && russian < 0.05)
 AT (0, 0, 0) RELATIVE pxrd_2d_pt
 ROTATED (0,0,90) RELATIVE pxrd_2d_pt
 EXTEND %{
@@ -512,7 +516,7 @@ COMPONENT sx = Single_crystal(
     reflections=sample,
     radius=sample_radius, mosaic=1, 
     yheight=10e-3, p_transmit = 0)
-WHEN(sample && strlen(sample) && strcmp(sample,"NULL") && strcmp(sample,"0") && russian >= 0.05)
+  WHEN(sample && strlen(sample) && strcmp(sample,"NULL") && strcmp(sample,"0") && russian >= 0.05)
 AT (0, 0, 0) RELATIVE pxrd_2d_pt
 ROTATED (0,0,90) RELATIVE pxrd_2d_pt
 EXTEND %{
