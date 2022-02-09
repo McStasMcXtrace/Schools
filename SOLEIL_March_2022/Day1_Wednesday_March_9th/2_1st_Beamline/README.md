@@ -4,10 +4,14 @@ In this exercise we will all together build an extremely simple beamline consist
 # Step 1. Open mxtrace.
 Start by either typing mxgui in ta terminal, double clicking the McXtrace icon, or choosing McXtrace from the application/start menu. Whatever is approprioate for your system,
 The McXtrace main window should now open, looking like this.
+
 ![McXtrace main window](images/mxgui_main.png?raw=true "")
 
 # Step 2. Start a new instrument description.
-In the 'File' menu, please choose the 'New Instrument' item. This opens a file dialog window where you can choose a name for your new instrument file. Do so and click save. This now opens the Editor window of the GUI where you can edit a very simple template instrument file. ![McXtrace editor window](images/mxgui_editor.png?raw=true "")
+In the 'File' menu, please choose the 'New Instrument' item. This opens a file dialog window where you can choose a name for your new instrument file. Do so and click save. This now opens the Editor window of the GUI where you can edit a very simple template instrument file. 
+
+![McXtrace editor window](images/mxgui_editor.png?raw=true "")
+
 A McXtrace instrument description is a text-file just like any other program you write. Generally the suffix `.instr` is used but you could use whatever you like for this.
 
 # Step 3. Insert a source.
@@ -33,22 +37,28 @@ We now have a complete (albeit boring) beamline which we can run. Click the `Run
 
 You should now be presented with a new dialog asking you to set some parameters for your simulation. For now the default should suffice, so click the `Run` button to start the simulation. If all  goes well, this should return us to the main window where we may click `Plot` once the simulation is finished.
 This ought to give you a plot like:
+
 ![First Simulation Results](images/mxplot_first_sim.png?raw=true "")
 
 # Step 6. Get acquainted with the documentation tools
 From the mxgui Help menu, the following entry points are available
+
 ![mxgui Help  Menu](images/mxdocfromGUI.png?raw=true "")
 
 mxdoc current instrument (will present you with information on the currently loaded instrument, if available)
 
 mxdoc Component Reference (will give you access to online-docs for all installed McXtrace components)
+
 ![mxdoc Component Reference](images/mxdoc_browser_overview.png?raw=true "")
+
 ![mxdoc component view](images/mxdoc_component.png?raw=true "")
 
 mcxtrace User Manual (will open your McXtrace user manual as a PDF)
+
 ![mxdoc User Manual](images/mxdoc_manual.png?raw=true "")
 
 mcxtrace Component Manual (will open your McXtrace component manual as a PDF)
+
 ![mxdoc User Manual](images/component_manual_front.png?raw=true "")
 
 mcxtrace Web Page (will take you to the McXtrace website)
