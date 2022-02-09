@@ -75,7 +75,7 @@ This is a very simple example. When you get more experienced with McXtrace, we e
 
 Start by copying the initial component to your working directory, and edit it:
 ```bash
-cp /usr/share/mcxtrace/1.5/monitors/PSD_monitor.comp myPSD_monitor.comp
+cp /usr/share/mcxtrace/3.0/monitors/PSD_monitor.comp myPSD_monitor.comp
 gedit myPSD_monitor.comp &
 ```
 

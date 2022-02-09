@@ -19,7 +19,7 @@ cif2hkl: error while loading shared libraries: libgfortran.so.5: cannot open sha
 To get rid of this, one just needs to recompile `cif2hkl`, e.g.:
 ``` bash
 sudo apt install gfortran
-cd /usr/share/mcxtrace/1.5/libs/cif2hkl
+cd /usr/share/mcxtrace/3.0/libs/cif2hkl
 sudo gfortran -O2 -o cif2hkl cif2hkl.F90 -lm
 sudo cp cif2hkl /usr/bin/
 sudo rm *.mod
