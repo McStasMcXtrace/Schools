@@ -65,7 +65,7 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 
 **References:**
 1. McXtrace http://www.mcxtrace.org/
-2. Downloads (versions 3.0 from XX February 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.0/
+2. Downloads (version 3.0 from February 8th 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.0/
 3. E Bergbäck Knudsen, Andrea Prodi, Jana Baltser, Maria Thomsen, P Kjær Willendrup, M Sanchez del Rio, Claudio Ferrero, Emmanuel Farhi, Kristoffer Haldrup, Anette Vickery, et al. "Mcxtrace: a monte carlo software package for simulating x-ray optics, beamlines and experiments". _Journal of Applied Crystallography_, **46(3)**:679-696, 2013.
 4. McXtrace/McStas Wiki https://github.com/McStasMcXtrace/McCode/wiki
 5. McXtrace/McStas repository https://github.com/McStasMcXtrace/McCode
