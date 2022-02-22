@@ -13,8 +13,6 @@ N.b. This requires the Gnu Scientific Library to be installed. This should have 
 Just as you have seen  before, the focus_xw, focus_yh, and dist parameteres simply indicate at sampling window downstream of the undulator. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator.
 2. Insert two monitors **20 m** downstream: one PSD and one energy-resolved monitor. Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range. 
 
-**Unfortunately there's a 1-off bug in Source_spectra.com** Please use this ![.comp file](data/Source_spectra.comp?raw=true)
-
 ## Exercise: Connect with SPECTRA
 If you do not have it already you may download SPECTRA freely from the riken website: (http://spectrax.org/spectra/), but for the purpose of this exercise we have pre-generated a set of datafiles, that you may use: [1st harmonic](data/sp8sU_h1.zip?raw=true ""), and [3rd harmonic](data/sp8sU_h3.zip?raw=true "").
 
@@ -49,8 +47,6 @@ The reason that you only see radiation in one quadrant is that the spectra dataf
 * It is apparent that these supplied data-files are far too coarsely sampled. For a really useful simulation it is necessary to create bigger datafiles, for instance such as [1st harmonic long](data/sp8sU_1h_3.zip).
 
 ## Exercise: Use SRW-generated output to simulate a beamline.
-
-**N.B. The gremlins that be have introduced a bug in MCPL_input.comp - there is an update version in the code-tree and ![here](data/MCPL_input.comp)**
 
 We will now use a different utiltiy to drive a McXtrace-simulation: MCPL. In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). This may be done using a c++-program `srw2mcl` that makes repeated calls to SRW and generates rays from that. This procedure is rather slow, so for this tutorial (to save time) we provide a pre-generated mcpl-file that you may use. The program itself may be found in the McXtrace repository and on the  McXtrace website, and you need a working installation of SRW to compile it.
 
