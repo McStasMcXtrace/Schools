@@ -31,7 +31,7 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 
 |         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
 |-------|-------------------|----------------------------|----------------------------|
-| 09:00-10:30 | |  Lesson: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Lesson: [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/7_Advanced_Tricks) |
+| 09:00-10:30 | |  Lesson/Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Lesson: [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/7_Advanced_Tricks) |
 | 10:30-10:45 | |	Coffee break |Coffee break|
 | 10:45-12:00 | | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/4_Optics) | Practical: [Samples and Virtual Experiments / absorption spectroscopy](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy) |
 | 12:00-14:00 |	Lunch |	Lunch | Lunch |
