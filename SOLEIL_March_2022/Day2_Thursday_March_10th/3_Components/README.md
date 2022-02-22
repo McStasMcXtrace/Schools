@@ -52,16 +52,20 @@ There is a dedicated session about this topic, but we here list a few components
 
 Samples are essential to build so-called virtual beam-lines, and reproduce data that look like real experiments. There are dedicated sessions on this topic.
 
-- [SAXS sample](http://www.mcxtrace.org/download/components/3.0/samples/SasView_model.html) : 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), [sphere](http://www.mcxtrace.org/download/components/3.0/samples/Saxs_spheres.html),  …
+- [SAXS sample](http://www.mcxtrace.org/download/components/3.0/samples/SasView_model.html) : 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), 
+- [Saxs_sphere](http://www.mcxtrace.org/download/components/3.0/samples/Saxs_spheres.html),  …
 - [Powder](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html): diffraction
 - [Polycrystal](http://www.mcxtrace.org/download/components/3.0/samples/Polycrystal.html): diffraction
-- [Pump-probe](http://www.mcxtrace.org/download/components/3.0/samples/Molecule_2state.html) (2 states) molecule
 - [Single crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html): diffraction, also for MX
+- [Pump-probe](http://www.mcxtrace.org/download/components/3.0/samples/Molecule_2state.html) (2 states) molecule to simulate a laser-probe decay (time resolved).
+- [Absorption_sample](http://www.mcxtrace.org/download/components/3.0/samples/Absorption_sample.html) a 1 or 2 absorbing materials as a box or cylinder; [Filter](http://www.mcxtrace.org/download/components/3.0/optics/Filter.html) which can handle absorption and refraction, as a block or any geometry; [Abs_objects](http://www.mcxtrace.org/download/components/3.0/samples/Abs_objects.html) a set of absorping objects which geometry is set from OFF/PLY files.
 
 All samples can have simple geometric shapes (incl. hollow).
-Powder and SX can have any shape (PLY/OFF).
+Powder, SX, Filter and Abs_objects can have any shape (PLY/OFF).
 Powder sample supports multiple concentric geometries (e.g. for cryostat, containers, ...).
 McXtrace comes with a [material data base](http://www.mcxtrace.org/download/components/3.0/data) , and can use e.g. NIST files.
+
+:warning: the Powder and SX components can curently not be used within the same model (there is a name clash). This will be fixed for the next release.
 
 ## Monitors
 
@@ -94,7 +98,7 @@ In the `PSD_monitor` component, there is a test for intersection of the detector
 
 The `SAVE` section is where the output file is generated. In most cases, the `DETECTOR_OUT_2D` function is called with name, labels, bounds, arrays, and file name. This optional section is mostly used in monitor components.
 
-The `FINALLY` section is used here to free the allocated memory on exit, and the `MCDISPLAY` indicates how to draw the component with drawing primitives (line, multiline, rectangle, box, circle, sphere).
+The `FINALLY` section is used here to free the allocated memory on exit, and the `MCDISPLAY` indicates how to draw the component with drawing primitives (line, multiline, rectangle, box, circle, sphere, off_display).
 
 ### Step 2: Component surgery
 
@@ -113,6 +117,8 @@ Does it change the overall response ? The effect can mostly be seen when changin
 Change the `DEFINE ... (Par1=1 )` line into DEFINE ... `(E0=15)`. We turn the `Par1` input parameter into something meaningful. Change the Source component in the TRACE section to use `E0` as central photon energy (in keV). Now run the simulation again, and request a scan of the `E0` parameter. For this you need to specify in the Run dialogue a scanning range as `E0=1,50` and a number of steps (_Sweeps_), say 25.
 
 Plot the results and comment.
+
+:bulb: You may as well emit a white/rose spectrum at the source (with a large `dE`) and use a similarly modified `E_monitor` to acquire in a single computation the whole energy range and detector response. Using an unmodified `E_monitor` can be used to compare the ideal detector output with your version.
 
 ---
 *McXtrace training - 2022*
