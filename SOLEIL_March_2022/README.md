@@ -33,21 +33,23 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 
 |         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
 |-------|-------------------|----------------------------|----------------------------|
-| 09:00-10:30 | |  Lesson: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Practical: [Samples and Virtual Experiments / diffraction](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/7_Practical_Virtual_Exp_building) |
+| 09:00-10:30 | |  Lesson: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Lesson: [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Advanced_Tricks) |
 | 10:30-10:45 | |	Coffee break |Coffee break|
 | 10:45-12:00 | | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/4_Optics) | Practical: [Samples and Virtual Experiments / absorption spectroscopy](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_using) |
 | 12:00-14:00 |	Lunch |	Lunch | Lunch |
-| 14:00-16:00 |[Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Advanced_photon_sources) | |
+| 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Advanced_photon_sources) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/9_starting_your_own_beam_line) |
 | 16:00-16:15 |	Coffee break |	Coffee break |
-| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) |  [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Advanced_Tricks) | |
+| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/7_Practical_Virtual_Exp_building)  | |
 
 You will access McXtrace via a browser on your laptop. No software installation is required.
-- For SOLEIL staff (wifi) start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>
-- For all, access a prepared McXtrace simulation environement from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment.
+
+- For SOLEIL staff (wifi, on-site): start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>
+- For all: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: the computing power is limited.
 
 ## Registration and contacts
 
 The school is organised by:
+
 - [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
 - [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU, DK
 
@@ -66,6 +68,7 @@ It is a collaborative effort between DTU Physics, European Synchrotron Radiation
 It is built upon the code base of the proven and successful neutron ray-tracing package [McStas](http://mcstas.org/) and today McXtrace and McStas share a central code repository at https://github.com/McStasMcXtrace/McCode.
 
 **References:**
+
 1. McXtrace http://www.mcxtrace.org/
 2. Downloads (version 3.0 from February 8th 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.0/
 3. E Bergbäck Knudsen, Andrea Prodi, Jana Baltser, Maria Thomsen, P Kjær Willendrup, M Sanchez del Rio, Claudio Ferrero, Emmanuel Farhi, Kristoffer Haldrup, Anette Vickery, et al. "Mcxtrace: a monte carlo software package for simulating x-ray optics, beamlines and experiments". _Journal of Applied Crystallography_, **46(3)**:679-696, 2013.
