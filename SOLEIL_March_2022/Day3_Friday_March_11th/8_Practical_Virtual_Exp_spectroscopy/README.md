@@ -86,8 +86,6 @@ In this exercise, we wish to superpose the single crystal contribution with a mo
 
 🤫️To date, this is an experimental feature. We are on the bleeding edge !
 
-⚠️To circumvent a bug currently in McXtrace 1.5, you need to get an updated version of PowderN at https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/samples/PowderN.comp.
-
 🔆️The idea here is to model a Polyamide powder container kind of _around_ the LaB6 crystal. For this exercise, we shall consider that the container is made of poly-crystalline polyamide. We suggest you search for a polyamide structure (for instance COD entry [1504080](http://crystallography.net/cod/1504080.html)), then get its CIF and generate the F2(HKL) reflection list. We also recommend that you remove the `sigma_` lines in the  F2(HKL) file so that the model only computes the coherent diffraction scattering, without any surrounding background.
 
 Add a PowderN component right after the sample, with the same geometry, but a 1 &mu;m polyamide layer _outside_ the cylinder (use a negative `thickness` parameter to extend the geometry outside the inner crystal shape). The contribution from the container is too strong compared with the single crystal. We thus suggest to reduce it artificially by lowering its packing factor (density) using `pack = 0.006`.
