@@ -23,13 +23,11 @@ McXtrace allows to describe X-ray (synchrotron and X-FEL) beam-lines with source
 - Shadow (RW) <https://github.com/oasys-kit/shadow3>
 - MCPL (GEANT4, PHITS, MCNP, SRW) (RW) <https://mctools.github.io/mcpl/>
 
-The newly released McXtrace-3.0 allows execution on NVIDIA GPU's
+The newly released McXtrace-3.0 allows execution on NVIDIA GPU's.
 
 ## Programme
 
 The training is mostly focused at hands-on topical sessions, each with a few introductory slides, and guided exercises.
-
-(The below table is derived from an earlier programme and is in *DRAFT* status)
 
 |         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
 |-------|-------------------|----------------------------|----------------------------|
@@ -37,14 +35,18 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 | 10:30-10:45 | |	Coffee break |Coffee break|
 | 10:45-12:00 | | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/4_Optics) | Practical: [Samples and Virtual Experiments / absorption spectroscopy](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy) |
 | 12:00-14:00 |	Lunch |	Lunch | Lunch |
-| 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Advanced_photon_sources) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/9_starting_your_own_beam_line) |
+| 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Advanced_photon_sources) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/9_Starting_your_own_beam_line) |
 | 16:00-16:15 |	Coffee break |	Coffee break |
 | 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Practical_Virtual_Exp_diffraction)  | |
 
+## Installation
+
 You will access McXtrace via a browser on your laptop. No software installation is required.
 
-- For SOLEIL staff (wifi, on-site): start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>
-- For all: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: the computing power is limited.
+- For SOLEIL staff (wifi, on-site): start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>. :+1: This option provides optimal computing power.
+- For all: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: This option provides a limited computing power.
+
+In case you wish to install the software yourself, refer to the [McXtrace installation](http://mcxtrace.org/download/) page. Version 1.7 is the legacy one. Version 3 is the 'next-generation' one with a improved performance, GPU support at the cost of a slightly modified syntax/grammar.
 
 ## Registration and contacts
 
@@ -63,7 +65,7 @@ This training is entirely funded by the Experiment Division at SOLEIL, with supp
 
 [McXtrace](http://www.mcxtrace.org/) is a general Monte Carlo ray-tracing software for simulation X-ray beam-lines and experiments, distributed under the open source license of GPL.
 
-It is a collaborative effort between DTU Physics, European Synchrotron Radiation Facility, Niels Bohr Insitute, and now SOLEIL. Initial funding came from a grant under the NaBiIT program of the Danish Strategic Research Council DSF and from SAXSLAB ApS, in addition to the above parties.
+It is a collaborative effort between DTU Physics, European Synchrotron Radiation Facility, Niels Bohr Institute, and now SOLEIL. Initial funding came from a grant under the NaBiIT program of the Danish Strategic Research Council DSF and from SAXSLAB ApS, in addition to the above parties.
 
 It is built upon the code base of the proven and successful neutron ray-tracing package [McStas](http://mcstas.org/) and today McXtrace and McStas share a central code repository at https://github.com/McStasMcXtrace/McCode.
 
