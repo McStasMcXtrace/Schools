@@ -66,7 +66,6 @@ In this example case the MCPL-file was actually generated using [MCNP](https://m
 The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true ""). There is also a bigger version of this same file for better sampling [sp8stdUl.mcpl.gz](data/sp8stdUl.mcpl.gz?raw=true ""). But this obviously takes longer to download.
 
 * Use the McXtrace component **MCPL_input** to read rays from it and start them in a McXtrace simulation. 
-* Insert a downstream `PSD_monitor` and an `E_monitor` to catch the generated radiation. Leave some room (2 m or so) between the MCPL-file and the monitor. SRW considers the undulator centre its reference point and so rays may actually originate there. 
+* Insert a downstream `PSD_monitor` and an `E_monitor` to catch the generated radiation. Leave some room (2 m or so) between the MCPL-file and the monitor. The MCNP model used considers the undulator centre its reference point and so rays may actually originate there. 
 * What was the fundamental energy of the 1st harmonic?
-* This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
 * Open your "old" instrument from before, and replace the source with the MCPL_input solution.
