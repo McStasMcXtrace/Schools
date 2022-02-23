@@ -28,13 +28,13 @@ choice (Emacs, gedit etc...). McXtrace merely interprets the instrument file.
 1. Insert a 2D-monitor, and an energy spectrum monitor at the CRL-stack
    position 31.5 m downstream from the source. In our example this translates
    to a position of (0,0,31.5) in McXtrace coordinates. Use the components
-   PSD_monitor and E_monitor to accomplish this. Contrary to other McXtrace
+   `PSD_monitor` and `E_monitor` to accomplish this. Contrary to other McXtrace
    components, a Monitor may reside on top of another component, if the
    restore_xray parameter is nonzero.
    Be sure to make the monitor large enough to catch the full beam footprint.
    Also, please set the optional filename parameter in each of the monitors.
    This is where your monitor data will be put. If none is given, the data are
-   simply dicarded and only the integrated intensity signal of the monitor is
+   simply discarded and only the integrated intensity signal of the monitor is
    reported on the console. Run a simulation to get the beam footprint and spectrum at the
    CRL-stack position.
    
@@ -49,7 +49,7 @@ choice (Emacs, gedit etc...). McXtrace merely interprets the instrument file.
    Is the result what you expected?
 
 2. Optimize your simulation using directional sampling as you have done before today. Add the parameters
-    focus_xw=0.001, focus_yh=0.001, and dist=31.5 to your source parameters.
+    `focus_xw=0.001`, `focus_yh=0.001`, and `dist=31.5` to your source parameters.
     This will cause McXtrace to only sample that part of the photon phase space
     which lies on trajectories that passing through a `focus_xw`  ×  `focus_yh` m^2
      aperture `dist` m downstream from the source. The weights
@@ -59,7 +59,7 @@ choice (Emacs, gedit etc...). McXtrace merely interprets the instrument file.
 ## 3. Insert a CRL-stack.
 The first stack should be a set of 16 parabolic Be lenses to set the focus at
 10 m downstream of the source, the second stack a set of 16 Al lenses. Use
-Lens_parab to set a Be CRL-stack 31.5 m downstream from the source, with the
+`Lens_parab` to set a Be CRL-stack 31.5 m downstream from the source, with the
 following parameters:
 
 Material |radius of curvature (at tip) | Number of lenses | Diameter | Thickness (at tip) 
