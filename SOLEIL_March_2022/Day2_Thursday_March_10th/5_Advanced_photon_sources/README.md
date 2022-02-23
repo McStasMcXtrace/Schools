@@ -14,7 +14,7 @@ In this practical exercise we will try out a few ways of modelling an X-ray sour
     E1st=12.400</code> Just as you have seen  before, the focus_xw, focus_yh, and dist parameters simply indicate at sampling window downstream of the undulator. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator.
 2. Insert two monitors **20 m** downstream: one PSD and one energy-resolved monitor. Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range.
 
-There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`.
+There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`. Last but not least, the [`Shadow_input`](http://mcxtrace.org/download/components/3.0/misc/Shadow_input.html) and [`Shadow_output`](http://mcxtrace.org/download/components/3.0/misc/Shadow_output.html) allow to read data events from [Shadow](https://github.com/oasys-kit/shadow3), but also to fully insert a McXtrace simulation as into a Shadow simulation sequence (read and write).
 
 ## Exercise: Connect with SPECTRA
 If you do not have it already you may download [SPECTRA](http://spectrax.org/spectra/) freely from the Riken website, but for the purpose of this exercise we have pre-generated a set of datafiles, that you may use: [1st harmonic](data/sp8sU_h1.zip?raw=true ""), and [3rd harmonic](data/sp8sU_h3.zip?raw=true "").
