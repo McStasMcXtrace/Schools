@@ -3,6 +3,8 @@ The aim of this exercise is to replace CRL stack with a Kirkpatrick Baez focusin
 the beam in the same manner as exercise 1, i.e. focus the beam at a pt 10 m
 downstream from the focusing system at 31.5 m downstream from the source.
 
+<img src="https://www.j-tec.co.jp/english/wp-content/themes/j-tec-corp/images/page/img_en_kb-mirror3.jpg">
+
 `Mirror_curved` is by default set in the YZ-plane. Think of how you can set your
 mirror to deflect the beam in the desired angle. Remember that for a mirror
 at a glancing angle &theta; degrees, the beam is redirected 2&theta;. The &theta; value may be an input parameter of the model, and its value is generally small (say 3 mrad).
