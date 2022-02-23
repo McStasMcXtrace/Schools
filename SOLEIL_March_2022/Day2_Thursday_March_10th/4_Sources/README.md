@@ -61,7 +61,7 @@ We will now use a different utiltiy to drive a McXtrace-simulation: MCPL.
 
 [MCPL](https://mctools.github.io/mcpl/) is an interchange file format to communicate with e.g. GEANT4, PHITS, MCNP, and SRW.
 
-In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). This may be done using a C++-program `srw2mcpl` that makes repeated calls to SRW and generates rays from that. This procedure is rather slow, so for this tutorial (to save time) we provide a pre-generated MCPL-file that you may use. The program itself may be found in the McXtrace repository and on the  McXtrace website, and you need a working installation of SRW to compile it.
+In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). The tool for this purpose, a C++-program `srw2mcpl` is currently in development for general use and based on SRWlib and MCPL. The tool makes repeated calls to SRW and generates rays from that. This procedure is rather slow, so for this tutorial (to save time) we provide a pre-generated MCPL-file that you may use. The program will soon become officially part of the McXtrace repository and through the McXtrace website.
 
 The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true ""). There is also a bigger version of this same file for better sampling [sp8stdUl.mcpl.gz](data/sp8stdUl.mcpl.gz?raw=true ""). But this obviously takes longer to download.
 
