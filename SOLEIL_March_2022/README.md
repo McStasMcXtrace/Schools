@@ -17,10 +17,10 @@ You will learn: Modelling beam-lines with [McXtrace](http://www.mcxtrace.org/), 
 This tutorial aims at presenting the [McXtrace](http://www.mcxtrace.org) software to scientific and technical staff at [SOLEIL](https://www.synchrotron-soleil.fr/fr).
 
 McXtrace allows to describe X-ray (synchrotron and X-FEL) beam-lines with sources, optics, monitors/detectors, samples and more. It is interfaced with other software such as:
-- Spectra (R) <http://spectrax.org/spectra/>
-- Simplex (R) <http://spectrax.org/simplex/index.html >
-- Genesis (R) <http://genesis.web.psi.ch/>
-- Shadow (RW) <https://github.com/oasys-kit/shadow3>
+- Spectra (R) <http://spectrax.org/spectra/> for X-ray synchrotrons
+- Simplex (R) <http://spectrax.org/simplex/index.html > for XFELs
+- Genesis (R) <http://genesis.web.psi.ch/> for XFELs
+- Shadow (RW) <https://github.com/oasys-kit/shadow3> for X-ray synchrotrons
 - MCPL (GEANT4, PHITS, MCNP, SRW) (RW) <https://mctools.github.io/mcpl/>
 
 The newly released McXtrace-3.0 allows execution on NVIDIA GPU's.
@@ -43,10 +43,10 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 
 You will access McXtrace via a browser on your laptop. No software installation is required.
 
-- For SOLEIL staff (wifi, on-site): start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>. :+1: This option provides optimal computing power.
-- For all: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: This option provides a limited computing power.
+- **For SOLEIL staff (wifi, on-site)**: start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>. :+1: This option provides optimal computing power. You can save your data onto the Ruche, or via external clouds/emails.
+- **For all**: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: This option provides a limited computing power.
 
-In case you wish to install the software yourself, refer to the [McXtrace installation](http://mcxtrace.org/download/) page. Version 1.7 is the legacy one. Version 3 is the 'next-generation' one with a improved performance, GPU support at the cost of a slightly modified syntax/grammar.
+In case you wish to install the software yourself, refer to the [McXtrace installation](http://mcxtrace.org/download/) page. Version 1.7 is the legacy one. Version 3 is the 'next-generation' one with an improved performance, GPU support at the cost of a slightly modified syntax/grammar. Both versions are installed on the resources above.
 
 ## Registration and contacts
 
