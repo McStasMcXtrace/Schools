@@ -55,7 +55,7 @@ The reason that you only see radiation in one quadrant is that the spectra dataf
 
 Similarly, there is an interface with the [SIMPLEX](https://spectrax.org/simplex/index.html) and [GENESIS 1.3](http://genesis.web.psi.ch/index.html) codes for XFEL's.
 
-## Exercise: Use SRW-generated output to simulate a beamline.
+## Exercise: Use MCNP-generated output to simulate a beamline.
 
 We will now use a different utiltiy to drive a McXtrace-simulation: MCPL. 
 
