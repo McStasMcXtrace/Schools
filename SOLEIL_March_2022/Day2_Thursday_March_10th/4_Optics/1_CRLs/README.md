@@ -3,6 +3,8 @@ In this exercise we will and build a very simple beamline
 based on compound refractive lenses (CRLs) and examine the focusing properties
 hereof. 
 
+<img src="https://spie.org/Images/Graphics/Newsroom/Imported-2011/003688/003688_10_fig1.jpg">
+
 ## 1. Insert a source.
 1. Insert a source. Position your cursor in the TRACE section below the
 Progress_bar component and *Insert -> Sources/Source_gaussian*. 
