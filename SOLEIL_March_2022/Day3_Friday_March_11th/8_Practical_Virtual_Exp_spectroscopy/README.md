@@ -41,7 +41,7 @@ Then, launch a simulation with e.g. 1e6 rays (MPI, recompile). Plot the results,
 
 #### Step C.2: then it becomes crystal clear
 
-For the following, we wish to convert the LaB<sub>6</sub> powder sample into a single crystal one, but the provided data file [LaB6_660b_AVID2](https://github.com/McStasMcXtrace/McCode/blob/master/mcxtrace-comps/data/LaB6_660b_AVID2.hkl) only contains positive HKL Miller indices.
+For the following, we wish to convert the LaB<sub>6</sub> powder sample into a single crystal one, but the provided data file [LaB6_660b_AVID2.hkl](https://github.com/McStasMcXtrace/McCode/blob/master/mcxtrace-comps/data/LaB6_660b_AVID2.hkl) only contains positive HKL Miller indices.
 
 Search the LaB<sub>6</sub> crystal at http://crystallography.net/ and download its CIF file (for instance COD entry [1000055](http://crystallography.net/cod/1000055.html)).
 
@@ -61,10 +61,11 @@ Copy/paste the powder sample block, and modify the sample component into a Singl
 
 Remove the `material` parameter to [lab6.abs](https://github.com/McStasMcXtrace/McCode/blob/master/mcxtrace-comps/data/lab6.abs) as it may hide the Bragg scattering (creates lots of background around). 
 
-Comment the PowderN block with `/* ... */` in order to only use the SX. For simplicity, you may also add a `string sample` parameter in the DEFINE line, with default value `"LaB6_660b_AVID2"`.
+Comment the PowderN block with `/* ... */` in order to only use the SX. For simplicity, you may also add a `string sample` parameter in the DEFINE line, with default value `"LaB6_660b_AVID2.hkl"`.
 
 ``` c
-DEFINE INSTRUMENT ...(..., string sample="LaB6_660b_AVID2")
+DEFINE INSTRUMENT ...(..., string sample="LaB6_660b_AVID2.hkl")
+...
 SPLIT 100 COMPONENT sx = Single_crystal(
     reflections=sample,
     radius=sample_radius, mosaic=5, 
@@ -111,7 +112,7 @@ COMPONENT powdern = PowderN(
     reflections=container,
     radius=sample_radius, thickness=-1e-6,
     yheight=10e-3, d_phi = 90, p_transmit=0.99,
-    pack = 0.6, Vc=71.830, density = 4.72)
+    pack = 0.006, Vc=71.830, density = 4.72)
 AT (0, 0, 0) RELATIVE sx
 ...
 COMPONENT psd4pi = PSD_monitor_4PI(radius=0.15,
@@ -141,7 +142,7 @@ EXTEND %{
   flag_sample = SCATTERED; // or "if (SCATTERED) flag_sample=1;
 %}
 ```
-and a similar block for the powder.
+and a similar block for the powder with `flag_container`.
 
 Add a new monitor, which is a copy of the 4&pi; monitor, but sensitive to sample-only events (remember to update the output file name). This is achieved with a line such as:
 
