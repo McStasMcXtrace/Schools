@@ -6,7 +6,13 @@ Currently, [McXtrace](http://www.mcxtrace.org) supports a limited set of sample 
 
 Inserting a sample component within a beam-line description constitutes a way to simulate a measurement. Such method is always limited by the amount of knowledge inserted both in the beam-line description, and the accuracy of the sample model.
 
-[[_TOC_]]
+## Table of Contents
+1. [Sample geometry](#sample-geometry)
+1. [Data files](#data-files)
+1. [Exercise A: Powder diffraction (XRD)](#exercise-a-powder-diffraction-xrd)
+1. [Exercise B: Macromolecular crystallography (MX)](#exercise-b-macromolecular-crystallography-mx)
+1. [Exercise C: Small angle scattering (SAXS)](#exercise-c-small-angle-scattering-saxs)
+1. [Exercise D: Max IV DanMAX (MX) optional](#exercise-d-max-iv-danmax-mx)
 
 ---
 
@@ -56,6 +62,8 @@ cif2hkl --xtal --mode XRA  --lambda 1.0 5000006.cif
 ## Exercise A: Powder diffraction (XRD)
 
 Many laboratories are equipped with e.g. rotating anode X-ray sources. Indeed, powder diffraction is an efficient yet simple technique for material structure characterisation. A diffractogram allows to determine the nature and arrangement of atoms in a material. It is a very robust technique.
+
+<img src="http://pd.chem.ucl.ac.uk/pdnn/diff2/cone.gif">
 
 In this exercise, we shall simulate a simple diffractometer with:
 - the [PowderN](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html) sample component ;
@@ -138,6 +146,10 @@ mxplot <output_dir>
 ---
 
 ## Exercise B: Macromolecular crystallography (MX)
+
+The macromolecular crystallography beam-lines measure the diffraction from rotating monocrystals, in the attempt to catch as many diffraction spots as possible, reconstruct the reciprocal space, and obtain then the real space atom distribution.
+
+<img src="https://www.creativebiomart.net/images/X-ray-crystallography-1.png">
 
 In this exercise, we aim to demonstrate how an MX measurement can be simulated (in a simplified way). For this, we shall use:
 - the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) sample component ;
@@ -223,16 +235,49 @@ You may repeat the calculation with the L-glutamine from http://crystallography.
 - Does it look more realistic now ?
 - Comment on the missing contributions.
 
-<hr>
+## Exercise C: Small angle scattering (SAXS)
+
+The small-angle X-ray scattering beam-lines measure very small beam deviations around the incident direction, following the Bragg-law _n_&lambda; = 2 _d_ sin(&theta;) where the incident wavelength &lambda; is fixed and we can see that small angles &theta; corresponds with large typical scattering unit sizes _d_.
+
+<img src="https://www.researchgate.net/profile/Jingpeng-Li-2/publication/322112043/figure/fig1/AS:657582976954368@1533791407758/Schematic-diagram-of-the-incident-beam-of-SAXS.png">
+
+There is large variety of SAXS sample models. Most of them correspond with isotropic scattering units.
+
+The most complete one is using [SaSView models](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html) from which about [60 have been ported](http://mcxtrace.org/download/components/3.0/samples/SasView_model.html) into McXtrace. These include isotropic and anisotropic models.
+
+In the following, we shall start from the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) example instrument (from the _Tests_). It models a toy SAXS beam-line with a set of possible sample models via the input parameter `SAMPLE=1-9,11` (the sample 10 has been inactivated). It also has a PSD and a |Q| monitor (with radial integration).
+
+#### Step C.1: simulate the scattering from a set of samples
+
+Load the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) beam-line model and open the 3D view (run in Trace mode).
+
+Scan SAMPLE=1,11 with 11 steps.
+
+Plot the results, and visualize the scattering curve of all samples.
+
+:question: what can you say about the scattering units in the sample ?
+
+#### Step C.2: simulate more complex samples
+
+We now use the [TemplateSasView](http://www.mcxtrace.org/download/components/3.0/examples/TemplateSasView.html) in _Templates_.
+
+The model index is 10
+
+:question: identify which structure is being used.
+
+Now change the structure to a bcc-paracrystal, using the default parameter values extracted from the [SasView documentation](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html).
+
+----
+
 The following exercises are optional. Consider them as home-work.
 
-## Exercise C: Max IV DanMAX (MX)
+## Exercise D: Max IV DanMAX (MX)
 
 The idea here is to model the [DanMAX](https://www.maxiv.lu.se/accelerators-beamlines/beamlines/danmax/) beam-line at MaxIV with a powder and a single crystal.
 
 Start by selecting the DanMAX example in its 2D version (*File > New from template > Max IV*). 
 
-#### Step C.1: getting to know each other
+#### Step D.1: getting to know each other
 
 To get an overview of the beam-line, run it in Trace 3D mode, with default parameter values. A 3D view will show up. Accumulate rays in the 3D view so that you can visualise the beam (_Keep rays_).
 
@@ -261,7 +306,7 @@ Then, launch a simulation with e.g. 1e6 rays (MPI, recompile). Plot the results,
 ![DanMAX energy](images/DanMAX_energy_sample.png "DanMAX energy")
 ![DanMAX 3D powder](images/DanMAX_powder.png "DanMAX 3D powder")
 
-#### Step C.2: then it becomes crystal clear
+#### Step D.2: then it becomes crystal clear
 
 For the following, we wish to convert the LaB<sub>6</sub> powder sample into a single crystal one, but the provided data file [LaB6_660b_AVID2.hkl](https://github.com/McStasMcXtrace/McCode/blob/master/mcxtrace-comps/data/LaB6_660b_AVID2.hkl) only contains positive HKL Miller indices.
 
@@ -303,7 +348,7 @@ The scattering may occur at large angle, meaning we may miss it. In order to be 
 - Is the current Pilatus detector location appropriate ?
 - What solutions can be envisaged ?
 
-#### Step C.3: feeling concentric ?
+#### Step D.3: feeling concentric ?
 
 In this exercise, we wish to superpose the single crystal contribution with a model for a sample container. 
 
@@ -348,7 +393,7 @@ AT(0,0,0) RELATIVE pxrd_2d_pt
 - Identify the scattering Bragg spots from the crystal.
 - Identify the scattering from the container. Does it look like a powder ?
 
-#### Step C.4: better than real life
+#### Step D.4: better than real life
 
 Let's now separate the contributions from the sample and the container. In the `DECLARE` section of the beam-line description, add two variables such as:
 ``` c

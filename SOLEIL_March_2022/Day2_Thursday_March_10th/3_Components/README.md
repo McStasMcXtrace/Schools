@@ -52,18 +52,21 @@ There is a dedicated session about this topic, but we here list a few components
 
 Samples are essential to build so-called virtual beam-lines, and reproduce data that look like real experiments. There are dedicated sessions on this topic.
 
-- [SAXS sample](http://www.mcxtrace.org/download/components/3.0/samples/SasView_model.html) : 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), 
-- [Saxs_sphere](http://www.mcxtrace.org/download/components/3.0/samples/Saxs_spheres.html),  …
-- [Powder](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html): diffraction
-- [Polycrystal](http://www.mcxtrace.org/download/components/3.0/samples/Polycrystal.html): diffraction
-- [Single crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html): diffraction, also for MX
-- [Pump-probe](http://www.mcxtrace.org/download/components/3.0/samples/Molecule_2state.html) (2 states) molecule to simulate a laser-probe decay (time resolved).
-- [Absorption_sample](http://www.mcxtrace.org/download/components/3.0/samples/Absorption_sample.html) a 1 or 2 absorbing materials as a box or cylinder; [Filter](http://www.mcxtrace.org/download/components/3.0/optics/Filter.html) which can handle absorption and refraction, as a block or any geometry; [Abs_objects](http://www.mcxtrace.org/download/components/3.0/samples/Abs_objects.html) a set of absorping objects which geometry is set from OFF/PLY files.
+To have an overview of existing sample, have a lokk at the [official samples](http://www.mcxtrace.org/download/components/3.0/#samples) and [contributed samples](http://www.mcxtrace.org/download/components/3.0/#contrib).
 
-All samples can have simple geometric shapes (incl. hollow).
+Here is a list of the main components you may use:
+
+- [SaSView models](http://www.mcxtrace.org/download/components/3.0/samples/SasView_model.html): 60 models from SasView, PDB, Nanodiscs, Liposomes, I(q), ... [Saxs_sphere](http://www.mcxtrace.org/download/components/3.0/samples/Saxs_spheres.html), [SAXSCylinders](http://mcxtrace.org/download/components/3.0/contrib/SAXSCylinders.html), [SAXSPDB](http://mcxtrace.org/download/components/3.0/contrib/SAXSPDB.html) and many more for SAXS.
+- [Powder](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html): diffraction.
+- [Polycrystal](http://www.mcxtrace.org/download/components/3.0/samples/Polycrystal.html): diffraction.
+- [Single crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html): diffraction, also for MX.
+- [Pump-probe](http://www.mcxtrace.org/download/components/3.0/samples/Molecule_2state.html) (2 states) molecule to simulate a laser-probe decay (time resolved).
+- [Absorption_sample](http://www.mcxtrace.org/download/components/3.0/samples/Absorption_sample.html) a 1 or 2 absorbing materials as a box or cylinder; [Filter](http://www.mcxtrace.org/download/components/3.0/optics/Filter.html) which can handle absorption and refraction, as a block or any geometry; [Abs_objects](http://www.mcxtrace.org/download/components/3.0/samples/Abs_objects.html) a set of absorbing objects which geometry is set from OFF/PLY files.
+
+All samples can have simple geometric shapes (some incl. hollow shapes).
 Powder, SX, Filter and Abs_objects can have any shape (PLY/OFF).
 Powder sample supports multiple concentric geometries (e.g. for cryostat, containers, ...).
-McXtrace comes with a [material data base](http://www.mcxtrace.org/download/components/3.0/data) , and can use e.g. NIST files.
+McXtrace comes with a [material data base](http://www.mcxtrace.org/download/components/3.0/data), and can use e.g. NIST files.
 
 :warning: the Powder and SX components can curently not be used within the same model (there is a name clash). This will be fixed for the next release.
 
