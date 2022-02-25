@@ -24,7 +24,7 @@ The geometry can be specified as:
 - a sphere `radius=<value>`
 - a cylinder `radius=<value>, yheight=<value>`
 - box `xwidth=<value>, yheight=<value>, zdepth=<value>`
-- any shape defined with a `geometry=<file>` with a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html) file (vertices and polygons similar to STL). We provide example geometry files in the [data](http://mcxtrace.org/download/components/3.0/data/) directory (e.g. locally at `/usr/share/mcxtrace/x.y/data`). Not all samples support this geometry.
+- any shape defined with a `geometry=<file>` with a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html) file (vertices and polygons similar to STL). We provide example geometry files in the [data](http://mcxtrace.org/download/components/3.0/data/) directory (e.g. locally at `/usr/share/mcxtrace/x.y/data`). You may also use e.g. [Meshlab](https://www.meshlab.net/) or other geometry editors/modellers to create such files (rather simple text format). Not all samples support this geometry.
 
 Some samples can be made hollow by specifying a `thickness` parameter. This is especially useful for containers (e.g. capillary) and sample environments.
 
@@ -96,22 +96,19 @@ where  &lambda; = 2 &pi;/k is the incident wavelength, _d_ is a distance separat
 
 #### Step A.1: incident photon energy parameter and single calculation
 
-The [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_Powder.html) description has only one input parameter `TTH`, which is not so useful to us.
+Have a look at the [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_Powder.html) header, and TRACE section. As you can see, this is an ideal, very simple model.
 
-Change `TTH` into an `E0` incident photon energy (in keV with default value 15), update the documentation accordingly, and forward this value to the source component `src`. 
+The energy spread in the `src` component instance should be set as proportional to `E0` in order to mimic the distribution out of e.g. a monochromator. Let's use `dE=E0/100` at the source (1% resolution).
+The `d_phi` model parameter is forwarded to the PowderN sample component. Using a non-zero value restricts the scattering within a horizontal tore, which improve the simulation efficiency when the detecteor coverage is limited vertically (e.g. a PSD in the horizontal scattering plane). Using a value of 0 allows diffraction in 4&pi; to fully illuminate the `Sph_mon` 4&pi; monitor. 
 
-The energy spread should also be set as proportional to `E0` in order to mimic the distribution out of e.g. a monochromator. Let's use `dE=E0/100` at the source (1% resolution).
+Notice right after the sample component that the non scattered x-rays are absorbed (removed from the calculation) in an EXTEND block. 
 
-At the sample location, remove the `d_phi` option to allow diffraction in 4&pi; and fully illuminate our 4&pi; monitor.
-
-Remove or comment (`/* ... */`) the `ttharm` and `detector2` components. Notice right after the sample component that the non scattered x-rays are absorbed (removed from the calculation) in an EXTEND block. 
-
-:runner: Run the simulation with an incident energy of 15 keV, 10<sup>7</sup> rays, and MPI (recompile) with e.g. 8 cores. This can be done from the GUI, or from the command line with, e.g.:
+:runner: Run the simulation with an iron sample, an incident energy of 15 keV, 10<sup>7</sup> rays, and MPI (recompile) with e.g. 4 cores. This can be done from the GUI, or from the command line with, e.g.:
 ``` bash
-mxrun --mpi 8 Test_PowderN.instr E0=15 -n 1e7
+mxrun -c --mpi 4 Test_PowderN.instr reflections=Fe.lau E0=15 -n 1e7
 ```
 
-The data files are stored in a directory which contains text files.
+The data files are stored in a directory which contains text files. You may have a look at these, to see how simple the data format is. There is usually a `sim` file which describes the simulation parameters, a copy of the used model `.instr`, and data files (here `Sphere.dat`).
 
 :runner: Plot the results and look at the 4&pi; monitor. Switch to intensity 'log-scale' (press the *L* key on the plot). Comment. 
 
@@ -119,13 +116,36 @@ The data files are stored in a directory which contains text files.
 - Why is there no signal at small angle ? 
 - Why do you get a kind of rectangle frame at 90 deg scattering angle ?
 
+:runner: Re-run with `directbeam=1` to also simulate the transmitted beam. Plot results again.
+
+:question:
+- You can measure why a beam-stop is necessary, not only to protect the detector, but also to enhance the contrast.
+
+You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
+
 ![PowderN Fe 15 keV](images/Test_PowderN_Fe_15.png  "PowderN Fe 15 keV")
 
-#### Step A.2: perform an energy scan
+#### Step A.2: use a component from the neutron world
+
+Get the component [PSD_monitor_rad](http://mcstas.org/download/components/2.7.1/contrib/PSD_monitor_rad.comp) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
+
+Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
+- Change the occurences of `restore_neutron` into `restore_xray`.
+- Change the occurence of `RESTORE_NEUTRON(INDEX_CURRENT_COMP, x, y, z, vx, vy, vz, t, sx, sy, sz, p);` into `RESTORE_XRAY(INDEX_CURRENT_COMP, x, y, z, kx, ky, kz, phi, t, Ex, Ey, Ez, p);`.
+- Add this monitor to the XRD model at the same location as the `detector2`.
+
+:runner: Re-run at E0=15 keV (make sure `directbeam=0` as it keeps the previous value). Plot results again. You should get a nice diffractogram.
+
+:question:
+- why do diffraction rings appear with a hat-shape ?
+
+:bulb: You could simulate a slight off-axis detector misalignment by setting TTH to a non-zero value. This will affect the _I(r)_ from the newly added monitor.
+
+#### Step A.3: perform an energy scan
 
 It is rather simple to vary a model parameter. For this, specify an energy range `min,max`, and a number of *Sweep steps* (in the Run dialogue) or `-N` argument on the command line.
 
-In our case, we shall vary the incident energy `E0` from 3 to 8 keV.
+In our case, we shall vary the incident energy `E0` from 3 to 8 keV, with the iron sample (`Fe.lau`).
 
 :runner: Perform an energy scan (e.g. 41 steps), and plot the results. The data goes in a scan directory, which itself contains *N* sub-directories (labelled as 0 to N-1). Plot the intensity vs E0.
 
@@ -141,7 +161,6 @@ mxplot <output_dir>
 :question:
 - Why do you see steps vs energy ?
 - Use Ctrl-click on the detector to see its response vs Energy. Does it properly explain these steps ?
-- What is missing to get a signal on the flat PSD (last monitor) in the 3-8 keV energy range ?
 
 ---
 
