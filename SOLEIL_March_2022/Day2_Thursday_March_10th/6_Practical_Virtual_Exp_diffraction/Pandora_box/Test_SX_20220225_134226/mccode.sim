@@ -1,0 +1,118 @@
+McXtrace simulation description file for Test_SX.
+Date:    Fri Feb 25 13:42:28 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: Test_SX
+  File: /tmp/Test_SX_20220225_134226/mccode
+  Source: Test_SX.instr
+  Parameters:  TTH(double) E0(double) sample(string) rotX(double) rotY(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /tmp/Test_SX_20220225_134226
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: Test_SX.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1647928849
+  Directory: /tmp/Test_SX_20220225_134226
+  Nodes: 4
+  Param: TTH=-5
+  Param: E0=15
+  Param: sample=4mea.lau
+  Param: rotX=0
+  Param: rotY=0
+end simulation
+
+begin data
+  Date: Fri Feb 25 13:43:19 2022 (1645792999)
+  type: array_2d(100, 100)
+  Source: Test_SX (Test_SX.instr)
+  component: psd0
+  position: 0 0 1e-09
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psd0.dat
+  statistics: X0=-1.2846e-07; dX=0.000288715; Y0=-2.1538e-07; dY=0.000288734;
+  signal: Min=0; Max=3.69239e-13; Mean=7.95775e-14;
+  values: 7.95775e-10 7.95775e-13 1e+06
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.001 0.001 -0.001 0.001
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 13:43:19 2022 (1645792999)
+  type: array_2d(1800, 1800)
+  Source: Test_SX (Test_SX.instr)
+  component: psd4pi
+  position: 0 0 10
+  title: 4PI PSD monitor
+  Ncount: 1000000
+  filename: psd4pi.dat
+  statistics: X0=-12.0391; dX=6.44277; Y0=2.05592; dY=17.143;
+  signal: Min=0; Max=9.26883e-22; Mean=3.43182e-26;
+  values: 1.11191e-19 4.37554e-22 99437
+  xvar: Longitude
+  yvar: Lattitude
+  xlabel: Longitude [deg]
+  ylabel: Lattitude [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -180 180 -90 90
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 13:43:21 2022 (1645793001)
+  type: array_2d(2000, 2000)
+  Source: Test_SX (Test_SX.instr)
+  component: detector
+  position: 0 0 10.1
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psd1.dat
+  statistics: X0=-0.02332; dX=0.0113744; Y0=0.0033444; dY=0.0273959;
+  signal: Min=0; Max=5.22962e-23; Mean=2.40687e-26;
+  values: 9.62747e-20 4.04109e-22 88994
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.05 0.05 -0.05 0.05
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 13:43:23 2022 (1645793003)
+  type: array_2d(200, 200)
+  Source: Test_SX (Test_SX.instr)
+  component: detector2
+  position: -0.00871557 0.00868241 10.0992
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psd2.dat
+  statistics: X0=-0.0022574; dX=0.00171683; Y0=-0.000637761; dY=0.00204153;
+  signal: Min=0; Max=3.17434e-23; Mean=3.52226e-26;
+  values: 1.4089e-21 2.57251e-23 3307
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.005 0.005 -0.005 0.005
+  variables: I I_err N
+end data
