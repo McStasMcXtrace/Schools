@@ -9,6 +9,14 @@ downstream from the focusing system at 31.5 m downstream from the source.
 mirror to deflect the beam in the desired angle. Remember that for a mirror
 at a glancing angle &theta; degrees, the beam is redirected 2&theta;. The &theta; value may be an input parameter of the model, and its value is generally small (say 3 mrad).
 
+## Reflectivity Data files
+
+An extensive documentation on how to get and generate reflectivity data files for e.g. mirrors is accessible at:
+- [HOWTO: McXtrace reflectivity files](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-reflectivity-files) (requires IDL)
+- [HOWTO: McXtrace reflectivity files XrayDB python library](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-reflectivity-files-XrayDB-python-library)
+
+These files are used by all mirrors.
+
 ## 1. Insert the 1st mirror
 Start by re-using the source as defined in the [compound refractive lenses](../1_CRLs/README.md) exercise.
 
