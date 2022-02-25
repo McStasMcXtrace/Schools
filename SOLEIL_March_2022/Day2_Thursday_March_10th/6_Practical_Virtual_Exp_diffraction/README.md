@@ -132,9 +132,9 @@ Get the component [PSD_monitor_rad](http://mcstas.org/download/components/2.7.1/
 Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
 - Change the occurences of `restore_neutron` into `restore_xray`.
 - Change the occurence of `RESTORE_NEUTRON(INDEX_CURRENT_COMP, x, y, z, vx, vy, vz, t, sx, sy, sz, p);` into `RESTORE_XRAY(INDEX_CURRENT_COMP, x, y, z, kx, ky, kz, phi, t, Ex, Ey, Ez, p);`.
-- Add this monitor to the XRD model at the same location as the `detector2`.
+- Add this monitor to the XRD model at the same location as the `detector2`. You may use the example suggested in the header of the `PSD_monitor_rad.comp`, but with more r-bins `nr`, say 500.
 
-:runner: Re-run at E0=15 keV (make sure `directbeam=0` as it keeps the previous value). Plot results again. You should get a nice diffractogram.
+:runner: Re-run at E0=15 keV (make sure to revert to `directbeam=0` as it keeps the previous value). Plot results again. You should get a nice diffractogram.
 
 :question:
 - why do diffraction rings appear with a hat-shape ?
@@ -166,7 +166,7 @@ mxplot <output_dir>
 
 ## Exercise B: Macromolecular crystallography (MX)
 
-The macromolecular crystallography beam-lines measure the diffraction from rotating monocrystals, in the attempt to catch as many diffraction spots as possible, reconstruct the reciprocal space, and obtain then the real space atom distribution.
+The macromolecular crystallography beam-lines measure the diffraction from rotating monocrystals, in the attempt to catch as many diffraction spots as possible, reconstruct the reciprocal space, and actually obtain the real space atom distribution.
 
 <img src="https://www.creativebiomart.net/images/X-ray-crystallography-1.png">
 
@@ -191,20 +191,29 @@ COMPONENT sample = Single_crystal(reflections="Mo.lau",
 ```
 and if you have an absorption data file, you may add the parameter `..., material="Mo.txt"`.
 
+The central beam spot can be removed in three different ways:
+1. use an EXTEND block and remove all non scattered events immediately (perfect beam-stop)
+2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html) component 
+3. use a variable of our own to record when a ray has scattered or not, and make use of it with EXTEND and WHEN keywords afterwards.
+
+The first solution is extremely simple. Notice, right after the sample component, an EXTEND block (with `%{` and `%}` delimiters) which says:
+- "*if the ray has not scattered, absorb it*".
+
 #### Step B.1: Add a Progress_bar and clean-up some components
 
 In order to monitor the execution of the simulation, and get an estimate of the computation time, we can add a [Progress_bar](http://www.mcxtrace.org/download/components/3.0/misc/Progress_bar.html) component. Position the cursor right after the `TRACE` keyword in the [Test_SX](http://www.mcxtrace.org/download/components/3.0/examples/Test_SX.html) example, and add the component, with no parameter, on the Origin (ABSOLUTE positioning).
 
-Remove the `ttarm` and `detector2` components, that we won't use here. Extend the remaining detector pixel size by a factor 10 on each axis (e.g. 2k x 2k) so that it matches better a real detector binning.
+Extend the monitors pixel number by a factor 10 on each axis (e.g. 2k x 2k) so that they better match real detectors binning.
 
-Replace the `TTH` input parameter (on the `DEFINE` line), with:
-- an `E0` photon energy (default: 15 keV), 
+Add on the `DEFINE INSTRUMENT (...)` line:
+- an `E0=15` photon energy (default: 15 keV), 
 - a `sample` parameter (of type `string` and "4mea.lau" default value) to specify the sample structure factors
 - two `rotX` and `rotY` angles (default: 0 deg)
 
 Think about mirroring these changes in the file header, so that the documentation keeps in sync.
 
-Then, indicate to the `src` component that its energy parameter `E0` is the `E0` parameter from the beam-line description (we have chosen the same name to ease understanding). Do a similar operation to set the reflection list to the `sample` input argument. You may remove the `material` parameter if it is present, which is used to compute the absorption, but we do not have this data file for the "4mea.lau" sample structure below.
+Then, indicate into the `src` component that its energy parameter `E0` is the `E0` parameter from the beam-line description (we have chosen the same name to ease understanding). The energy spread `dE` is set to 1 keV which is certainly too large. Change it to `E0/100`. 
+In the `sample` component, set the reflection list to the `sample` input argument. You may remove the `material` parameter if it is present, which is used to compute the absorption, but we do not have this data file for the "4mea.lau" sample structure below.
 
 Get the [4mea F2(HKL)](4mea.lau) structure file which has been created from the PDB entry https://www.rcsb.org/structure/4mea "*epoxide hydrolase from Acinetobacter nosocomialis*" (don't eat it, it's probably toxic). The RCSB service allows to save the structure information as PDB, but also as CIF, which we use and send to `cif2hkl --xtal --mode XRA`.
 
@@ -221,25 +230,16 @@ Plot the results.
 
 :question:
 - Comment on the Bragg spot distribution, and their size. 
-- What's wrong here ?
+- What's wrong here ? Why is there nothing on the last detector ? Confirm your thought by looking at the content of the `4mea.lau` file.
+- Zooming with mouse wheel, you can see the spread of Bragg spots on pixels. Do they look realistic ? How can ypou explain this ?
 
 #### Step B.2: making model slightly more realistic
 
-The diffraction pattern is rather symmetric (even though incomplete). This is usually not the case because the sample is not oriented along its principal lattice axes in experiments. This is why a normal experiment captures diffraction patterns while rotating the sample, to catch many reflections and reconstruct a larger reciprocal space area.
+The diffraction pattern is rather symmetric (even though incomplete). This is usually not the case because the sample is generally not oriented along its principal lattice axes in experiments. This is why a normal experiment captures diffraction patterns while rotating the sample, to catch many reflections and reconstruct a larger reciprocal space area.
 
 Specify rotations `rotX` and `rotY` along axis X and Y of the sample component. Modify the following components ROTATED statements so that they do not rotate as well.
 
-We can remove the central beam spot in three different ways:
-1. use an EXTEND block and remove all non scattered events immediately (perfect beam-stop)
-2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html) component 
-3. use a variable of our own to record when a ray has scattered or not, and make use of it with EXTEND and WHEN keywords afterwards.
-
-The first solution is extremely simple. Right after the sample component block, add an EXTEND block (with `%{` and `%}` delimiters), and write a C statement that implements:
-- "*if the ray has not scattered, absorb it*".
-
-The `SCATTERED` and `ABSORB` keywords should be used (don't panic, the solution is extremely simple).
-
-:runner: Run the simulation again, and use a few degrees rotation on the sample (1-2 deg). 
+:runner: Run the simulation again, and use a few degrees rotation on the sample (1-2 deg). You may as well move the TTH to e.g -5 deg to catch a few Bragg spots on the rotating arm.
 
 :question:
 - Comment on the results.
@@ -251,8 +251,12 @@ You may repeat the calculation with the L-glutamine from http://crystallography.
 ![MX glu](images/Test_SX_glutamine.png  "MX L-glutamine")
 
 :question:
-- Does it look more realistic now ?
+- Does it look a little more realistic now ?
 - Comment on the missing contributions.
+- Can you imagine a way to add some of the missing contribution ?
+
+
+----
 
 ## Exercise C: Small angle scattering (SAXS)
 
