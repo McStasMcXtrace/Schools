@@ -1,0 +1,108 @@
+McXtrace simulation description file for templateSasView.
+Date:    Fri Feb 25 15:02:08 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: templateSasView
+  File: /tmp/templateSasView_20220225_150208/mccode
+  Source: templateSasView.instr
+  Parameters:  lambda(double) dlambda(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /tmp/templateSasView_20220225_150208
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: templateSasView.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1647939208
+  Directory: /tmp/templateSasView_20220225_150208
+  Param: lambda=1.54
+  Param: dlambda=0.05
+end simulation
+
+begin data
+  Date: Fri Feb 25 15:02:11 2022 (1645797731)
+  type: array_2d(128, 128)
+  Source: templateSasView (templateSasView.instr)
+  component: detector
+  position: 0 0 9.2
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD.dat
+  statistics: X0=0.000539281; dX=0.0517206; Y0=-0.000165362; dY=0.019944;
+  signal: Min=0; Max=6.88186e-06; Mean=2.22179e-08;
+  values: 0.000364017 1.00695e-05 147225
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.3 0.3 -0.3 0.3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 15:02:11 2022 (1645797731)
+  type: array_1d(1000)
+  Source: templateSasView (templateSasView.instr)
+  component: Ldetector
+  position: 0 0 9.21
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: Edet.dat
+  statistics: X0=1.54087; dX=0.0142333;
+  signal: Min=0; Max=1.84902e-05; Mean=3.6399e-07;
+  values: 0.00036399 1.00695e-05 146209
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.5 2.5
+  variables: L I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 15:02:11 2022 (1645797731)
+  type: array_1d(1000)
+  Source: templateSasView (templateSasView.instr)
+  component: QMonitor
+  position: 0 0 9.22
+  title: QMonitor - Radially averaged distribution
+  Ncount: 1000000
+  filename: RDetector.dat
+  statistics: X0=0.0195743; dX=0.0213428;
+  signal: Min=0; Max=0.790807; Mean=0.0226375;
+  values: 22.6375 1.39835 113980
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: I(r)
+  xlimits: 0 0.3
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 15:02:11 2022 (1645797731)
+  type: array_1d(1000)
+  Source: templateSasView (templateSasView.instr)
+  component: QMonitor
+  position: 0 0 9.22
+  title: QMonitor - Distribution in q (Radially averaged)
+  Ncount: 1000000
+  filename: QDetector.dat
+  statistics: X0=0.0263323; dX=0.0287044;
+  signal: Min=0; Max=3.18647; Mean=0.0909088;
+  values: 90.9088 5.62705 113980
+  xvar: q
+  yvar: (I,I_err)
+  xlabel: q [1 / AA]
+  ylabel: I(q)
+  xlimits: 0 0.402484
+  variables: q I I_err N
+end data
