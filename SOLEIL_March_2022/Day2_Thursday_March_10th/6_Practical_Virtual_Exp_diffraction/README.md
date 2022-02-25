@@ -6,6 +6,11 @@ Currently, [McXtrace](http://www.mcxtrace.org) supports a limited set of sample 
 
 Inserting a sample component within a beam-line description constitutes a way to simulate a measurement. Such method is always limited by the amount of knowledge inserted both in the beam-line description, and the accuracy of the sample model.
 
+In this session we shall simulate the output of simple models for:
+- X-ray Diffraction (XRD)
+- Macromolecular Crystallography (MX)
+- Small Angle X-ray Scattering (SAXS)
+
 ## Table of Contents
 1. [Sample geometry](#sample-geometry)
 1. [Data files](#data-files)
@@ -268,15 +273,28 @@ There is large variety of SAXS sample models. Most of them correspond with isotr
 
 The most complete one is using [SaSView models](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html) from which about [60 have been ported](http://mcxtrace.org/download/components/3.0/samples/SasView_model.html) into McXtrace. These include isotropic and anisotropic models.
 
-In the following, we shall start from the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) example instrument (from the _Tests_). It models a toy SAXS beam-line with a set of possible sample models via the input parameter `SAMPLE=1-9,11` (the sample 10 has been inactivated). It also has a PSD and a |Q| monitor (with radial integration).
+In the following, we shall start from the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) example instrument (from the _Tests_). It models a toy SAXS beam-line with a set of possible sample models via the input parameter `SAMPLE` (some sample models have been inactivated or are buggy). It also has a PSD and a |Q| monitor (with radial integration).
+
+To run this model, you will need a PDB files accessible at https://www.rcsb.org/structure/6LYZ. Connect to the site and retrieve the PDB file (top right -> Download File -> PDB).
 
 #### Step C.1: simulate the scattering from a set of samples
 
 Load the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) beam-line model and open the 3D view (run in Trace mode).
+Accumulate the photon rays (click on 'keep rays') and start to visualize the scattering pattern.
 
-Scan SAMPLE=1,11 with 11 steps.
+<img src="images/TestSAXS.png">
+
+Now re-run in Simulation mode, with SAMPLE=0, 1, 4, and 11. Use MPI (recompile) with e.g. 4 cores and 1e6 rays. 
+These correspond with:
+- 0=SAXSSpheres
+- 1=SAXSShells
+- 4=SAXSLiposomes
+- 11=SAXSPDBFast (can used PDB files to compute I(q))
 
 Plot the results, and visualize the scattering curve of all samples.
+
+<img src="images/SAMPLE_0.png" width="200" title="SAXSSpheres"> <img src="images/SAMPLE_1.png" width="200" title="SAXSShells">
+<img src="images/SAMPLE_4.png" width="200" title="SAXSLiposomes"> <img src="images/SAMPLE_11.png" width="200" title="SAXSPDBFast">
 
 :question: what can you say about the scattering units in the sample ?
 
@@ -284,11 +302,23 @@ Plot the results, and visualize the scattering curve of all samples.
 
 We now use the [TemplateSasView](http://www.mcxtrace.org/download/components/3.0/examples/TemplateSasView.html) in _Templates_.
 
-The model index is 10
+As can be see, the default model index is number 10.
 
-:question: identify which structure is being used.
+:question: 
+- Identify which structure is being used by looking at the table [SasView_model](http://mcxtrace.org/download/components/3.0/samples/SasView_model.html). :warning: links are broken. You should follow the [SasView documentation](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html). 
+- Are we using the default SasView Cylinder model parameters ?
+
+🏃 Run the simulation and plot the results.
+
+A |q| detector would probably be a good idea. Add and instance of the `SAXSQMonitor` at 3.03 m away from the sample, with its `RadiusDetector=0.3`, the `DistanceFromSample=3.03`, `LambdaMin` and `Lambda0` set the nominal wavelength of the source, i.e. `lambda`.
+
+🏃 Run the simulation again and plot the results, in Log-scale.
+
+<img src="images/templateSasView.png" title="SasView_model cylinder">
 
 Now change the structure to a bcc-paracrystal, using the default parameter values extracted from the [SasView documentation](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html).
+
+:runner: Run the simulation with the [bcc_paracrystal](https://www.sasview.org/docs/user/models/bcc_paracrystal.html) which is `SasView_model(index=4)`.
 
 ----
 
