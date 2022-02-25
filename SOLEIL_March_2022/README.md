@@ -37,7 +37,7 @@ The training is mostly focused at hands-on topical sessions, each with a few int
 | 12:00-14:00 |	Lunch |	Lunch | Lunch |
 | 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Optics) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day3_Friday_March_11th/9_Starting_your_own_beam_line) |
 | 16:00-16:15 |	Coffee break |	Coffee break |
-| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Practical_Virtual_Exp_diffraction)  | |
+| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction (XRD,MX,SAXS)](https://github.com/McStasMcXtrace/Schools/tree/master/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Practical_Virtual_Exp_diffraction)  | |
 
 ## Installation
 
