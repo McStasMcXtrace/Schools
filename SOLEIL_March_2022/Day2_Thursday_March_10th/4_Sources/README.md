@@ -51,7 +51,7 @@ The reason that you only see radiation in one quadrant is that the spectra dataf
 
 * Try to move a point-like energy resolved detector around the radiation field. Does it behave as you think it should.
 * Insert a slit 5 m downstream of the source on the optical axis. This mimics the 1st order behaviour of front-end apertures. Scan the pinhole size to investigate the energy spectrum as a function of slit opening.  
-* It is apparent that these supplied data-files are far too coarsely sampled. For a really useful simulation it is necessary to create bigger datafiles, for instance such as [1st harmonic long](data/sp8sU_1h_3.zip).
+* It is apparent that these supplied data-files are far too coarsely sampled. For a really useful simulation it is necessary to create bigger datafiles, for instance such as [1st harmonic long](data/sp8sU_h1_3.zip?raw=true "").  
 
 Similarly, there is an interface with the [SIMPLEX](https://spectrax.org/simplex/index.html) and [GENESIS 1.3](http://genesis.web.psi.ch/index.html) codes for XFEL's.
 
