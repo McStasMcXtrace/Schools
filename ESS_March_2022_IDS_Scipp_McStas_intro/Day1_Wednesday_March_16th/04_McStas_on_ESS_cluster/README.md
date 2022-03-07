@@ -3,7 +3,7 @@
 As you may have seen when performing the earlier simulations, mcgui
 makes use of the underlying ```mcrun``` tool, see below screenshot:
 
-[mcgui screenshot](mcgui.png)
+![mcgui screenshot](mcgui.png)
 
 Among the output, you find this line
 ```
