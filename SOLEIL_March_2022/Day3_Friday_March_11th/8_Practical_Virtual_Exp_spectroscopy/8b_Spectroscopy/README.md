@@ -29,6 +29,8 @@ Translate the second crystal in the z direction 0.05 m (default length of the cr
 The vertical separation between the two parallel crystals is equal to 0.01 m so translate the second crystal in the y direction 0.01 m away from the first crystal.  
 Make sure to translate (AT) the second crystal relative to the first crystal, use `RELATIVE first_crystal_name`. 
 
+<img src="images/cc.png" width="762" height="375"/>
+
 :runner: Run the simulation. Look at the energy monitor now, does the cc work?
 
 ## Monitor_nD (versatile monitor)
@@ -38,7 +40,15 @@ Copy paste `char e_repartition_options[512];` in the DECLARE section and `sprint
 Now insert the Monitor_nD with `options=e_repartition_options` as one of the parameters.
 
 :runner: Run the simulation. Explain the result of the monitor_nD.  
+
+linear plot              |  log plot            
+:-------------------------:|:-------------------------:
+![linear](images/monitor_nd_after_cc.png)  |  ![log](images/monitor_nd_after_cc_log.png) 
+
 *Tip*: You can insert another Monitor_nD before the CC, just after the source. Change the limits of the monitor so that the energy ranges from 4.0 to 40.0 keV.
+
+<img src="images/monitor_nd_before_cc.png" width="957" height="442"/>
+
 
 ## Absorption sample
 Finally, let us add an absorption sample after the monitor_nD. We will use the Absorption_sample component. We want the box in a box configuration. Choose zinc as the material for the inner box and copper for the outer box. Make sure the sample isn't too thick and remember to add the densities of the materials used (8.96 g/cm³ for Copper and 7.14 for Zinc).
@@ -50,6 +60,8 @@ Remember that the source is white, the energy scan is actually just the scan of 
 
 Do you notice anything?  
 *Tip*: Pressing `l` to view the plots in log scale can make things more obvious.
+
+<img src="images/scan_energy_emonitor_after_sample.png" width="956" height="442"/>
 
 ## Post-scriptum
 
