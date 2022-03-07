@@ -3,3 +3,7 @@
 ## Workshop programme:
 [![Workshop programme](pics/programme.png)](https://docs.google.com/spreadsheets/d/1RMFaRqcZqTjQbEYwzrxLUHSRA8gp7LkbhQMr1bG3izs/edit?usp=sharing)
 
+## Rrerequisites, 
+- Local installation of [docker](https://www.docker.com/products/docker-desktop)
+- Account on ESS DMSC server
+- ([XQuartz](https://www.xquartz.org) if on macOS or [Xming](https://sourceforge.net/projects/xming/files/latest/download) if on Windows)
