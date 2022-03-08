@@ -46,6 +46,14 @@ You will access McXtrace via a browser on your laptop. No software installation 
 - **For SOLEIL staff (wifi, on-site)**: start the Data Analysis virtual machine from <http://re-grades-01.exp.synchrotron-soleil.fr/desktop/>. :+1: This option provides optimal computing power. You can save your data onto the Ruche, or via external clouds/emails.
 - **For all**: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: This option provides a limited computing power.
 
+### Exectution on local hardware
+The above environment is also available on dockerhub and may be run on your own PC via the command
+```
+docker run -p 8888:8888 docker.io/mccode/mcxtrace-1.7-3.0:1.0
+```
+Afterwards, please connect to the URL communicated by the docker after which the JupyterLab environment appears:
+
+### Manual installation of software stack
 In case you wish to install the software yourself, refer to the [McXtrace installation](http://mcxtrace.org/download/) page. Version 1.7 is the legacy one. Version 3 is the 'next-generation' one with an improved performance, GPU support at the cost of a slightly modified syntax/grammar. Both versions are installed on the resources above.
 
 ## Registration and contacts
