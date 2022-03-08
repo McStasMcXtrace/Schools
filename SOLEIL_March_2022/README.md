@@ -47,7 +47,9 @@ You will access McXtrace via a browser on your laptop. No software installation 
 - **For all**: access a prepared McXtrace simulation environment from <https://mybinder.org/v2/gh/McStasMcXtrace/mcxtrace-binder/master?urlpath=lab>. The JupyterLab is displayed with a __Desktop__ icon on the right panel. Drag-n-drop files on the left panel to communicate with your simulation environment. :warning: This option provides a limited computing power.
 
 ### Exectution on local hardware
-The above environment is also available on dockerhub and may be run on your own PC via the command
+The above environment is also available on dockerhub and may be run on your own PC, provided [Docker Desktop](https://www.docker.com/products/docker-desktop).
+
+The McXtrace docker kan be spawned via the command
 ```
 docker run -p 8888:8888 docker.io/mccode/mcxtrace-1.7-3.0:1.0
 ```
