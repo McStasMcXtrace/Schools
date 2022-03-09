@@ -88,8 +88,8 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 5. McXtrace/McStas repository https://github.com/McStasMcXtrace/McCode
 
 ***
-*McXtrace training - 2022*
-
+*McXtrace training - 2022*  
+*Non-official corrections of some exercices [here](https://github.com/antoinepado/Corrections_School_March_2022)*  
 ![DTU](images/dtu_logo.gif  "DTU")
 ![SOLEIL](images/soleil-logo.png  "SOLEIL")
 
