@@ -132,7 +132,7 @@ You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
 
 #### Step A.2: use a component from the neutron world
 
-Get the component [PSD_monitor_rad](http://mcstas.org/download/components/2.7.1/contrib/PSD_monitor_rad.comp) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
+Get the component [PSD_monitor_rad](http://mcstas.org/download/components/3.1/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
 
 Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
 - Change the occurences of `restore_neutron` into `restore_xray`.
