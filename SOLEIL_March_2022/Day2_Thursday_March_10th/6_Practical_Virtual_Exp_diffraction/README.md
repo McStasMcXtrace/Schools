@@ -300,7 +300,7 @@ Plot the results, and visualize the scattering curve of all samples.
 
 #### Step C.2: simulate more complex samples
 
-We now use the [TemplateSasView](http://www.mcxtrace.org/download/components/3.0/examples/TemplateSasView.html) in _Templates_.
+We now use the [TemplateSasView](http://www.mcxtrace.org/download/components/3.0/examples/templateSasView.html) in _Templates_.
 
 As can be see, the default model index is number 10.
 
