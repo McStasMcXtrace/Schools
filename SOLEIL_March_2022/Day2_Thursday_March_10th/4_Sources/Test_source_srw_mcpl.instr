@@ -1,0 +1,61 @@
+/*******************************************************************************
+*         McXtrace instrument definition URL=http://www.mcxtrace.org
+*
+* Instrument: Test_source_srw_mcpl
+*
+* %Identification
+* Written by: Erik B Knudsen (erkn@fysik.dtu.dk)
+* Date: Aug. 10th, 2014
+* Origin: DTU Physics
+* Release: McXtrace 1.2
+* Version: 1.0
+* %INSTRUMENT_SITE: Tests
+*
+* Test instrument for the MCPL from SRW
+*
+* %Description
+* A unit test instrument for the Source component that can take input from a SRW-simulation
+* of an undulator/wiggler etc. and input it into McXtrace via a MCPL file.
+*
+* %Example: Test_source_srw_mcpl.instr mcpl="sp8stdU2.mcpl"
+*
+*
+* %Parameters
+* E0: [keV]   Central wavelength for sampling
+* dE: [keV]   Halfwidth of sampleing window (in energy)
+* mcpl: [ ]   Filename from SRW/MCPL
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT Test_source_srw_mcpl(E0=12.5, dE=1,string mcpl="sp8stdU2.mcpl") 
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+COMPONENT source = MCPL_input(filename=mcpl)
+AT(0,0,0) RELATIVE PREVIOUS
+
+COMPONENT psd0 = PSD_monitor(
+    filename="psd0",xwidth=1.4e-3,yheight=0.4e-3
+)
+AT(0,0,1) RELATIVE origin
+
+COMPONENT emon0 = E_monitor(
+    filename="emon0",xwidth=1.4e-3,nE=101,yheight=0.4e-3,Emin=E0-1.1*dE, Emax=E0+1.1*dE)
+AT(0,0,1.1) RELATIVE origin
+
+COMPONENT psd1 = PSD_monitor(
+    filename="psd1",xwidth=1.4e-3, yheight=0.4e-3
+)
+AT(0,0,10) RELATIVE origin
+
+COMPONENT psd2 = PSD_monitor(
+    filename="psd2",xwidth=1.4e-3, yheight=0.4e-3
+)
+AT(0,0,20) RELATIVE origin
+
+END
+
