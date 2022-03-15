@@ -13,7 +13,9 @@ mcrun utility that has many options relevant to parallelisation.
 
 ### Information resources
 * Input parameters for the mcrun tool https://github.com/McStasMcXtrace/McCode/wiki/mcrun
-* Confluence-based guide https://confluence.esss.lu.se/pages/viewpage.action?pageId=292160881
+* Confluence-based guide for running McStas on the DMSC cluster
+  https://confluence.esss.lu.se/pages/viewpage.action?pageId=292160881
+  (thanks Celine!)
 * The ```mcstas_mcsub_slurm``` command can be used to write a slurm batchfile
 
 ### Tasks
@@ -27,7 +29,7 @@ mcrun utility that has many options relevant to parallelisation.
 * Using the above information resources, please
   * Run the said instrument using the Docker and note the mcrun line
   * Use ```mcstas_mcsub_slurm``` on the cluster with the mcrun line to
-    create a batch file
+    create a batch file (use the --help option first)
   * Use the cluster guides to do an MPI-based simulation
   * Use the cluster guides to do a GPU-based simulation (requires a
     McStas 3.x instrument)
