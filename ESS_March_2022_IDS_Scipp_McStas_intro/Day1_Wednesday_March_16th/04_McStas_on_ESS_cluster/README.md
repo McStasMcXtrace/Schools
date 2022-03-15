@@ -6,15 +6,10 @@ makes use of the underlying ```mcrun``` tool, see below screenshot:
 ![mcgui screenshot](mcgui.png)
 
 Among the output, you find this line
-```
-mcrun BNL_H8.instr -d /home/jovyan/work/BNL_H8_20220307_094456 -n 1000000  lambda=2.36
-
-```
+```mcrun BNL_H8.instr -d /home/jovyan/work/BNL_H8_20220307_094456 -n 1000000  lambda=2.36```
 
 Our work in this exericise is mainly to get aqcuainted with using the 
 mcrun utility that has many options relevant to parallelisation.
-
-
 
 ### Information resources
 * Input parameters for the mcrun tool https://github.com/McStasMcXtrace/McCode/wiki/mcrun
@@ -22,10 +17,17 @@ mcrun utility that has many options relevant to parallelisation.
 * The ```mcstas_mcsub_slurm``` command can be used to write a slurm batchfile
 
 ### Tasks
-* Using the above information resources, please
-  * Re-perform one of the simulations from last section using MPI on
-    the quark queue
-  * Re-perform one of the simulations from last section using OpenACC on
-    the GPU queue
-  
+* Pick an intersting instrument, either from
+  * Your McStas installation example directory (File->New from template)
+  * The ESS DMSC instrument repo at
+    https://git.esss.dk/dam-group/ess-instrumentmodels (some of these
+    may be McStas 2.x only)
+  * A previous exercise
 
+* Using the above information resources, please
+  * Run the said instrument using the Docker and note the mcrun line
+  * Use ```mcstas_mcsub_slurm``` on the cluster with the mcrun line to
+    create a batch file
+  * Use the cluster guides to do an MPI-based simulation
+  * Use the cluster guides to do a GPU-based simulation (requires a
+    McStas 3.x instrument)
