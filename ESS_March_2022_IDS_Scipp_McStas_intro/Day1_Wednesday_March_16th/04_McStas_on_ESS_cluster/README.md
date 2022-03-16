@@ -19,7 +19,7 @@ mcrun utility that has many options relevant to parallelisation.
 * The ```mcstas_mcsub_slurm``` command can be used to write a slurm batchfile
 
 ### Tasks
-* Pick an intersting instrument, either from
+* Pick an interesting instrument, either from
   * Your McStas installation example directory (File->New from template)
   * The ESS DMSC instrument repo at
     https://git.esss.dk/dam-group/ess-instrumentmodels (some of these
