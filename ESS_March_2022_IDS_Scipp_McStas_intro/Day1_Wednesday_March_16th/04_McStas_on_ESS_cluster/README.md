@@ -23,7 +23,7 @@ mcrun utility that has many options relevant to parallelisation.
   * Your McStas installation example directory (File->New from template)
   * The ESS DMSC instrument repo at
     https://git.esss.dk/dam-group/ess-instrumentmodels (some of these
-    may be McStas 2.x only)
+    may be McStas 2.x only - McStas 2 to 3 conversion guide available at https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-Modifying-a-McStas-2-instrument-for-use-under-McStas-3)
   * A previous exercise
 
 * Using the above information resources, please
