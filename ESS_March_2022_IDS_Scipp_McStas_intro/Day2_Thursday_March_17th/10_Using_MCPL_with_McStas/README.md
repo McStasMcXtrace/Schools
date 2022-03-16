@@ -1,7 +1,7 @@
 ## MCPL practical
 
 ### Task a
-* Use the SANS_spheres instrument from the example directory
+* Use the ```templateSANS2.instr``` instrument from the example directory
 * Insert an MCPL_output after last slit, geometrically at the slit
 * Comment out the remainder of the instrument
 * Run a series of runs with this new primary instrument at different statistics
@@ -16,5 +16,5 @@
   source model
 
 ### Task c
-* Investigate how MCPL is used in the model of ESS_BEER, combining
+* Investigate how MCPL is used in the model of ```ESS_BEER.instr```, combining
   primary-spectrometer from SIMRES and backend from McStas
