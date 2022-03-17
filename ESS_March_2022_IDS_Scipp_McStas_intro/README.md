@@ -14,3 +14,6 @@
 - (add ```-v /some/folder:/home/jovyan/otherfolder``` before the image name to map a folder from your local machine to the docker image)
 - Connect to the URL communicated by the docker (will open a
   JupyterLab that includes a link to a browser-based X-session)
+
+## Zoom 
+https://dtudk.zoom.us/j/67485632586?pwd=L29lbUNxQmh5VXpYT1E0ZGZNS3ZLQT09
