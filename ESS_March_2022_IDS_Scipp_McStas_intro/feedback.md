@@ -1,6 +1,6 @@
 # McStas workshop feedback
 
-Andrew waw not physically there, so a worse experience. Wanted overview, and feels he got that. Will ask less stupid questions.
+Andrew was not physically there, so a worse experience. Wanted overview, and feels he got that. Will ask less stupid questions.
 
 Greg got a good overview. The practical exercises may have needed more preparation than anticipated, and felt lost when a existing instrument was needed.
 Mentions that the environment is important, very noisy on the first day. Peter mentions going to a location to focus can make sense and has been done.
