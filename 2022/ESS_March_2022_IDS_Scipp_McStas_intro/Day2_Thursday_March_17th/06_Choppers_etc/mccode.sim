@@ -1,0 +1,458 @@
+McStas simulation description file for reference.
+Date:    Thu Mar 17 13:52:54 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: yes
+  Gravitation: no
+  Seed: 1647521573099297
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 13:52:55 2022 (1647521575)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: PSD_2D
+  position: 0 0 5.3
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD_2D.dat
+  statistics: X0=0.0150934; dX=1.0906; Y0=0.0132159; dY=1.38481;
+  signal: Min=0; Max=2.02493e-07; Mean=4.22467e-09;
+  values: 0.000168987 4.00801e-06 2998
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -2.5 2.5 -2.5 2.5
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 13:52:55 2022 (1647521575)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: DIV_2D
+  position: 0 0 5.3
+  title: Divergence monitor
+  Ncount: 1000000
+  filename: DIV_2D.dat
+  statistics: X0=-0.00267343; dX=0.398748; Y0=0.0114085; dY=0.407686;
+  signal: Min=0; Max=6.04991e-07; Mean=4.22467e-09;
+  values: 0.000168987 4.00801e-06 2998
+  xvar: X 
+  yvar: Y 
+  xlabel: X divergence [deg]
+  ylabel: Y divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -3 3 -3 3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 13:52:55 2022 (1647521575)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.17452; dX=0.720312;
+  signal: Min=0; Max=9.96859e-07; Mean=2.81645e-07;
+  values: 0.000168987 4.00801e-06 2998
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 13:53:00 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: yes
+  Gravitation: no
+  Seed: 1647521578972322
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 13:53:11 2022 (1647521591)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.14635; dX=0.740522;
+  signal: Min=0; Max=6.32924e-05; Mean=2.80872e-05;
+  values: 0.0168523 4.00173e-05 291983
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 14:40:22 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: yes
+  Gravitation: no
+  Seed: 1647524421104576
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 14:40:28 2022 (1647524428)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.13402; dX=0.744888;
+  signal: Min=0; Max=6.27782e-06; Mean=2.35832e-06;
+  values: 0.00141499 1.15958e-05 24386
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 14:40:35 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: yes
+  Gravitation: no
+  Seed: 1647524433995124
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 14:40:42 2022 (1647524442)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.15027; dX=0.739697;
+  signal: Min=0; Max=1.04122e-05; Mean=3.94734e-06;
+  values: 0.0023684 1.4995e-05 41356
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 14:41:00 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: yes
+  Gravitation: no
+  Seed: 1647524459496019
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 14:41:01 2022 (1647524461)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 1000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.1531; dX=0.739443;
+  signal: Min=0; Max=7.94023e-06; Mean=2.88298e-06;
+  values: 0.00172979 1.28268e-05 29766
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 14:41:45 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1
+  Trace: yes
+  Gravitation: no
+  Seed: 1
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 14:41:45 2022 (1647524505)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2
+  filename: Wavelength_1D.dat
+  statistics: X0=0; dX=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 15:10:44 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1
+  Trace: no
+  Gravitation: no
+  Seed: 1
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 15:10:45 2022 (1647526245)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2
+  filename: Wavelength_1D.dat
+  statistics: X0=0; dX=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 15:10:55 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1
+  Trace: yes
+  Gravitation: no
+  Seed: 1
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 15:10:55 2022 (1647526255)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2
+  filename: Wavelength_1D.dat
+  statistics: X0=0; dX=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data
+McStas simulation description file for reference.
+Date:    Thu Mar 17 15:12:48 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: (null)/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: (null)
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1
+  Trace: yes
+  Gravitation: no
+  Seed: 1
+  Directory: .
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 15:12:48 2022 (1647526368)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2
+  filename: Wavelength_1D.dat
+  statistics: X0=0; dX=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data

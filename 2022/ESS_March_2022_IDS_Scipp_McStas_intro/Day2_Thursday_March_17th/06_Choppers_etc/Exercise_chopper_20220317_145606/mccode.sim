@@ -1,0 +1,90 @@
+McStas simulation description file for reference.
+Date:    Thu Mar 17 14:56:08 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: Exercise_chopper_20220317_145606/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: Exercise_chopper_20220317_145606
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1647525367420870
+  Directory: Exercise_chopper_20220317_145606
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 14:56:12 2022 (1647525372)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: PSD_2D
+  position: 0 0 5.3
+  title: PSD monitor
+  Ncount: 2000000
+  filename: PSD_2D.dat
+  statistics: X0=-0.00161874; dX=1.0988; Y0=0.00105722; dY=1.38066;
+  signal: Min=0; Max=1.88553e-06; Mean=4.21971e-07;
+  values: 0.0168788 4.00537e-05 292118
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -2.5 2.5 -2.5 2.5
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 14:56:12 2022 (1647525372)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: DIV_2D
+  position: 0 0 5.3
+  title: Divergence monitor
+  Ncount: 2000000
+  filename: DIV_2D.dat
+  statistics: X0=0.000144515; dX=0.396787; Y0=0.00135241; dY=0.406713;
+  signal: Min=0; Max=1.31594e-05; Mean=4.21971e-07;
+  values: 0.0168788 4.00537e-05 292118
+  xvar: X 
+  yvar: Y 
+  xlabel: X divergence [deg]
+  ylabel: Y divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -3 3 -3 3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 14:56:12 2022 (1647525372)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2000000
+  filename: Wavelength_1D.dat
+  statistics: X0=2.14621; dX=0.741458;
+  signal: Min=0; Max=6.54895e-05; Mean=2.81314e-05;
+  values: 0.0168788 4.00537e-05 292118
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data

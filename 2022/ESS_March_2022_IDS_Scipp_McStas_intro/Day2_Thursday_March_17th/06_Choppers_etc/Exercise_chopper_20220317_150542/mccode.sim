@@ -1,0 +1,90 @@
+McStas simulation description file for reference.
+Date:    Thu Mar 17 15:05:43 2022
+Program: McStas 3.1 - Nov. 24, 2021
+
+begin instrument: reference
+  File: Exercise_chopper_20220317_150542/mccode
+  Source: Exercise_chopper.instr
+  Parameters:  guide_length(double) wavelength(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: Exercise_chopper_20220317_150542
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.1 - Nov. 24, 2021
+  Instrument: Exercise_chopper.instr
+  Ncount: 1
+  Trace: no
+  Gravitation: no
+  Seed: 1
+  Directory: Exercise_chopper_20220317_150542
+  Param: guide_length=3
+  Param: wavelength=3
+end simulation
+
+begin data
+  Date: Thu Mar 17 15:05:43 2022 (1647525943)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: PSD_2D
+  position: 0 0 5.3
+  title: PSD monitor
+  Ncount: 2
+  filename: PSD_2D.dat
+  statistics: X0=0; dX=0; Y0=0; dY=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -2.5 2.5 -2.5 2.5
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 15:05:43 2022 (1647525943)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_chopper.instr)
+  component: DIV_2D
+  position: 0 0 5.3
+  title: Divergence monitor
+  Ncount: 2
+  filename: DIV_2D.dat
+  statistics: X0=0; dX=0; Y0=0; dY=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: X 
+  yvar: Y 
+  xlabel: X divergence [deg]
+  ylabel: Y divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -3 3 -3 3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Thu Mar 17 15:05:43 2022 (1647525943)
+  type: array_1d(600)
+  Source: reference (Exercise_chopper.instr)
+  component: Wavelength_1D
+  position: 0 0 5.3
+  title: Wavelength monitor
+  Ncount: 2
+  filename: Wavelength_1D.dat
+  statistics: X0=0; dX=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 0.3 3.3
+  variables: L I I_err N
+end data

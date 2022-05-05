@@ -1,0 +1,139 @@
+McXtrace simulation description file for NBI_Lab_TOMO.
+Date:    Wed Mar  9 09:32:04 2022
+Program: McXtrace 3.0 - Feb. 07, 2022
+
+begin instrument: NBI_Lab_TOMO
+  File: /Users/pkwi/Projects/Schools/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy/8a_Tomography/3.x/NBI_Lab_TOMO_20220309_093203/mccode
+  Source: NBI_Lab_TOMO.instr
+  Parameters:  fname(string) d_sample_det(double) d_source_sample(double) Omega(double) detw(double) deth(double) MONO(double) Energy(double) deltaE(double) rx(double) ry(double) rz(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /Users/pkwi/Projects/Schools/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy/8a_Tomography/3.x/NBI_Lab_TOMO_20220309_093203
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 3.0 - Feb. 07, 2022
+  Instrument: NBI_Lab_TOMO.instr
+  Ncount: 100000
+  Trace: no
+  Gravitation: no
+  Seed: 1646814724611761
+  Directory: /Users/pkwi/Projects/Schools/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy/8a_Tomography/3.x/NBI_Lab_TOMO_20220309_093203
+  Nodes: 4
+  Param: fname=spectrumU50_th5.dat
+  Param: d_sample_det=0.79
+  Param: d_source_sample=1.145
+  Param: Omega=0
+  Param: detw=0.0351
+  Param: deth=0.0334
+  Param: MONO=0
+  Param: Energy=50
+  Param: deltaE=1
+  Param: rx=-80
+  Param: ry=0
+  Param: rz=0
+end simulation
+
+begin data
+  Date: Wed Mar  9 09:32:07 2022 (1646814727)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: emon0
+  position: 0 0 0.0005
+  title: Energy monitor
+  Ncount: 200000
+  filename: emon0.dat
+  statistics: X0=18.3645; dX=7.62294;
+  signal: Min=0; Max=2.39146e+12; Mean=7.12044e+10;
+  values: 7.12044e+13 4.54226e+11 100000
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Wed Mar  9 09:32:07 2022 (1646814727)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: emonef
+  position: 0 0 0.3115
+  title: Energy monitor
+  Ncount: 200000
+  filename: emon0ef.dat
+  statistics: X0=28.3141; dX=8.58279;
+  signal: Min=0; Max=1.13064e+11; Mean=6.70677e+09;
+  values: 6.70677e+12 3.88524e+10 63378
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Wed Mar  9 09:32:07 2022 (1646814727)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: e_mon1
+  position: 0 0 1.92
+  title: Energy monitor
+  Ncount: 200000
+  filename: emon1.dat
+  statistics: X0=35.0958; dX=6.95325;
+  signal: Min=0; Max=7.36928e+08; Mean=4.85965e+07;
+  values: 4.85965e+10 1.70356e+09 1638
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Wed Mar  9 09:32:07 2022 (1646814727)
+  type: array_2d(204, 194)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: Detector_Si
+  position: 0 0 1.935
+  title: Detector_pn
+  Ncount: 200000
+  filename: detector_Si.dat
+  statistics: X0=-0.0110917; dX=1.08131; Y0=0.051737; dY=0.979898;
+  signal: Min=0; Max=1.85124e+08; Mean=2.49764e+07;
+  values: 9.88467e+11 4.86812e+09 100000
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -1.755 1.755 -1.67 1.67
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Mar  9 09:32:07 2022 (1646814727)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: e_mon2
+  position: 0 0 1.9355
+  title: Energy monitor
+  Ncount: 200000
+  filename: emon2.dat
+  statistics: X0=38.8634; dX=5.32199;
+  signal: Min=0; Max=1.86199e+08; Mean=9.44243e+06;
+  values: 9.44243e+09 3.7659e+08 1612
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
