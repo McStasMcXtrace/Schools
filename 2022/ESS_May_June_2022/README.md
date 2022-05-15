@@ -11,8 +11,12 @@
 ## Starting the docker
 - ```docker run -p 8888:8888 docker.io/mccode/mcstas-2.7.1-3.1-scipp:1.0``` 
 - (add ```-v /some/folder:/home/jovyan/otherfolder``` before the image name to map a folder from your local machine to the docker image)
-- Connect to the URL communicated by the docker (will open a
-  JupyterLab that includes a link to a browser-based X-session)
+- Connect to the URL communicated by the docker (will open a JupyterLab that includes a link to a browser-based X-session)
+[Workshop programme](pics/Jupyterlab.png)
+- Pressing the Desktop link will open an XFCE session
+[Workshop programme](pics/XFCE_McStas_launchers.png)
+[Workshop programme](pics/McStas_3.1_started.png)
+  
 
 ## Zoom access
 Link will be shared later
