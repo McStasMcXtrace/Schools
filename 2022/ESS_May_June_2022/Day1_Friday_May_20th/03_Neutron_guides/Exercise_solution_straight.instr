@@ -14,19 +14,21 @@
 * %Description
 * Exercise in using guide components in McStas
 *
-* Example: mcrun Exercise_guides.instr guide_length=10.0
- 
+* Example: mcrun Exercise_guides.instr guide_length=10.0 guide_width=0.04
+*
 * %Parameters
 * lambda_min: [AA]     Lower bound of simulated wavelength range
-* lambda_max: [AA]    Upper bound of simulated wavelength range
-* guide_length: [m]     Length of guide
+* lambda_max: [AA]     Upper bound of simulated wavelength range
+* guide_length: [m]    Length of guide
+* guide_width: [m]     Width of guide
 *
 * %Link
 * A reference/HTML link for more information
 *
 * %End
 *******************************************************************************/
-DEFINE INSTRUMENT reference(lambda_min=3.0, lambda_max=8.0, guide_length=10.0)
+DEFINE INSTRUMENT reference(lambda_min=3.0, lambda_max=8.0, guide_length=1.0, guide_width=0.03)
+
 
 TRACE
 
@@ -43,8 +45,8 @@ AT (0, 0, 0) RELATIVE Origin
 
 // guide starting 2 m after source
 COMPONENT guide = Guide_gravity(
-  w1=0.03, h1=0.03,
-  w2=0.03, h2=0.03,
+  w1=guide_width, h1=0.03,
+  w2=guide_width, h2=0.03,
   l=guide_length,
   R0=0.99, m=3, Qc=0.0217, alpha=2.0, W=0.003,
   G=-9.82)
@@ -83,3 +85,4 @@ COMPONENT POS_DIV_2D = DivPos_monitor(
 AT (0, 0, 0) RELATIVE PREVIOUS
 
 END
+
