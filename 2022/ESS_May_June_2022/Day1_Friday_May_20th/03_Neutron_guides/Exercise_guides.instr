@@ -77,8 +77,8 @@ AT (0, 0, 0) RELATIVE PREVIOUS
 
 // Acceptance diagram
 COMPONENT POS_DIV_2D = DivPos_monitor(
-  xwidth=0.05, yheight=0.05,nh=200,
-  ndiv=200, maxdiv_h=3.0,
+  xwidth=0.05, yheight=0.05,nb=200,
+  ndiv=200, maxdiv=3.0, vertical=0,
   filename="POS_DIV_2D.dat", restore_neutron=1)
 AT (0, 0, 0) RELATIVE PREVIOUS
 
