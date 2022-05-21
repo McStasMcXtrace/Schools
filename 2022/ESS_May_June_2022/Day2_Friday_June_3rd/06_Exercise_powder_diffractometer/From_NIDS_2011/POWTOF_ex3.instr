@@ -1,0 +1,152 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: test (rename also the example and DEFINE lines below)
+*
+* %Identification
+* Written by: Linda Udby udby@fys.ku.dk
+* Date: June 6th 2011
+* Origin: University of Copenhagen
+* Release: McStas CVS-080208
+* Version: 0.2
+* %INSTRUMENT_SITE: ESS_thermal_powder
+*
+* Instrument short description
+*
+* %Description
+* Instrument longer description (type, elements, usage...)
+*
+* Example: mcrun test.instr <parameters=values>
+*
+* %Parameters
+* Par1: [unit] Parameter1 description
+*
+* %Link
+* A reference/HTML link for more information
+*
+* %End
+*******************************************************************************/
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT POWTOF(theta=45)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+
+COMPONENT Source = ESS_moderator_long(
+    l_low = 0.5, l_high = 1.8, dist = 149.9, xw = 0.02, yh = 0.02,size=0.02,
+    freq = 20, d = 2.00e-3,T=325, twopulses =0)
+  AT (0, 0, 0) RELATIVE Origin
+
+// COMPONENT Source = ESS_moderator_long(
+//     l_low = 0.1, l_high = 5, dist = 149.9, xw = 0.02, yh = 0.02,size=0.02,
+//     freq = 14, d = 2.86e-3,T=325, twopulses = 0)
+//   AT (0, 0, 0) RELATIVE Origin
+
+// COMPONENT TOFmon1 = TOF_monitor(
+//     filename = "TOFmon1", xwidth = 0.02, yheight = 0.02,t0=0,t1=5000,
+//     restore_neutron = 0)
+//   AT (0, 0, 1e-6) RELATIVE Source
+
+COMPONENT TOFLambda1 = TOFLambda_monitor(
+    nlam = 100, nt = 100, filename = "TOFLambda1", t_0 = 0,
+    t_1 = 5000, xwidth = 0.02, yheight = 0.02, lambda_0 = 0.1,
+    lambda_1 =5, restore_neutron = 0)
+  AT (0, 0, 1e-6) RELATIVE Source
+
+
+COMPONENT PSD = PSD_monitor(
+    filename = "PSD", xwidth = 0.03, yheight = 0.03)
+  AT (0, 0, 0.5) RELATIVE Source
+
+
+// COMPONENT TOFmon2 = TOF_monitor(
+//     filename = "TOFmon2", xwidth = 0.02, yheight = 0.02,t0=0,t1=10000,
+//     restore_neutron = 0)
+//   AT (0, 0, 6) RELATIVE Source
+
+COMPONENT TOFLambda2 = TOFLambda_monitor(
+    nlam = 100, nt = 100, filename = "TOFLambda2", t_0 = 0,
+    t_1 = 10000, xwidth = 0.02, yheight = 0.02, lambda_0 = 0.1,
+    lambda_1 = 5, restore_neutron = 0)
+  AT (0, 0, 6) RELATIVE Source
+
+// COMPONENT TOFmon3 = TOF_monitor(
+//     filename = "TOFmon3", xwidth = 0.02, yheight = 0.02,t0=0,t1=100000,
+//     restore_neutron = 0)
+//   AT (0, 0, 149.9) RELATIVE Source
+
+COMPONENT TOFLambda3 = TOFLambda_monitor(
+    nlam = 100, nt = 100, filename = "TOFLambda3", t_0 = 0,
+    t_1 = 100000, xwidth = 0.02, yheight = 0.02, lambda_0 = 0.1,
+    lambda_1 = 5, restore_neutron = 0)
+  AT (0, 0, 149.9) RELATIVE Source
+
+
+COMPONENT sample = Powder1(
+    radius = 0.003, yheight = 0.02, q=5 //)
+	, d_phi=12)
+  AT (0, 0, 150) RELATIVE Source
+
+COMPONENT TOFdetArm = Arm(
+    )
+  AT (0, 0, 0) RELATIVE sample
+  ROTATED (0,theta,0) RELATIVE sample
+
+COMPONENT beamstop = Beamstop(
+    radius = 0.2)
+  AT (0, 0, 151) RELATIVE Source
+
+
+
+COMPONENT TOF_cylPSD = TOF_cylPSD_monitor(
+    nt = 100, filename = "TOF_cylPSD", nphi = 180, radius = 2,
+    height = 0.20, t_0 = 0, t_1 = 10e4, restore_neutron = 1)
+  AT (0, 0, 150) RELATIVE Source
+
+COMPONENT TOFdet = TOF_monitor(
+    filename = "TOFdet", xwidth = 0.01, yheight = 0.2,t0=47000,t1=52000, nchan=100,
+    restore_neutron = 1)
+  AT (0, 0, 2.001) RELATIVE TOFdetArm
+
+	
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
+
+
+
+
+
+
+
