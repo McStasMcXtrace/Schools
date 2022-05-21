@@ -1,0 +1,129 @@
+  Format: McStas with text headers file. Use mcplot/PGPLOT to view.
+  URL:    http://www.mcstas.org/
+  Editor: pkwi on localhost
+  Creator:test (POWTOF_ex1.instr) simulation (McStas 1.12b - Jul. 15, 2010)
+  Date:   Simulation started (1653117164) Sat May 21 09:12:44 2022
+  File:   ex1_defaults_1e6/mcstas
+  begin instrument
+    name: test
+    parent: mcstas
+    Parameters:  Par1(double)
+    Source: POWTOF_ex1.instr
+    Trace_enabled: yes
+    Default_main: yes
+    Embedded_runtime: yes
+  end instrument
+  begin simulation
+    name: ex1_defaults_1e6/mcstas
+    parent: test
+    Ncount: 1e+06
+    Trace: no
+    Gravitation: no
+    Seed: 1653117164
+    Param: Par1=1
+  end simulation
+begin component
+  name: TOFmon1
+  parent: ex1_defaults_1e6/mcstas
+  begin data
+    name: TOFmon1.sim
+    parent: TOFmon1
+    type: array_1d(20)
+    Source: POWTOF_ex1.instr
+    component: TOFmon1
+    position: 0 0 1e-06
+    title: Time-of-flight monitor
+    ratio: 1e+06/1e+06
+    filename: TOFmon1.sim
+    format: McStas with text headers
+    statistics: X0=1582.77; dX=860.776;
+    signal: Min=68.5465; Max=151704; Mean= 86026.7;
+    values: 1.72053e+06 3598.23 999960
+    xvar: t
+    yvar: (I,I_err)
+    xlabel: Time-of-flight [\gms]
+    ylabel: Intensity
+    xlimits: 0 5000
+    variables: t I I_err N
+  end data
+  end component
+begin component
+  name: PSD
+  parent: ex1_defaults_1e6/mcstas
+  begin data
+    name: PSD.sim
+    parent: PSD
+    type: array_2d(90, 90)
+    Source: POWTOF_ex1.instr
+    component: PSD
+    position: 0 0 0.5
+    title: PSD monitor
+    ratio: 1e+06/1e+06
+    filename: PSD.sim
+    format: McStas with text headers
+    statistics: X0=-0.000422076; dX=0.575447; Y0=-0.000105417; dY=0.575435;
+    signal: Min=0; Max=700.606; Mean= 212.418;
+    values: 1.72059e+06 3598.25 1e+06
+    xvar: X 
+    yvar: Y 
+    xlabel: X position [cm]
+    ylabel: Y position [cm]
+    zvar: I
+    zlabel: Signal per bin
+    xylimits: -1.5 1.5 -1.5 1.5 0 700.606
+    variables: I I_err N
+    Errors [PSD/PSD.sim]: 
+    Events [PSD/PSD.sim]: 
+  end data
+  end component
+begin component
+  name: TOFmon2
+  parent: ex1_defaults_1e6/mcstas
+  begin data
+    name: TOFmon2.sim
+    parent: TOFmon2
+    type: array_1d(20)
+    Source: POWTOF_ex1.instr
+    component: TOFmon2
+    position: 0 0 6
+    title: Time-of-flight monitor
+    ratio: 1e+06/1e+06
+    filename: TOFmon2.sim
+    format: McStas with text headers
+    statistics: X0=3318.96; dX=1598.96;
+    signal: Min=1425.24; Max=233644; Mean= 85998.3;
+    values: 1.71997e+06 3598.25 983649
+    xvar: t
+    yvar: (I,I_err)
+    xlabel: Time-of-flight [\gms]
+    ylabel: Intensity
+    xlimits: 0 10000
+    variables: t I I_err N
+  end data
+  end component
+begin component
+  name: TOFmon3
+  parent: ex1_defaults_1e6/mcstas
+  begin data
+    name: TOFmon3.sim
+    parent: TOFmon3
+    type: array_1d(20)
+    Source: POWTOF_ex1.instr
+    component: TOFmon3
+    position: 0 0 149.9
+    title: Time-of-flight monitor
+    ratio: 1e+06/1e+06
+    filename: TOFmon3.sim
+    format: McStas with text headers
+    statistics: X0=39449.9; dX=24036.9;
+    signal: Min=16734.1; Max=217062; Mean= 80542.6;
+    values: 1.61085e+06 3592.46 508957
+    xvar: t
+    yvar: (I,I_err)
+    xlabel: Time-of-flight [\gms]
+    ylabel: Intensity
+    xlimits: 0 100000
+    variables: t I I_err N
+  end data
+  end component
+  EndDate:Sat May 21 09:12:47 2022

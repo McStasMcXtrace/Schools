@@ -1,0 +1,49 @@
+# Format: McStas with text headers file. Use mcplot/PGPLOT to view.
+# URL:    http://www.mcstas.org/
+# Editor: pkwi on localhost
+# Creator:test (POWTOF_ex1.instr) simulation (McStas 1.12b - Jul. 15, 2010)
+# Date:   Simulation started (1653117164) Sat May 21 09:12:44 2022
+# File:   TOFmon3.sim
+# Ncount: 1e+06
+# Trace: no
+# Gravitation: no
+# Seed: 1653117164
+# Param: Par1=1
+# type: array_1d(20)
+# Source: POWTOF_ex1.instr
+# component: TOFmon3
+# position: 0 0 149.9
+# title: Time-of-flight monitor
+# ratio: 1e+06/1e+06
+# filename: TOFmon3.sim
+# format: McStas with text headers
+# statistics: X0=39449.9; dX=24036.9;
+# signal: Min=16734.1; Max=217062; Mean= 80542.6;
+# values: 1.61085e+06 3592.46 508957
+# xvar: t
+# yvar: (I,I_err)
+# xlabel: Time-of-flight [\gms]
+# ylabel: Intensity
+# xlimits: 0 100000
+# variables: t I I_err N
+2500 16734.1 712.935 1193
+7500 217062 2187.72 23337
+12500 130421 1237.72 26771
+17500 88290 826.928 26929
+22500 70854.9 623.322 27380
+27500 77191 543.721 27051
+32500 103088 681.157 26656
+37500 127594 880.336 27027
+42500 132375 946.65 26956
+47500 123000 891.226 26864
+52500 107541 777.556 26998
+57500 89290.3 644.217 26763
+62500 73587.9 523.365 26823
+67500 59821.3 419.607 26764
+72500 49506.8 339.998 26913
+77500 40817.8 275.322 27104
+82500 33473.1 223.028 26923
+87500 27851.6 182.917 26996
+92500 23081.8 150.51 26831
+97500 19268.2 125.003 26678
+# EndDate:Sat May 21 09:12:47 2022
