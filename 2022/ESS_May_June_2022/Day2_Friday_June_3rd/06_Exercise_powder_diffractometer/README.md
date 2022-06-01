@@ -74,5 +74,6 @@ The current instrument is a crude model that captures the important concepts of 
 - Exchange the source with a ESS_Butterfly moderator
 - Introduce an elliptic guide with focus on source and sample, change focus to start of the guide
 - Use TOF2Q_cylPSD_monitor to perform basic time of flight analysis directly in the detector
+- Add a more realistic powder sample using the powderN component and a laz data file from the McStas installation
 
 
