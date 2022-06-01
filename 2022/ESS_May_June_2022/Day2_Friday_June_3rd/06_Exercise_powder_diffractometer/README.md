@@ -6,7 +6,7 @@ In a diffractometer it is assumed that all scattering is elastic, meaning the sp
 
 $$t=\alpha \lambda L$$
 
-Where $\alpha$ is a constant, $\alpha = m_n/h \approx 252.7 \mu$s$ / $m$ / $Å. The scattering vector can then be calculated using:
+Where $\alpha$ is a constant, $\alpha = m_n/h \approx 252.7 \mu$s$ / $m$ / Å. The scattering vector can then be calculated using:
 
 $$q = 2k_i \text{sin}(\theta) = \frac{4\pi}{\lambda}\text{sin}(\theta)$$
 
@@ -68,11 +68,11 @@ Typically powder diffraction experiments are performed with $dq/q \approx 10^{-3
 - [optional] Add a counter rotating chopper just after the first one (negative frequency)
 
 ### Simple model to realistic instrument
-The current instrument is a crude model that captures the important concepts of a powder diffractometer at ESS, but we can easily improve the fidelity of the simulation.
+The current instrument is a crude model that captures the important concepts of a powder diffractometer at ESS, but we can easily improve the fidelity of the simulation. This will be at expense of longer computing times.
 
-**Exercises part 5**
+**Exercises part 6**
 - Exchange the source with a ESS_Butterfly moderator
-- Introduce an elliptic guide with focus on source and sample
+- Introduce an elliptic guide with focus on source and sample, change focus to start of the guide
 - Use TOF2Q_cylPSD_monitor to perform basic time of flight analysis directly in the detector
 
 
