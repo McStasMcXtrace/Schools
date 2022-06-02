@@ -4,10 +4,10 @@
 * Instrument: POWTOF_solution
 *
 * %Identification
-* Written by: Linda Udby udby@fys.ku.dk
-* Date: June 6th 2011
+* Written by: Linda Udby udby@fys.ku.dk, modified by Mads Bertelsen mads.bertelsen@ess.eu
+* Date: June 6th 2011, Modified Jun 2022
 * Origin: University of Copenhagen
-* Release: McStas CVS-080208
+* Release: McStas 3.1
 * Version: 0.2
 * %INSTRUMENT_SITE: ESS_thermal_powder
 *
