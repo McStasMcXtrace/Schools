@@ -38,9 +38,14 @@ Thus resulting in a $dq/q\approx 1.1$%, which is too large for powder experiment
 The measured time and resulting resolution is shown for the different instrument configurations.
 
 
-| Instrument      | Measured t             | Peak dt                | $q$           | $dq$          | $dq/q$ |
-| --------------- | ---------------------- | ---------------------- | ------------- | ------------- | ------ |
-| No chopper      | $7.42\cdot 10^4 \mu s$ | $8.27\cdot 10^2 \mu s$ | 4.96 Å$^{-1}$ | 0.056 Å$^{-1}$  | 1.1 %  |
+| Instrument                      | Measured t             | Peak dt                | $q$           | $dq$            | $dq/q$  |
+| ------------------------------- | ---------------------- | ---------------------- | ------------- | --------------- | ------- |
+| No chopper                      | $7.42\cdot 10^4 \mu s$ | $8.27\cdot 10^2 \mu s$ | 4.96 Å$^{-1}$ | 0.056 Å$^{-1}$  | 1.1 %   |
+| Chopper 14 Hz                   | $7.35\cdot 10^4 \mu s$ | $3.57\cdot 10^2 \mu s$ | 5.01 Å$^{-1}$ | 0.0248 Å$^{-1}$ | 0.5 %   |
+| Chopper 28 Hz                   | $7.34\cdot 10^4 \mu s$ | $1.96\cdot 10^2 \mu s$ | 5.02 Å$^{-1}$ | 0.013 Å$^{-1}$  | 0.27 %  |
+| Counter rotating choppers 28 Hz | $7.34\cdot 10^4 \mu s$ | $1.06\cdot 10^2 \mu s$ | 5.02 Å$^{-1}$ | 0.0074 Å$^{-1}$ | 0.14 %  |
+
+The measured q value is close to what was simulated, but affected by statistical noise. Introducing the chopper, increasing the speed and introducing a counter rotating chopper all improves the resolution of the instrument.
 
 
 
