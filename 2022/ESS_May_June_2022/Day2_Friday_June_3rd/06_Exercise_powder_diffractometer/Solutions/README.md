@@ -19,7 +19,7 @@ Note that some wavelength overlap is seen, as now the detector is effectively 16
 
 With the small TOF detector at $2\theta = 90$ my simulations resulted in a peak at $t=7.42\cdot 10^4 \mu s$ with a width of $dt=8.27\cdot 10^2 \mu s$.
 
-Since the long pulse starts at $t=0$, it is reasonable to subtract half the pulse length from the measured time, 1.34 ms.
+Since the long pulse starts at $t=0$, it is reasonable to subtract half the pulse length from the measured time, 1.43 ms.
 
 To calculate the measured q we combine the equations from the theory chapter. 
 
@@ -40,8 +40,8 @@ The measured time and resulting resolution is shown for the different instrument
 
 | Instrument                      | Measured t             | Peak dt                | $q$           | $dq$            | $dq/q$  |
 | ------------------------------- | ---------------------- | ---------------------- | ------------- | --------------- | ------- |
-| No chopper                      | $7.42\cdot 10^4 \mu s$ | $8.27\cdot 10^2 \mu s$ | 4.96 Å$^{-1}$ | 0.056 Å$^{-1}$  | 1.1 %   |
-| Chopper 14 Hz                   | $7.35\cdot 10^4 \mu s$ | $3.57\cdot 10^2 \mu s$ | 5.01 Å$^{-1}$ | 0.0248 Å$^{-1}$ | 0.5 %   |
+| No chopper                      | $7.42\cdot 10^4 \mu s$ | $8.27\cdot 10^2 \mu s$ | 4.97 Å$^{-1}$ | 0.056 Å$^{-1}$  | 1.1 %   |
+| Chopper 14 Hz                   | $7.35\cdot 10^4 \mu s$ | $3.57\cdot 10^2 \mu s$ | 5.02 Å$^{-1}$ | 0.0248 Å$^{-1}$ | 0.5 %   |
 | Chopper 28 Hz                   | $7.34\cdot 10^4 \mu s$ | $1.96\cdot 10^2 \mu s$ | 5.02 Å$^{-1}$ | 0.013 Å$^{-1}$  | 0.27 %  |
 | Counter rotating choppers 28 Hz | $7.34\cdot 10^4 \mu s$ | $1.06\cdot 10^2 \mu s$ | 5.02 Å$^{-1}$ | 0.0074 Å$^{-1}$ | 0.14 %  |
 
