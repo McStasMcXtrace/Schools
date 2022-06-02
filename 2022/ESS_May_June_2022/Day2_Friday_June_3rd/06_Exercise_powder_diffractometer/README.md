@@ -56,7 +56,7 @@ With our understanding of the frontend of the instrument, we are now ready to ad
 - Perform the simulation (You may want to add a beamstop component after the sample to avoid the direct beam in the detector)
 - Explain the output
 - Introduce an instrument parameter called theta to the simulation
-- Place a single 10 mm wide TOF detector at an angle theta 1 m from the sample
+- Place a single 10 mm wide TOF detector at an angle 2 theta = 90 $^\circ$  1 m from the sample
 - Run the simulation and calculate the scattering vector $q$ and the resolution, $dq$, considering the full neutron path
 
 Typically powder diffraction experiments are performed with $dq/q \approx 10^{-3}$ at the 90 degree scattering angle. In order to improve and control the resolution we introduce a chopper. It is beneficial to place a chopper as close to the source as possible, at the ESS that is approximately 6.5 m after the source due to shielding.
