@@ -32,7 +32,7 @@ The ESS source have a frequency of $f=14$ Hz and a pulse duration of $d=2.86$ ms
 In the theory section it was assumed a given count in the detector could be traced back to a specific pulse. This assumption is obviously correct in the above scenario, as only a single pulse was simulated.
 
 **Exercises part 2**
-- Rerun the simulation with lambda range from 0.5 to 10 Å and two pulses
+- Rerun the simulation with lambda range from 0.5 to 5 Å and two pulses
 - Adjust the time range on the time of flight monitors so both pulses are visible
 - Explain the output of the simulation
 
