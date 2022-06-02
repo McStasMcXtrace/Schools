@@ -71,7 +71,7 @@ EXTEND %{
     double pulse_n=(double) floor(rand01()*npulses_declare);
     double pulse_delay=t_between_pulses*pulse_n;
     
-    t=2860*rand01()*1E-6 + pulse_delay; // Square time distribution centered at 1340 us
+    t=2860*rand01()*1E-6 + pulse_delay; // Square time distribution centered at 1430 us
 %}
 
 COMPONENT TOFmon1 = TOF_monitor(
