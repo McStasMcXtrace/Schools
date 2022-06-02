@@ -26,7 +26,7 @@ To calculate the measured q we combine the equations from the theory chapter.
 $$t=\alpha \lambda L$$
 $$q = 2k_i \text{sin}(\theta) = \frac{4\pi}{\lambda}\text{sin}(\theta)$$
 
-$$q=\frac{4\pi\alpha L}{t}\text{sin}(\theta) = \frac{4\pi\alpha\cdot 161 \text{m}}{7.42\cdot 10^4 \mu \text{s} - 1.34 \text{ms}}\text{sin}(45^\circ) = 4.96 Å^{-1}$$
+$$q=\frac{4\pi\alpha L}{t}\text{sin}(\theta) = \frac{4\pi\alpha\cdot 161 \text{m}}{7.42\cdot 10^4 \mu \text{s} - 1.43 \text{ms}}\text{sin}(45^\circ) = 4.96 Å^{-1}$$
 
 To calculate the $q$ uncertainty, $dq$, we use propagation of uncertainty on the above formula. Here the time corrected for the pulse width is considered the variable t to simplify the calculation.
 
