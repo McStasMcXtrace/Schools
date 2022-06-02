@@ -76,7 +76,13 @@ COMPONENT source = Source_simple(
 AT (0,0,0) RELATIVE Origin
 EXTEND
 %{
-  t=0;
+  t=0; // In principle unneeded to initialize at 0,
+       // but the EXTEND block could also be used for
+       // something slightly more complex, e.g. a
+       // a short, rectangular pulse of 50 us:
+//t=rand01()*50.0e-6;
+       // - in which case a following DiskChopper
+       // should NOT use isfirst=1
 %}
 
 // guide starting 2 m after source
