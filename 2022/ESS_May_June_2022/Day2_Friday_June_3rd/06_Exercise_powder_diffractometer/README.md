@@ -38,9 +38,9 @@ In the theory section it was assumed a given count in the detector could be trac
 - Adjust the time range on the time of flight monitors so both pulses are visible
 - Explain the output of the simulation
 
-It should be clear that the slower neutrons from the first pulse and the fast neutrons from the second pulse can reach the detector at the same time, and thus introduce an ambiguity in our analysis of the data. We must enforce that the used wavelength band $\Delta \lambda$ is narrow enough to produce a smaller time difference in earliest and last arrival $\Delta t$ than the time between pulses $T = 1/f$.
+It should be clear that the slower neutrons from the first pulse and the fast neutrons from the second pulse can reach the detector at the same time, and thus introduce an ambiguity in our analysis of the data. We must enforce that the used wavelength band    $\Delta \lambda $ is narrow enough to produce a smaller time difference in earliest and last arrival $~\Delta t $ than the time between pulses $~T = 1/f $.
 
-$$ T \geq \Delta t = \alpha \Delta \lambda L \Rightarrow \Delta \lambda \leq \frac{T}{\alpha L}$$
+$$ T \geq \Delta t = \alpha \Delta \lambda L \Rightarrow \Delta \lambda \leq \frac{T}{\alpha L} $$
 
 In practice choppers are used to limit the wavelength range to desired wavelength band. At the present stage of our simulation, we can adjust the simulated wavelength range to match the wavelength band.
 
@@ -53,15 +53,15 @@ In practice choppers are used to limit the wavelength range to desired wavelengt
 With our understanding of the frontend of the instrument, we are now ready to add a simple sample and backend in the form of a detector.
 
 **Exercises part 4**
-- Add a Powder1.comp sample with $q = $ 5 Å$^{-1}$ with diameter 6 mm at the sample position
+- Add a Powder1.comp sample with $~q = \textrm{5 Å}^{-1}$ with diameter 6 mm at the sample position
 - Add a TOF_cylPSD_monitor.comp with a diameter of 2 m and height of 20 cm
 - Perform the simulation (You may want to add a beamstop component after the sample to avoid the direct beam in the detector)
 - Explain the output
 - Introduce an instrument parameter called theta to the simulation
-- Place a single 10 mm wide TOF detector at an angle $2 \theta = 90^\circ$  1 m from the sample
+- Place a single 10 mm wide TOF detector at an angle $~2 \theta = 90^\circ$  1 m from the sample
 - Run the simulation and calculate the scattering vector $q$ and the resolution, $dq$, considering the full neutron path
 
-Typically powder diffraction experiments are performed with $dq/q \approx 10^{-3}$ at the 90 degree scattering angle. In order to improve and control the resolution we introduce a chopper. It is beneficial to place a chopper as close to the source as possible, at the ESS that is approximately 6.5 m after the source due to shielding.
+Typically powder diffraction experiments are performed with $~dq/q \approx 10^{-3}$ at the 90 degree scattering angle. In order to improve and control the resolution we introduce a chopper. It is beneficial to place a chopper as close to the source as possible, at the ESS that is approximately 6.5 m after the source due to shielding.
 
 **Exercises part 5**
 - Place a chopper at 6.5 m with a radius of 0.35 m and an angular opening of 4 degrees that spin with the same frequency as the source
