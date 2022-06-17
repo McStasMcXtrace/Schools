@@ -18,7 +18,7 @@ We will simulate a simple time of flight instrument at the ESS source.
 ### Explore time of flight
 We begin with a simplified instrument without guide in order to understand the time of flight aspect of the instrument. For this reason we will use a simple flat source with a flat spectrum as a starting point, and only later use the more realistic source. 
 
-The ESS source have a frequency of $f=14$ Hz and a pulse duration of $d=2.86$ ms. The time structure is not included in the basic McStas sources, but an instrument file called POWTOF is provided here that includes the time structure, use this instrument as a starting point for this exercise.
+The ESS source have a frequency of $f=14$ Hz and a pulse duration of $d=2.86$ ms. The time structure is not included in the basic McStas sources, but an instrument file called ```POWTOF.instr``` is provided here that includes the time structure, use this instrument as a starting point for this exercise.
 
 **Exercises part 1**
 - Place time of flight monitor TOF_monitor.comp at 3 positions in the instrument:
