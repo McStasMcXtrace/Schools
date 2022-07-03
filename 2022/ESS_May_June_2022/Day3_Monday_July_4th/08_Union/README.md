@@ -1,10 +1,10 @@
-# Union section!
+# Union section
 
-### Talk
+## Talk
 The Union_presentation.ipynb is a talk in jupyter notebook format.
 
-### Exercise
-The exercise is located in the McStasScript-notebooks repository (https://github.com/PaNOSC-ViNYL/McStasScript-notebooks)[https://github.com/PaNOSC-ViNYL/McStasScript-notebooks]
+## Exercise
+The exercise is located in the McStasScript-notebooks repository [https://github.com/PaNOSC-ViNYL/McStasScript-notebooks](https://github.com/PaNOSC-ViNYL/McStasScript-notebooks)
 
 The exercise is named Union_quiz and must be executed in the McStasScript-notebooks folder as it depend on a quiz library. This is all included in the docker image.
 ```
