@@ -17,8 +17,8 @@ The tutorial start with an initial presentation of the [McXtrace](https://www.mc
 |Location |  	[CIRI-Building A](https://kedek.auth.gr/#) |
 | Topic | synchrotron beam-line modelling with samples |
 | Language | English |
-| Presentation | **put a link to slides here ?** |
-| Hands-on | **put a link to slides here ?** |
+| Presentation | [McXtrace introduction](presentations/McXtrace_intro.pdf) |
+| Hands-on | [Powder diffractometer with McXtrace](tutorial) |
 
 Organizers:
 

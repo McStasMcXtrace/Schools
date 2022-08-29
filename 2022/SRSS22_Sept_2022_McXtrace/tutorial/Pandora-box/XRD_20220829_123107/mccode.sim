@@ -1,0 +1,66 @@
+McXtrace simulation description file for XRD.
+Date:    Mon Aug 29 12:31:08 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: XRD
+  File: /home/farhi/dev/Schools/2022/SRSS22_Sept_2022_McXtrace/tutorial/Pandora-box/XRD_20220829_123107/mccode
+  Source: XRD.instr
+  Parameters: 
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /home/farhi/dev/Schools/2022/SRSS22_Sept_2022_McXtrace/tutorial/Pandora-box/XRD_20220829_123107
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: XRD.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1661776213
+  Directory: /home/farhi/dev/Schools/2022/SRSS22_Sept_2022_McXtrace/tutorial/Pandora-box/XRD_20220829_123107
+end simulation
+
+begin data
+  Date: Mon Aug 29 12:31:08 2022 (1661769068)
+  type: array_2d(500, 500)
+  Source: XRD (XRD.instr)
+  component: psd_monitor
+  position: 0 0 2.5
+  title: PSD monitor
+  Ncount: 1000000
+  filename: PSD.dat
+  statistics: X0=-7.96099e-05; dX=0.0485376; Y0=-0.000158522; dY=0.0479618;
+  signal: Min=0; Max=3.02448e-11; Mean=5.7528e-16;
+  values: 1.4382e-10 3.65805e-13 259364
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.25 0.25 -0.25 0.25
+  variables: I I_err N
+end data
+
+begin data
+  Date: Mon Aug 29 12:31:08 2022 (1661769068)
+  type: array_1d(2048)
+  Source: XRD (XRD.instr)
+  component: psd_monitor_rad
+  position: 0 0 2.5
+  title: PSD_monitor
+  Ncount: 1000000
+  filename: PSD_rad.dat
+  statistics: X0=0.0442114; dX=0.0990306;
+  signal: Min=0; Max=1.20142e-10; Mean=7.43105e-14;
+  values: 1.52188e-10 3.6819e-13 324753
+  xvar: R
+  yvar: (I,I_err)
+  xlabel: Radial Position[m]
+  ylabel: Intensity
+  xlimits: 0 0.5
+  variables: R I I_err N
+end data

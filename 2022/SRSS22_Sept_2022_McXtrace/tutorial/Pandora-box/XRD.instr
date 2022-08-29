@@ -1,0 +1,57 @@
+/*******************************************************************************
+* Instrument: XRD.instr
+*
+* %I
+* Written by: Emmanuel Farhi <emmanuel.farhi@synchrotron-soleil.fr>
+* Date: Aug 29th 2022
+* Origin: Synchrotron SOLEIL
+* Version: 1.0
+* %INSTRUMENT_SITE: SRSS2022
+*
+* A simple XRD beam-line used as tutorial for the SRSS 2022 School.
+*
+* %D
+* This beam-line models a simple point source, a powder sample, 
+* and a set of detectors.
+*
+* %P
+* 
+* %L
+* http://xafslab.physics.auth.gr/srss22.html
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT XRD()
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT source_pt = Source_pt(
+    focus_xw=1e-4, 
+    focus_yh=1e-4, 
+    dist=2, 
+    E0=15, 
+    dE=0.1)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT powdern = PowderN(
+    reflections = "LaB6_660b_AVID2.hkl", 
+    radius = .5e-4, yheight = 1e-3)
+AT (0, 0, 2.2) RELATIVE PREVIOUS
+
+COMPONENT psd_monitor = PSD_monitor(
+    xwidth=0.5, yheight=0.5,
+    nx=500, ny=500,
+    filename="PSD.dat")
+AT (0, 0, 0.3) RELATIVE PREVIOUS
+
+COMPONENT psd_monitor_rad = PSD_monitor(
+    radius=0.5, nr=2048,
+    filename="PSD_rad.dat")
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+
+END
