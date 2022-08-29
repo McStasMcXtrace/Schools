@@ -6,19 +6,19 @@ This is a quick tutorial/practical session on Sept 5th 17:30-19:30 organized in 
 
 We shall use the [McXtrace](https://www.mcxtrace.org) software, which allows to describe X-ray (synchrotron and X-FEL) beam-lines with sources, optics, monitors/detectors, samples and more.
 
-![McXtrace diff](images/mcxtrace-diff.png  "McXtrace diff")
+![McXtrace diff](tutorial/images/XRD-3D.png  "McXtrace diff")
 
 ## Description
 
 The tutorial start with an initial presentation of the [McXtrace](https://www.mcxtrace.org) software, and follows with a hands-on session.
 
-| Date | Sept 5th, 2022 |
-| --------|-------------------|
-|Location |  	[CIRI-Building A](https://kedek.auth.gr/#) |
-| Topic | synchrotron beam-line modelling with samples |
-| Language | English |
-| Presentation | [McXtrace introduction](presentations) |
-| Hands-on | [Powder diffractometer with McXtrace](tutorial) |
+| Date             | Sept 5th, 2022                                  |
+| -----------------|-------------------------------------------------|
+| Location         | [CIRI-Building A](https://kedek.auth.gr/#)      |
+| Topic            | synchrotron beam-line modelling with samples    |
+| Language         | English                                         |
+| **Presentation** | [McXtrace introduction](presentations)          |
+| **Hands-on**     | [Powder diffractometer with McXtrace](tutorial) |
 
 Organizers:
 
