@@ -20,6 +20,8 @@ Whatever is appropriate for your system. The McXtrace main window should now ope
 
 ![McXtrace main window](images/mxgui_main.png?raw=true "")
 
+The Help menu in the main window provides access to documentation.
+
 ## Step 2. Start a new instrument description.
 
 - In the 'File' menu, please choose the 'New Instrument' item.
@@ -139,6 +141,8 @@ Questions:
 - In the diffractogram, why do diffraction rings appear with a hat-shape ?
 
 Press the Q key to close the window (control keys are indicated in the main window).
+
+:warning: This was just an introduction to McXtrace. In practice simulations can be executed much faster, and models can be made very close to reality, with a wide list of available components. To get acquainted with McXtrace, you are invited to explore the set of Examples (File -> New from Template), as well as read the Manuals.
 
 -------------------------
 ![DTU](../images/dtu_logo.gif  "DTU")
