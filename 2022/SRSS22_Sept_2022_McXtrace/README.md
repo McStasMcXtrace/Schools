@@ -25,6 +25,12 @@ Organizers:
 - Dr. Emmanuel Farhi, Synchrotron SOLEIL, France
 - Dr. Peter Kjær Willendrup, Technical University of Denmark
 
+## Installation
+
+Access our prepared environment at [PaN learning](https://e-learning.pan-training.eu/moodle/course/view.php?id=113). The left panel allows to acces to the presentation and the tutorial text, the 'Desktop' icon launches a full-fledged desktop with McXtrace preinstalled.
+
+You may optionally install McXtrace on your computer from http://mcxtrace.org/download/
+
 ## About McXtrace
 
 [McXtrace](http://www.mcxtrace.org/) is a general Monte Carlo ray-tracing software for simulation X-ray beam-lines and experiments, distributed under the open source license of GPL.
