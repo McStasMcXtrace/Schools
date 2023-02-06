@@ -1,0 +1,95 @@
+McXtrace simulation description file for TestSAXS.
+Date:    Fri Feb 25 14:22:17 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: TestSAXS
+  File: toto_11/mccode
+  Source: TestSAXS.instr
+  Parameters:  DistanceFromSourceToFirstPinhole(double) DistanceFromSourceToSecondPinhole(double) DistanceFromSecondPinholeToSample(double) DistanceFromSampleToDetector(double) RadiusOfDetector(double) Lambda(double) DLambda(double) SAMPLE(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: toto_11
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: TestSAXS.instr
+  Ncount: 100000
+  Trace: no
+  Gravitation: no
+  Seed: 1647934461
+  Directory: toto_11
+  Nodes: 4
+  Param: DistanceFromSourceToFirstPinhole=0.05
+  Param: DistanceFromSourceToSecondPinhole=0.7
+  Param: DistanceFromSecondPinholeToSample=0.6
+  Param: DistanceFromSampleToDetector=0.48
+  Param: RadiusOfDetector=0.1
+  Param: Lambda=1.54
+  Param: DLambda=0.01
+  Param: SAMPLE=11
+end simulation
+
+begin data
+  Date: Fri Feb 25 14:22:18 2022 (1645795338)
+  type: array_2d(200, 200)
+  Source: TestSAXS (TestSAXS.instr)
+  component: Monitor
+  position: 0 0 1.66
+  title: PSD monitor
+  Ncount: 100000
+  filename: PSDMonitor.dat
+  statistics: X0=2.38175e-05; dX=0.018404; Y0=0.000187955; dY=0.0184397;
+  signal: Min=0; Max=2.15939e-17; Mean=1.28386e-19;
+  values: 5.13543e-15 1.00749e-16 29358
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.0707107 0.0707107 -0.0707107 0.0707107
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 14:22:18 2022 (1645795338)
+  type: array_1d(2000)
+  Source: TestSAXS (TestSAXS.instr)
+  component: QMonitor
+  position: 0 0 1.66
+  title: QMonitor - Radially averaged distribution
+  Ncount: 100000
+  filename: RDetector.dat
+  statistics: X0=0.0103988; dX=0.0113836;
+  signal: Min=0; Max=1.34161e-12; Mean=4.79396e-14;
+  values: 9.58792e-11 3.72921e-12 45460
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: I(r)
+  xlimits: 0 0.1
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 14:22:18 2022 (1645795338)
+  type: array_1d(2000)
+  Source: TestSAXS (TestSAXS.instr)
+  component: QMonitor
+  position: 0 0 1.66
+  title: QMonitor - Distribution in q (Radially averaged)
+  Ncount: 100000
+  filename: QDetector.dat
+  statistics: X0=0.0876726; dX=0.0948427;
+  signal: Min=0; Max=5.10585e-12; Mean=1.94717e-13;
+  values: 3.89433e-10 1.52081e-11 45460
+  xvar: q
+  yvar: (I,I_err)
+  xlabel: q [1 / AA]
+  ylabel: I(q)
+  xlimits: 0 0.836539
+  variables: q I I_err N
+end data

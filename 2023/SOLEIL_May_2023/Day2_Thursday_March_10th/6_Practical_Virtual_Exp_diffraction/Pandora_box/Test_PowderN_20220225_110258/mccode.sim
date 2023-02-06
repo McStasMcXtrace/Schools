@@ -1,0 +1,119 @@
+McXtrace simulation description file for Test_PowderN.
+Date:    Fri Feb 25 11:03:01 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: Test_PowderN
+  File: /tmp/Test_PowderN_20220225_110258/mccode
+  Source: Test_PowderN.instr
+  Parameters:  E0(double) L1(double) directbeam(int) reflections(string) SPLITS(int) frac_c(double) frac_i(double) frac_t(double) d_phi(double) TTH(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /tmp/Test_PowderN_20220225_110258
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: Test_PowderN.instr
+  Ncount: 10000000
+  Trace: no
+  Gravitation: no
+  Seed: 1647913346
+  Directory: /tmp/Test_PowderN_20220225_110258
+  Nodes: 4
+  Param: E0=15
+  Param: L1=10
+  Param: directbeam=0
+  Param: reflections=Fe.lau
+  Param: SPLITS=1
+  Param: frac_c=0.8
+  Param: frac_i=0.1
+  Param: frac_t=0.1
+  Param: d_phi=0
+  Param: TTH=0
+end simulation
+
+begin data
+  Date: Fri Feb 25 11:03:02 2022 (1645783382)
+  type: array_2d(200, 200)
+  Source: Test_PowderN (Test_PowderN.instr)
+  component: Sph_mon
+  position: 0 0 10
+  title: 4PI PSD monitor
+  Ncount: 10000000
+  filename: Sphere.dat
+  statistics: X0=0.0132415; dX=33.4045; Y0=0.436562; dY=25.6457;
+  signal: Min=0; Max=7.8278e-16; Mean=6.62639e-18;
+  values: 2.65055e-13 1.49491e-15 899966
+  xvar: Longitude
+  yvar: Lattitude
+  xlabel: Longitude [deg]
+  ylabel: Lattitude [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -180 180 -90 90
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 11:03:02 2022 (1645783382)
+  type: array_2d(200, 200)
+  Source: Test_PowderN (Test_PowderN.instr)
+  component: detector2
+  position: 0 0 10.1
+  title: PSD monitor
+  Ncount: 10000000
+  filename: psd2.dat
+  statistics: X0=0; dX=0; Y0=0; dY=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 15
+  xvar: X
+  yvar: Y
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.001 0.001 -0.005 0.005
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 11:03:02 2022 (1645783382)
+  type: array_1d(1000)
+  Source: Test_PowderN (Test_PowderN.instr)
+  component: detector3
+  position: 0 0 10.1
+  title: PSD monitor radial sum
+  Ncount: 10000000
+  filename: Output.psd
+  statistics: X0=0.0580252; dX=0.0266061;
+  signal: Min=0; Max=5.50173e-15; Mean=2.35671e-16;
+  values: 2.35671e-13 1.49278e-15 142651
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity
+  xlimits: 0.0001 0.2001
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Fri Feb 25 11:03:02 2022 (1645783382)
+  type: array_1d(1000)
+  Source: Test_PowderN (Test_PowderN.instr)
+  component: detector3
+  position: 0 0 10.1
+  title: PSD monitor radial average
+  Ncount: 10000000
+  filename: Output_av.psd
+  statistics: X0=0.0508319; dX=0.0191031;
+  signal: Min=0; Max=1.06197e-10; Mean=3.69671e-12;
+  values: 3.69671e-09 2.73354e-11 142651
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity/m^2
+  xlimits: 0.0001 0.2001
+  variables: r I I_err N
+end data

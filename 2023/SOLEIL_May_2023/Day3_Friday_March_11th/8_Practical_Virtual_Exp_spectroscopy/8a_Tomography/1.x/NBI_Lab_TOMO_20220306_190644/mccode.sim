@@ -1,0 +1,138 @@
+McXtrace simulation description file for NBI_Lab_TOMO.
+Date:    Sun Mar  6 19:06:52 2022
+Program: McXtrace 1.7 - Jan. 23, 2022
+
+begin instrument: NBI_Lab_TOMO
+  File: NBI_Lab_TOMO_20220306_190644/mccode
+  Source: NBI_Lab_TOMO.instr
+  Parameters:  fname(string) d_sample_det(double) d_source_sample(double) Omega(double) detw(double) deth(double) MONO(double) Energy(double) deltaE(double) rx(double) ry(double) rz(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: NBI_Lab_TOMO_20220306_190644
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 1.7 - Jan. 23, 2022
+  Instrument: NBI_Lab_TOMO.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1646594640
+  Directory: NBI_Lab_TOMO_20220306_190644
+  Param: fname=spectrumU50_th5.dat
+  Param: d_sample_det=0.79
+  Param: d_source_sample=1.145
+  Param: Omega=0
+  Param: detw=0.0351
+  Param: deth=0.0334
+  Param: MONO=0
+  Param: Energy=50
+  Param: deltaE=1
+  Param: rx=-80
+  Param: ry=0
+  Param: rz=0
+end simulation
+
+begin data
+  Date: Sun Mar  6 19:07:53 2022 (1646590073)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: emon0
+  position: 0 0 0.0005
+  title: Energy monitor
+  Ncount: 1000000
+  filename: emon0.dat
+  statistics: X0=18.3557; dX=7.61294;
+  signal: Min=0; Max=2.41894e+12; Mean=7.13936e+10;
+  values: 7.13936e+13 1.44177e+11 1e+06
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Sun Mar  6 19:07:53 2022 (1646590073)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: emonef
+  position: 0 0 0.3115
+  title: Energy monitor
+  Ncount: 1000000
+  filename: emon0ef.dat
+  statistics: X0=28.3036; dX=8.61;
+  signal: Min=0; Max=1.21819e+11; Mean=6.71089e+09;
+  values: 6.71089e+12 1.23267e+10 633200
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Sun Mar  6 19:07:53 2022 (1646590073)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: e_mon1
+  position: 0 0 1.92
+  title: Energy monitor
+  Ncount: 1000000
+  filename: emon1.dat
+  statistics: X0=34.7947; dX=6.93935;
+  signal: Min=0; Max=4.26082e+08; Mean=5.00344e+07;
+  values: 5.00344e+10 5.46871e+08 16695
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Sun Mar  6 19:07:53 2022 (1646590073)
+  type: array_2d(204, 194)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: Detector_Si
+  position: 0 0 1.935
+  title: Detector_pn
+  Ncount: 1000000
+  filename: detector_Si.dat
+  statistics: X0=-0.000152352; dX=1.07667; Y0=0.0597817; dY=0.982023;
+  signal: Min=719192; Max=7.75408e+07; Mean=2.49387e+07;
+  values: 9.86974e+11 1.53656e+09 1e+06
+  xvar: X
+  yvar: Y
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -1.755 1.755 -1.67 1.67
+  variables: I I_err N
+end data
+
+begin data
+  Date: Sun Mar  6 19:07:53 2022 (1646590073)
+  type: array_1d(1000)
+  Source: NBI_Lab_TOMO (NBI_Lab_TOMO.instr)
+  component: e_mon2
+  position: 0 0 1.9355
+  title: Energy monitor
+  Ncount: 1000000
+  filename: emon2.dat
+  statistics: X0=38.6273; dX=5.41673;
+  signal: Min=0; Max=1.06326e+08; Mean=9.55226e+06;
+  values: 9.55226e+09 1.18752e+08 16436
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 120
+  variables: E I I_err N
+end data
