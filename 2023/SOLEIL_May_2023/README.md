@@ -16,7 +16,17 @@ You will learn: Modelling beam-lines with [McXtrace](http://www.mcxtrace.org/), 
 
 This tutorial aims at presenting the [McXtrace](http://www.mcxtrace.org) software to scientific and technical staff at [SOLEIL](https://www.synchrotron-soleil.fr/fr).
 
-McXtrace allows to describe X-ray (synchrotron and X-FEL) beam-lines with sources, optics, monitors/detectors, samples and more. It is interfaced with other software such as:
+McXtrace allows to describe X-ray (synchrotron and X-FEL) beam-lines with sources, optics, monitors/detectors, samples and more. 
+Typical samples that can be simulated include:
+- absorption spectroscopy (XAS)
+- fluorescence spectroscopy (XRF)
+- inelastic scattering (IXS)
+- small-angle scattering (SAXS)
+- powder diffraction and single-crystal (XRD)
+- macromolecular diffraction (MX, with proteins)
+- tomography and imaging (via e.g. absorption/fluorescence/diffraction)
+
+McXtrace is interfaced with other software such as:
 - Spectra (R) <http://spectrax.org/spectra/> for X-ray synchrotrons
 - Simplex (R) <http://spectrax.org/simplex/index.html > for XFELs
 - Genesis (R) <http://genesis.web.psi.ch/> for XFELs
