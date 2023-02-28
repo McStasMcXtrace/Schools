@@ -29,15 +29,16 @@ The newly released McXtrace-3.1 allows execution on NVIDIA GPU's.
 
 The training is mostly focused at hands-on topical sessions, each with a few introductory slides, and guided exercises.
 
-|         |  Wednesday, Mar 9th 2022 | Thursday, Mar 10th 2022 | Friday, Mar 11th 2022 |
-|-------|-------------------|----------------------------|----------------------------|
-| 09:00-10:30 | |  Lesson/Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day2_Thursday_March_10th/3_Components) | Lesson: [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day3_Friday_March_11th/7_Advanced_Tricks) |
-| 10:30-10:45 | |	Coffee break |Coffee break|
-| 10:45-12:00 | | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day2_Thursday_March_10th/4_Sources) | Practical: [Samples and Virtual Experiments / absorption spectroscopy (and tomography)](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy) |
-| 12:00-14:00 |	Lunch |	Lunch | Lunch |
-| 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day2_Thursday_March_10th/5_Optics) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day3_Friday_March_11th/9_Starting_your_own_beam_line) |
-| 16:00-16:15 |	Coffee break |	Coffee break |
-| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction (XRD,MX,SAXS)](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022/Day2_Thursday_March_10th/6_Practical_Virtual_Exp_diffraction)  | |
+|       |  Tues, May 9th 2023 | Wed, May 10th 2023 | Thur, May 11th 2023 | Fri, May 12th 2023 |
+|-------|-------------------|----------------------------|----------------------------|-----------------------|
+| 09:00-10:30 | |  Lesson/Practical: [Components](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day2_Thursday_March_10th/3_Components) | Lesson: Samples | Lesson: [Advanced Tricks](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day3_Friday_March_11th/7_Advanced_Tricks) | 
+| 10:30-10:45 | |	Coffee break | Coffee break | Coffee break |
+| 10:45-12:00 | | Practical: [Photon sources/external software](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day2_Thursday_March_10th/4_Sources) | Practical: [Samples and Virtual Experiments / absorption spectroscopy (and fluorescence)](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day3_Friday_March_11th/8_Practical_Virtual_Exp_spectroscopy) | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day3_Friday_March_11th/9_Starting_your_own_beam_line) (2) |
+| 12:00-14:00 |	Lunch / **Start of School** |	Lunch | Lunch | Lunch / **End of School** |
+| 14:00-16:00 |Lesson: [Introduction to McXtrace](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day1_Wednesday_March_9th/1_Introduction)  | Practical: [Optics](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day2_Thursday_March_10th/5_Optics) | Pratical: Sample and Virtual Experiments (tomo, SAXS) | |
+| 16:00-16:15 |	Coffee break |	Coffee break |	Coffee break |	Coffee break |
+| 16:15-18:00 |Practical: [your first McXtrace beam-line](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day1_Wednesday_March_9th/2_1st_Beamline) | Practical: [Samples and Virtual Experiments / diffraction (XRD,MX)](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day2_Thursday_March_10th/6_Practical_Virtual_Exp_diffraction)  | Practical: [We help you to start your beam-line model](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day3_Friday_March_11th/9_Starting_your_own_beam_line) (1) | |
+| 19:30-21:00 | | | Evening lunch | |
 
 ## Installation
 
@@ -82,14 +83,14 @@ It is built upon the code base of the proven and successful neutron ray-tracing 
 **References:**
 
 1. McXtrace http://www.mcxtrace.org/
-2. Downloads (version 3.0 from February 8th 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.0/
+2. Downloads (version 3.1 from Dec 16th 2022) for Windows, Mac and Linux (CentOS, Fedora, Debian) at http://downloads.mcxtrace.org/mcxtrace-3.1/
 3. E Bergbäck Knudsen, Andrea Prodi, Jana Baltser, Maria Thomsen, P Kjær Willendrup, M Sanchez del Rio, Claudio Ferrero, Emmanuel Farhi, Kristoffer Haldrup, Anette Vickery, et al. "Mcxtrace: a monte carlo software package for simulating x-ray optics, beamlines and experiments". _Journal of Applied Crystallography_, **46(3)**:679-696, 2013.
 4. McXtrace/McStas Wiki https://github.com/McStasMcXtrace/McCode/wiki
 5. McXtrace/McStas repository https://github.com/McStasMcXtrace/McCode
 
 ***
 *McXtrace training - 2023*  
-*Non-official corrections of some exercices [here](https://github.com/antoinepado/Corrections_School_March_2022)*  
+*Non-official corrections of some exercices [here](https://github.com/antoinepado/Corrections_School_March_2022)*  (2022)
 ![DTU](images/dtu_logo.gif  "DTU")
 ![SOLEIL](images/soleil-logo.png  "SOLEIL")
 
