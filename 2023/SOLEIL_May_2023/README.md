@@ -27,7 +27,7 @@ The newly released McXtrace-3.1 allows execution on NVIDIA GPU's.
 
 ## Programme
 
-The training is mostly focused at hands-on topical sessions, each with a few introductory slides, and guided exercises.
+The training is mostly focused at hands-on topical sessions, each with a few introductory slides, and guided exercises. The event will take place at the Training room in the Synchrotron SOLEIL T5 building (20 seats). See the **[registration](https://indico.synchrotron-soleil.fr/e/mcxtrace2023)** information below.
 
 |       |  Tues, May 9th 2023 | Wed, May 10th 2023 | Thur, May 11th 2023 | Fri, May 12th 2023 |
 |-------|-------------------|----------------------------|----------------------------|-----------------------|
@@ -66,7 +66,7 @@ The school is organised by:
 - [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
 - [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU, DK
 
-[Registration](https://tucana.synchrotron-soleil.fr/event/37/) is free (**20 seats**). Deadline for registration is **April 17th 2023**.
+[Registration here](https://indico.synchrotron-soleil.fr/e/mcxtrace2023) is free (**20 seats**). Deadline for registration is **April 17th 2023**.
 
 This training is entirely funded by the Experiment Division at SOLEIL, with support from the Administrative Division.
 
