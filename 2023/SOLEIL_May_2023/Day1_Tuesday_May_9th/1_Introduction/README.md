@@ -2,9 +2,33 @@
 
 This is an introductory lecture on  [McXtrace](http://www.mcxtrace.org). We present how Monte-Carlo ray-tracing works, how  [McXtrace](http://www.mcxtrace.org) has been designed, the notions of *components* and *instruments*, and actually how to get help.
 
+## McXtrace project
+
+McXtrace derives from [McXtrace](http://www.mcxtrace.org). The  [McXtrace](http://www.mcxtrace.org) software has been derived in 2009 from the sister project [McStas](http://www.mcstas.org) for neutron ray-trace (which dates from 1998). It shares the same core infrastructure: the way to write beam-line descriptions, the way to write components (parts used in beam-lines), the "grammar" 
+
+The way it works, in the user perspective, is:
+
+1. Describe your beamline in the McXtrace language (In a text file)
+2. Automatically convert beamline into ANSI c
+3. Compile
+4. Run and Plot results
+
+What it does is describe a photon particle as a vector (r,k,φ,t,p,E) with:
+
+- r - spatial coordinates
+- k - wave vector
+- φ - phase
+- t - time
+- p – photon weight
+- E - Electrical field / polarisation
+
+and change these parameters along components during the propagation through a beam-line model.
+
 ## Introduction to Monte-Carlo techniques
 
 The  [McXtrace](http://www.mcxtrace.org) software is a ray-tracing Monte-Carlo code, that is it traces rays (photons) and involves random numbers in their generation and/or interaction with matter and beam-line parts.
+
+The Monte-carlo technique was created by John v. Neumann, Stanislav Ulam and Nicholas Metropolis for the Manhattan project.
 
 The Monte-Carlo technique consists in sampling randomly a phase-space (the space of variables that describe a system), and compute integrated quantities (macroscopic observable).
 
@@ -39,10 +63,15 @@ An other technique consists in identifying a sub-region of the phase-space that 
 References:
 1. F. James. In: *Rep. Prog. Phys.* **43** (1980), p. 1145.
 
-## History, construction of McXtrace
+## Code structure
 
-The  [McXtrace](http://www.mcxtrace.org) software has been derived in 2009 from the sister project [McStas](http://www.mcstas.org) for neutron ray-trace (which dates from 1998). It shares the same core infrastructure: the way to write beam-line descriptions, the way to write components (parts used in beam-lines), the "grammar" 
+The users (you) see "instrument" files which describe the models (geometry, parameters of all model parts). 
 
+The models are assembled using "components" which are short pieces of code (e.g. 100-1000 LOC).
+
+Some shared parts are handled by the "kernel" (propagation, intersections, etc).
+
+And underneath, one finds a code generator than converts the model description into C, and compiles it.
 
 ---
 *McXtrace training - 2023*
