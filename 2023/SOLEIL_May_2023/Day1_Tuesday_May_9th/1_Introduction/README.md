@@ -43,9 +43,6 @@ References:
 
 The  [McXtrace](http://www.mcxtrace.org) software has been derived in 2009 from the sister project [McStas](http://www.mcstas.org) for neutron ray-trace (which dates from 1998). It shares the same core infrastructure: the way to write beam-line descriptions, the way to write components (parts used in beam-lines), the "grammar" 
 
-## "Components" and "Instruments"
-
-## Tips and Tricks / How to get help
 
 ---
-*McXtrace training - 2022*
+*McXtrace training - 2023*
