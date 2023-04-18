@@ -73,10 +73,10 @@ In case you wish to install the software yourself, refer to the [McXtrace instal
 
 The school is organised by:
 
-- [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
+- [Emmanuel Farhi](mailto:emmanuel.farhi@synchrotron-soleil.fr), Synchrotron SOLEIL, FR 
 - [Peter Willendrup](https://www.fysik.dtu.dk/english/Research/NEXMAP/About-NEXMAP/Staff/Person?id=38697&tab=2&qt=dtupublicationquery), DTU, DK
 
-[Registration here](https://indico.synchrotron-soleil.fr/e/mcxtrace2023) is free (**20 seats**). Deadline for registration is **April 17th 2023**. For late registration, send an email to [Emmanuel Farhi](emmanuel.farhi@synchrotron-soleil.fr).
+[Registration here](https://indico.synchrotron-soleil.fr/e/mcxtrace2023) is free (**20 seats**). Deadline for registration is April 17th 2023. **For late registration**, send an email to [Emmanuel Farhi](mailto:emmanuel.farhi@synchrotron-soleil.fr).
 
 This training is entirely funded by the Experiment Division at SOLEIL, with support from the Administrative Division.
 
