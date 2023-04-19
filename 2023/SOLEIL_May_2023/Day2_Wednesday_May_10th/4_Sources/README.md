@@ -21,7 +21,78 @@ There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`. 
 
 :warning: N.B. This component requires the Gnu Scientific Library (GSL) to be installed. This should have been automatically installed with McXtrace install procedure. Should for some reason this not be the case you may go to (https://github.com/McStasMcXtrace/Schools/wiki/GSL-Installation) to find installation instructions. simulation as into a Shadow simulation sequence (read and write).
 
+
+
+
+## Exercise: SOLEIL photon sources
+
+We have gathered here a set of Undulator parameters extracted from existing McXtrace models.
+
+Undulators | parameters
+-----------|-----------
+Test | `Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)`
+MaxIV / Bloch | `Undulator(E0=0.6,dE=0.4,Ee=1.5,dEe=((6e-9)*(60e-12))/1.5,Ie=0.5,tbunch=43,K=5.6,gap=14e-3,Nper=187,lu=84e-3,sigey=1.3e-5,sigex=185e-5,sigepx=32e-6,sigepy=4.6e-6,focus_xw=1.1e-3,focus_yh=1.1e-3,dist=zm_mirror1,E1st=1.0018*E0/5)`
+MaxIV DanMAX | `Undulator(E0=35, dE=0.05, E1st=E0/15, focus_yh=1.1e-3, focus_xw=1.1e-3, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)`
+SOLEIL U18 ANATOMIX (long) | `Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.03118, Nper=140, lu=32e-3, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, focus_xw=1e-4, focus_yh=1e-4, dist=50, E1st=12.400)`
+SOLEIL U24 PX2a (medium straight section) | `Undulator( E0=12.65, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.788, Nper=80, lu=24e-3, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, focus_xw=1e-4, focus_yh=1e-4, dist=29.5, E1st=12.400)`
+
+In order to model the SOLEIL photon sources, we first need to refer to the storage ring parameters for SOLEIL:
+
+- https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source
+
+Then we may for instance look at the LUCIA beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA, and 0.35-2.5 keV on DEIMOS. 
+
+HU52 parameter | symbol/unit | value
+------------------------|-----------|-----
+Period | (mm) | 52.4
+Nb of periods  | lambda_U | 32
+Gap | mm | 15.5-150
+Field remanence | Br(T) | 1.26
+Magnetic field Z, max | Bz (T) | 1.974*exp(-3.1754*Gap/lambda_U)
+Magnetic field X, max | Bx (T) | 1.901*exp(-4.3387*Gap/lambda_U)
+Function beta horizontal |	beta_x (m)	|1.4
+Function beta vertical|	beta_z ( m)	|1.4
+emittance horizontale | ex (pm.rad)	|82.0
+betatron	coupling | % | 30.0
+emittance vertical |	ez (pm.rad)	|24.6
+dimension RMS horizontal|	sigma_x (µm)	|188
+dimension RMS vertical	|sigma_z (µm)	|8.2	
+divergence RMS horizontal	|sigma_x' (µrad)	|25.2
+divergence RMS vertical	|sigma_z' (µrad)|	6
+
+We can then derive typical HU52 Undulator component parameters for LUCIA or DEIMOS:
+```c
+Undulator(
+  E0 = 6,
+  dE = 0.1,
+  Ee = 2.75,
+  dEe = 0.001,
+  Ie = 0.5,
+  B = 0.42, // for a 15.5 mm gap
+  Nper = 32,
+  lu = 52.4e-3,
+  sigex = 188e-6,
+  sigey = 8.2e-6,
+  sigepx = 25.5e-6,
+  sigepy = 6e-6) 
+```
+
+Modify the first exercise to match the HU52 undulator, and run a simulation for the LUCIA beam-line. 
+
+References:
+
+- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf
+- T. Moreno et al., J Sync Rad 19 (2012) 179, https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html
+- T. Moreno et al., https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations
+- M.E. Couperie, https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf
+
+
+
+
+
 ## Exercise: Connect with SPECTRA
+It is possible to use advanced photon source calculators like SPECTRA.
+
 If you do not have it already you may download [SPECTRA](http://spectrax.org/spectra/) freely from the Riken website, but for the purpose of this exercise we have pre-generated a set of datafiles, that you may use: [1st harmonic](data/sp8sU_h1.zip?raw=true ""), and [3rd harmonic](data/sp8sU_h3.zip?raw=true "").
 
 ### Details for the actual data files:
@@ -69,9 +140,13 @@ The reason that you only see radiation in one quadrant is that the spectra dataf
 
 Similarly, there is an interface with the [SIMPLEX](https://spectrax.org/simplex/index.html) and [GENESIS 1.3](http://genesis.web.psi.ch/index.html) codes for XFEL's.
 
+
+
+
+
 ## Exercise: Use SRW-generated output to simulate a beamline.
 
-We will now use a different utiltiy to drive a McXtrace-simulation: MCPL. 
+We will now use a different utility to drive a McXtrace-simulation: MCPL. 
 
 [MCPL](https://mctools.github.io/mcpl/) is an interchange file format to communicate with e.g. GEANT4, PHITS, MCNP, and SRW.
 
@@ -86,71 +161,5 @@ The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true "").
 * What was the fundamental energy of the 1st harmonic?
 * This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
 * Open your "old" instrument from before, and replace the source with the MCPL_input solution.
-
-## Exercise: SOLEIL Undulator HU52 "Apple-II"
-
-The LUCIA beam-line at Synchrotron SOLEIL (SD03C) is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15 – 150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV. 
-
-The HU52 main parameters are:
-
-HU52 parameter | symbol/unit | value
-------------------------|-----------|-----
-Period | (mm) | 52.4
-Nb of periods  | lambda_U | 30 + 2
-Gap | mm | 15.5-150
-Field remanence | B(T) | 1.26
-Magnetic field Z, max | Bz (T) | 1.974*exp(-3.1754*Gap/lambda_U)
-Magnetic field X, max | Bx (T) | 1.901*exp(-4.3387*Gap/lambda_U)
-Function beta horizontal |	beta_x (m)	|1.4
-Function beta vertical|	beta_z ( m)	|1.4
-emittance horizontale | ex (pm.rad)	|82.0
-betatron	coupling | % | 30.0
-emittance vertical |	ez (pm.rad)	|24.6
-dimension RMS horizontal|	sigma_x (µm)	|10.7
-dimension RMS vertical	|sigma_z (µm)	|5.9	
-divergence RMS horizontal	|sigma_x' (µrad)	|7.7
-divergence RMS vertical	|sigma_z' (µrad)|	4.2
-
-The storage ring parameters for SOLEIL are available at https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source
-The bunch parameters are available at https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/bunch-length
-
-We can then derive the Undulator component parameters for LUCIA on HU52:
-```c
-Undulator(
-  E0 = 8,
-  dE = 0.1,
-  Ee = 2.75,
-  dEe = 0.001,
-  Ie = 0.5,
-  tbunch = 47e-12,
-  B = 0.42, // for a 15.5 mm gap
-  Nper = 32,
-  lu = 52.4e-3,
-  sigey = 10.7e-6,
-  sigex = 5.9e-6,
-  sigepx = 7.7e-6,
-  sigepy = 4.2e-6) 
-```
-
-For the DEIMOS beam-line (also using an HU52), we have the electron beam parameters:
-- sizes of 188×8.2 μm RMS (H×V)
-- divergences of 25.5×6.0  μrad RMS (H×V)
-- we use a 30 mm gap corresponding to a magnetic field of 0.32 T
-
-The detector is located at L=20.465 m from the photon source. The photon beam divergence at the detector should be around 1.2 μrad RMS.
-
-Undulators | parameters
------------|-----------
-MaxIV / Bloch | Undulator(E0=0.6,dE=0.4,Ee=1.5,dEe=((6e-9)*(60e-12))/1.5,Ie=0.5,tbunch=43,K=5.6,gap=14e-3,Nper=187,lu=84e-3,sigey=1.3e-5,sigex=185e-5,sigepx=32e-6,sigepy=4.6e-6,focus_xw=1.1e-3,focus_yh=1.1e-3,dist=zm_mirror1,E1st=1.0018*E0/5)
-MaxIV DanMAX | Undulator(E0=35, dE=0.05, E1st=E0/15, focus_yh=1.1e-3, focus_xw=1.1e-3, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)
-SOLEIL U20 ANATOMIX | Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.1, K=1.03118, Nper=140, lu=3.2e-2, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, focus_xw=1e-4, focus_yh=1e-4, dist=50, E1st=12.400)
-SOLEIL U20 PX2a | Undulator( E0=12.65, dE=1, Ee=8, dEe=0.001, Ie=0.1, K=1.788, Nper=80, lu=2.4e-2, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, focus_xw=1e-4, focus_yh=1e-4, dist=29.5, E1st=12.400)
-Test | Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)
-
-References:
-- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf
-- Thierry Moreno et al., J Sync rad 19 (2012) 179, https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html
-- https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf
-- T. Moreno et al., https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations
 
 
