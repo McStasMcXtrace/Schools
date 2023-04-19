@@ -2,29 +2,43 @@
 In this practical exercise we will try out a few ways of modelling an X-ray source in McXtrace and some possibilities for coupling McXtrace to other packages.
 
 ## Exercise: Using the native McXtrace Undulator model.
-:warning: N.B. This requires the Gnu Scientific Library (GSL) to be installed. This should have been automatically installed with McXtrace install procedure. Should for some reason this not be the case you may go to (https://github.com/McStasMcXtrace/Schools/wiki/GSL-Installation) to find installation instructions.
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Undulator.png/600px-Undulator.png">
 
-1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. To be able to compare with later results we'll use what corresponds to the default setting of the s.k. "standard undulator" at SPring-8 in Japan: <code>
+1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. To be able to compare with later results we'll use what corresponds to the default setting of the s.k. "standard undulator" at SPring-8 in Japan: 
+    <code>
     E0=13, dE=1, Ee=8, dEe=0.001, Ie=0.1, 
     K=1.03118, Nper=140, lu=3.2e-2, 
     sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, 
     focus_xw=1e-4, focus_yh=1e-4, dist=20, 
-    E1st=12.400</code> Just as you have seen  before, the focus_xw, focus_yh, and dist parameters simply indicate at sampling window downstream of the undulator. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator.
+    E1st=12.400</code>
+    
+Just as you have seen  before, the focus_xw, focus_yh, and dist parameters simply indicate at sampling window downstream of the undulator. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator.
+
 2. Insert two monitors **20 m** downstream: one PSD and one energy-resolved monitor. Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range.
 
-There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`. Last but not least, the [`Shadow_input`](http://mcxtrace.org/download/components/3.0/misc/Shadow_input.html) and [`Shadow_output`](http://mcxtrace.org/download/components/3.0/misc/Shadow_output.html) allow to read data events from [Shadow](https://github.com/oasys-kit/shadow3), but also to fully insert a McXtrace simulation as into a Shadow simulation sequence (read and write).
+There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`. Last but not least, the [`Shadow_input`](http://mcxtrace.org/download/components/3.0/misc/Shadow_input.html) and [`Shadow_output`](http://mcxtrace.org/download/components/3.0/misc/Shadow_output.html) allow to read data events from [Shadow](https://github.com/oasys-kit/shadow3), but also to fully insert a McXtrace
+
+:warning: N.B. This component requires the Gnu Scientific Library (GSL) to be installed. This should have been automatically installed with McXtrace install procedure. Should for some reason this not be the case you may go to (https://github.com/McStasMcXtrace/Schools/wiki/GSL-Installation) to find installation instructions. simulation as into a Shadow simulation sequence (read and write).
 
 ## Exercise: Connect with SPECTRA
 If you do not have it already you may download [SPECTRA](http://spectrax.org/spectra/) freely from the Riken website, but for the purpose of this exercise we have pre-generated a set of datafiles, that you may use: [1st harmonic](data/sp8sU_h1.zip?raw=true ""), and [3rd harmonic](data/sp8sU_h3.zip?raw=true "").
 
 ### Details for the actual data files:
-1. Generated using SPECTRA 10.0, using the Standard Spring-8 linear Undulator model, and standard beamline settings, I.e. as generic as possible. The opening screen look like this:
+1. Generated using SPECTRA 11, using the Standard Spring-8 linear Undulator model, and standard beamline settings, i.e. as generic as possible. To get help about parameters, select the _Help_ menu, _Open Reference Manual_ item. The configuration file for this example is available as [spring8.json](data/spring8.json?raw=true ""). The opening screen look like this:
 ![spectra main screen](images/spectra_main.png?raw=true "")
 
-2. The type of calculation that McXtrace expects is:`Photon distribution at source point -> Wigner function -> Phase-space profile -> x-x' Plane (Projected)`, and correspondingly for the `x-y'` plane. These two file-sets may then be used to drive a source in McXtrace.
-3. Energy ranges may be generated automatically using the de-tuning parameter.
+2. The type of calculation that McXtrace expects is:`Photon distribution at source point -> Wigner function -> Phase-space profile -> x-x' Plane (Projected)`, and correspondingly for the `x-y'` plane. These two file-sets may then be used to drive a source in McXtrace. Choose ADCII format. Then select the _Run_ menu, _Start calculation_ item.
+![spectra main screen](images/spectra_calculation_choice_x.png?raw=true "")
+
+3. Energy ranges may be generated automatically using the de-tuning parameter (e.g. 0). Right-click on 'Detunning', select 'Scan this parameter' with e.g. 
+- Initial	-0.4
+- Final	0.5
+- Number of points 11
+
+Then select the _Run_ menu, _Start calculation_ item.
+
+The data files are generated both in JSON, and ASCII. 
 
 There are some limitations in this incarnation:
 
@@ -72,3 +86,63 @@ The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true "").
 * What was the fundamental energy of the 1st harmonic?
 * This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
 * Open your "old" instrument from before, and replace the source with the MCPL_input solution.
+
+## Exercise: SOLEIL Undulator HU52 "Apple-II"
+
+The LUCIA beam-line at Synchrotron SOLEIL (SD03C) is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15 – 150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV. 
+
+The HU52 main parameters are:
+
+HU52 parameter | symbol/unit | value
+------------------------|-----------|-----
+Period | (mm) | 52.4
+Nb of periods  | lambda_U | 30 + 2
+Gap | mm | 15.5-150
+Field remanence | B(T) | 1.26
+Magnetic field Z, max | Bz (T) | 1.974*exp(-3.1754*Gap/lambda_U)
+Magnetic field X, max | Bx (T) | 1.901*exp(-4.3387*Gap/lambda_U)
+Function beta horizontal |	beta_x (m)	|1.4
+Function beta vertical|	beta_z ( m)	|1.4
+emittance horizontale | ex (pm.rad)	|82.0
+betatron	coupling | % | 30.0
+emittance vertical |	ez (pm.rad)	|24.6
+dimension RMS horizontal|	sigma_x (µm)	|10.7
+dimension RMS vertical	|sigma_z (µm)	|5.9	
+divergence RMS horizontal	|sigma_x' (µrad)	|7.7
+divergence RMS vertical	|sigma_z' (µrad)|	4.2
+
+The storage ring parameters for SOLEIL are available at https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source
+The bunch parameters are available at https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/bunch-length
+
+We can then derive the Undulator component parameters for LUCIA on HU52:
+```c
+Undulator(
+  E0 = 8,
+  dE = 0.1,
+  Ee = 2.75,
+  dEe = 0.001,
+  Ie = 0.5,
+  tbunch = 47e-12,
+  B = 0.42, // for a 15.5 mm gap
+  Nper = 32,
+  lu = 52.4e-3,
+  sigey = 10.7e-6,
+  sigex = 5.9e-6,
+  sigepx = 7.7e-6,
+  sigepy = 4.2e-6) 
+```
+
+For the DEIMOS beam-line (also using an HU52), we have the electron beam parameters:
+- sizes of 188×8.2 μm RMS (H×V)
+- divergences of 25.5×6.0  μrad RMS (H×V)
+- we use a 30 mm gap corresponding to a magnetic field of 0.32 T
+
+The detector is located at L=20.465 m from the photon source. The photon beam divergence at the detector should be around 1.2 μrad RMS.
+
+References:
+- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf
+- Thierry Moreno et al., J Sync rad 19 (2012) 179, https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html
+- https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf
+- T. Moreno et al., https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations
+
+
