@@ -139,6 +139,14 @@ For the DEIMOS beam-line (also using an HU52), we have the electron beam paramet
 
 The detector is located at L=20.465 m from the photon source. The photon beam divergence at the detector should be around 1.2 μrad RMS.
 
+Undulators | parameters
+-----------|-----------
+MaxIV / Bloch | Undulator(E0=0.6,dE=0.4,Ee=1.5,dEe=((6e-9)*(60e-12))/1.5,Ie=0.5,tbunch=43,K=5.6,gap=14e-3,Nper=187,lu=84e-3,sigey=1.3e-5,sigex=185e-5,sigepx=32e-6,sigepy=4.6e-6,focus_xw=1.1e-3,focus_yh=1.1e-3,dist=zm_mirror1,E1st=1.0018*E0/5)
+MaxIV DanMAX | Undulator(E0=35, dE=0.05, E1st=E0/15, focus_yh=1.1e-3, focus_xw=1.1e-3, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)
+SOLEIL U20 ANATOMIX | Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.1, K=1.03118, Nper=140, lu=3.2e-2, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, focus_xw=1e-4, focus_yh=1e-4, dist=50, E1st=12.400)
+SOLEIL U20 PX2a | Undulator( E0=12.65, dE=1, Ee=8, dEe=0.001, Ie=0.1, K=1.788, Nper=80, lu=2.4e-2, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, focus_xw=1e-4, focus_yh=1e-4, dist=29.5, E1st=12.400)
+Test | Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)
+
 References:
 - F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf
 - Thierry Moreno et al., J Sync rad 19 (2012) 179, https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html
