@@ -7,18 +7,17 @@ Currently, [McXtrace](http://www.mcxtrace.org) supports a limited set of sample 
 Inserting a sample component within a beam-line description constitutes a way to simulate a measurement. Such method is always limited by the amount of knowledge inserted both in the beam-line description, and the accuracy of the sample model.
 
 In this session we shall simulate the output of simple models for:
-
 - X-ray Diffraction (XRD)
 - Macromolecular Crystallography (MX)
 - Small Angle X-ray Scattering (SAXS)
 
 ## Table of Contents
-
 1. [Sample geometry](#sample-geometry)
 1. [Data files](#data-files)
 1. [Exercise A: Powder diffraction (XRD)](#exercise-a-powder-diffraction-xrd)
 1. [Exercise B: Macromolecular crystallography (MX)](#exercise-b-macromolecular-crystallography-mx)
-1. [Exercise C: Max IV DanMAX (MX) optional](#exercise-d-max-iv-danmax-mx)
+1. [Exercise C: Small angle scattering (SAXS)](#exercise-c-small-angle-scattering-saxs)
+1. [Exercise D: Max IV DanMAX (MX) optional](#exercise-d-max-iv-danmax-mx)
 
 ---
 
@@ -27,7 +26,6 @@ In this session we shall simulate the output of simple models for:
 Sample components should be given a geometrical shape. The sample coordinate frame is usually (when not rotated) *X* on the left, *Y* vertical, and *Z* is 'forward'.
 
 The geometry can be specified as:
-
 - a sphere `radius=<value>`
 - a cylinder `radius=<value>, yheight=<value>`
 - box `xwidth=<value>, yheight=<value>, zdepth=<value>`
@@ -44,14 +42,12 @@ Using the ROTATED keyword, you may orient this geometry in any direction.
 The sample components we use in this session are diffraction oriented.
 
 They use additional data files e.g.:
-
 - structure factors vs HKL or *d*-spacing. These are stored in `laz` (for Powders, with multiplicity) or `lau` (for single crystals and powders) F<sup>2</sup>(HKL) files. We generate such files from CIF data.
 - material files from e.g. [NIST](https://physics.nist.gov/PhysRefData/FFast/html/form.html) which contain Form Factors, Attenuation (absorption) and Scattering Cross-sections.
 
 The F<sup>2</sup>(HKL) reflection list is given as a text file such as the [Mo.lau](http://www.mcxtrace.org/download/components/3.0/data/Mo.lau) file. It may be computed from a [CIF](http://crystallography.net/) file using the [cif2hkl](http://www.mcstas.org/download/share/cif2hkl.F90) tool, which is provided with McXtrace (e.g. as `/usr/share/mcxtrace/3.0/bin/cif2hkl`). You may as well directly get HKL powder file from http://crystallography.net/cod/ which gives access to nearly 500000 structure (beg. 2022). The ICSD also provides similar data, but is usually not free.
 
 To get a list of all material structures matching a given Hill formula (at the end of the query, elements separated by spaces), use for instance:
-
 - `http://www.crystallography.net/cod/result.php?formula=O3 Sr Ti`
 
 For powders (Bragg lines with multiplicity)
@@ -75,16 +71,14 @@ Many laboratories are equipped with e.g. rotating anode X-ray sources. Indeed, p
 <img src="http://pd.chem.ucl.ac.uk/pdnn/diff2/cone.gif">
 
 In this exercise, we shall simulate a simple diffractometer with:
-
-- the [PowderN](http://www.mcxtrace.org/download/components/3.1/samples/PowderN.html) sample component ;
-- the [Test_Powder](http://www.mcxtrace.org/download/components/3.1/examples/Test_Powder.html) example (using PowderN).
+- the [PowderN](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html) sample component ;
+- the [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_Powder.html) example (using PowderN).
 
 We shall start the MxGUI interface, and load the *Test_PowderN* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The PowderN component
 
-The [PowderN](http://www.mcxtrace.org/download/components/3.1/samples/PowderN.html) component takes as input:
-
+The [PowderN](http://www.mcxtrace.org/download/components/3.0/samples/PowderN.html) component takes as input:
 - some geometrical parameters (the sample shape) ;
 - a list of F<sup>2</sup>(HKL) `reflections` which takes into account the crystal structure (space group, atom type and location, lattice parameters). We use the `lau` or `laz` extension, but this is arbitrary, and any other will work as long as the information is there ;
 - an optional `material` file that provides absorption information.
@@ -107,7 +101,7 @@ where  &lambda; = 2 &pi;/k is the incident wavelength, _d_ is a distance separat
 
 #### Step A.1: incident photon energy parameter and single calculation
 
-Have a look at the [Test_Powder](http://www.mcxtrace.org/download/components/3.1/examples/Test_PowderN.html) header, and TRACE section. As you can see, this is an ideal, very simple model.
+Have a look at the [Test_Powder](http://www.mcxtrace.org/download/components/3.0/examples/Test_PowderN.html) header, and TRACE section. As you can see, this is an ideal, very simple model.
 
 The energy spread in the `src` component instance should be set as proportional to `E0` in order to mimic the distribution out of e.g. a monochromator. Let's use `dE=E0/100` at the source (1% resolution).
 The `d_phi` model parameter is forwarded to the PowderN sample component. Using a non-zero value restricts the scattering within a horizontal tore, which improve the simulation efficiency when the detecteor coverage is limited vertically (e.g. a PSD in the horizontal scattering plane). Using a value of 0 allows diffraction in 4&pi; to fully illuminate the `Sph_mon` 4&pi; monitor. 
@@ -124,14 +118,12 @@ The data files are stored in a directory which contains text files. You may have
 :runner: Plot the results and look at the 4&pi; monitor. Switch to intensity 'log-scale' (press the *L* key on the plot). Comment. 
 
 :question:
-
 - Why is there no signal at small angle ? 
 - Why do you get a kind of rectangle frame at 90 deg scattering angle ?
 
 :runner: Re-run with `directbeam=1` to also simulate the transmitted beam. Plot results again.
 
 :question:
-
 - You can measure why a beam-stop is necessary, not only to protect the detector, but also to enhance the contrast.
 
 You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
@@ -143,7 +135,6 @@ You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
 Get the component [PSD_monitor_rad](http://mcstas.org/download/components/3.1/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
 
 Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
-
 - Change the occurences of `restore_neutron` into `restore_xray`.
 - Change the occurence of `RESTORE_NEUTRON(INDEX_CURRENT_COMP, x, y, z, vx, vy, vz, t, sx, sy, sz, p);` into `RESTORE_XRAY(INDEX_CURRENT_COMP, x, y, z, kx, ky, kz, phi, t, Ex, Ey, Ez, p);`.
 - Add this monitor to the XRD model at the same location as the `detector2`. You may use the example suggested in the header of the `PSD_monitor_rad.comp`, but with more r-bins `nr`, say 500.
@@ -151,7 +142,6 @@ Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g
 :runner: Re-run at E0=15 keV (make sure to revert to `directbeam=0` as it keeps the previous value). Plot results again. You should get a nice diffractogram.
 
 :question:
-
 - why do diffraction rings appear with a hat-shape ?
 
 :bulb: You could simulate a slight off-axis detector misalignment by setting TTH to a non-zero value. This will affect the _I(r)_ from the newly added monitor.
@@ -174,7 +164,6 @@ mxplot <output_dir>
 ![PowderN Fe scan det](images/Test_PowderN_Fe_E0_scan_det.png  "PowderN Fe energy scan det")
 
 :question:
-
 - Why do you see steps vs energy ?
 - Use Ctrl-click on the detector to see its response vs Energy. Does it properly explain these steps ?
 
@@ -195,7 +184,6 @@ We shall start the MxGUI interface, and load the *Test_SX* example (*File > New 
 #### The Single_crystal component
 
 To date, the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) is one of our most complex McXtrace component. It takes as input:
-
 - some geometrical parameters (the sample shape) ;
 - a list of F<sup>2</sup>(HKL) `reflections` which takes into account the crystal structure (space group, atom type and location, lattice parameters). We use the `lau` extension, but this is arbitrary, and any other will work as long as the information is there ;
 - an optional `material` file that provides absorption information.
@@ -209,7 +197,6 @@ COMPONENT sample = Single_crystal(reflections="Mo.lau",
 and if you have an absorption data file, you may add the parameter `..., material="Mo.txt"`.
 
 The central beam spot can be removed in three different ways:
-
 1. use an EXTEND block and remove all non scattered events immediately (perfect beam-stop)
 2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html) component 
 3. use a variable of our own to record when a ray has scattered or not, and make use of it with EXTEND and WHEN keywords afterwards.
@@ -224,7 +211,6 @@ In order to monitor the execution of the simulation, and get an estimate of the 
 Extend the monitors pixel number by a factor 10 on each axis (e.g. 2k x 2k) so that they better match real detectors binning.
 
 Add on the `DEFINE INSTRUMENT (...)` line:
-
 - an `E0=15` photon energy (default: 15 keV), 
 - a `sample` parameter (of type `string` and "4mea.lau" default value) to specify the sample structure factors
 - two `rotX` and `rotY` angles (default: 0 deg)
@@ -248,7 +234,6 @@ mxdisplay-webgl Test_SX.instr E0=15 -n 1e7
 Plot the results. 
 
 :question:
-
 - Comment on the Bragg spot distribution, and their size. 
 - What's wrong here ? Why is there nothing on the last detector ? Confirm your thought by looking at the content of the `4mea.lau` file.
 - Zooming with mouse wheel, you can see the spread of Bragg spots on pixels. Do they look realistic ? How can ypou explain this ?
@@ -262,7 +247,6 @@ Specify rotations `rotX` and `rotY` along axis X and Y of the sample component. 
 :runner: Run the simulation again, and use a few degrees rotation on the sample (1-2 deg). You may as well move the TTH to e.g -5 deg to catch a few Bragg spots on the rotating arm.
 
 :question:
-
 - Comment on the results.
 
 ![MX 4mea](images/Test_SX_4mea.png  "MX 4mea")
@@ -272,22 +256,81 @@ You may repeat the calculation with the L-glutamine from http://crystallography.
 ![MX glu](images/Test_SX_glutamine.png  "MX L-glutamine")
 
 :question:
-
 - Does it look a little more realistic now ?
 - Comment on the missing contributions.
 - Can you imagine a way to add some of the missing contribution ?
+
+
+----
+
+## Exercise C: Small angle scattering (SAXS)
+
+The small-angle X-ray scattering beam-lines measure very small beam deviations around the incident direction, following the Bragg-law _n_&lambda; = 2 _d_ sin(&theta;) where the incident wavelength &lambda; is fixed and we can see that small angles &theta; corresponds with large typical scattering unit sizes _d_.
+
+<img src="https://www.researchgate.net/profile/Jingpeng-Li-2/publication/322112043/figure/fig1/AS:657582976954368@1533791407758/Schematic-diagram-of-the-incident-beam-of-SAXS.png">
+
+There is large variety of SAXS sample models. Most of them correspond with isotropic scattering units.
+
+The most complete one is using [SaSView models](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html) from which about [60 have been ported](http://mcxtrace.org/download/components/3.0/samples/SasView_model.html) into McXtrace. These include isotropic and anisotropic models.
+
+In the following, we shall start from the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) example instrument (from the _Tests_). It models a toy SAXS beam-line with a set of possible sample models via the input parameter `SAMPLE` (some sample models have been inactivated or are buggy). It also has a PSD and a |Q| monitor (with radial integration).
+
+To run this model, you will need a PDB files accessible at https://www.rcsb.org/structure/6LYZ. Connect to the site and retrieve the PDB file (top right -> Download File -> PDB).
+
+#### Step C.1: simulate the scattering from a set of samples
+
+Load the [TestSAXS](http://mcxtrace.org/download/components/3.0/examples/TestSAXS.html) beam-line model and open the 3D view (run in Trace mode).
+Accumulate the photon rays (click on 'keep rays') and start to visualize the scattering pattern.
+
+<img src="images/TestSAXS.png">
+
+Now re-run in Simulation mode, with SAMPLE=0, 1, 4, and 11. Use MPI (recompile) with e.g. 4 cores and 1e6 rays. 
+These correspond with:
+- 0=SAXSSpheres
+- 1=SAXSShells
+- 4=SAXSLiposomes
+- 11=SAXSPDBFast (can used PDB files to compute I(q))
+
+Plot the results, and visualize the scattering curve of all samples.
+
+<img src="images/SAMPLE_0.png" width="200" title="SAXSSpheres"> <img src="images/SAMPLE_1.png" width="200" title="SAXSShells">
+<img src="images/SAMPLE_4.png" width="200" title="SAXSLiposomes"> <img src="images/SAMPLE_11.png" width="200" title="SAXSPDBFast">
+
+:question: what can you say about the scattering units in the sample ?
+
+#### Step C.2: simulate more complex samples
+
+We now use the [TemplateSasView](http://www.mcxtrace.org/download/components/3.0/examples/templateSasView.html) in _Templates_.
+
+As can be see, the default model index is number 10.
+
+:question: 
+- Identify which structure is being used by looking at the table [SasView_model](http://mcxtrace.org/download/components/3.0/samples/SasView_model.html). :warning: links are broken. You should follow the [SasView documentation](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html). 
+- Are we using the default SasView Cylinder model parameters ?
+
+🏃 Run the simulation and plot the results.
+
+A |q| detector would probably be a good idea. Add and instance of the `SAXSQMonitor` at 3.03 m away from the sample, with its `RadiusDetector=0.3`, the `DistanceFromSample=3.03`, `LambdaMin` and `Lambda0` set the nominal wavelength of the source, i.e. `lambda`.
+
+🏃 Run the simulation again and plot the results, in Log-scale.
+
+<img src="images/templateSasView.png" title="SasView_model cylinder">
+
+Now change the structure to a bcc-paracrystal, using the default parameter values extracted from the [SasView documentation](https://www.sasview.org/docs/user/qtgui/Perspectives/Fitting/models/index.html).
+
+:runner: Run the simulation with the [bcc_paracrystal](https://www.sasview.org/docs/user/models/bcc_paracrystal.html) which is `SasView_model(index=4)`.
 
 ----
 
 The following exercises are optional. Consider them as home-work.
 
-## Exercise C: Max IV DanMAX (MX)
+## Exercise D: Max IV DanMAX (MX)
 
 The idea here is to model the [DanMAX](https://www.maxiv.lu.se/accelerators-beamlines/beamlines/danmax/) beam-line at MaxIV with a powder and a single crystal.
 
 Start by selecting the DanMAX example in its 2D version (*File > New from template > Max IV*). 
 
-#### Step C.1: getting to know each other
+#### Step D.1: getting to know each other
 
 To get an overview of the beam-line, run it in Trace 3D mode, with default parameter values. A 3D view will show up. Accumulate rays in the 3D view so that you can visualise the beam (_Keep rays_).
 
@@ -300,7 +343,6 @@ Notice the use of `SPLIT 100` at the sample location. It is there to enhance the
 📢️ Admittedly, this rendering is not adapted to very long beam-lines (except if you are a Quake/Doom expert gamer).
 
 🆘️Trace mode, mouse buttons:
-
 - :arrow_upper_left: left: rotate
 - :arrow_up: middle: zoom
 - :arrow_upper_right: right: translate
@@ -310,7 +352,6 @@ Notice the use of `SPLIT 100` at the sample location. It is there to enhance the
 Then, launch a simulation with e.g. 1e6 rays (MPI, recompile). Plot the results, especially the 2 last detector images (use _L_ key for log-scale intensity).
 
 :question:
-
 - Comment on the energy profile of the beam reaching the sample. 
 - What is the origin of the energy tails ?
 - Does the scattered signal look like a powder ?
@@ -318,7 +359,7 @@ Then, launch a simulation with e.g. 1e6 rays (MPI, recompile). Plot the results,
 ![DanMAX energy](images/DanMAX_energy_sample.png "DanMAX energy")
 ![DanMAX 3D powder](images/DanMAX_powder.png "DanMAX 3D powder")
 
-#### Step C.2: then it becomes crystal clear
+#### Step D.2: then it becomes crystal clear
 
 For the following, we wish to convert the LaB<sub>6</sub> powder sample into a single crystal one, but the provided data file [LaB6_660b_AVID2.hkl](https://github.com/McStasMcXtrace/McCode/blob/master/mcxtrace-comps/data/LaB6_660b_AVID2.hkl) only contains positive HKL Miller indices.
 
@@ -332,7 +373,6 @@ cif2hkl -x -m XRA 1000055.cif
 :runner: Just to make sure, run the simulation with this new F2(HKL) file and still the powder sample. 
 
 ❓️
-
 - are there any differences ? What is their origin ?
 
 We recommend that you now remove the `sigma_` lines in the  F2(HKL) file so that the model only computes the coherent diffraction scattering, without any surrounding background.
@@ -357,12 +397,11 @@ The scattering may occur at large angle, meaning we may miss it. In order to be 
 :runner: Run the simulation again with `sample="1000055.cif.hkl"`.
 
 :question:
-
 - What is the typical scattering angle for this crystal illuminated with `E0=35` keV ?
 - Is the current Pilatus detector location appropriate ?
 - What solutions can be envisaged ?
 
-#### Step C.3: feeling concentric ?
+#### Step D.3: feeling concentric ?
 
 In this exercise, we wish to superpose the single crystal contribution with a model for a sample container. 
 
@@ -404,11 +443,10 @@ AT(0,0,0) RELATIVE pxrd_2d_pt
 🏃‍♂️️Run the simulation with MPI and 10<sup>5</sup> xray events, and `sample=1000055.cif.hkl container=1504080.cif.hkl`. Plot the results and look at the 4 &pi; monitor. Identify the crystal contribution. Switch to log scale (_L_ key).
 
 ❓️
-
 - Identify the scattering Bragg spots from the crystal.
 - Identify the scattering from the container. Does it look like a powder ?
 
-#### Step C.4: better than real life
+#### Step D.4: better than real life
 
 Let's now separate the contributions from the sample and the container. In the `DECLARE` section of the beam-line description, add two variables such as:
 ``` c
@@ -437,7 +475,6 @@ AT(0,0,0) RELATIVE pxrd_2d_pt
 🏃‍♂️️Run the simulation again with MPI and 1e5 events.
 
 ❓️ 
-
 - Does the total signal makes sense ?
 - Identify the sample-only, compare with the total signal.
 

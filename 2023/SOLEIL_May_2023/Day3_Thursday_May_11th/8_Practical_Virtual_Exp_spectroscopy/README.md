@@ -10,6 +10,3 @@ Happy simulating!
 ---
 
 
-
----
-*McXtrace training - 2022*

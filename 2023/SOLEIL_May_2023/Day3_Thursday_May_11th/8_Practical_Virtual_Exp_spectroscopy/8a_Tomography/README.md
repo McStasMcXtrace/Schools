@@ -78,5 +78,3 @@ In this exercise, we wish to demonstrate the concept by recording an image throu
 
 You should obtain a series of images, one per incoming energy. This is an hyper-spectral data set which can be merged into a 3D array with e.g. NumPy or Matlab. Of course, in this exercise, all images are similar as the sample is homogeneous. Putting back the `Filter` component with a complex geometry should allow to record a more realistic hyper-spectral data set. However :-1: it currently has a bug which prevents recovering the absorption spectrum. This will be fixed for the next release.
 
----
-*McXtrace training - 2022*
