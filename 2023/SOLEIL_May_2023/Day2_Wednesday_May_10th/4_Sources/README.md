@@ -45,7 +45,7 @@ divergence RMS horizontal	|sigma_x' (µrad)	|25.2(current)/7.7(upgrade)
 divergence RMS vertical	|sigma_z' (µrad)|	6(current)/4.2(upgrade)
 
 The corresponding HU52 Undulator component parameters are then:
-```
+``` c
 Undulator(
   E0     = 3,
   dE     = 2.9,
@@ -78,7 +78,8 @@ References:
 ## Exercise: Using the native McXtrace Bender model for SOLEIL photon sources
 
 Let's now model a Bender at SOLEIL. For this we use the `Bending_magnet` component. Looking at its documentation, you will find that a typical use at SOLEIL is (for the ROCK bender):
-```
+
+``` c
 Bending_magnet(
    E0 = 20, dE = 19, Ee = 2.75,
    Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
@@ -99,7 +100,7 @@ where we refer to the 'medium straight section' e-beam cross-section.
 ### Using the Undulator model
 
 The typical Undulator parameters for a SPring-8 insertion device are:
-```
+``` c
     E0=13, dE=1, Ee=8, dEe=0.001, Ie=0.1, 
     K=1.03118, Nper=140, lu=3.2e-2, 
     sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, 

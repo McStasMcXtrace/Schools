@@ -2,7 +2,7 @@
 
 In this training, we present a set of sample components to be inserted into beam-line models in order to build so-called virtual experiments.
 
-Currently, [McXtrace](http://www.mcxtrace.org) supports a limited set of sample types, and mostly focuses on diffraction related studies. Other samples are planned, to model e.g. EXAFS, fluorescence, ARPES, ...). We hope you can contribute to this effort in the future. Also, these components are still under active development.
+Currently, [McXtrace](http://www.mcxtrace.org) supports a set of sample types, including *diffraction* related studies. There is also support for *fluorescence*, Compton and Rayleight scattering, and a limited support for *inelastic* scattering. Other samples are planned, to model e.g. EXAFS, ARPES, ...). We hope you can contribute to this effort in the future. Also, these components are still under active development.
 
 Inserting a sample component within a beam-line description constitutes a way to simulate a measurement. Such method is always limited by the amount of knowledge inserted both in the beam-line description, and the accuracy of the sample model.
 
@@ -31,7 +31,7 @@ The geometry can be specified as:
 - a sphere `radius=<value>`
 - a cylinder `radius=<value>, yheight=<value>`
 - box `xwidth=<value>, yheight=<value>, zdepth=<value>`
-- any shape defined with a `geometry=<file>` with a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html) file (vertices and polygons similar to STL). We provide example geometry files in the [data](http://mcxtrace.org/download/components/3.0/data/) directory (e.g. locally at `/usr/share/mcxtrace/x.y/data`). You may also use e.g. [Meshlab](https://www.meshlab.net/) or other geometry editors/modellers to create such files (rather simple text format). Not all samples support this geometry.
+- any shape defined with a `geometry=<file>` with a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html) file (vertices and polygons similar to STL). We provide example geometry files in the [data](http://mcxtrace.org/download/components/3.1/data/) directory (e.g. locally at `/usr/share/mcxtrace/x.y/data`). You may also use e.g. [Meshlab](https://www.meshlab.net/) or other geometry editors/modellers to create such files (rather simple text format). Not all samples support this geometry.
 
 Some samples can be made hollow by specifying a `thickness` parameter. This is especially useful for containers (e.g. capillary) and sample environments.
 
@@ -48,7 +48,7 @@ They use additional data files e.g.:
 - structure factors vs HKL or *d*-spacing. These are stored in `laz` (for Powders, with multiplicity) or `lau` (for single crystals and powders) F<sup>2</sup>(HKL) files. We generate such files from CIF data.
 - material files from e.g. [NIST](https://physics.nist.gov/PhysRefData/FFast/html/form.html) which contain Form Factors, Attenuation (absorption) and Scattering Cross-sections.
 
-The F<sup>2</sup>(HKL) reflection list is given as a text file such as the [Mo.lau](http://www.mcxtrace.org/download/components/3.0/data/Mo.lau) file. It may be computed from a [CIF](http://crystallography.net/) file using the [cif2hkl](http://www.mcstas.org/download/share/cif2hkl.F90) tool, which is provided with McXtrace (e.g. as `/usr/share/mcxtrace/3.0/bin/cif2hkl`). You may as well directly get HKL powder file from http://crystallography.net/cod/ which gives access to nearly 500000 structure (beg. 2022). The ICSD also provides similar data, but is usually not free.
+The F<sup>2</sup>(HKL) reflection list is given as a text file such as the [Mo.lau](http://www.mcxtrace.org/download/components/3.1/data/Mo.lau) file. It may be computed from a [CIF](http://crystallography.net/) file using the [cif2hkl](http://www.mcstas.org/download/share/cif2hkl.F90) tool, which is provided with McXtrace (e.g. as `/usr/share/mcxtrace/3.1/bin/cif2hkl`). You may as well directly get HKL powder file from http://crystallography.net/cod/ which gives access to nearly 500000 structure (beg. 2022). The ICSD also provides similar data, but is usually not free.
 
 To get a list of all material structures matching a given Hill formula (at the end of the query, elements separated by spaces), use for instance:
 
@@ -64,7 +64,7 @@ wget http://crystallography.net/cod/5000006.cif
 cif2hkl --xtal --mode XRA  --lambda 1.0 5000006.cif 
 ```
 
-:warning: `cif2hkl` does not work properly with *mmCIF* files. Also, the `sigma_` lines in the generated file should be adapted to X-rays or removed (they are there for neutrons), especially the `sigma_abs` entry. Last, `cif2hkl `may fail converting too large structures.
+:warning: `cif2hkl` does not work properly with *mmCIF* files. Also, the `sigma_` lines in the generated file should be adapted to X-rays or removed (they are there for neutrons), especially the `sigma_abs` entry. Last, `cif2hkl ` may fail converting too large structures.
 
 ---
 
@@ -140,7 +140,7 @@ You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
 
 #### Step A.2: use a component from the neutron world
 
-Get the component [PSD_monitor_rad](http://mcstas.org/download/components/3.1/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
+Get the component [PSD_monitor_rad](https://mcstas.org/download/components/3.2/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
 
 Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
 
@@ -187,14 +187,14 @@ The macromolecular crystallography beam-lines measure the diffraction from rotat
 <img src="https://www.creativebiomart.net/images/X-ray-crystallography-1.png">
 
 In this exercise, we aim to demonstrate how an MX measurement can be simulated (in a simplified way). For this, we shall use:
-- the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) sample component ;
-- the [Test_SX](http://www.mcxtrace.org/download/components/3.0/examples/Test_SX.html) example (using the Single_crystal).
+- the [Single_crystal](http://www.mcxtrace.org/download/components/3.1/samples/Single_crystal.html) sample component ;
+- the [Test_SX](http://www.mcxtrace.org/download/components/3.1/examples/Test_SX.html) example (using the Single_crystal).
 
 We shall start the MxGUI interface, and load the *Test_SX* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The Single_crystal component
 
-To date, the [Single_crystal](http://www.mcxtrace.org/download/components/3.0/samples/Single_crystal.html) is one of our most complex McXtrace component. It takes as input:
+To date, the [Single_crystal](http://www.mcxtrace.org/download/components/3.1/samples/Single_crystal.html) is one of our most complex McXtrace component. It takes as input:
 
 - some geometrical parameters (the sample shape) ;
 - a list of F<sup>2</sup>(HKL) `reflections` which takes into account the crystal structure (space group, atom type and location, lattice parameters). We use the `lau` extension, but this is arbitrary, and any other will work as long as the information is there ;
@@ -211,7 +211,7 @@ and if you have an absorption data file, you may add the parameter `..., materia
 The central beam spot can be removed in three different ways:
 
 1. use an EXTEND block and remove all non scattered events immediately (perfect beam-stop)
-2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.0/optics/Beamstop.html) component 
+2. use a [Beamstop](http://www.mcxtrace.org/download/components/3.1/optics/Beamstop.html) component 
 3. use a variable of our own to record when a ray has scattered or not, and make use of it with EXTEND and WHEN keywords afterwards.
 
 The first solution is extremely simple. Notice, right after the sample component, an EXTEND block (with `%{` and `%}` delimiters) which says:
@@ -219,7 +219,7 @@ The first solution is extremely simple. Notice, right after the sample component
 
 #### Step B.1: Add a Progress_bar and clean-up some components
 
-In order to monitor the execution of the simulation, and get an estimate of the computation time, we can add a [Progress_bar](http://www.mcxtrace.org/download/components/3.0/misc/Progress_bar.html) component. Position the cursor right after the `TRACE` keyword in the [Test_SX](http://www.mcxtrace.org/download/components/3.0/examples/Test_SX.html) example, and add the component, with no parameter, on the Origin (ABSOLUTE positioning).
+In order to monitor the execution of the simulation, and get an estimate of the computation time, we can add a [Progress_bar](http://www.mcxtrace.org/download/components/3.1/misc/Progress_bar.html) component. Position the cursor right after the `TRACE` keyword in the [Test_SX](http://www.mcxtrace.org/download/components/3.1/examples/Test_SX.html) example, and add the component, with no parameter, on the Origin (ABSOLUTE positioning).
 
 Extend the monitors pixel number by a factor 10 on each axis (e.g. 2k x 2k) so that they better match real detectors binning.
 
