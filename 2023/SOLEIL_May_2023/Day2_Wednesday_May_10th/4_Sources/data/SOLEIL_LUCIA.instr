@@ -1,0 +1,68 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: Emmanuel FARHI <emmanuel.farhi@synchrotron-soleil.fr>
+* Date: May 2023
+* Origin: SOLEIL
+* Version: 1.0
+* %INSTRUMENT_SITE: SOLEIL
+*
+* A simple model of the LUCIA beam-line
+*
+* %D
+* A simple model of the LUCIA beam-line
+*
+* Example: SOLEIL_LUCIA E0=3 dE=2.9
+*
+* %P
+* E0: [keV] Nominal photon energy
+* dE: [keV] Nominal photon energy spread (half width)
+* 
+* %L
+* https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/lucia
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT SOLEIL_LUCIA(E0=3, dE=2.9)
+
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+COMPONENT HU52 = Undulator(
+  E0     = E0,
+  dE     = dE,
+  Ee     = 2.75,
+  dEe    = 0.001,
+  Ie     = 0.5,
+  B      = 0.42, // for a 15.5 mm gap
+  Nper   = 32,
+  lu     = 52.4e-3,
+  sigex  = 188e-6,
+  sigey  = 8.2e-6,
+  sigepx = 25.5e-6,
+  sigepy = 6e-6) 
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT mon_psd = Monitor_nD(xwidth=0.1, yheight=0.1, bins=512, options="x y, all auto")
+AT (0,0,5) RELATIVE PREVIOUS
+
+COMPONENT mon_div = COPY(PREVIOUS)(options="dx dy, all auto")
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT mon_en_a  = COPY(PREVIOUS)(options="energy angle, all auto")
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT mon_en  = COPY(PREVIOUS)(options="energy, all auto")
+AT (0,0,0) RELATIVE PREVIOUS
+
+
+FINALLY
+%{
+%}
+
+END
