@@ -1,46 +1,30 @@
 # Source modelling.
+
 In this practical exercise we will try out a few ways of modelling an X-ray source in McXtrace and some possibilities for coupling McXtrace to other packages.
 
-## Exercise: Using the native McXtrace Undulator model.
+## Exercise: Using the native McXtrace Undulator model for SOLEIL photon sources
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Undulator.png/600px-Undulator.png">
 
-1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. To be able to compare with later results we'll use what corresponds to the default setting of the s.k. "standard undulator" at SPring-8 in Japan: 
-    <code>
-    E0=13, dE=1, Ee=8, dEe=0.001, Ie=0.1, 
-    K=1.03118, Nper=140, lu=3.2e-2, 
-    sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, 
-    focus_xw=1e-4, focus_yh=1e-4, dist=20, 
-    E1st=12.400</code>
-    
-Just as you have seen  before, the focus_xw, focus_yh, and dist parameters simply indicate at sampling window downstream of the undulator. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator.
+The default Undulator model is well suited to model a photon source [Ref: K.J. Kim, AIP, conf. proc., 184, 1989. doi:10.1063/1.38046](https://pubs.aip.org/aip/acp/article/184/1/565/788822/Characteristics-of-synchrotron-radiation). 
 
-2. Insert two monitors **20 m** downstream: one PSD and one energy-resolved monitor. Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range.
-
-There are also McXtrace components to model a `Wiggler` and a `Bending_magnet`. Last but not least, the [`Shadow_input`](http://mcxtrace.org/download/components/3.0/misc/Shadow_input.html) and [`Shadow_output`](http://mcxtrace.org/download/components/3.0/misc/Shadow_output.html) allow to read data events from [Shadow](https://github.com/oasys-kit/shadow3), but also to fully insert a McXtrace
-
-:warning: N.B. This component requires the Gnu Scientific Library (GSL) to be installed. This should have been automatically installed with McXtrace install procedure. Should for some reason this not be the case you may go to (https://github.com/McStasMcXtrace/Schools/wiki/GSL-Installation) to find installation instructions. simulation as into a Shadow simulation sequence (read and write).
-
-
-
-
-## Exercise: SOLEIL photon sources
-
-We have gathered here a set of Undulator parameters extracted from existing McXtrace models.
+Currently, there exist a set of undulator use in the McXtrace examples.
 
 Undulators | parameters
 -----------|-----------
-Test | `Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)`
+Test\_BM Undulator | `Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)`
+Test\_BM Wiggler | `Wiggler(E0 = 25, dE = 24, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.4, B = 1.6, K=10, Nper=41)`
 MaxIV / Bloch | `Undulator(E0=0.6,dE=0.4,Ee=1.5,dEe=((6e-9)*(60e-12))/1.5,Ie=0.5,tbunch=43,K=5.6,gap=14e-3,Nper=187,lu=84e-3,sigey=1.3e-5,sigex=185e-5,sigepx=32e-6,sigepy=4.6e-6,focus_xw=1.1e-3,focus_yh=1.1e-3,dist=zm_mirror1,E1st=1.0018*E0/5)`
-MaxIV DanMAX | `Undulator(E0=35, dE=0.05, E1st=E0/15, focus_yh=1.1e-3, focus_xw=1.1e-3, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)`
-SOLEIL U18 ANATOMIX (long) | `Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.03118, Nper=140, lu=32e-3, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, focus_xw=1e-4, focus_yh=1e-4, dist=50, E1st=12.400)`
-SOLEIL U24 PX2a (medium straight section) | `Undulator( E0=12.65, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.788, Nper=80, lu=24e-3, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, focus_xw=1e-4, focus_yh=1e-4, dist=29.5, E1st=12.400)`
+MaxIV DanMAX | `Undulator(E0=35, dE=0.05, E1st=E0/15, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)`
+SOLEIL U18 ANATOMIX (long) | `Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.03118, Nper=140, lu=32e-3, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, dist=50, E1st=12.400)`
+SOLEIL U24 PX2a (medium straight section) | `Undulator( E0=12.65, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.788, Nper=80, lu=24e-3, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, dist=29.5, E1st=12.400)`
 
 In order to model the SOLEIL photon sources, we first need to refer to the storage ring parameters for SOLEIL:
 
-- https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source
+- [https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source](https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source)
 
 Then we may for instance look at the LUCIA beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA, and 0.35-2.5 keV on DEIMOS. 
+
 
 HU52 parameter | symbol/unit | value
 ------------------------|-----------|-----
@@ -55,111 +39,93 @@ Function beta vertical|	beta_z ( m)	|1.4
 emittance horizontale | ex (pm.rad)	|82.0
 betatron	coupling | % | 30.0
 emittance vertical |	ez (pm.rad)	|24.6
-dimension RMS horizontal|	sigma_x (µm)	|188
-dimension RMS vertical	|sigma_z (µm)	|8.2	
-divergence RMS horizontal	|sigma_x' (µrad)	|25.2
-divergence RMS vertical	|sigma_z' (µrad)|	6
+dimension RMS horizontal|	sigma_x (µm)	|188(current)/10.7(upgrade)
+dimension RMS vertical	|sigma_z (µm)	|8.2(current)/5.9	
+divergence RMS horizontal	|sigma_x' (µrad)	|25.2(current)/7.7(upgrade)
+divergence RMS vertical	|sigma_z' (µrad)|	6(current)/4.2(upgrade)
 
-We can then derive typical HU52 Undulator component parameters for LUCIA or DEIMOS:
-```c
+The corresponding HU52 Undulator component parameters are then:
+```
 Undulator(
-  E0 = 6,
-  dE = 0.1,
-  Ee = 2.75,
-  dEe = 0.001,
-  Ie = 0.5,
-  B = 0.42, // for a 15.5 mm gap
-  Nper = 32,
-  lu = 52.4e-3,
-  sigex = 188e-6,
-  sigey = 8.2e-6,
+  E0     = 3,
+  dE     = 2.9,
+  Ee     = 2.75,
+  dEe    = 0.001,
+  Ie     = 0.5,
+  B      = 0.42, // for a 15.5 mm gap
+  Nper   = 32,
+  lu     = 52.4e-3,
+  sigex  = 188e-6,
+  sigey  = 8.2e-6,
   sigepx = 25.5e-6,
   sigepy = 6e-6) 
 ```
 
-Modify the first exercise to match the HU52 undulator, and run a simulation for the LUCIA beam-line. 
+1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator. X is left-wise, Y is vertical, Z is forward. Use the typical HU52 Undulator component parameters for LUCIA or DEIMOS undulators.
+
+2. Insert two monitors **20 m** downstream: one PSD and one energy-resolved monitor. Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range.
+
+3. Repeat the simulation with the expected SOLEIL-II Upgrade storage ring. Compare results in photon beam size and divergence.
+ 
 
 References:
 
-- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf
-- T. Moreno et al., J Sync Rad 19 (2012) 179, https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html
-- T. Moreno et al., https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations
-- M.E. Couperie, https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf
+- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, [https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf](https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf)
+- T. Moreno et al., J Sync Rad 19 (2012) 179, [https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html](https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html)
+- T. Moreno et al., [Proceedings Volume 8141, Advances in Computational Methods for X-Ray Optics II; 81410H (2011) DOI: 10.1117/12.893778](https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations)
+- M.E. Couperie 2013, [https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf](https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf)
+
+## Exercise: Using the native McXtrace Bender model for SOLEIL photon sources
+
+Let's now model a Bender at SOLEIL. For this we use the `Bending_magnet` component. Looking at its documentation, you will find that a typical use at SOLEIL is (for the ROCK bender):
+```
+Bending_magnet(
+   E0 = 20, dE = 19, Ee = 2.75,
+   Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
+```
+where we refer to the 'medium straight section' e-beam cross-section.
+
+1. Create a copy of the above model, and change the Undulator for a Bending_magnet feeding the ROCK beam-line (E0=4.5-40 keV).
+
+2. Update the e-beam parameters for the SOLEIL-II storage ring. Compare results in photon beam size and divergence.
 
 
 
 
+---
 
-## Exercise: Connect with SPECTRA
-It is possible to use advanced photon source calculators like SPECTRA.
+## Exercise: Use MCPL files to couple to e.g. SRW and other codes
 
-If you do not have it already you may download [SPECTRA](http://spectrax.org/spectra/) freely from the Riken website, but for the purpose of this exercise we have pre-generated a set of datafiles, that you may use: [1st harmonic](data/sp8sU_h1.zip?raw=true ""), and [3rd harmonic](data/sp8sU_h3.zip?raw=true "").
+### Using the Undulator model
 
-### Details for the actual data files:
-1. Generated using SPECTRA 11, using the Standard Spring-8 linear Undulator model, and standard beamline settings, i.e. as generic as possible. To get help about parameters, select the _Help_ menu, _Open Reference Manual_ item. The configuration file for this example is available as [spring8.json](data/spring8.json?raw=true ""). The opening screen look like this:
-![spectra main screen](images/spectra_main.png?raw=true "")
+The typical Undulator parameters for a SPring-8 insertion device are:
+```
+    E0=13, dE=1, Ee=8, dEe=0.001, Ie=0.1, 
+    K=1.03118, Nper=140, lu=3.2e-2, 
+    sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, 
+    dist=20, E1st=12.400
+```
 
-2. The type of calculation that McXtrace expects is:`Photon distribution at source point -> Wigner function -> Phase-space profile -> x-x' Plane (Projected)`, and correspondingly for the `x-y'` plane. These two file-sets may then be used to drive a source in McXtrace. Choose ADCII format. Then select the _Run_ menu, _Start calculation_ item.
-![spectra main screen](images/spectra_calculation_choice_x.png?raw=true "")
+1. Copy the initial SOLEIL Undulator model above, and use the SPring-8 parameters.
 
-3. Energy ranges may be generated automatically using the de-tuning parameter (e.g. 0). Right-click on 'Detunning', select 'Scan this parameter' with e.g. 
-- Initial	-0.4
-- Final	0.5
-- Number of points 11
+2. Perform a simulation using a large energy range, and look at the beam energy and spatial distribution, 20 m down-stream.
 
-Then select the _Run_ menu, _Start calculation_ item.
-
-The data files are generated both in JSON, and ASCII. 
-
-There are some limitations in this incarnation:
-
-1. The source in McXtrace is modelled as a point source.
-2. Only a single harmonic is included. Stitching could solve this.
-3. The projected planes may not be representative of the off-peak field. 
-
-### Set up a simulation of this.
-Download and unzip the files. In both cases the filename encodes the relevant energy interval:
-
-- 1st harmonic: Emin=7.44 keV Emax=15.8 keV
-- 3rd harmonic: Emin=37 Emax=58 keV
-
-Start a new simulation .instr file
-
-* Insert a Source_spectra. Set parameter values for <code>
-spectra_stem_x="sp8sU_h1_e7p44_18p6_x/sp8sU_h1_e7p44_18p6_x",
- spectra_stem_y="sp8sU_h1_e7p44_18p6_y/sp8sU_h1_e7p44_18p6_y",
- nE=11, Emin=7.44, Emax=18.6</code>  
- Also set **E0** and **dE** to something that fits within **Emin** and **Emax**
-* Insert monitors downstream of the source to monitor the source radiation. Catch the radiation on an energy resolved monitor and see what the peak looks like.
-
-The reason that you only see radiation in one quadrant is that the spectra datafiles (to save space) only contain data in this quadrant. By setting the parameters **symmetricx=1**, and **symmetricy=1**, the radiation field is mirrored in the ZX-, and ZY-planes respectively.
-
-* Try to move a point-like energy resolved detector around the radiation field. Does it behave as you think it should.
-* Insert a slit 5 m downstream of the source on the optical axis. This mimics the 1st order behaviour of front-end apertures. Scan the pinhole size to investigate the energy spectrum as a function of slit opening.  
-* It is apparent that these supplied data-files are far too coarsely sampled. For a really useful simulation it is necessary to create bigger datafiles, for instance such as [1st harmonic long](data/sp8sU_h1_3.zip?raw=true "").  
-
-Similarly, there is an interface with the [SIMPLEX](https://spectrax.org/simplex/index.html) and [GENESIS 1.3](http://genesis.web.psi.ch/index.html) codes for XFEL's.
-
-
-
-
-
-## Exercise: Use SRW-generated output to simulate a beamline.
+### Using MCPL files which store photon events
 
 We will now use a different utility to drive a McXtrace-simulation: MCPL. 
 
-[MCPL](https://mctools.github.io/mcpl/) is an interchange file format to communicate with e.g. GEANT4, PHITS, MCNP, and SRW.
+[MCPL](https://mctools.github.io/mcpl/) is an interchange file format to communicate with e.g. GEANT4, PHITS, MCNP, and SRW. The SOLEIL Optics group is developing the [OptiX](https://gitlab.synchrotron-soleil.fr/OPTIQUE/optical-simulation/pyoptix) code which generates MCPL as well.
 
-In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). The expert tool for this purpose, a C++-program `srw2mcpl` is in development status and based on SRWlib and MCPL. The tool makes repeated calls to SRW and generates rays from that, and is not in its current form in an end-user state. 
+In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). The expert tool for this purpose, a C++-program [`srw2mcpl`](https://github.com/McStasMcXtrace/srw2mcpl) is in development status and based on SRWlib and MCPL. The tool makes repeated calls to SRW and generates rays from that, and is not in its current form in an end-user state. 
 
 The method of calling SRW pr. ray is rather slow, so for this tutorial (to save time) we provide a pre-generated MCPL-file that you may use. We are working on solutions to make the program available to McXtrace users in an easy-to use form. 
 
 The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true ""). There is also a bigger version of this same file for better sampling [sp8stdUl.mcpl.gz](data/sp8stdUl.mcpl.gz?raw=true ""). But this obviously takes longer to download.
 
-* Use the McXtrace component **MCPL_input** to read rays from it and start them in a McXtrace simulation. 
-* Insert a downstream `PSD_monitor` and an `E_monitor` to catch the generated radiation. Leave some room (2 m or so) between the MCPL-file and the monitor. SRW considers the undulator centre its reference point and so rays may actually originate there. 
-* What was the fundamental energy of the 1st harmonic?
-* This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
-* Open your "old" instrument from before, and replace the source with the MCPL_input solution.
+1. Use the McXtrace component **MCPL_input** to read rays from it and start them in a McXtrace simulation. 
+2. Insert a downstream `PSD_monitor` and an `E_monitor` to catch the generated radiation. Leave some room (2 m or so) between the MCPL-file and the monitor. SRW considers the undulator centre its reference point and so rays may actually originate there. 
+3. What was the fundamental energy of the 1st harmonic?
+4. This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
+5. Compare with the pure McXtrace Undulator model above.
 
 
