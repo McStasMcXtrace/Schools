@@ -32,7 +32,7 @@ Using the ROTATED keyword, you may orient this geometry in any direction.
 
 The small-angle X-ray scattering beam-lines measure very small beam deviations around the incident direction, following the Bragg-law _n_&lambda; = 2 _d_ sin(&theta;) where the incident wavelength &lambda; is fixed and we can see that small angles &theta; corresponds with large typical scattering unit sizes _d_.
 
-<img src="https://www.researchgate.net/profile/Jingpeng-Li-2/publication/322112043/figure/fig1/AS:657582976954368@1533791407758/Schematic-diagram-of-the-incident-beam-of-SAXS.png">
+![SAXS](images/Schematic-diagram-of-the-incident-beam-of-SAXS.png)
 
 There is large variety of SAXS sample models. Most of them correspond with isotropic scattering units.
 
