@@ -1,6 +1,5 @@
 # Exercise 2. Kirkpatrick Baez (KB) mirrors
-The aim of this exercise is to replace CRL stack with a Kirkpatrick Baez focusing system in McXtrace. We will use two instances of a single curving mirror model: `Mirror_curved`, to focus
-the beam in the same manner as exercise 1, i.e. focus the beam at a pt 10 m
+The aim of this exercise is to replace CRL stack with a Kirkpatrick Baez focusing system in McXtrace. We will use two instances of a single curving mirror model: `Mirror_curved`, to focus the beam in the same manner as exercise 1, i.e. focus the beam at a pt 10 m
 downstream from the focusing system at 31.5 m downstream from the source.
 
 <img src="https://www.j-tec.co.jp/english/wp-content/themes/j-tec-corp/images/page/img_en_kb-mirror3.jpg">

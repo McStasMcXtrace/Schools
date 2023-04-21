@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Instrument: <instrument name>
+* Instrument: SOLEIL_LUCIA
 *
 * %I
 * Written by: Emmanuel FARHI <emmanuel.farhi@synchrotron-soleil.fr>
@@ -32,7 +32,6 @@ TRACE
 COMPONENT origin = Progress_bar()
 AT (0, 0, 0) RELATIVE ABSOLUTE
 
-// insert components here (e.g. Insert -> Source -> ...)
 COMPONENT HU52 = Undulator(
   E0     = E0,
   dE     = dE,
@@ -54,15 +53,14 @@ AT (0,0,5) RELATIVE PREVIOUS
 COMPONENT mon_div = COPY(PREVIOUS)(options="dx dy, all auto")
 AT (0,0,0) RELATIVE PREVIOUS
 
-COMPONENT mon_en_a  = COPY(PREVIOUS)(options="energy angle, all auto")
+COMPONENT mon_en_dx  = COPY(PREVIOUS)(options="dx energy, all auto")
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT mon_en_dy  = COPY(PREVIOUS)(options="energy dy, all auto")
 AT (0,0,0) RELATIVE PREVIOUS
 
 COMPONENT mon_en  = COPY(PREVIOUS)(options="energy, all auto")
 AT (0,0,0) RELATIVE PREVIOUS
 
-
-FINALLY
-%{
-%}
 
 END
