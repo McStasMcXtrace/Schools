@@ -178,7 +178,16 @@ AT(0,0,0) RELATIVE dcm_xtal1
 ROTATED (TTH,0,0) RELATIVE dcm_xtal1 
 ```
 
-We suggest that, to start with, you skip the CRL.
+We suggest that, to start with, you skip the CRL, but if you so wish, you may extract the relevant CRL description from [Test_CRL](https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/examples/Test_CRL_Be.instr). Adapt the number of lenses to get a focusing at about 1 m.
+``` c
+COMPONENT lens_parab = Lens_parab(
+    material_datafile = "Be.txt",
+    r=200e-6, 
+    r_ap=0.5e-3, 
+    d=50e-6, 
+    N=16)
+AT (0, 0, 1) RELATIVE PREVIOUS
+```
 
 Add a sample as above, and a detector (such as `Monitor_nD(options="x y", bins=2000)`).
 
