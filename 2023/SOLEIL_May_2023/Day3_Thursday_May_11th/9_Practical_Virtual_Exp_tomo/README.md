@@ -243,7 +243,17 @@ Lets start with the [`Airport_scannerII.instr`](http://mcxtrace.org/download/com
 
 
 
-### tomo/diffraction
+### SOLEIL PSICHE beam-line
+
+Layout:
+https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX
+
+
+- 15-100 keV Wiggler 2.1 T lu=50 mm  38 periods
+- primary mirror (c1/c2), ignored here
+- DCM Ge111, we use Si111 as it has been modelled previously
+- KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
+- sample area 16.8x5.9 mm2
 
 
 
