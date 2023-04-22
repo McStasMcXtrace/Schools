@@ -70,7 +70,7 @@ cif2hkl --xtal --mode XRA  --lambda 1.0 5000006.cif
 
 ## Exercise A: Powder diffraction (XRD)
 
-Many laboratories are equipped with e.g. rotating anode X-ray sources. Indeed, powder diffraction is an efficient yet simple technique for material structure characterisation. A diffractogram allows to determine the nature and arrangement of atoms in a material. It is a very robust technique.
+Many laboratories are equipped with e.g. rotating anode X-ray sources. Indeed, powder diffraction is an efficient yet simple technique for material structure characterisation. A diffractogram allows to determine the nature and arrangement of atoms in a material. It is a very robust technique. The data analysis is usually performed via a so-called Rietveld refinement, which from the diffractogram, provide the atom position and nature in the crystal unit cell (using e.g. GSAS, MAUD, FullProf, FoX/ObjCryst, etc).
 
 <img src="http://pd.chem.ucl.ac.uk/pdnn/diff2/cone.gif">
 

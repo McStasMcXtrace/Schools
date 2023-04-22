@@ -90,9 +90,15 @@ Now change the structure to a bcc-paracrystal, using the default parameter value
 
 ## Exercise B: Tomography
 
-In this practical session we shall simulate a very simple model of an absorption spectroscopy beam-line. We shall use a sample with an "any shape" complex volume, which we can rotate to simulate a sinogram. We shall also simulate a (very small) hyper-spectral data set.
+In this practical session we shall simulate a very simple model of a tomography beam-line. We shall use a sample with an "any shape" complex volume, which we can rotate to simulate a sinogram.
+
+Full field tomography is usually achieved by measuring the transmitted beam intensity across a sample on a PSD. Each image corresponds with a projection. The sample is rotated, and a set of images is acquired. Laboratory CT sources provide a cone beam, while synchrotron sources use a more parallel beam. It is also possible to perform tomography pixel-per-pixel with a narrow focused beam, still with sample rotation.
+
+The tomography reconstruction is performed by estimating the initial sample shape and internal structures from the multiple projections (e.g. with ASTRA, PyHST2, UFO, Nabu, etc).
 
 ### Heating up: Absorption data files
+
+Some of the 
 There is a dedicated documentation and tool to get absorption data files. 
 - [HOWTO: McXtrace absorption files (materials)](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-absorption-files-%28materials%29)
 
@@ -131,20 +137,6 @@ Lets start with the [`Airport_scannerII.instr`](http://mcxtrace.org/download/com
 :runner: To visualize the individual images, use Ctrl-click on the `psd2_I` monitor. 
 
 <img src="images/Airport_scanner-rotation.png">
-
-
-
-### SOLEIL PSICHE beam-line
-
-Layout:
-https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX
-
-
-- 15-100 keV Wiggler 2.1 T lu=50 mm  38 periods
-- primary mirror (c1/c2), ignored here
-- DCM Ge111, we use Si111 as it has been modelled previously
-- KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
-- sample area 16.8x5.9 mm2
 
 
 

@@ -26,10 +26,12 @@ The structure of a beam line should have:
 
 Of course, your model will hardly compile initially. Read the compilation output to decode the cryptic messages and identify where errors could be. An other strategy is to comment (use `/* ... */`) most of the components and leave only the source. Then compile and iteratively un-comment components one-by-one with intermediate compilation checks.
 
+---
+
 ## SOLEIL beam-lines
 
 
-### LUCIA Fluorescence
+### SOLEIL LUCIA Fluorescence
 
 A simpflified LUCIA model would require to add:
 
@@ -42,7 +44,7 @@ A simpflified LUCIA model would require to add:
 
 ![LUCIA layout](https://www.synchrotron-soleil.fr/sites/default/files/resize/lignes_de_lumieres/lucia/lucia_short-800x373.jpg)
 
-### DIFFABS diffraction/absorption
+### SOLEIL DIFFABS diffraction/absorption
 
 The [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) beam-line at SOLEIL is illuminated with a Bender, such as the one discussed in session 4 "Sources".
 
@@ -62,7 +64,21 @@ So, in order to assemble a DIFFABS model, we may quickly set-up:
 - a set of detectors (transmission, XRD and XRF)
 
 
-### SWING SAXS
+### SOLEIL PSICHE beam-line tomography/diffraction
+
+Layout:
+https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX
+
+
+- 15-100 keV Wiggler 2.1 T lu=50 mm  38 periods
+- primary mirror (c1/c2), ignored here
+- DCM Ge111, we use Si111 as it has been modelled previously
+- KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
+- sample area 16.8x5.9 mm2
+- a set of detectors (transmission, diffraction, fluo)
+
+
+### SOLEIL SWING SAXS
 
 The [SWING](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/swing) beam-line is using a U20 undulator between. 
 The BL layout is available [here](images/SWING.pdf).
