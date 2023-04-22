@@ -23,7 +23,7 @@ In order to model the SOLEIL photon sources, we first need to refer to the stora
 
 - [https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source](https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source)
 
-Then we may for instance look at the LUCIA beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA, and 0.35-2.5 keV on DEIMOS. 
+Then we may for instance look at the [LUCIA](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/lucia) beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA, and 0.35-2.5 keV on DEIMOS. 
 
 
 HU52 parameter | symbol/unit | value
@@ -66,6 +66,16 @@ Undulator(
 2. Insert monitors **20 m** downstream: for instance one PSD "x y", one energy-resolved monitor, one divergence monitor "dx dy". Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range. By using the `Monitor_nD`, you may add the "all auto" option to automatically adapt the monitor bounds to catch all photons. You should get results such as ![HU52](images/mcplot_1.png?raw=true "")
 
 3. Repeat the simulation with the expected SOLEIL-II Upgrade storage ring. Compare results in photon beam size and divergence.
+
+An simflified yet more advanced LUCIA model would require to add:
+
+- two mirrors that act as low pass filter (theta=0.4-1.3 deg), that can be ignored if we restrict the undulator bandwidth
+- a DCM (Si111, theta=5-75 deg)
+- a KB mirror set
+- a sample stage with a Fluorescence component
+- a set of detectors (e.g. XRF)
+
+![LUCIA layout](https://www.synchrotron-soleil.fr/sites/default/files/resize/lignes_de_lumieres/lucia/lucia_short-800x373.jpg)
  
 
 References:

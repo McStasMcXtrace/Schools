@@ -1,6 +1,6 @@
 # McXtrace training: samples and virtual experiments: spectroscopy
 
-In this session we propose to model some spectroscopy models:
+In this session we propose to use some spectroscopy sample models:
 
 - Absorption (using Filter, Absorption_sample, and Fluorescence components)
 - Fluorescence
