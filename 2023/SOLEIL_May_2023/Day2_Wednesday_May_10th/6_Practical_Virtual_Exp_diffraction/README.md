@@ -178,25 +178,6 @@ mxplot <output_dir>
 - Why do you see steps vs energy ?
 - Use Ctrl-click on the detector to see its response vs Energy. Does it properly explain these steps ?
 
-#### Step A.4: (optional) simplified DIFFABS model
-
-The [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) beam-line at SOLEIL is illuminated with a Bender, such as the one discussed in session 4 "Sources".
-
-``` c
-Bending_magnet(
-   E0 = 20, dE = 19, Ee = 2.75,
-   Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
-```
-
-So, in order to assemble a DIFFABS model, we may quickly set-up:
-- the Bender above in range 3-23 keV
-- two bent mirrors as low-pass filters, can be ignored if we restrict the Bender bandwidth
-- a Si111 DCM. See the practical 5 "Optics"
-- a KB mirror set. See the practical 5 "Optics"
-- a Fresnel zone plate (optional, we ignore it here)
-- a sample stage with e.g. Fluorescence and/or PowderN components
-- a set of detectors (transmission, XRD and XRF)
-
 ---
 
 ## Exercise B: Macromolecular crystallography (MX)
