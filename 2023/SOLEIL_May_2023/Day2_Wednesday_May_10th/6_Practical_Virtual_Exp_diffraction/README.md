@@ -140,7 +140,7 @@ You may as well simulate the scattering from the default LaB<sub>6</sub> sample.
 
 #### Step A.2: use a component from the neutron world
 
-Get the component [PSD_monitor_rad](https://mcstas.org/download/components/3.2/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included. It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
+Get the component [PSD_monitor_rad](https://mcstas.org/download/components/3.2/contrib/PSD_monitor_rad.comp) (for McXtrace 3.x) which is a PSD with a radial integration included (for McXtrace 1.7, use [that one](https://mcstas.org/download/components/2.7.2/contrib/PSD_monitor_rad.comp)). It originates from the McStas neutron-ray equivalent of McXtrace. To use it we need a few modifications.
 
 Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g. gedit. 
 
@@ -158,7 +158,7 @@ Edit the `PSD_monitor_rad.comp` component with a text editor of your choice, e.g
 
 #### Step A.3: perform an energy scan
 
-It is rather simple to vary a model parameter. For this, specify an energy range `min,max`, and a number of *Sweep steps* (in the Run dialogue) or `-N` argument on the command line.
+It is rather simple to vary a model parameter. For this, specify an energy `E0` range `min,max`, and a number of *Sweep steps* (in the Run dialogue) or `-N` argument on the command line.
 
 In our case, we shall vary the incident energy `E0` from 3 to 8 keV, with the iron sample (`Fe.lau`).
 

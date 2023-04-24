@@ -63,7 +63,7 @@ Undulator(
 
 1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator. X is left-wise, Y is vertical, Z is forward. Use the typical HU52 Undulator component parameters for LUCIA or DEIMOS undulators.
 
-2. Insert monitors **20 m** downstream: for instance one PSD "x y", one energy-resolved monitor, one divergence monitor "dx dy". Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range. By using the `Monitor_nD`, you may add the "all auto" option to automatically adapt the monitor bounds to catch all photons. You should get results such as ![HU52](images/mcplot_1.png?raw=true "")
+2. Insert monitors **20 m** downstream: for instance one PSD "x y", one energy-resolved monitor, one divergence monitor "dx dy". Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range. By using the `Monitor_nD`, you may add the "all auto" option to automatically adapt the monitor bounds to catch all photons. The corresponding code for the PSD could be `Monitor_nD(xwidth=0.1, yheight=0.1, bins=512, options="x y, all auto")` or the `PSD_monitor` component. You should get results such as ![HU52](images/mcplot_1.png?raw=true "")
 
 3. Repeat the simulation with the expected SOLEIL-II Upgrade storage ring. Compare results in photon beam size and divergence.
  
