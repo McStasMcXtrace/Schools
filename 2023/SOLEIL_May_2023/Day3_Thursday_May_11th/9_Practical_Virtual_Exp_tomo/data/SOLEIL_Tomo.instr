@@ -1,0 +1,71 @@
+/*******************************************************************************
+* Instrument: <instrument name>
+*
+* %I
+* Written by: <your name (email)>
+* Date: <current date>
+* Origin: <your institution>
+* Version: <instrument version>
+* %INSTRUMENT_SITE: Templates
+*
+* <instrument short description>
+*
+* %D
+* <instrument description>
+*
+* Example: <parameters=values>
+*
+* %P
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
+* 
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT SOLEIL_Tomo(E0=11, dE=1, theta=0)
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+COMPONENT source = Bending_magnet(
+   E0 = E0, dE = dE, Ee = 2.75,
+   Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
+AT (0,0,0) RELATIVE origin
+
+COMPONENT mon_src_e = Monitor_nD(
+    xwidth=0.1, 
+    yheight=0.1, 
+    options="energy, auto", bins=256)
+AT (0, 0, 10) RELATIVE PREVIOUS
+
+COMPONENT mon_src_xy = COPY(mon_src_e)(options="x y, all auto")
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT slit = Slit(xwidth=10e-3, yheight=10e-3)
+AT (0, 0, 20) RELATIVE PREVIOUS
+
+COMPONENT mon_slit_xy = COPY(mon_src_xy)
+AT (0, 0, 0) RELATIVE PREVIOUS
+
+COMPONENT sample_stage = Arm()
+AT (0, 0, 0.5) RELATIVE PREVIOUS
+
+COMPONENT sample = Fluorescence(xwidth=3e-3, yheight=3e-3, zdepth=0.5e-3,
+  material="GeGaZnCu", geometry="wire.ply")
+AT (0,0,0) RELATIVE PREVIOUS
+ROTATED (0,0,theta) RELATIVE PREVIOUS
+
+COMPONENT det = Monitor_nD(xwidth=3e-3, yheight=3e-3,
+  options="x y", bins=512)
+AT (0,0,10e-2) RELATIVE sample_stage
+
+COMPONENT fluo = COPY(det)(options="energy, all auto")
+AT (0,0,0) RELATIVE sample_stage
+ROTATED (0,45,0) RELATIVE sample_stage
+
+
+END
