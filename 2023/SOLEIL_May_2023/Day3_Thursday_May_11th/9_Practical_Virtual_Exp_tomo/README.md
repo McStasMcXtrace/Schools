@@ -103,14 +103,14 @@ There are curently four sample models that take into account the material absorp
 - [Filter](http://www.mcxtrace.org/download/components/3.1/optics/Filter.html) which can handle absorption and refraction, as a block or any OFF/PLY geometry.
 - [Fluorescence](http://www.mcxtrace.org/download/components/3.1/samples/Fluorescence.html) which can handle absorption, fluorescence, Compton and Rayleigh scattering, as a block, sohere, cylinder or any OFF/PLY geometry.
 
-The `Fluorescence` component is the most versatile. It takes as input argument a chemical formulae to describe materials, but is usually slower by e.g. an order of magnitude compared to the others. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'abosprtion' data files which must be prepared before.
+The `Fluorescence` component is the most versatile. It takes as input argument a chemical formulae to describe materials. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'absroption' data files which must be prepared before.
 
 There is a dedicated documentation and tool to get absorption data files. 
 - [HOWTO: McXtrace absorption files (materials)](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-absorption-files-%28materials%29)
 
 Usual materials are already available in the [data](http://mcxtrace.org/download/components/3.1/data/) directory.
 
-:warning: These abssorption data files only store monoatomic elements.
+:warning: These absorption data files only handle monoatomic elements.
 
 ### A simple absorption/tomography station
 
@@ -122,11 +122,13 @@ A typical beam-line should look like:
 - a rotating stage carrying a sample
 - a detector
 
+![Sample stage](https://www.aerotech.com/wp-content/uploads/2022/02/Precision-Motion-Control-for-Sample-Manipulation-1.png)
+
 This procedure is iterative. To make sure everything keep under control, we suggest that you compile the model after each step (menu _Simulation_, _Compile instrument_ item).
 
 1. Start a new beam-line, and set its input parameters as `E0`, `dE`, and `theta`. For instance `DEFINE INSTRUMENT SOLEIL_Tomo(E0=11, dE=1, theta=0)`
 
-2. Insert a `Bending_magnet` component, as the one seen in session 4 "Sources". We use the input arguments `E0` and `dE` to be able to change/scan the energy range. Indeed, for this exercise, we shall not use any monochromator.
+2. Insert a `Bending_magnet` component, as the one seen in session 4 "Sources". We use the input arguments `E0` and `dE` to be able to change/scan the energy range. Indeed, for this exercise, we shall not use any monochromator. In the real world, one may use a Wiggler/Undulator as source, and a double monochromator setting.
 ``` c
 Bending_magnet(
    E0 = E0, dE = dE, Ee = 2.75,
@@ -143,18 +145,15 @@ Bending_magnet(
 
 7. Add a PSD detector at e.g. 10 cm after the sample, relative to the sample holder so that it does not also rotate with `theta`. Add as well an energy monitor (to catch the fluorescence), rotated by 45 deg wrt the incoming position.
 
-:runner: Start a computation with 10e6 photon events, better with MPI (recompile). Plot it.
+:runner: Start a computation of the tomogram with 10e6 photon events, better with MPI (recompile). Plot it.
 
 ![SOLEIL_Tomo](images/SOLEIL_Tomo.png)
 
-### tomogram
+### Sample rotation: simulate a sinogram
  
 :runner: Now, do a rotation of the sample around the vertical axis with `theta=0,180` in 10 steps. Use 1e6 photon events, and MPI. Computation should last e.g. ~15 minutes (with 4 cores). Plot the results.
 
 :runner: To visualize the individual images, use Ctrl-click on the `psd2_I` monitor. 
-
-
-
 
 ----
 
