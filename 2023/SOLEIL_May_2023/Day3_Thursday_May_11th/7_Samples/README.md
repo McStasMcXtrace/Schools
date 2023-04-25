@@ -109,9 +109,11 @@ Every component that "does something" sets the `SCATTERED` flag. 0 means nothing
 
 So, a simple way to "remove" the non-interacting beam is to use:
 ``` c
-if (!SCATTERED) ABSORB;
+EXTEND %{
+  if (!SCATTERED) ABSORB;
+%}
 ```
-which is a perfect beam-stop for samples, only leaving the "scattering" part.
+which is a perfect beam-stop for samples, only leaving the "scattered" part.
 
-But you may perform more complex filtering based on the SCATTERED flag, or any internal component variable. You will find implementations in the `examples` (Docs).
+But you may perform more complex filtering based on the SCATTERED flag, or any other variable, best in conjunction with `WHEN`. You will find implementations in the `examples` (Docs).
 
