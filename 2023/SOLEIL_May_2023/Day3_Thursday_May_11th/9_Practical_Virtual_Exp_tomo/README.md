@@ -103,7 +103,7 @@ There are curently four sample models that take into account the material absorp
 - [Filter](http://www.mcxtrace.org/download/components/3.1/optics/Filter.html) which can handle absorption and refraction, as a block or any OFF/PLY geometry.
 - [Fluorescence](http://www.mcxtrace.org/download/components/3.1/samples/Fluorescence.html) which can handle absorption, fluorescence, Compton and Rayleigh scattering, as a block, sohere, cylinder or any OFF/PLY geometry.
 
-The `Fluorescence` component is the most versatile. It takes as input argument a chemical formulae to describe materials. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'absroption' data files which must be prepared before.
+The `Fluorescence` component is the most versatile. It takes as input argument a chemical formulae to describe materials. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'absorption' data files which must be prepared before.
 
 There is a dedicated documentation and tool to get absorption data files. 
 - [HOWTO: McXtrace absorption files (materials)](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-absorption-files-%28materials%29)
@@ -141,7 +141,7 @@ Bending_magnet(
 
 5. Insert an `Arm` component, as sample holder, at 0.5 m from the slit.
 
-6. Add a `Fluorescence` sample on that `Arm`, and rotate it by `theta` along its vertical axis `Y` in order to be able to perform a tomography scan. Define its `material` as e.g. `GeGaZnCu` to get many close fluorescence lines. Use a simple sample plate, e.g. 3x3x0.5 mm3. You may as well use the `geometry="wire.ply"` to get a complex geometry.
+6. Add a `Fluorescence` sample on that `Arm`, and rotate it by `theta` along its vertical axis `Y` in order to be able to perform a tomography scan. Define its `material` as e.g. `GeGaZnCu` to get many close fluorescence lines. Use a simple sample plate, e.g. 3x3x0.5 mm3. You may as well define the `geometry="wire.ply"` to get a complex geometry inserted inside the plate.
 
 7. Add a PSD detector at e.g. 10 cm after the sample, relative to the sample holder so that it does not also rotate with `theta`. Add as well an energy monitor (to catch the fluorescence), rotated by 45 deg wrt the incoming position.
 

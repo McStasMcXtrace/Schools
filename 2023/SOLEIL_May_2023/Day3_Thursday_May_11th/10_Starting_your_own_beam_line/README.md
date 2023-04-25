@@ -67,10 +67,9 @@ So, in order to assemble a DIFFABS model, we may quickly set-up:
 ### SOLEIL PSICHE beam-line tomography/diffraction
 
 Layout:
-https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX
+![PSICHE](https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX)
 
-
-- 15-100 keV Wiggler 2.1 T lu=50 mm  38 periods
+- 15-100 keV Wiggler 2.1 T lu=50 mm 38 periods, for instance `Wiggler(E0 = e0, dE = de, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.5, B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-2)` (K=10)
 - primary mirror (c1/c2), ignored here
 - DCM Ge111, we use Si111 as it has been modelled previously
 - KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
