@@ -2,7 +2,7 @@
 
 In this session we shall simulate the output of simple models for:
 - Small Angle X-ray Scattering (SAXS)
-- Tomography (which is based on absorption), and diffraction
+- Tomography (which is based on absorption)
 
 ## Table of Contents
 1. [Exercise A: Small angle scattering (SAXS)](#exercise-a-small-angle-scattering-saxs)
@@ -94,7 +94,7 @@ Moreover, some samples support a `concentric` mode, which allows to insert a com
 
 Using the ROTATED keyword, you may orient this geometry in any direction.
 
-## Heating up: Absorption data files
+## Warming up: Absorption data files
 
 There are currently four sample models that take into account the material absorption. Only the XAS edge is currently handled (no EXFAS, nor XANES structure).
 
@@ -155,11 +155,13 @@ To handle the material absorption, add a `Fluorescence` sample on that `Arm`, an
 
 ![PSICHE tomogram](images/SOLEIL_PSICHE_tomogram.png)
 
+You can clearly see that the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and appear as a 'background'.
+
 ### Sample rotation: simulate a sinogram
  
-:runner: Now, do a rotation of the sample around the vertical axis with `theta=0,180` in 10 steps. Use 1e5 photon events, and MPI. Plot the results.
+:runner: Now, do a rotation of the sample around the vertical axis with `sample_theta=0,180` in 10 steps. Use 1e5 photon events, and MPI. Plot the results.
 
-:runner: To visualize the individual images, use Ctrl-click on the `psd2_I` monitor. 
+:runner: To visualize the individual images, use Ctrl-click on the `mon_spl_xy` monitor. 
 
 ### The PSICHE double curved monochromator (optional)
 
@@ -190,6 +192,7 @@ ROTATED (dcm_theta,0,0)  RELATIVE PREVIOUS
 ```
 
 :warning: Make sure the final slit and sample area is now 0.5 m away from the 2nd monochromator.
+
 An energy and PSD monitor should be located 50 cm downstream. 
 
 :runner: Run the simulation and observe through the monitors the reduced energy range and beam shape. 
@@ -199,6 +202,10 @@ An energy and PSD monitor should be located 50 cm downstream.
 To get better statistics, you may limit the energy range `dE` at the Wiggler to match about 1%. This will drastically improve the model efficiency.
 
 If you wish the DCM to be removable, as in the PSICHE beam-line, define a `DCM_present=0` input argument in the `DEFINE` line at the start. Then add a `WHEN (DCM_present)` right before the `AT` statements for the `dcm_xtal0` and `dcm_xtal1` components. By setting `DCM_present=0` these crystals will be made inactive, and in the beam otherwise.
+
+### Going further
+
+In order to get closer from the real PSICHE beam-line, one could stack a powder or single crystal diffraction sample on top of the absorption/fluorescence one, and more detectors. This could also be done as a second experimental sample stage.
 
 ----
 
