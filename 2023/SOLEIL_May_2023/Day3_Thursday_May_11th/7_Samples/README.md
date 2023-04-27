@@ -16,26 +16,28 @@ In the future we plan to add:
 
 ## Using "any-shape" geometry
 
-As already discussed for the diffraction and tomography samples, some components support the "any shape" geometry. The component usually takes a `geometry=file` argument, for wich the `file` contains vertices and polygons stored into a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html). These files can be generated from e.g MeshLab.
+As already discussed for the diffraction and tomography samples, some components support the "any shape" geometry. The component usually takes a `geometry=file` argument, for wich the `file` contains vertices and polygons stored into a [PLY](http://en.wikipedia.org/wiki/PLY_%28file_format%29)/[OFF](http://www.geomview.org/docs/html/OFF.html). These files can be generated from e.g `MeshLab` or other geometry editors/modellers to create such files (rather simple text format, see `powercrust` and `qhull`).
 
 The following components currently support the OFF/PLY any-shape:
 
-- `PowderN` powder diffraction
-- `Single_crystal` single crystal diffraction
-- `Filter` absorption
-- `Abs_objects` absorption
-- `Absorption_sample` absorption
-- `Fluorescence` absorption, fluorescence, Compton, Rayleigh
-- `Isotropic_Sqw` inelastic Thomson (IXS)
-- `Shape` empty shape just for rendering in 3D
-- `Monitor_Sqw` an inelastic scattering monitor
-- `Monitor_nD` multi-purpose monitor
+Component           | Application
+--------------------|-----------------
+`PowderN`           | powder diffraction
+`Single_crystal`    | single crystal diffraction
+`Filter`            | absorption
+`Abs_objects`       | absorption
+`Absorption_sample` | absorption
+`Fluorescence`      | absorption, fluorescence, Compton, Rayleigh
+`Isotropic_Sqw`     | inelastic Thomson (IXS)
+`Shape`             | empty shape just for rendering in 3D
+`Monitor_Sqw`       | an inelastic scattering monitor
+`Monitor_nD`        | multi-purpose monitor
 
 and we provide some example OFF/PLY in the 'data' directory from the "Docs".
 
 ## Combining samples
 
-Some components allow to model hollow shapes:
+Some components allow to model hollow (and concentric) shapes:
 
 - `PowderN` powder diffraction
 - `Fluorescence` absorption, fluorescence, Compton, Rayleigh
@@ -48,6 +50,24 @@ as well as multiple shapes/materials:
 - `Polycrystal` a map of crystal orientations
 
 ## Using the grammar for multiple samples/processes
+
+
+#### Concentricity
+
+As listed above, some components allow to define an external material, with the ability to insert something else inside using the `concentric=1` argument. The syntax is rather simple, and requires to 'symmetrise' the layout, for instance here we stack a container with powder diffraction, and a fluorescence/absorption process 'inside'. In order for the external shield not to "catch" all events, we limit its statistical weight (here to 10%).
+
+``` c
+COMPONENT container_in  = PowderN(concentric = 1, p_interact=0.1, ...)
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT sample        = Fluorescence(...)
+AT (0,0,0) RELATIVE PREVIOUS
+
+COMPONENT container_out = COPY(capillary_in)(concentric = 0)
+AT (0,0,0) RELATIVE PREVIOUS
+```
+
+The advantage of this layout is that both scattering process intensities (and interaction path length) are properly computed. Here, the inner Fluorescence sample may use an any-shape geometry, but the outer component must be of simple shape (box, sphere, cylinder). You may stack many such shields wrt the central component.
 
 #### WHEN 
 
