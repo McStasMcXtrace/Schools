@@ -6,13 +6,14 @@ We will be using an Si(111) monochromator as an example.
 <img src="http://pd.chem.ucl.ac.uk/pdnn/inst2/singleb.gif">
 
 ## 1. Insert the monochromator.
-McXtrace now includes several different (but similar) monochromator models. We will start out with a simple Bragg -crystal monochromator.
+McXtrace includes several different (but similar) monochromator models. We will start out with a simple Bragg-crystal monochromator.
 Start either with a completely new instrument file - or continue with (a copy of) the earlier instrument with the focusing optics.
 Insert a `Bragg_crystal` (from optics), make sure that it is big enough to accept the beam. Otherwise you can accept the default values to insert a Si-crystal and use its \<hkl\>=111 reflection.
 
 As we did for the mirrors in the previous exercise the crystal needs to be ROTATED to match the desired energy. Using Bragg's law *n&lambda;=2d sin(&theta;)* (and &lambda; = 12.39842 / E) we may find the angle we need. Some hints:
+
 - It is useful to define the rotation angle &theta; as an input parameter. This will enable us to do rocking curve scans.
-- The crystal unit cell side length is 5.4309 Å
+- The crystal unit cell side length is DM=5.4309 Å and we use the (111) reflection, so that _d=DM/sqrt(3)_.
 - Make sure that the source you are using does sample the energy your crystal picks out.
 - To improve the computation efficiency, you may restrict the energy range around the nominal value.
 
@@ -26,13 +27,13 @@ Try to perform a rocking curve of the monochromator to verify that the peak-shap
 Introduce a radius of curvature of 20 m to the crystal.
 This is a simple way of modelling a heat-bump on the crystal.
 
-1. To measure the introduced extra divergence we shall of course need a measure of the divergence for a flat monochromator. Therefore insert a ```Divergence_monitor``` downstream of the monochromator. Make sure it is large enough to measure the full beam. Set either ```nv=1``` or ```nh=1``` to target 1D horizontal and vertical divergence monitors respectively. Run a simulation to get a baseline measure of the divergence. 
+1. To measure the introduced extra divergence we shall of course need a measure of the divergence for a flat monochromator. Therefore insert a `Divergence_monitor` downstream of the monochromator. Make sure it is large enough to measure the full beam. Set either `nv=1` or `nh=1` to target 1D horizontal and vertical divergence monitors respectively. Run a simulation to get a baseline measure of the divergence. 
  
-2. Replace the ```Bragg_crystal monochromator``` with a ```Bragg_crystal_bent``` instance. The model is built to accommodate curvature of the crystal hull as well as the underlying crystal planes. These do not necessarily have to be the same, but for simplicity we will in the following assume that they are. Insert sensible values for `y_b`, `z_c`, `lattice_y_b`, `lattice_z_c` for your monochromator, and verify that the divergence changes.
+2. Replace the `Bragg_crystal monochromator` with a `Bragg_crystal_bent` instance. The model is built to accommodate curvature of the crystal hull as well as the underlying crystal planes. These do not necessarily have to be the same, but for simplicity we will in the following assume that they are. Insert sensible values for `y_b`, `z_c`, `lattice_y_b`, `lattice_z_c` for your monochromator, and verify that the divergence changes.
 3. Perform a rocking curve also of the bent monochromator, and check that the peak shape changes.
 
 4. Do a few simulations at various radii of curvature
-:bulb: Hint: it may be clever to define the radius as an input parameter that can be scanned. Now - let's try to plot the divergence profiles in the same plot. The data recorded by McXtrace monitors is stored as flat ascii files, where header lines are marked as comments beginning with a '#'. Using your regular plotting tool (be it matlab, gnuplot or similar), plot the divergence in the same figure:  
+:bulb: Hint: it may be clever to define the radius as an input parameter that can be scanned. Now - let's try to plot the divergence profiles in the same plot. The data recorded by McXtrace monitors is stored as flat ascii files, where header lines are marked as comments beginning with a '#'. Using your regular plotting tool (be it matlab, gnuplot or similar), plot the divergence in the same figure.
 If you did a scan plotting could be something like (with gnuplot):
 ```gnuplot
 plot 'my_instrument_20191203_0123/0/divergence_monitor.dat' u 1:2 w lp
@@ -65,8 +66,10 @@ We may note a few things:
 
 ## Now switch the DCM to become a Laue-monochromator.
 Change the Bragg-monochromator (reflection) into a Laue (transmission). This is a rather simple matter of replacing the crystal components with the contributed COMPONENT Laue_crystal_BC.
-1. Insert at Laue_crystal_BC at the site of the first monochromator
-2. The default orientation of the Laue crystal is the same as for the Bragg crystals. This means that to have the beam traverse the smallest dimension we have to ROTATE it an extra 90 deg, as ```ROTATE (-90 -MONO_ANGLE,0,0) RELATIVE PREVIOUS```
+
+1. Insert a `Laue_crystal_BC` at the site of the first monochromator
+2. The default orientation of the Laue crystal is the same as for the Bragg crystals. This means that to have the beam traverse the smallest dimension we have to ROTATE it an extra 90 deg, as `ROTATE (-90 -MONO_ANGLE,0,0) RELATIVE PREVIOUS`
 3. As always add an extra Arm to point the z-axis along the beam. :bulb: Hint: this needs to also "undo" the extra 90 deg. Verify that your monchromator works.
-4. Add a second crystal to make a double Laue monochromator. Work about how to align this using ROTATED. As do the other models - the Laue model only considers a single reflection (the 111 in this case). This means we have to either realign the inner crystal coordinate system or ROTATE the entire crystal 180 deg. In the first case this may be done using the parameter ```alphaz=-1``` (the default is to have set to 1)
+4. Add a second crystal to make a double Laue monochromator. Work about how to align this using ROTATED. As do the other models - the Laue model only considers a single reflection (the 111 in this case). This means we have to either realign the inner crystal coordinate system or ROTATE the entire crystal 180 deg. In the first case this may be done using the parameter `alphaz=-1` (the default is to have set to 1)
 5. Verify that your beamline looks as you want it to look like with a visual trace.
+
