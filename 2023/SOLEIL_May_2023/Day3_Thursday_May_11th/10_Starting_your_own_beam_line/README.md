@@ -63,24 +63,36 @@ So, in order to assemble a DIFFABS model, we may quickly set-up:
 - a sample stage with e.g. Fluorescence and/or PowderN components
 - a set of detectors (transmission, XRD and XRF)
 
+![SOLEIL_DIFFABS](images/SOLEIL_DIFFABS.png)
+
+Reference: 
+
+- Gallard, Thèse, (2019) ["Etude in situ de la cristallisation et des contraintes dans des nanostructures de GeTe par diffraction du rayonnement X synchrotron"](https://www.theses.fr/2019AIXM0037.pdf)
 
 ### SOLEIL PSICHE beam-line tomography/diffraction
 
-Layout:
-![PSICHE](https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX)
+Layout: [PSICHE motors](https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX)
 
-- 15-100 keV Wiggler 2.1 T lu=50 mm 38 periods, for instance `Wiggler(E0 = e0, dE = de, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.5, B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-2)` (K=10)
+- 15-100 keV Wiggler 2.1 T lu=50 mm 38 periods, for instance `Wiggler(E0 = e0, dE = de, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.5, B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-3)` (K=10)
 - primary mirror (c1/c2), ignored here
-- DCM Ge111, we use Si111 as it has been modelled previously
+- at 17.5 m, DCM Ge111, we use Si111 as it has been modelled previously
 - KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
-- sample area 16.8x5.9 mm2
+- at 21 m, sample area 16.8x5.9 mm2
 - a set of detectors (transmission, diffraction, fluo)
+
+References:
+
+- https://www.synchrotron-soleil.fr/en/beamlines/psiche
+- A. King et al, Rev Sci Instrum 87, 093704 (2016), DOI: 10.1063/1.4961365
+- E. Boulard et al, J Sync rad 2018 25, 818, DOI: 10.1107/S1600577518004861
+- Guignot et al 2013, https://ui.adsabs.harvard.edu/abs/2013AGUFMMR31A2287G/abstract
 
 
 ### SOLEIL SWING SAXS
 
 The [SWING](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/swing) beam-line is using a U20 undulator between. 
-The BL layout is available [here](images/SWING.pdf).
+
+![SWING layout](https://github.com/McStasMcXtrace/Schools/blob/master/2023/SOLEIL_May_2023/Day3_Thursday_May_11th/9_Practical_Virtual_Exp_tomo/images/SWING.png).
 
 The optics are basically:
 
