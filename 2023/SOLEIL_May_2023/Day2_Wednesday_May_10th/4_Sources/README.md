@@ -23,7 +23,7 @@ In order to model the SOLEIL photon sources, we first need to refer to the stora
 
 - [https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source](https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source)
 
-Then we may for instance look at the [LUCIA](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/lucia) beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA, and 0.35-2.5 keV on DEIMOS. 
+Then we may for instance look at the [LUCIA](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/lucia) beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA. 
 
 
 HU52 parameter | symbol/unit | value
@@ -39,10 +39,10 @@ Function beta vertical|	beta_z ( m)	|1.4
 emittance horizontale | ex (pm.rad)	|82.0
 betatron	coupling | % | 30.0
 emittance vertical |	ez (pm.rad)	|24.6
-dimension RMS horizontal|	sigma_x (µm)	|188(current)/10.7(upgrade)
-dimension RMS vertical	|sigma_z (µm)	|8.2(current)/5.9	
-divergence RMS horizontal	|sigma_x' (µrad)	|25.2(current)/7.7(upgrade)
-divergence RMS vertical	|sigma_z' (µrad)|	6(current)/4.2(upgrade)
+dimension RMS horizontal|	sigma_x (µm)	|218.2(current) / 10.7(upgrade)
+dimension RMS vertical	|sigma_z (µm)	|8.2(current) / 5.9(upgrade)
+divergence RMS horizontal	|sigma_x' (µrad)	|30(current) / 7.7(upgrade)
+divergence RMS vertical	|sigma_z' (µrad)|	3.7(current) / 4.2(upgrade)
 
 The corresponding HU52 Undulator component parameters are then:
 ``` c
@@ -55,10 +55,10 @@ Undulator(
   B      = 0.42, // for a 15.5 mm gap
   Nper   = 32,
   lu     = 52.4e-3,
-  sigex  = 188e-6,
+  sigex  = 218.2e-6,
   sigey  = 8.2e-6,
-  sigepx = 25.5e-6,
-  sigepy = 6e-6) 
+  sigepx = 30e-6,
+  sigepy = 3.7e-6) 
 ```
 
 1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator. X is left-wise, Y is vertical, Z is forward. Use the typical HU52 Undulator component parameters for LUCIA or DEIMOS undulators.
@@ -75,18 +75,21 @@ References:
 - T. Moreno et al., [Proceedings Volume 8141, Advances in Computational Methods for X-Ray Optics II; 81410H (2011) DOI: 10.1117/12.893778](https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations)
 - M.E. Couperie 2013, [https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf](https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf)
 
+## Exercise: using the native McXtrace Wiggler model for SOLEIL photon sources
+
+We may replace the Undulator by a Wiggler, which is an Undulator for which K >> 1 i.e. `lu*B` is large. 
+
+The PSICHE Wiggler at SOLEIL is built with 41 magnetic elements of period 50 mm each, and a field of 2.1 T. The electron beam cross-section at the centre is 333x5.9 µm^2, a 500 mA current at 2.75 GeV.
+
+1. Create a copy of the above model, and change the photon source for a Wiggler feeding the PSICHE beam-line (E0=15-100 keV).
+
+2. Update the e-beam parameters for the SOLEIL-II storage ring. Compare results in photon beam size and divergence.
+
 ## Exercise: Using the native McXtrace Bender model for SOLEIL photon sources
 
-Let's now model a Bender at SOLEIL. For this we use the `Bending_magnet` component. Looking at its documentation, you will find that a typical use at SOLEIL is (for the ROCK bender):
+Let's now model a Bender at SOLEIL. For this we use the `Bending_magnet` component. Replace the above source by a `Bending_magnet` with a 1.72 T field, a 500 mA electron current at 2.75 GeV (for the ROCK@SOLEIL bender). The beam size at ROCK is 54.9 µm x 20.2 µm.
 
-``` c
-Bending_magnet(
-   E0 = 20, dE = 19, Ee = 2.75,
-   Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
-```
-where we refer to the 'medium straight section' e-beam cross-section.
-
-1. Create a copy of the above model, and change the Undulator for a Bending_magnet feeding the ROCK beam-line (E0=4.5-40 keV).
+1. Create a copy of the above model, and change the photon source for a Bending_magnet feeding the ROCK beam-line (E0=4.5-40 keV).
 
 2. Update the e-beam parameters for the SOLEIL-II storage ring. Compare results in photon beam size and divergence.
 

@@ -134,8 +134,8 @@ The PSICHE nominal energy range is 15-100 keV in the white beam mode, and 15-50 
 
 2. Insert a Wiggler such as the PSICHE@SOLEIL one as photon source:
 ``` c
-Wiggler(E0 = E0, dE = dE, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.5, 
-  B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-3, K=10, 
+Wiggler(E0 = E0, dE = dE, phase = 0, randomphase = 1, Ee = 2.75, Ie = 0.5, 
+  B = 2.1, Nper=41, sigey=5.9e-6, sigex=333.3e-6, length=41*50e-3, K=10, 
   focus_xw=1e-2, focus_yh=0.6e-2, dist=17.5)
 ```
 

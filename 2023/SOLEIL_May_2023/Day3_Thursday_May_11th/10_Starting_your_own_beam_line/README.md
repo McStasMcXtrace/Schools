@@ -33,35 +33,41 @@ Of course, your model will hardly compile initially. Read the compilation output
 
 ### SOLEIL LUCIA Fluorescence
 
-A simpflified LUCIA model would require to add:
+A simplified LUCIA model would include th following elements:
 
-- the HU52 undulator (see practical 4 "Sources")
-- two mirrors that act as low pass filter (theta=0.4-1.3 deg), that can be ignored if we restrict the undulator bandwidth
-- a DCM (Si111, theta=5-75 deg)
-- a KB mirror set
-- a sample stage with a Fluorescence component
-- a set of detectors (e.g. XRF)
+Position | Element
+---------|----------
+0        | the HU52 undulator (see practical 4 "Sources") 2.75 GeV, 32x52.4 mm
+13.4     | 0.5 x 0.5 mm
+31.5     | a DCM (Si111, theta=5-75 deg)
+39-39.3  | a KB mirror set
+39.63    | a sample stage with a Fluorescence component
+39.7     | a set of detectors (e.g. XRF)
 
 ![LUCIA layout](https://www.synchrotron-soleil.fr/sites/default/files/resize/lignes_de_lumieres/lucia/lucia_short-800x373.jpg)
+
+Reference:
+
+- D. Vantelon et al, J. Sync Rad 23 (2016) 635; DOI: 10.1107/S1600577516000746
+- https://www.researchgate.net/publication/294278058_The_LUCIA_beamline_at_SOLEIL
 
 ### SOLEIL DIFFABS diffraction/absorption
 
 The [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) beam-line at SOLEIL is illuminated with a Bender, such as the one discussed in session 4 "Sources".
 
-``` c
-Bending_magnet(
-   E0 = 20, dE = 19, Ee = 2.75,
-   Ie = 0.5, B = 1.72, sigey=9.3e-6, sigex=215.7e-6)
-```
+So, in order to assemble a DIFFABS model, we may quickly set-up
 
-So, in order to assemble a DIFFABS model, we may quickly set-up:
-- the Bender above in range 3-23 keV
-- two bent mirrors as low-pass filters, can be ignored if we restrict the Bender bandwidth
-- a Si111 DCM. See the practical 5 "Optics"
-- a KB mirror set. See the practical 5 "Optics"
-- a Fresnel zone plate (optional, we ignore it here)
-- a sample stage with e.g. Fluorescence and/or PowderN components
-- a set of detectors (transmission, XRD and XRF)
+Position | Element
+---------|----------
+0     | the Bender B=1.72 T in range 3-23 keV, e-beam cross-section 55.1x20.6 um2
+11.85 | primary slit
+14.92 | M1 bent mirror with Rh coating. Reduces the vertical divergence.
+17.46 | a Si(111) DCM. See the practical 5 "Optics"
+19.28 | M2 bent mirror with Rh coating. Focuses horizontally the beam, and increases the divergence.
+?     | a KB mirror set for micro focusing. Optional, see the practical 5 "Optics".
+?     | a Fresnel zone plate. Optional, we ignore it here.
+31.45 | sample stage with e.g. Fluorescence and/or PowderN components
+32    | a set of detectors (transmission, XRD and XRF)
 
 ![SOLEIL_DIFFABS](images/SOLEIL_DIFFABS.png)
 
@@ -96,102 +102,22 @@ The [SWING](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/swing) beam-l
 
 The optics are basically:
 
-- a U20 undulator (used between 5 and 16 keV) with sigma=388 (H) x 8.1 (V) um and divergence 14.5 (H) x 4.6 (V) urad
-- a diaphgram (slit) 1x0.5mm2 at 11.7 m from the source
-- a Si (111) double monochromator at 20m from the source
-- a KB mirror set at 22.5m from the source
-- a CRL (f=81 cm) at 31m from the source
-- the sample position at 32 m from the source
-- a 162x155 mm EigerX4M detector at 0.5-6.5m from the sample
-
-We suggest you first insert a U20 undulator, as described in the [SOLEIL_PX2a](https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/examples/SOLEIL_PX2a.instr) beam-line:
-``` c
-Undulator(
-    E0=E0, 
-    dE=1, 
-    Ee=2.75, 
-    dEe=0.001, 
-    Ie=0.5, 
-    K=1.788, 
-    Nper=80, 
-    lu=2.4e-2, 
-    sigey=9.3e-6, 
-    sigex=215.7e-6, 
-    sigepx=29.3e-6, 
-    sigepy=4.2e-6, 
-    dist=29.5, 
-    E1st=12.400)
-```
+Position | Element
+---------|----------
+0     | a U20 undulator (used between 5 and 16 keV) with sigma=321 (H) x 9.4 (V) um and divergence 17 (H) x 3.5 (V) urad
+11.7  | a diaphgram (slit) 1x0.5mm2
+20    | a Si (111) double monochromator
+22.5  | a KB mirror set
+31    | a CRL (f=81 cm)
+32    | the sample position
++0.5-6.5 | a 162x155 mm EigerX4M detector, from sample
 
 Then make use of the KB example from e.g. the [test_KB](https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/examples/Test_KB.instr). 
 Use theta = 3 mrad and compute the KB curvatures to match the distance to the sample as f = R sin(theta/2). 
-``` c
-COMPONENT mirror_curved = Mirror_curved(
-    radius=R,
-    length=1,
-    width=1)
-AT (0, 0, 31.5) RELATIVE PREVIOUS
-ROTATED (0, RAD2DEG*theta, 0) RELATIVE PREVIOUS
-EXTEND
-%{ 
-	if (!SCATTERED) ABSORB; 
-%}
-
-COMPONENT arm = Arm()
-AT (0, 0, 0) RELATIVE PREVIOUS
-ROTATED (0, RAD2DEG*theta, 0) RELATIVE PREVIOUS
-
-COMPONENT arm_2 = Arm()
-AT (0, 0, 1.5) RELATIVE PREVIOUS
-ROTATED (0, 0, 90) RELATIVE PREVIOUS
-
-COMPONENT mirror_2 = Mirror_curved(
-    radius=R,   
-    length=1,
-    width=1)
-AT (0, 0, 0) RELATIVE PREVIOUS
-ROTATED (0, RAD2DEG*theta, 0) RELATIVE PREVIOUS
-EXTEND
-%{ 
-	if (!SCATTERED) ABSORB; 
-%}
-
-COMPONENT arm_3 = Arm()
-AT (0, 0, 0) RELATIVE PREVIOUS
-ROTATED (0, RAD2DEG*theta, 0) RELATIVE PREVIOUS
-```
 
 Then introduce the DCM from the [Template_DCM](https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/examples/Template_DCM.instr) (satisfying `TTH=RAD2DEG*asin(12398.42/(2*DM*E0))` with DM=5.4309 for Si111)
-``` c
-COMPONENT dcm_xtal0 = Bragg_crystal(
-    length=0.04, width=0.04, 
-    alpha=alpha, h=1, k=1, l=1, material="Si.txt", V=160.1826)
-AT(0,0,0.02) RELATIVE PREVIOUS
-ROTATED (-TTH,0,0) RELATIVE PREVIOUS
-
-COMPONENT dcm0 = Arm()
-AT(0,0,0) RELATIVE dcm_xtal0
-ROTATED (-TTH,0,0) RELATIVE PREVIOUS
-
-COMPONENT dcm_xtal1 = COPY(dcm_xtal0)
-AT(0,0,dcm_gap) RELATIVE dcm0
-ROTATED (TTH,0,0) RELATIVE dcm0
-
-COMPONENT dcm1 =Arm()
-AT(0,0,0) RELATIVE dcm_xtal1
-ROTATED (TTH,0,0) RELATIVE dcm_xtal1 
-```
 
 We suggest that, to start with, you skip the CRL, but if you so wish, you may extract the relevant CRL description from [Test_CRL](https://raw.githubusercontent.com/McStasMcXtrace/McCode/master/mcxtrace-comps/examples/Test_CRL_Be.instr). Adapt the number of lenses to get a focusing at about 1 m.
-``` c
-COMPONENT lens_parab = Lens_parab(
-    material_datafile = "Be.txt",
-    r=200e-6, 
-    r_ap=0.5e-3, 
-    d=50e-6, 
-    N=16)
-AT (0, 0, 1) RELATIVE PREVIOUS
-```
 
 Add a sample as above, and a detector (such as `Monitor_nD(options="x y", bins=2000)`).
 
