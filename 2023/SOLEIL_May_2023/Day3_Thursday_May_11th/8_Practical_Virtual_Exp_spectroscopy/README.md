@@ -9,15 +9,8 @@ In this session we propose to use some spectroscopy sample models:
 For this session you should start with:
 
 - [Absorption, the ROCK beam-line](8b_Spectroscopy)
+- [Fluorescence (experimental)](8c_Spectroscopy)
 - [Inelastic scattering, a simple example](8a_Spectroscopy)
-
-## Absorption spectroscopy
-
-To make sure absorption is properly taken into account, we shall perform an energy scan as done on a real absorption spectroscopy BL. 
-
-:runner: Let's restrict the energy range around `E0` with `dE=0.1`, and scan the energy between 4.5 and 8 in 20 steps. Plot the results. 
-
-:question: Do you recover the transmission spectra ? Can you explain the differences ?
 
 ## Hyper-spectral imaging
 
@@ -35,7 +28,7 @@ In this exercise, we wish to demonstrate the concept by recording an image throu
 
 :runner: Add a 3x3 cm2 PSD monitor after the energy monitor. Perform an energy scan between 4.5 and 7.5 keV in 20 steps, with `dE=0.1` keV.
 
-You should obtain a series of images, one per incoming energy. This is an hyper-spectral data set which can be merged into a 3D array with e.g. NumPy or Matlab. Of course, in this exercise, all images are similar as the sample is homogeneous. Putting back the `Filter` component with a complex geometry should allow to record a more realistic hyper-spectral data set. However :-1: it currently has a bug which prevents recovering the absorption spectrum. This will be fixed for the next release.
+You should obtain a series of images, one per incoming energy. This is an hyper-spectral data set which can be merged into a 3D array with e.g. NumPy or Matlab. Of course, in this exercise, all images are similar as the sample is homogeneous. Putting back the `Filter` component with a complex geometry should allow to record a more realistic hyper-spectral data set.
 
 
 ---
