@@ -27,8 +27,8 @@ Component           | Application
 `Filter`            | absorption
 `Abs_objects`       | absorption
 `Absorption_sample` | absorption
-`Fluorescence`      | absorption, fluorescence, Compton, Rayleigh
-`Isotropic_Sqw`     | inelastic Thomson (IXS)
+`Fluorescence`      | absorption, fluorescence, Compton, Rayleigh (experimental)
+`Isotropic_Sqw`     | inelastic Thomson (IXS) (experimental)
 `Shape`             | empty shape just for rendering in 3D
 `Monitor_Sqw`       | an inelastic scattering monitor
 `Monitor_nD`        | multi-purpose monitor
@@ -40,8 +40,8 @@ and we provide some example OFF/PLY in the 'data' directory from the "Docs".
 Some components allow to model hollow (and concentric) shapes:
 
 - `PowderN` powder diffraction
-- `Fluorescence` absorption, fluorescence, Compton, Rayleigh
-- `Isotropic_Sqw` inelastic Thomson (IXS)
+- `Fluorescence` absorption, fluorescence, Compton, Rayleigh (experimental)
+- `Isotropic_Sqw` inelastic Thomson (IXS) (experimental)
 
 as well as multiple shapes/materials:
 

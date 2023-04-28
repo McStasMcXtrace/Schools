@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Instrument: SOLEIL_ROCK_Simple
+* Instrument: <instrument name>
 *
 * %I
 * Written by: <your name (email)>
@@ -8,33 +8,36 @@
 * Version: <instrument version>
 * %INSTRUMENT_SITE: Templates
 *
-* SOLEIL_ROCK_Simple
+* <instrument short description>
 *
 * %D
-* SOLEIL_ROCK_Simple
+* <instrument description>
 *
 * Example: <parameters=values>
 *
 * %P
-* E0: [keV] Incident photon energy
+* <parameter1>: [<unit>] <parameter1 description>
+* ...
 * 
 * %L
 * <reference/HTML link>
 *
 * %E
 *******************************************************************************/
-DEFINE INSTRUMENT SOLEIL_ROCK_Simple(E0=8)
+DEFINE INSTRUMENT template_body_simple(Etohit=8)
 
 DECLARE
 %{
-    double dcm_theta;
+    double calculated_angle;
     char e_repartition_options[512];
     char e_repartition_options_before_cc[512];
 %}
 
 INITIALIZE
 %{
-    dcm_theta = RAD2DEG*asin(12.39842*sqrt(3)/(2*5.4309*E0));    
+    calculated_angle = RAD2DEG*asin(12398.42*sqrt(3)/(2*5.4309*Etohit*1e3));
+    sprintf(e_repartition_options,"energy  bins=500 limits=[%g %g],  y  bins=500",Etohit-0.02*Etohit, Etohit+0.02*Etohit);
+    sprintf(e_repartition_options_before_cc,"energy  bins=500 limits=[%g %g],  y  bins=500",4.0, 40.0);    
 %}
 
 TRACE
@@ -44,15 +47,18 @@ AT (0, 0, 0) RELATIVE ABSOLUTE
 
 // insert components here (e.g. Insert -> Source -> ...)
 COMPONENT bending_magnet = Bending_magnet(
-    E0=E0, dE=E0*0.9, 
+    E0=22, 
+    dE=18, 
     Ee=2.75, 
-    B=1.72, sigex=54.9e-6, sigey=20.2e-6)
+    B=1.72)
 AT (0, 0, 0) RELATIVE PREVIOUS
 
 COMPONENT e_repartition_before_cc = Monitor_nD(
     xwidth=0.01, 
     yheight=0.01, 
-    options="energy y, all auto", bins=500)
+    restore_xray=1, 
+    options=e_repartition_options_before_cc, 
+    filename="e_repartition_before_cc")
 AT (0, 0, 1) RELATIVE PREVIOUS
 
 COMPONENT psd_monitor_before_cc = PSD_monitor(
@@ -64,47 +70,55 @@ AT (0, 0, 0) RELATIVE PREVIOUS
 COMPONENT bragg_crystal = Bragg_crystal(
     crystal_type=2)
 AT (0, 0, 0.1) RELATIVE PREVIOUS
-ROTATED (-dcm_theta, 0, 0) RELATIVE PREVIOUS
+ROTATED (-calculated_angle, 0, 0) RELATIVE PREVIOUS
 
 COMPONENT arm = Arm()
 AT (0, 0, 0) RELATIVE PREVIOUS
-ROTATED (-dcm_theta, 0, 0) RELATIVE PREVIOUS
+ROTATED (-calculated_angle, 0, 0) RELATIVE PREVIOUS
 
 COMPONENT bragg_crystal_two = Bragg_crystal(
     crystal_type=2)
 AT (0, 0.01, 0.05) RELATIVE bragg_crystal
-ROTATED (dcm_theta, 0, 0) RELATIVE PREVIOUS
+ROTATED (calculated_angle, 0, 0) RELATIVE PREVIOUS
 
 COMPONENT arm_two = Arm()
 AT (0, 0, 0) RELATIVE PREVIOUS
-ROTATED (dcm_theta, 0, 0) RELATIVE PREVIOUS
+ROTATED (calculated_angle, 0, 0) RELATIVE PREVIOUS
 
 COMPONENT e_monitor_before_sample = E_monitor(
-    xwidth=0.1, 
-    yheight=0.1, 
-    Emin=E0-E0*0.1, 
-    Emax=E0+E0*0.1, 
+    filename="e_monitor_before_sample.dat", 
+    xwidth=1, 
+    yheight=1, 
+    Emin=Etohit-Etohit*0.1, 
+    Emax=Etohit+Etohit*0.1, 
     nE=500,
     restore_xray=1)
 AT (0, 0, 1) RELATIVE PREVIOUS
 
 COMPONENT e_repartition_after_cc = Monitor_nD(
-  xwidth =0.02 ,yheight=0.02, options="energy, all auto") 
+  xmin =-0.01 , xmax =0.01 ,ymin=-0.01 ,ymax=0.01, options=e_repartition_options, filename="e_repartition_after_cc",restore_xray = 1) 
 AT (0,0,0) RELATIVE PREVIOUS
 
-COMPONENT absorption_sample = Fluorescence(    
-    material="CuZn", 
-    xwidth  = 0.05,
-    yheight = 0.05,
-    zdepth  = 0.0001)
+COMPONENT absorption_sample = Absorption_sample(    
+    material_datafile_o="Cu.txt", 
+    xwidth_o = 0.5,
+    yheight_o = 0.5,
+    zdepth_o = 0.0001,
+    rho_o=8.96,
+    rho_i=7.14,
+    material_datafile_i="Zn.txt", 
+    xwidth_i = 0.5,
+    yheight_i = 0.5,
+    zdepth_i = 0.00005   
+    )
 AT (0, 0, 0.5) RELATIVE PREVIOUS
 
 COMPONENT e_monitor_after_sample = E_monitor(
     filename="e_monitor_after_sample.dat", 
-    xwidth=0.1, 
-    yheight=0.1, 
-    Emin=E0-E0*0.1, 
-    Emax=E0+E0*0.1, 
+    xwidth=1, 
+    yheight=1, 
+    Emin=Etohit-Etohit*0.1, 
+    Emax=Etohit+Etohit*0.1, 
     nE=500,
     restore_xray=1)
 AT (0, 0, 0.5) RELATIVE PREVIOUS
