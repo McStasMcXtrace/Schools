@@ -132,4 +132,14 @@ The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true "").
 4. This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
 5. Compare with the pure McXtrace Undulator model above.
 
+### References:
 
+- [Undulators](https://en.wikipedia.org/wiki/Undulator) at Wikipedia
+- [Kim, AIP Conference Proceedings 184, 565–632 (1989)](data/Kim_Undulator-1989.pdf) treating with Undulators, Wigglers and Bending magnets
+- [Patterson, American Journal of Physics 79, 1046 (2011); doi: 10.1119/1.3614033](data/Patterson-2011a.pdf)
+- [Elleaume 1992 EPAC](data/Elleaume-1992-EPAC1992_0661.PDF) Undulators and Wigglers
+- [Elleaume 1990](data/Elleaume-Undulator-p142-1990.pdf) Undulators and Wigglers
+- [Elleaume 2005](data/Elleaume-2005.pdf) presentation about Undulators
+- [Chavanne 1998](data/Chavanne-1998.pdf) presentation about Undulators
+- [Bartolini 2016](data/Bartolini-2016-Lecture2Undulatorsandwigglers.pdf)
+- [Barret 2016)(data/Barrett_2016-TOGIS.pdf)
