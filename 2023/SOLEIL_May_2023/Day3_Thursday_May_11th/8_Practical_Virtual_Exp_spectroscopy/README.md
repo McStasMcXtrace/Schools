@@ -8,9 +8,9 @@ In this session we propose to use some spectroscopy sample models:
 
 For this session you should start with:
 
-- [Absorption, the ROCK beam-line](8b_Spectroscopy)
-- [Fluorescence (experimental)](8c_Spectroscopy)
-- [Inelastic scattering, a simple example](8a_Spectroscopy)
+- [Absorption, the ROCK beam-line](8_Spectroscopy_abs)
+- [Fluorescence (experimental)](8_Spectroscopy_fluo)
+- [Inelastic scattering, a simple example](8_Spectroscopy_inelastic)
 
 ## Hyper-spectral imaging
 
