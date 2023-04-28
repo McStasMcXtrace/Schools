@@ -22,14 +22,14 @@
 *
 * The sample handles absorption, with edge contrast, as well as fluorescence.
 *
-* %Example: -n 1e5 E0=31  dE=1  sample_material="Ag0.6In0.2Sn0.2" Detector: mon_spl_xy_I=2.13259e+14
+* %Example: -n 1e5 E0=31  dE=1  sample_material="Ag.txt" Detector: mon_spl_xy_I=2.13259e+14
 *
 * %P
 * E0: [keV] Nominal energy at the Wiggler. Sets the monochromator angle when DCM_present
 * dE: [keV] Energy half-bandwidth at the Wiggler
 * DCM_present: [1] Allow the monochromator in place (1) or removed (0, white beam)
 * sample_theta: [deg] Rotation of the sample stage
-* sample_material: [str] Chemical formulae of the sample
+* sample_material: [str] Absorption data file for the sample
 * sample_geometry: [str] OFF/PLY file name for sample 3D geometry, or emty for a box
 *
 * %L
@@ -39,8 +39,8 @@
 *
 * %E
 *******************************************************************************/
-DEFINE INSTRUMENT SOLEIL_PSICHE(E0=25, dE=1, DCM_present=0, sample_theta=0, 
-  string sample_material="Mn0.2Fe0.7Cr0.1", string sample_geometry="wire.ply")
+DEFINE INSTRUMENT SOLEIL_PSICHE(E0=31, dE=1, DCM_present=0, sample_theta=0, 
+  string sample_material="Ag.txt", string sample_geometry="wire.ply")
 
 DECLARE
 %{
@@ -89,7 +89,7 @@ COMPONENT source = Wiggler(E0 = E0, dE = dE, phase = 0, randomphase = 1, Ee = 2.
 AT (0,0,0) RELATIVE origin
 
 COMPONENT mon_src_e = Monitor_nD(xwidth=1e-2, yheight=1e-2, 
-  bins=512, options="energy", min=0, max=E0+1.1*dE)
+  bins=512, options="energy", min=E0-1.1*dE, max=E0+1.1*dE)
 AT (0,0,17.5) RELATIVE source
 
 COMPONENT mon_src_xy = COPY(PREVIOUS)(options="x y, all auto", bins=128)
@@ -139,9 +139,8 @@ AT (0,0,0) RELATIVE PREVIOUS
 COMPONENT sample_stage = Arm()
 AT (0,0,0.5) RELATIVE PREVIOUS
 
-SPLIT COMPONENT sample = Fluorescence(xwidth=20e-3, yheight=10e-3, zdepth=1e-3,
-  material=sample_material, geometry=sample_geometry,
-  target_index=1, focus_aw=90, focus_ah=1, p_interact=0.5)
+COMPONENT sample = Filter(xwidth=20e-3, yheight=10e-3, zdepth=1e-3,
+  material_datafile=sample_material, geometry=sample_geometry)
 AT (0,0,0)                 RELATIVE sample_stage
 ROTATED (0,sample_theta,0) RELATIVE sample_stage
 
@@ -151,8 +150,5 @@ AT (0,0,0.2) RELATIVE sample_stage
 COMPONENT mon_spl_xy = COPY(mon_src_xy)
 AT (0,0,0) RELATIVE PREVIOUS
 
-COMPONENT mon_spl_fluo = COPY(mon_spl_e)
-AT (0,0,0.05)    RELATIVE sample_stage
-ROTATED (0,30,0) RELATIVE sample_stage
 
 END

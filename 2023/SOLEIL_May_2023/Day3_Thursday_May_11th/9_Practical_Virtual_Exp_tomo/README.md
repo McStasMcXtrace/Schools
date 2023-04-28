@@ -101,9 +101,9 @@ There are currently four sample models that take into account the material absor
 - [Absorption_sample](http://www.mcxtrace.org/download/components/3.1/samples/Absorption_sample.html) a 1 or 2 absorbing materials as a box or cylinder.
 - [Abs_objects](http://www.mcxtrace.org/download/components/3.1/samples/Abs_objects.html) a set of absorbing objects which geometry is set from OFF/PLY files.
 - [Filter](http://www.mcxtrace.org/download/components/3.1/optics/Filter.html) which can handle absorption and refraction, as a block or any OFF/PLY geometry.
-- [Fluorescence](http://www.mcxtrace.org/download/components/3.1/samples/Fluorescence.html) which can handle absorption, fluorescence, Compton and Rayleigh scattering, as a block, sphere, cylinder or any OFF/PLY geometry.
+- [Fluorescence](http://www.mcxtrace.org/download/components/3.1/samples/Fluorescence.html) which can handle absorption, fluorescence, Compton and Rayleigh scattering, as a block, sphere, cylinder or any OFF/PLY geometry. This component is still experimental.
 
-The `Fluorescence` component is the most versatile (but requires [XRayLib](https://github.com/tschoonj/xraylib) to be installed). It takes as input argument a chemical formulae to describe materials. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'absorption' data files which must be prepared before.
+The `Fluorescence` component is the most versatile (but requires [XRayLib](https://github.com/tschoonj/xraylib) to be installed, is still experimental and is 10 times slower). It takes as input argument a chemical formulae to describe materials. The three other absorption components (`Absorption_sample`, `Abs_objects`, and `Filter`) use 'absorption' data files which must be prepared before.
 
 There is a dedicated documentation and tool to get absorption data files. 
 - [HOWTO: McXtrace absorption files (materials)](https://github.com/McStasMcXtrace/McCode/wiki/HOWTO%3A-McXtrace-absorption-files-%28materials%29)
@@ -130,7 +130,7 @@ This procedure is iterative. To make sure everything is kept under control, we c
 
 The PSICHE nominal energy range is 15-100 keV in the white beam mode, and 15-50 keV when using the double monochromator.
 
-1. Start a new beam-line, and set its input parameters as `E0`, `dE`, `sample_theta` for the sample rotation angle, and the sample material and geometry (as string, not numbers). For instance `DEFINE INSTRUMENT SOLEIL_PSICHE(E0=31, dE=1, sample_theta=0, string sample_material="Ag0.6In0.2Sn0.2", string sample_geometry="wire.ply")`. We use a set of atoms with close absorption energies, as seen in the [edge energy tables](https://www.ruppweb.org/Xray/elements.html).
+1. Start a new beam-line, and set its input parameters as `E0`, `dE`, `sample_theta` for the sample rotation angle, and the sample material and geometry (as string, not numbers). For instance `DEFINE INSTRUMENT SOLEIL_PSICHE(E0=25, dE=15, sample_theta=0, string sample_material="Ag.txt", string sample_geometry="wire.ply")`. Refer to the [edge energy tables](https://www.ruppweb.org/Xray/elements.html).
 
 2. Insert a Wiggler such as the PSICHE@SOLEIL one as photon source:
 ``` c
@@ -147,15 +147,15 @@ Wiggler(E0 = E0, dE = dE, phase = 0, randomphase = 1, Ee = 2.75, Ie = 0.5,
 
 The beam size at PSICHE is about 17 x 6 mm2 at the sample location. Insert a simple slit of this dimension at e.g. 3.5 m away from the previous PSD (i.e. 21 m away from the wiggler). Then insert an `Arm` component, as sample holder, at 0.5 m from the slit.
 
-To handle the material absorption, add a `Fluorescence` sample on that `Arm`, and rotate it by `sample_theta` along its vertical axis `Y` in order to be able to perform a tomography scan. Define its `material` as e.g. `sample_material`. Use a simple sample plate, e.g. 20x10x0.5 mm3 which encloses a `geometry=sample_geometry` to get a complex geometry inserted inside the plate. When `sample_geometry=NULL` the sample will be a simple box. To enhance statistics, it is highly recommended to also set `target_index=1, focus_aw=90, focus_ah=1, p_interact=0.5` which restricts the fluorescence emission in a 90x1 deg area. Last, you may define the sample with `SPLIT COMPONENT` to further enhance the computation efficiency.
+To handle the material absorption, add a `Filter` sample on that `Arm`, and rotate it by `sample_theta` along its vertical axis `Y` in order to be able to perform a tomography scan. Define its `material` as e.g. `sample_material`. Use a simple sample plate, e.g. 20x10x0.5 mm3 which encloses a `geometry=sample_geometry` to get a complex geometry inserted inside the plate. When `sample_geometry=NULL` the sample will be a simple box. 
 
-7. Add a PSD detector (256x256 pixels)  and an energy monitor at e.g. 20 cm after the sample, relative to the sample holder so that they do not also rotate with `sample_theta`. Add as well a 1x1 cm2 energy monitor at 5 cm (to catch the fluorescence), rotated by 30 deg wrt the incoming position.
+7. Add a PSD detector (256x256 pixels)  and an energy monitor at e.g. 20 cm after the sample, relative to the sample holder so that they do not also rotate with `sample_theta`.
 
-:runner: Start a computation of the tomogram with 1e5 photon events, better with MPI (recompile). Plot it.
+:runner: Start a computation of the tomogram with 1e5 photon events, E0=31 dE=1, better with MPI (recompile). Plot it.
 
 ![PSICHE tomogram](images/SOLEIL_PSICHE_tomogram.png)
 
-You can clearly see that the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and appear as a 'background'.
+In reality, or when using the Fluorescence sample, the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and appear as a 'background'.
 
 ### Sample rotation: simulate a sinogram
  
@@ -195,7 +195,7 @@ ROTATED (dcm_theta,0,0)  RELATIVE PREVIOUS
 
 An energy and PSD monitor should be located 50 cm downstream. 
 
-:runner: Run the simulation and observe through the monitors the reduced energy range and beam shape. 
+:runner: Run the simulation and observe through the monitors the reduced energy range and beam shape (E0=31). 
 
 ![PSICHE tomogram mono](images/SOLEIL_PSICHE_tomogram_mono.png)
 
@@ -205,7 +205,7 @@ If you wish the DCM to be removable, as in the PSICHE beam-line, define a `DCM_p
 
 ### Going further
 
-In order to get closer from the real PSICHE beam-line, one could stack a powder or single crystal diffraction sample on top of the absorption/fluorescence one, and more detectors. This could also be done as a second experimental sample stage.
+In order to get closer from the real PSICHE beam-line, one could stack a powder or single crystal diffraction sample on top of the absorption/fluorescence one, and more detectors. 
 
 ----
 
