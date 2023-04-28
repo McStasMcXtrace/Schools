@@ -93,6 +93,25 @@ References:
 - E. Boulard et al, J Sync rad 2018 25, 818, DOI: 10.1107/S1600577518004861
 - Guignot et al 2013, https://ui.adsabs.harvard.edu/abs/2013AGUFMMR31A2287G/abstract
 
+### SOLEIL SAMBA absorption
+
+The photon source is the bending magnet D09-1 used in range 4-40 keV. The beam shape is defined by 2 focusing mirrors and a DCM.
+
+Position  | Element
+----------|----------
+0         | bending magnet D09-1
+12.8      | primary slits
+14.1      | focusing cylindrically bent mirror aceptance=6.2 mrad 1200x88 mm, Pd coating, theta=1-10 mrad.
+16.1      | DCM Si(220)
+18.1      | collimating cylindrically bent mirror
+30        | sample stage, beam 2x1 mm -> 300x200 um when focused with mirrors
+?         | fluorescence detector at 90 deg, transmission in beam
+
+Reference:
+
+- V. Briois et al, UVX 2010 (2011) 41–47; DOI: 10.1051/uvx/2011006
+- S Belin et al, Phys. Scr. 2005 980; DOI: 10.1238/Physica.Topical.115a00980
+
 
 ### SOLEIL SWING SAXS
 
