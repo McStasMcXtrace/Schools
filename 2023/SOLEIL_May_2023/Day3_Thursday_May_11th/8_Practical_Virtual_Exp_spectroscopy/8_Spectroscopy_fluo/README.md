@@ -68,7 +68,7 @@ It will be used as sample holder.
 
 Define two new input arguments to the model, `string sample_material="CaCO3"` and `string sample_geometry="wire.ply"`.Insert a `Fluorescence` 1x1X0.5 mm2 sample with these arguments for the material and the geometry.
 
-Insert a large bandwidth energy monitor at 10 cm. It is best to rotate this monitor out of the direct beam. For this, place an Arm at the sample stage, rotate it, then position the monitor at the given distance on the rotated axis frame.
+Insert a large bandwidth energy monitor at 10 cm (e.g. from 0 to E0). It is best to rotate this monitor out of the direct beam. For this, place an Arm at the sample stage, rotate it, then position the monitor at the given distance on the rotated axis frame.
 
 :runner: visualise the 3D geometry of the beam-line (Trace mode). 
 You may navigate to the sample area to check the fluorescence scattering.
@@ -78,4 +78,32 @@ You may navigate to the sample area to check the fluorescence scattering.
 :runner: Run a simulation and look at the fluorescence spectrum.
 
 ![SOLEIL_LUCIA_fluo_CaCO3](images/SOLEIL_LUCIA_fluo_CaCO3.png)
+
+## Hyper-spectral imaging
+
+We shall now use a complex geometry made with a material, and enclose it in a box with an other material. For this exercise, we shall use a GROUP arrangement. The 1st fluorescence sample will be set with a `geometry` parameter, while a 2nd Fluorescence component will be using a simple box with an other material. 
+
+``` c
+COMPONENT sample_stage = Arm()
+AT (0,0,0) RELATIVE ...
+
+COMPONENT sample1 = Fluorescence(material=sample_material, geometry="wire.ply", xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3)
+GROUP samples
+AT (0,0,0) RELATIVE sample_stage
+
+COMPONENT sample1 = Fluorescence(material="Na0.1Li1.8Mg0.1Sn0.9Bi0.1O3", xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3)
+GROUP samples
+AT (0,0,0) RELATIVE sample_stage
+```
+
+The enclosing Li battery electrolyte box contains Na, Mg and Bi impurities.
+
+:question: can you identify why this is not a perfect solution ? What type of interaction process is missing ? Is there a way to be closer to reality ?
+
+- Modify the sample accordingly. You may re-use the `sample_material` argument as "LiSnO3". 
+- Change the last fluorescence monitor with an 1D PSD-energy monitor. You may for instance use a `Monitor_nD(options="x bins=128, energy limits=[0 6] bins=1000", xwidth=1e-3, yheight=1e-4)` for a horizontal detector.
+
+:runner: Run the simulation with `E0=5` and visualise the Energy map across the sample. Use the log-scale (press the 'L' key). The fluorescence spectra should show a varying material composition.
+
+Adding a sample translation in a further step, you should obtain a series of images, one per beam location in the sample. This is a 3D hyper-spectral data set which can be merged into a 3D array with e.g. NumPy or Matlab.
 
