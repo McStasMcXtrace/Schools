@@ -33,7 +33,9 @@ Of course, your model will hardly compile initially. Read the compilation output
 
 ### SOLEIL LUCIA Fluorescence
 
-A simplified LUCIA model would include th following elements:
+A simplified LUCIA model would include the following elements:
+
+![LUCIA layout](https://www.synchrotron-soleil.fr/sites/default/files/resize/lignes_de_lumieres/lucia/lucia_short-800x373.jpg)
 
 Position | Element
 ---------|----------
@@ -44,8 +46,6 @@ Position | Element
 39.63    | a sample stage with a Fluorescence component
 39.7     | a set of detectors (e.g. XRF)
 
-![LUCIA layout](https://www.synchrotron-soleil.fr/sites/default/files/resize/lignes_de_lumieres/lucia/lucia_short-800x373.jpg)
-
 Reference:
 
 - D. Vantelon et al, J. Sync Rad 23 (2016) 635; DOI: 10.1107/S1600577516000746
@@ -55,7 +55,9 @@ Reference:
 
 The [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) beam-line at SOLEIL is illuminated with a Bender, such as the one discussed in session 4 "Sources".
 
-So, in order to assemble a DIFFABS model, we may quickly set-up
+![SOLEIL_DIFFABS](images/SOLEIL_DIFFABS.png)
+
+So, in order to assemble a DIFFABS model, we may quickly set-up the following elements:
 
 Position | Element
 ---------|----------
@@ -69,22 +71,22 @@ Position | Element
 31.45 | sample stage with e.g. Fluorescence and/or PowderN components
 32    | a set of detectors (transmission, XRD and XRF)
 
-![SOLEIL_DIFFABS](images/SOLEIL_DIFFABS.png)
-
 Reference: 
 
 - Gallard, Thèse, (2019) ["Etude in situ de la cristallisation et des contraintes dans des nanostructures de GeTe par diffraction du rayonnement X synchrotron"](https://www.theses.fr/2019AIXM0037.pdf)
 
 ### SOLEIL PSICHE beam-line tomography/diffraction
 
-Layout: [PSICHE motors](https://www.synchrotron-soleil.fr/fr/file/8068/download?token=UHm6fASX)
+![PSICHE](https://github.com/McStasMcXtrace/Schools/raw/master/2023/SOLEIL_May_2023/Day3_Thursday_May_11th/9_Practical_Virtual_Exp_tomo/images/SOLEIL_PSICHE.png)
 
-- 15-100 keV Wiggler 2.1 T lu=50 mm 38 periods, for instance `Wiggler(E0 = e0, dE = de, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.5, B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-3)` (K=10)
-- primary mirror (c1/c2), ignored here
-- at 17.5 m, DCM Ge111, we use Si111 as it has been modelled previously
-- KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
-- at 21 m, sample area 16.8x5.9 mm2
-- a set of detectors (transmission, diffraction, fluo)
+Position  | Element
+----------|----------
+0         | 15-100 keV Wiggler 2.1 T lu=50 mm 41 periods (K=10)
+?         | primary mirror (c1/c2), ignored here
+17.5 m    | removable DCM Si(111) for diffraction contrast tomography
+?         | KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
+21 m      | sample area, beam size 16.8x5.9 mm2
+21.5      | a set of detectors (transmission, diffraction, fluo)
 
 References:
 

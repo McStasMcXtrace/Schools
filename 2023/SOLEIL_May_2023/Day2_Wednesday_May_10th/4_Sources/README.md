@@ -135,7 +135,7 @@ The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true "").
 ### References:
 
 - [Undulators](https://en.wikipedia.org/wiki/Undulator) at Wikipedia
-- [Kim, AIP Conference Proceedings 184, 565–632 (1989)](data/Kim_Undulator-1989.pdf) treating with Undulators, Wigglers and Bending magnets
+- [Kim, AIP Conference Proceedings 184, 565–632 (1989)](data/Kim_Undulator-1989.pdf) dealing with Undulators, Wigglers and Bending magnets
 - [Patterson, American Journal of Physics 79, 1046 (2011); doi: 10.1119/1.3614033](data/Patterson-2011a.pdf)
 - [Elleaume 1992 EPAC](data/Elleaume-1992-EPAC1992_0661.PDF) Undulators and Wigglers
 - [Elleaume 1990](data/Elleaume-Undulator-p142-1990.pdf) Undulators and Wigglers

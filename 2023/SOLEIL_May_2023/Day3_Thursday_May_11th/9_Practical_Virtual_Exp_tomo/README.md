@@ -155,7 +155,7 @@ To handle the material absorption, add a `Filter` sample on that `Arm`, and rota
 
 ![PSICHE tomogram](images/SOLEIL_PSICHE_tomogram.png)
 
-In reality, or when using the Fluorescence sample, the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and appear as a 'background'.
+In reality, or when using the Fluorescence sample, the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and contribute as a 'background'.
 
 ### Sample rotation: simulate a sinogram
  
@@ -164,6 +164,8 @@ In reality, or when using the Fluorescence sample, the fluorescence, Rayleigh an
 :runner: To visualize the individual images, use Ctrl-click on the `mon_spl_xy` monitor. 
 
 ### The PSICHE double curved monochromator (optional)
+
+A double monochromator can be used to perform diffraction contrast tomography, i.e. settings the incident energy before/after a diffraction ring, so that some crystal structures can be identified. 
 
 We use the DCM model from session 5 "Optics". You may as well refer to the `Template_DCM` example.
 
@@ -197,6 +199,8 @@ An energy and PSD monitor should be located 50 cm downstream.
 
 :runner: Run the simulation and observe through the monitors the reduced energy range and beam shape (E0=31). 
 
+It is clear that this monochromator setup is justified for tomo-diffraction, i.e. the sample should handle diffraction. The session 7 "Samples" indicates ways to stack multiple sample models.
+
 ![PSICHE tomogram mono](images/SOLEIL_PSICHE_tomogram_mono.png)
 
 To get better statistics, you may limit the energy range `dE` at the Wiggler to match about 1%. This will drastically improve the model efficiency.
@@ -205,7 +209,7 @@ If you wish the DCM to be removable, as in the PSICHE beam-line, define a `DCM_p
 
 ### Going further
 
-In order to get closer from the real PSICHE beam-line, one could stack a powder or single crystal diffraction sample on top of the absorption/fluorescence one, and more detectors. 
+In order to get closer from the real PSICHE beam-line, one could stack a powder or single crystal diffraction sample on top of the absorption one, and more detectors. 
 
 ----
 
