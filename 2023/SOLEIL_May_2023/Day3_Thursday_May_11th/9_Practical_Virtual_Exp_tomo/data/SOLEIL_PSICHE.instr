@@ -22,7 +22,7 @@
 *
 * The sample handles absorption, with edge contrast, as well as fluorescence.
 *
-* %Example: -n 1e5 E0=31  dE=1  sample_material="Ag.txt" Detector: mon_spl_xy_I=2.13259e+14
+* %Example: -n 1e5 E0=31  dE=1  sample_material="Ag0.6In0.2Sn0.2" Detector: mon_spl_xy_I=2.13259e+14
 *
 * %P
 * E0: [keV] Nominal energy at the Wiggler. Sets the monochromator angle when DCM_present
@@ -31,6 +31,7 @@
 * sample_theta: [deg] Rotation of the sample stage
 * sample_material: [str] Absorption data file for the sample
 * sample_geometry: [str] OFF/PLY file name for sample 3D geometry, or emty for a box
+* dcm_theta: [deg] Rotation angle of the DCM. 0=set from energy E0
 *
 * %L
 * https://www.synchrotron-soleil.fr/en/beamlines/psiche
@@ -40,15 +41,12 @@
 * %E
 *******************************************************************************/
 DEFINE INSTRUMENT SOLEIL_PSICHE(E0=31, dE=1, DCM_present=0, sample_theta=0, 
-  string sample_material="Ag.txt", string sample_geometry="wire.ply")
+  string sample_material="Ag", string sample_geometry="wire.ply", dcm_theta=0)
 
 DECLARE
 %{
-  double dcm_theta;
-  double DM;
   double dcm_gap;
   double dcm_scatter;
-  double sample_scatter;
 %}
 
 INITIALIZE
@@ -115,7 +113,7 @@ ROTATED (-dcm_theta,0,0) RELATIVE PREVIOUS
 
 COMPONENT dcm_xtal1 = COPY(dcm_xtal0)
 WHEN (DCM_present)
-AT(0,0,dcm_gap)    RELATIVE PREVIOUS
+AT(0,dcm_gap,0.03)    RELATIVE PREVIOUS
 ROTATED (dcm_theta,0,0)  RELATIVE PREVIOUS
 EXTEND %{
   if (dcm_scatter && !SCATTERED) ABSORB;
@@ -139,16 +137,34 @@ AT (0,0,0) RELATIVE PREVIOUS
 COMPONENT sample_stage = Arm()
 AT (0,0,0.5) RELATIVE PREVIOUS
 
+// the legacy Filter component for absorption. 
+// The sample_material should then e.g. be "Ag.txt"
+/*
 COMPONENT sample = Filter(xwidth=20e-3, yheight=10e-3, zdepth=1e-3,
   material_datafile=sample_material, geometry=sample_geometry)
 AT (0,0,0)                 RELATIVE sample_stage
 ROTATED (0,sample_theta,0) RELATIVE sample_stage
+*/
+
+// the Fluorescence sample also with absorption/fluo/Compton/Rayleigh
+// The sample_material should then e.g. be "Ag"
+COMPONENT sample = Fluorescence(xwidth=20e-3, yheight=10e-3, zdepth=1e-3,
+  material=sample_material, geometry=sample_geometry,
+  target_index=3, focus_aw=90, focus_ah=5, p_interact=0.8)
+AT (0,0,0)                 RELATIVE sample_stage
+ROTATED (0,sample_theta,0) RELATIVE sample_stage
+
+COMPONENT fluo_holder = Arm()
+AT       (0,0,0) RELATIVE sample_stage
+ROTATED (0,30,0) RELATIVE sample_stage
+
+COMPONENT mon_spl_fluo = Monitor_nD(xwidth=0.01, yheight=0.01,
+  options="energy", min=0, max=E0+dE*1.05, bins=1000)
+AT (0,0,0.1) RELATIVE fluo_holder
 
 COMPONENT mon_spl_e = COPY(mon_src_e)
 AT (0,0,0.2) RELATIVE sample_stage
 
 COMPONENT mon_spl_xy = COPY(mon_src_xy)
 AT (0,0,0) RELATIVE PREVIOUS
-
-
 END

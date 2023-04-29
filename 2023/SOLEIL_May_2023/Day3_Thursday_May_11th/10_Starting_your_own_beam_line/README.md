@@ -40,7 +40,7 @@ A simplified LUCIA model would include the following elements:
 Position | Element
 ---------|----------
 0        | the HU52 undulator (see practical 4 "Sources") 2.75 GeV, 32x52.4 mm
-13.4     | 0.5 x 0.5 mm
+13.4     | 0.5 x 0.5 mm slit
 31.5     | a DCM (Si111, theta=5-75 deg)
 39-39.3  | a KB mirror set
 39.63    | a sample stage with a Fluorescence component

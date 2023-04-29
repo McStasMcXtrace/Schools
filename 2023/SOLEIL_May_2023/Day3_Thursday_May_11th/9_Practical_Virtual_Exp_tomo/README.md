@@ -114,7 +114,7 @@ Usual materials are already available in the [data](http://mcxtrace.org/download
 
 ## A simple absorption/tomography station in the style of PSICHE
 
-Let's assemble a simple tomography station inspired from the [PSICHE](https://www.synchrotron-soleil.fr/en/beamlines/psiche) beam-line. Details can be found [here](https://pubs.aip.org/aip/rsi/article/87/9/093704/365750/Tomography-and-imaging-at-the-PSICHE-beam-line-of)
+Let's assemble a simple tomography station inspired from the [PSICHE](https://www.synchrotron-soleil.fr/en/beamlines/psiche) beam-line at synchrotron SOLEIL. Details can be found [here](https://pubs.aip.org/aip/rsi/article/87/9/093704/365750/Tomography-and-imaging-at-the-PSICHE-beam-line-of)
 
 - a photon source
 - an optional double monochromator
@@ -157,6 +157,8 @@ To handle the material absorption, add a `Filter` sample on that `Arm`, and rota
 
 In reality, or when using the Fluorescence sample, the fluorescence, Rayleigh and Compton scattering sum-up on the transmission tomogram, and contribute as a 'background'.
 
+For this, the sample should be, e.g. `Fluorescence(xwidth=20e-3, yheight=10e-3, zdepth=1e-3,  material=sample_material, geometry=sample_geometry)`. A fluorescence detector should be located out of the transmitted beam.
+
 ### Sample rotation: simulate a sinogram
  
 :runner: Now, do a rotation of the sample around the vertical axis with `sample_theta=0,180` in 10 steps. Use 1e5 photon events, and MPI. Plot the results.
@@ -185,7 +187,7 @@ AT(0,0,0)          RELATIVE PREVIOUS
 ROTATED (-dcm_theta,0,0) RELATIVE PREVIOUS
 
 COMPONENT dcm_xtal1 = COPY(dcm_xtal0) // gap is 2 cm
-AT(0,2e-2,0)    RELATIVE PREVIOUS
+AT(0,2e-2,0.03)    RELATIVE PREVIOUS
 ROTATED (dcm_theta,0,0)  RELATIVE PREVIOUS
 
 COMPONENT dcm1      = Arm()
