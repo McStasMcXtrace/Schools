@@ -1,4 +1,4 @@
-# McXtrace training: samples and virtual experiment: spectroscopy/fluorescence
+# McXtrace training: samples and virtual experiment: spectroscopy/fluorescence (hyperspectral)
 
 For this exercise, we shall build a simplified model of the LUCIA@SOLEIL beam-line.
 
@@ -87,23 +87,28 @@ We shall now use a complex geometry made with a material, and enclose it in a bo
 COMPONENT sample_stage = Arm()
 AT (0,0,0) RELATIVE ...
 
-COMPONENT sample1 = Fluorescence(material=sample_material, geometry="wire.ply", xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3)
-GROUP samples
+COMPONENT sample = Fluorescence(material=sample_material, geometry=sample_geometry, 
+  xwidth=0.001, yheight=0.001, zdepth=0.5e-3)
 AT (0,0,0) RELATIVE sample_stage
+GROUP samples
 
-COMPONENT sample1 = Fluorescence(material="Na0.1Li1.8Mg0.1Sn0.9Bi0.1O3", xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3)
-GROUP samples
+COMPONENT sample_box = Fluorescence(material="Na0.1Li1.8Mg0.1Sn0.9Bi0.1O3", 
+  xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3)
 AT (0,0,0) RELATIVE sample_stage
+GROUP samples
 ```
 
-The enclosing Li battery electrolyte box contains Na, Mg and Bi impurities.
+We define the sample box as a Li battery electrolyte which contains Na, Mg and Bi impurities.
 
 :question: can you identify why this is not a perfect solution ? What type of interaction process is missing ? Is there a way to be closer to reality ?
 
-- Modify the sample accordingly. You may re-use the `sample_material` argument as "LiSnO3". 
-- Change the last fluorescence monitor with an 1D PSD-energy monitor. You may for instance use a `Monitor_nD(options="x bins=128, energy limits=[0 6] bins=1000", xwidth=1e-3, yheight=1e-4)` for a horizontal detector.
+- Modify the sample accordingly using the above GROUP solution.
+- Add a 1D PSD-energy monitor, positioned parallel and close to the sample outer surface (to avoid summing up contributions for all parts of the sample). You may for instance use a `Monitor_nD(options="x bins=128, energy limits=[0 6] bins=1000", xwidth=1e-3, yheight=1e-4)` for a horizontal detector.
 
 :runner: Run the simulation with `E0=5` and visualise the Energy map across the sample. Use the log-scale (press the 'L' key). The fluorescence spectra should show a varying material composition.
 
+![LUCIA hyperspectral](images/SOLEIL_LUCIA_hyperspectral.png)
+
+In reality, a KB mirror set allows to focus the beam on a tiny sample area, which is then scanned across the sample. 
 Adding a sample translation in a further step, you should obtain a series of images, one per beam location in the sample. This is a 3D hyper-spectral data set which can be merged into a 3D array with e.g. NumPy or Matlab.
 

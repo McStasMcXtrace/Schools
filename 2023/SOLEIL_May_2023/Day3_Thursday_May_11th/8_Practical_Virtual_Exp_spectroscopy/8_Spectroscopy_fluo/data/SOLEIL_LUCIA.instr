@@ -31,6 +31,7 @@ DEFINE INSTRUMENT SOLEIL_LUCIA(E0=3, dE=0.1, dcm_theta=0,
 DECLARE
 %{
   double dcm_gap;
+  double sample_choice;
 %}
 
 INITIALIZE
@@ -127,18 +128,31 @@ AT (0,0,8.13) RELATIVE PREVIOUS
 
 COMPONENT fluo_rotated = Arm()
 AT (0,0,0) RELATIVE PREVIOUS
-ROTATED (0,30,0) RELATIVE PREVIOUS
+ROTATED (0,15,0) RELATIVE PREVIOUS
+EXTEND %{
+  sample_choice = ceil(rand01()*2);
+%}
 
-COMPONENT sample = Fluorescence(
+COMPONENT sample = Fluorescence(material=sample_material, geometry=sample_geometry, 
   xwidth=0.001, yheight=0.001, zdepth=0.5e-3,
-  material=sample_material, geometry=sample_geometry, p_interact=0.8,
-  target_index=1, focus_xw=0.1, focus_yh=0.1)
+  target_index=3, focus_xw=1e-4, focus_yh=1e-4, p_interact=0.5)
 AT (0,0,0) RELATIVE sample_stage
+GROUP samples
+
+COMPONENT sample1 = Fluorescence(material="Na0.1Li1.8Mg0.1Sn0.9Bi0.1O3", 
+  xwidth=1e-3, yheight=1e-3, zdepth=0.5e-3, 
+  target_index=2, focus_xw=1e-4, focus_yh=1e-4, p_interact=0.5)
+AT (0,0,0) RELATIVE sample_stage
+GROUP samples
+
+COMPONENT mon_spl_fluo_hyperspectral = Monitor_nD(options="x bins=128, energy limits=[0 6] bins=512", 
+  xwidth=2e-3, yheight=1e-4)
+AT (0,0,0.003) RELATIVE fluo_rotated
 
 COMPONENT mon_spl_fluo = Monitor_nD(options="energy", 
   xwidth=0.1, yheight=0.1, bins=1000,
   min=0, max=E0+dE*1.1)
-AT (0,0,0.1) RELATIVE fluo_rotated
+AT (0,0,1) RELATIVE fluo_rotated
   
 
 FINALLY
