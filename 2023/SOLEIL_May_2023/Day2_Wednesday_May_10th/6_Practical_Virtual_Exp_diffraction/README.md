@@ -79,7 +79,7 @@ In this exercise, we shall simulate a simple diffractometer with:
 - the [PowderN](http://www.mcxtrace.org/download/components/3.1/samples/PowderN.html) sample component ;
 - the [Test_Powder](http://www.mcxtrace.org/download/components/3.1/examples/Test_Powder.html) example (using PowderN).
 
-We shall start the MxGUI interface, and load the *Test_PowderN* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
+We shall start the MxGUI interface, and load the *Test_PowderN* example (*File > New From Template... > Tests_samples* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The PowderN component
 
@@ -190,7 +190,7 @@ In this exercise, we aim to demonstrate how an MX measurement can be simulated (
 - the [Single_crystal](http://www.mcxtrace.org/download/components/3.1/samples/Single_crystal.html) sample component ;
 - the [Test_SX](http://www.mcxtrace.org/download/components/3.1/examples/Test_SX.html) example (using the Single_crystal).
 
-We shall start the MxGUI interface, and load the *Test_SX* example (*File > New From Template... > Tests* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
+We shall start the MxGUI interface, and load the *Test_SX* example (*File > New From Template... > Tests_samples* menu item). You then save a copy of it in your home directory. Then click the **Edit** button to open the model description. You can also use any other Text editor (GEdit and MousePad provide a nice source code highlighting).
 
 #### The Single_crystal component
 
