@@ -24,7 +24,7 @@ These files are used by all mirrors.
 ## 1. Insert the 1st mirror
 Start by re-using the source as defined in the [compound refractive lenses](../1_CRLs/README.md) exercise.
 
-Insert an horizontal instance of a curved mirror at 31.5 mm. According to [KB 1948] the radius of curvature should be given by:
+Insert an horizontal instance of a curved mirror at 31.5 m. According to [KB 1948] the radius of curvature should be given by:
 
 f_m = R sin(&theta;/2). 
 
