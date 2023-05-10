@@ -30,6 +30,7 @@ Of course, your model will hardly compile initially. Read the compilation output
 
 ## SOLEIL beam-lines
 
+For the SOLEIL photon sources, refer to the session 4 ["Sources"](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023/Day2_Wednesday_May_10th/4_Sources) to get the electron beam parameters.
 
 ### SOLEIL LUCIA Fluorescence
 
@@ -39,7 +40,7 @@ A simplified LUCIA model would include the following elements:
 
 Position | Element
 ---------|----------
-0        | the HU52 undulator (see practical 4 "Sources") 2.75 GeV, 32x52.4 mm
+0        | the HU52 undulator (see practical 4 "Sources") 2.75 GeV, 32x52.4 mm, e-beam 218.2x8 µm, 30x3.7 µrad
 13.4     | 0.5 x 0.5 mm slit
 31.5     | a DCM (Si111, theta=5-75 deg)
 39-39.3  | a KB mirror set
@@ -57,19 +58,19 @@ The [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) be
 
 ![SOLEIL_DIFFABS](images/SOLEIL_DIFFABS.png)
 
-So, in order to assemble a DIFFABS model, we may quickly set-up the following elements:
+In order to assemble a DIFFABS model, we may set-up the following elements:
 
 Position | Element
 ---------|----------
-0     | the Bender B=1.72 T in range 3-23 keV, e-beam cross-section 55.1x20.6 um2
-11.85 | primary slit
-14.92 | M1 bent mirror with Rh coating. Reduces the vertical divergence.
-17.46 | a Si(111) DCM. See the practical 5 "Optics"
-19.28 | M2 bent mirror with Rh coating. Focuses horizontally the beam, and increases the divergence.
-?     | a KB mirror set for micro focusing. Optional, see the practical 5 "Optics".
-?     | a Fresnel zone plate. Optional, we ignore it here.
-31.45 | sample stage with e.g. Fluorescence and/or PowderN components
-32    | a set of detectors (transmission, XRD and XRF)
+0     | the BM D13-1 Bender B=1.71 T in range 3-23 keV, e-beam cross-section 55.1x20.6 µm2 123.7x1.6 µrad. Other specs give 60.1x24.9 µm and 134.8x2.1 µrad. Critical energy 8.6 keV.
+11.85 / 12.67 | primary slit
+14.92 / 14.83 / 14.922| M1 bent mirror with Rh/Si coating. Reduces the vertical divergence. length 1300 mm, width 100 mm. 2.4 mrad incidence above 19 keV, 3 mrad in 12.5-19 keV, and 5 mrad in 6.5-12.5 keV, and 6 mrad below.
+17.462 | a Si(111) DCM. First crystal is 200x100 mm flat at 2.54 m from M1; 2nd is bent 70x100 mm to reduce the horizontal divergence (perp. to beam). See the practical 5 "Optics". 
+19.28 | M2 bent mirror with Rh coating, 1300x100 mm. Focuses horizontally the beam, and increases the divergence. At 1.817 from DCM.
+?     | _a KB mirror set for micro focusing. Optional, see the practical 5 "Optics"._
+?     | _a Fresnel zone plate. Optional, we ignore it here._
+31.45 | sample stage with e.g. Fluorescence and/or PowderN components. At 13.99 from DCM.
+32.09 | a set of detectors (transmission, XRD and XRF), radius 654 mm
 
 Reference: 
 
@@ -81,10 +82,10 @@ Reference:
 
 Position  | Element
 ----------|----------
-0         | 15-100 keV Wiggler 2.1 T lu=50 mm 41 periods (K=10)
+0         | 15-100 keV Wiggler 2.1 T lu=50 mm 41 periods (K=10) e-beam 333.3x5.9 µm, 17x5.3 µrad
 ?         | primary mirror (c1/c2), ignored here
 17.5 m    | removable DCM Si(111) for diffraction contrast tomography
-?         | KB mirrors for a focused beam 100x100 um (ignored here as we work in white beam)
+?         | KB mirrors for a focused beam 100x100 µm (ignored here as we work in white beam)
 21 m      | sample area, beam size 16.8x5.9 mm2
 21.5      | a set of detectors (transmission, diffraction, fluo)
 
@@ -101,7 +102,7 @@ The photon source is the bending magnet D09-1 used in range 4-40 keV. The beam s
 
 Position  | Element
 ----------|----------
-0         | bending magnet D09-1
+0         | bending magnet D09-1 e-beam 53.2x23.6 µm 119.4x1.5 µrad
 12.8      | primary slits
 14.1      | focusing cylindrically bent mirror aceptance=6.2 mrad 1200x88 mm, Pd coating, theta=1-10 mrad.
 16.1      | DCM Si(220)
@@ -125,7 +126,7 @@ The optics are basically:
 
 Position | Element
 ---------|----------
-0     | a U20 undulator (used between 5 and 16 keV) with sigma=321 (H) x 9.4 (V) um and divergence 17 (H) x 3.5 (V) urad
+0     | a U20 undulator (used between 5 and 16 keV) with sigma=321 (H) x 9.4 (V) µm and divergence 17 (H) x 3.5 (V) µrad
 11.7  | a diaphgram (slit) 1x0.5mm2
 20    | a Si (111) double monochromator
 22.5  | a KB mirror set
