@@ -67,8 +67,8 @@ Position | Element
 14.92 / 14.83 / 14.922| M1 bent mirror with Rh/Si coating. Reduces the vertical divergence. length 1300 mm, width 100 mm. 2.4 mrad incidence above 19 keV, 3 mrad in 12.5-19 keV, and 5 mrad in 6.5-12.5 keV, and 6 mrad below.
 17.462 | a Si(111) DCM. First crystal is 200x100 mm flat at 2.54 m from M1; 2nd is bent 70x100 mm to reduce the horizontal divergence (perp. to beam). See the practical 5 "Optics". 
 19.28 | M2 bent mirror with Rh coating, 1300x100 mm. Focuses horizontally the beam, and increases the divergence. At 1.817 from DCM.
-?     | _a KB mirror set for micro focusing. Optional, see the practical 5 "Optics"._
-?     | _a Fresnel zone plate. Optional, we ignore it here._
+27.752 | _secondary slits when using the KB. We ignore them here_.
+30.942 / 31.227     | _a KB mirror set M3/M4 for micro focusing. Optional, see the practical 5 "Optics"._
 31.45 | sample stage with e.g. Fluorescence and/or PowderN components. At 13.99 from DCM.
 32.09 | a set of detectors (transmission, XRD and XRF), radius 654 mm
 
