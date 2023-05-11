@@ -107,10 +107,11 @@ where  &lambda; = 2 &pi;/k is the incident wavelength, _d_ is a distance separat
 
 #### Step A.1: incident photon energy parameter and single calculation
 
-Have a look at the [Test_Powder](http://www.mcxtrace.org/download/components/3.1/examples/Test_PowderN.html) header, and TRACE section. As you can see, this is an ideal, very simple model.
+Have a look at the [Test_PowderN](http://www.mcxtrace.org/download/components/3.1/examples/Test_PowderN.html) header, and TRACE section. As you can see, this is an ideal, very simple model powder diffractometer.
 
 The energy spread in the `src` component instance should be set as proportional to `E0` in order to mimic the distribution out of e.g. a monochromator. Let's use `dE=E0/100` at the source (1% resolution).
-The `d_phi` model parameter is forwarded to the PowderN sample component. Using a non-zero value restricts the scattering within a horizontal tore, which improve the simulation efficiency when the detecteor coverage is limited vertically (e.g. a PSD in the horizontal scattering plane). Using a value of 0 allows diffraction in 4&pi; to fully illuminate the `Sph_mon` 4&pi; monitor. 
+
+The `d_phi` model parameter is forwarded to the PowderN sample component. Using a non-zero value restricts the scattering within a horizontal tore, which improves the simulation efficiency when the detecteor coverage is limited vertically (e.g. a PSD in the horizontal scattering plane). Using a value of 0 allows diffraction in 4&pi; to fully illuminate the `Sph_mon` 4&pi; monitor. 
 
 Notice right after the sample component that the non scattered x-rays are absorbed (removed from the calculation) in an EXTEND block. 
 
