@@ -70,10 +70,11 @@ Undulator(
 
 References:
 
-- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea, [https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf](https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf)
+- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea 2008, [https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf](https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf)
 - T. Moreno et al., J Sync Rad 19 (2012) 179, [https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html](https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html)
 - T. Moreno et al., [Proceedings Volume 8141, Advances in Computational Methods for X-Ray Optics II; 81410H (2011) DOI: 10.1117/12.893778](https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations)
 - M.E. Couperie 2013, [https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf](https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf)
+- K. Desjardins et al [The DiagOn : An undulator diagnostic for SOLEIL low energy beamlines, Conference: Nuclear Science Symposium Conference Record, 2008. NSS '08. IEEE     DOI: 10.1109/NSSMIC.2008.4774883](https://www.researchgate.net/publication/224380923_The_DiagOn_An_undulator_diagnostic_for_SOLEIL_low_energy_beamlines)
 
 ## Exercise: using the native McXtrace Wiggler model for SOLEIL photon sources
 
