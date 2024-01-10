@@ -1,0 +1,76 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: POWTOF_solution
+*
+* %Identification
+* Written by: Linda Udby udby@fys.ku.dk, modified by Mads Bertelsen mads.bertelsen@ess.eu
+* Date: June 6th 2011, Modified Jun 2022
+* Origin: University of Copenhagen
+* Release: McStas 3.1
+* Version: 0.2
+* %INSTRUMENT_SITE: ESS_thermal_powder
+*
+* Instrument short description
+*
+* %Description
+* Instrument longer description (type, elements, usage...)
+*
+* Example: mcrun test.instr <parameters=values>
+*
+* %Parameters
+* Par1: [unit] Parameter1 description
+*
+* %Link
+* A reference/HTML link for more information
+*
+* %End
+*******************************************************************************/
+
+DEFINE INSTRUMENT POWTOF_solution(Lmin=0.5, Wavelength_band=4.5, npulses=1)
+
+/* The DECLARE section allows us to declare variables or  small      */
+/* functions in C syntax. These may be used in the whole instrument. */
+DECLARE
+%{
+int npulses_declare;
+double Lmax;
+%}
+
+/* The INITIALIZE section is executed when the simulation starts     */
+/* (C code). You may use them as component parameter values.         */
+INITIALIZE
+%{
+npulses_declare=npulses;
+Lmax = Lmin + Wavelength_band;
+%}
+
+/* Here comes the TRACE section, where the actual      */
+/* instrument is defined as a sequence of components.  */
+TRACE
+
+COMPONENT Origin = Progress_bar()
+AT (0,0,0) ABSOLUTE
+
+COMPONENT Source = Source_simple(
+  xwidth=0.03, yheight=0.03,
+  focus_xw=0.03, focus_yh=0.03, dist=160,
+  lambda0=Lmin + 0.5*Wavelength_band, dlambda=0.5*Wavelength_band, flux=1E13)
+AT (0,0,0) RELATIVE Origin
+EXTEND %{
+    double t_between_pulses=1.0/14.0;
+    double pulse_n=(double) floor(rand01()*npulses_declare);
+    double pulse_delay=t_between_pulses*pulse_n;
+    
+    t=2860*rand01()*1E-6 + pulse_delay; // Square time distribution centered at 1430 us
+%}
+
+
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
