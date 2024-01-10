@@ -1,7 +1,7 @@
 # Welcome to the Jan 2024 ESS McStas Workshop
 
 ## Workshop programme:
-[![Workshop programme](pics/programme.png)](https://docs.google.com/spreadsheets/d/1KWNWQxnGK3B8UPHIBGtvUSGSvkVtw4gwqExXmb3KR2k/edit?usp=sharing)
+[![Workshop programme](pics/programme.png)](https://docs.google.com/spreadsheets/d/1x_YmHhAyZquYxcbj0iaY-HADBu12bvtAuzNeIsgVlHA/edit?usp=sharing)
 
 ## Prerequisites, 
 - Local installation of [docker](https://www.docker.com/products/docker-desktop)
