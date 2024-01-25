@@ -29,6 +29,17 @@
 *******************************************************************************/
 DEFINE INSTRUMENT reference(lambda_min=3.0, lambda_max=8.0, guide_length=10.0, guide_width=0.03)
 
+DECLARE %{
+  double lG1;
+  double lG2;
+%}
+
+INITIALIZE %{
+  lG1=0.8*guide_length;
+  lG2=guide_length-lG1;
+%}
+
+
 TRACE
 
 COMPONENT Origin = Progress_bar()
@@ -46,19 +57,19 @@ AT (0, 0, 0) RELATIVE Origin
 COMPONENT guide = Guide_gravity(
   w1=guide_width, h1=0.03,
   w2=guide_width, h2=0.03,
-  l=0.8*guide_length,
+  l=lG1,
   R0=0.99, m=3, Qc=0.0217, alpha=2.0, W=0.003,
   G=-9.82)
 AT (0, 0, 2) RELATIVE source
 
 // Arm at the location where the guide ends
 COMPONENT guide_end = Arm()
-AT (0, 0, 0.8*guide_length) RELATIVE guide
+AT (0, 0, lG1) RELATIVE guide
 
 // Elliptic nose for the last 20% of the guide length
 COMPONENT nose = Elliptic_guide_gravity(
   dimensionsAt="entrance", xwidth=guide_width, yheight=0.03,
-  l=0.2*guide_length,
+  l=lG2,
   linxw=5.0, linyh=5.0, // Focal point upstream, 5 m from the start of the elliptic section
   loutxw=0.5, loutyh=0.5, // Focal point down stream, 0.5 m from end of the elliptic section
   R0=0.99, m=3, Qc=0.0217, alpha=2.0, W=0.003)
@@ -66,7 +77,7 @@ AT (0, 0, 1E-6) RELATIVE guide_end
 
 // Arm at the location where the elliptic section ends
 COMPONENT nose_end = Arm()
-AT (0, 0, 0.2*guide_length) RELATIVE nose
+AT (0, 0, lG2) RELATIVE nose
 
 // monitors
 // Position sensetive detector

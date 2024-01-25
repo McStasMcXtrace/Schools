@@ -35,6 +35,11 @@ DECLARE
 %{
 int npulses_declare;
 double Lmax;
+double alpha = 252.7;
+
+double tmin1,tmin2,tmin3;
+double tmax1,tmax2,tmax3;
+double t_between_pulses=1.0/14.0;
 %}
 
 /* The INITIALIZE section is executed when the simulation starts     */
@@ -43,6 +48,17 @@ INITIALIZE
 %{
 npulses_declare=npulses;
 Lmax = Lmin + Wavelength_band;
+
+tmin1 = alpha * Lmin * 1e-3 - 100;
+tmax1 = alpha * Lmax * 1e-3 + 3000;
+ 
+tmin2 = alpha * Lmin * 6.5 - 1000;
+tmax2 = alpha * Lmax * 6.5 + 3000;
+
+tmin3 = alpha * Lmin * 160 - 2000;
+ tmax3 = alpha * Lmax * 160 + (4000+ t_between_pulses)*npulses;
+ 
+
 %}
 
 /* Here comes the TRACE section, where the actual      */
@@ -58,12 +74,61 @@ COMPONENT Source = Source_simple(
   lambda0=Lmin + 0.5*Wavelength_band, dlambda=0.5*Wavelength_band, flux=1E13)
 AT (0,0,0) RELATIVE Origin
 EXTEND %{
-    double t_between_pulses=1.0/14.0;
     double pulse_n=(double) floor(rand01()*npulses_declare);
     double pulse_delay=t_between_pulses*pulse_n;
     
     t=2860*rand01()*1E-6 + pulse_delay; // Square time distribution centered at 1430 us
 %}
+
+COMPONENT TOFmon1 = TOF_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=100, tmin=tmin1, tmax=tmax1,
+  filename="TOFmon1", restore_neutron=1)
+AT (0, 0, 1e-3) RELATIVE Source
+
+COMPONENT TOFLambda1 = TOFLambda_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=200, tmin=tmin1, tmax=tmax1,
+  nL=100, Lmin=Lmin, Lmax=Lmax,
+  filename="TOFLambda1", restore_neutron=1)
+AT (0, 0, 1e-6) RELATIVE TOFmon1
+
+
+COMPONENT TOFmon2 = TOF_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=100, tmin=tmin2, tmax=tmax2,
+  filename="TOFmon2", restore_neutron=1)
+AT (0, 0, 6.5) RELATIVE Source
+
+COMPONENT TOFLambda2 = TOFLambda_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=200, tmin=tmin2, tmax=tmax2,
+  nL=100, Lmin=Lmin, Lmax=Lmax,
+  filename="TOFLambda2", restore_neutron=1)
+AT (0, 0, 1e-6) RELATIVE TOFmon2
+
+
+  
+COMPONENT TOFmon3 = TOF_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=100, tmin=tmin3, tmax=tmax3,
+  filename="TOFmon3", restore_neutron=1)
+AT (0, 0, 160) RELATIVE Source
+
+COMPONENT TOFLambda3 = TOFLambda_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=200, tmin=tmin3, tmax=tmax3,
+  nL=100, Lmin=Lmin, Lmax=Lmax,
+  filename="TOFLambda3", restore_neutron=1)
+AT (0, 0, 1e-6) RELATIVE TOFmon3
+
+COMPONENT TOFLambda3all = TOFLambda_monitor(
+  xwidth=0.05, yheight=0.05,
+  nt=200, tmin=tmin3, tmax=1e6,
+  nL=100, Lmin=Lmin, Lmax=Lmax,
+  filename="TOFLambda3all", restore_neutron=1)
+AT (0, 0, 1e-6) RELATIVE TOFLambda3
+
 
 
 /* This section is executed when the simulation ends (C code). Other    */
