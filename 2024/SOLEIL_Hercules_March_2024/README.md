@@ -92,7 +92,21 @@ If you now click on the **[Run]** button, a dialogue window will appear. As you 
 
 Click on the **[Start]** button in the bottom of the dialogue window. The console (text in green in the main user interface) indicates that a calculation has started. It should take ~70 seconds to complete. There are ways to speed-up the computation by using all the available CPU's (requires to recompile with MPI - in the _Parallelisation_ drop-down menu on the Run dialogue).
 
-Now click on the **[Plot]** button of the main interface.
+Now click on the **[Plot]** button of the main interface. All simulation results are displayed. You may hit the **"L"** key to toggle the log-scale display. other key shortcuts can be displayed with the "H" key. All data files are text based, and stored in a directory also containing a copy of the model. There is also a possibility to save data in the HDF5/NeXus format.
+
+![plot results](doc/Plot-Fluorescence.png "Plot Fluorescence results")
+
+On this plot, you can see the fluorescence spectrum of the LaB6 (default material), as well as the Rayleigh and Compton lines as detected on the monitor surface.
+
+**Question**: What is the solid angle of these 3 detectors ?
+
+We shall now perform a scan of the incident energy. For this, reduce the number of "Ray count" to 10000 (remove a 0). You may as well re-compile with MPI to speed-up the calculation (in _Parallelisation_). Then specify _Scan steps_ as 11 and the energy range in the simulation parameter _E0_ as 30,45 (i.e. between 30 and 45 with 11 points). Then press **[Start]**.
+
+Then press the **[Plot]** button. The integrated intensity on each detector is displayed as a function of the incident energy.
+
+![plot xas](doc/Test_Fluorescence_xas.png "Plot Fluorescence xas")
+
+**Question**: What is the signification of the "fluo" intensity vs E0 ? This is a rather common measuring method on X-ray beam-lines.
 
 
 ## Going further: realistic X-ray beam-line models with samples
