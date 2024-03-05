@@ -2,7 +2,7 @@
  * Format:     ANSI C source code
  * Creator:    McXtrace <http://www.mcxtrace.org>
  * Instrument: SOLEIL_DIFFABS.instr (SOLEIL_DIFFABS)
- * Date:       Tue Mar  5 11:40:40 2024
+ * Date:       Tue Mar  5 17:03:27 2024
  * File:       ./SOLEIL_DIFFABS.c
  * CFLAGS= -std=c99 -Wl,-rpath,GETPATH(lib) -LGETPATH(lib) -lxrl -IGETPATH(include) -DUSE_OFF -DFUNNEL 
  */

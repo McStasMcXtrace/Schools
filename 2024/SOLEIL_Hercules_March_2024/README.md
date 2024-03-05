@@ -33,7 +33,7 @@ Navigate to the DARTS landing page (when on-site, select the **desktop** entry i
 
 Then click on the green **[Create]** button on the left, with default settings ("Data Analysis", 4 cores, 16 GB mem). To access an existing previous session of your own, click on **[Manage sessions]**.
 
-After e.g. 15-30s you will see an information page that indicates that your session is ready. Simply click on the **[Connect]** button.
+After e.g. 15-30s you should see an information page that indicates that your session is ready. Simply click on the **[Connect]** button.
 
 ![DARTS session](doc/Fig-2-DARTS-starting-session.png "DARTS session")
 
@@ -82,7 +82,7 @@ From the _File_ menu, select **New From Template... > Test\_samples > Test\_Fluo
 
 ![mxgui](doc/Test_Fluorescence.png "mxgui: Test_Fluorescence")
 
-From the main interface, click on the **[Edit]** button on the top right. The description of the model is displayed. As you may see, there is a special syntax to describe component arrangements.
+From the main interface, click on the **[Edit]** button on the top right. The description of the model is displayed. As you may see, there is a special syntax to describe component arrangements. The "Help > mxdoc current instrument" menu item presents the documentation for the loaded model.
 
 ![editor](doc/Test_Fluorescence_edit.png "Edit: Test_Fluorescence")
 
@@ -98,17 +98,19 @@ Now click on the **[Plot]** button of the main interface. All simulation results
 
 ![plot results](doc/Plot-Fluorescence.png "Plot Fluorescence results")
 
-On this plot, you can see the fluorescence spectrum of the LaB6 (default material), as well as the Rayleigh and Compton lines as detected on the monitor surface.
+On this plot, you can see the fluorescence spectrum of the LaB<sub>6</sub> (default material), as well as the Rayleigh and Compton lines as detected on the monitor surface.
 
 **Question**: What is the solid angle of these 3 detectors ?
 
-We shall now perform a scan of the incident energy. For this, reduce the number of "Ray count" to 10000 (remove a 0). You may as well re-compile with MPI to speed-up the calculation (in _Parallelisation_). Then specify _Scan steps_ as 11 and the energy range in the simulation parameter _E0_ as 30,45 (i.e. between 30 and 45 with 11 points). Then press **[Start]**.
+#### Fluorescence: changing the incident beam energy
+
+We shall now perform a scan of the incident energy. For this, reduce the number of "Ray count" to 10000 (remove a 0). You may as well re-compile with MPI to speed-up the calculation (in _Parallelisation_). Then specify _Scan steps_ as 11 and the energy range in the simulation parameter `E0` as `30,45` (i.e. between 30 and 45 with 11 points). Then press **[Start]**.
 
 Then press the **[Plot]** button. The integrated intensity on each detector is displayed as a function of the incident energy.
 
 ![plot xas](doc/Test_Fluorescence_xas.png "Plot Fluorescence xas")
 
-**Question**: What is the signification of the "fluo" intensity vs E0 ? This is a rather common measuring method on X-ray beam-lines.
+**Question**: What is the signification of the "fluo" intensity as a function of E0 ? This is a rather common measuring method on X-ray beam-lines.
 
 
 ## Going further: realistic X-ray beam-line models with samples
@@ -119,7 +121,7 @@ We shall now use a model of the [DIFFABS](https://www.synchrotron-soleil.fr/fr/l
 
 From the _File_ menu, select **New From Template... > SOLEIL > SOLEIL_DIFFABS**, and save the `SOLEIL_DIFFABS.instr` file in your home directory. Click on the **[Run]** button to assemble the model.
 
-:warning: **NOTE** : you will probably have to enter the full path the LaB6 crystal structure e.g. `/usr/share/mcxtrace/3.4-20240304/data/LaB6_660b_AVID2.hkl`. In case of error, the path to that file will be displayed in the main interface output frame (green text).
+:warning: **NOTE** : you will probably have to enter the full path the LaB<sub>6</sub> crystal structure e.g. `/usr/share/mcxtrace/3.4-20240304/data/LaB6_660b_AVID2.hkl`. In case of error, the path to that file will be displayed in the main interface output frame (green text).
 
 ![run trace](doc/Run-Trace.png "Run Trace")
 
@@ -127,11 +129,49 @@ Now, in the _Simulation/Trace_ drop-down of the "Start simulation" window, selec
 
 ![mxdisplay](doc/MxDisplay-DIFFABS.png "MxDisplay")
 
-The last element is the detector cradle, which spans on a wide angle. Identify where the double monochromator is located (about in the middle), and zoom in order to visualise the photon beam through it.
+The last element is the detector cradle, which spans on a wide angle. 
 
-In this model, we consider powder diffraction.
+**Question**: Where is the double monochromator located ? You may zoom in order to visualise the photon beam through it.
 
+Edit the beam-line description. You may search for the double monochromator `DCM` which is made of two `Bragg_crystal` components. 
+
+You shall notice that this model is definitively more complex than the previous Fluorescence example. To build a realistic beam-line model, you should e.g. start from the blue-prints, and specifications for each element along the beam. 
+
+#### DIFFABS: Powder diffraction
+
+In this model, we consider powder diffraction. We use, as before, the LaB<sub>6</sub> sample.
+
+Perform a single simulation with the LaB<sub>6</sub> sample, just by reverting, in the Run dialogue, the _Simulation/Trace_ drop-down to "Simulation", and pressing **[Start]**.
+When completed, press the **[Plot]** button and the **L** key to switch to log-scale. The last 3 monitors provide the fluorescence spectrum, the integrated diffractogram, and the 2D image on the detection surface.
+
+![diffabs](doc/DIFFABS-powder.png "diffabs powder")
+
+**Question**: Identify the fluorescence background signal, and diffraction pattern. What is the origin of each diffraction peak shape ? What is the meaning of the 2D final image ?
+
+#### The PSICHE tomography beam-line
+
+Lets open the `SOLEIL_PSICHE` beam-line. As done for the other exercises above, you are first invited to look at the beam-line code (the Edit button) and the 3D geometry (Run dialogue, and set the "Simulation/Trace" to "Trace"). 
+
+**Question**: What is the default beam-line configuration for this model ? Is it suited for tomography ?
+
+Start a dry-run simulation after reverting to the "Simulation" mode. You may also use the "_Parallelisation_=MPI/recompile" option. The default sample is a silver wire ball (OFF or PLY geometry formats are accepted), which transmission through is measured on the final 2D image.
+
+![psiche_0](doc/PSICHE-wire-0.png "psiche 0 deg")
+
+What is actually performed in a real experiment is a continuous rotation of the sample, which can be done here step by step by specifying the `sample_theta` parameter as `60` deg (for instance).
+
+![psiche_7](doc/PSICHE-wire-7.png "psiche 60 deg")
+
+Open a data file, which location is indicate in the console, and when you press the Plot button.
+
+To achieve a full rotation, you would set `sample_theta` parameter as e.g. `0,360` deg, in e.g. 360 steps. 
+As all data files are text based, you may easily import the images in e.g. python, Matlab, etc and build a sinogram/volume.
+The computation time will then be much too long for this practical session.
+
+# Thanks for attending !
 
 ---
 ![SOLEIL](doc/soleil-logo.png  "SOLEIL") ![HECULES](doc/hercules-logo.png  "HERCULES") ![McXtrace](doc/mcxtrace-logo.png "McXtrace")
  ![DARTS](doc/darts_logo.png)
+ 
+ (c) Synchrotron SOLEIL 2024.
