@@ -70,13 +70,15 @@ In addition, McXtrace comes with dedicated GUI's to edit models, start simulatio
 
 McXtrace and McStas share the same basic concepts and tools. The computational part is programmed in C, the user interfaces are mostly in Python. The source code is hosted on [Github](https://github.com/McStasMcXtrace/McCode), and it runs on all architectures.
 
-## Get in touch: starting with simple examples
+## Get in touch: starting with a simple Fluorescence beam-line
 
 In this part of the tutorial, you are invited to start the McXtrace GUI. Open a Terminal and enter the `mxgui` command. The project documentation, including manuals, lists of components and examples, is available from the **Help** menu.
 
+We shall start with a fluorescence sample to achieve XRF estimates.
+
 #### Fluorescence
 
-From the _File_ menu, select **"New From Template... > Test\_samples > Test\_Fluorescence"**, then save the `Test_Fluorescence.instr` file in your home account (press Enter key).
+From the _File_ menu, select **New From Template... > Test\_samples > Test\_Fluorescence**, then save the `Test_Fluorescence.instr` file in your home account (press Enter key).
 
 ![mxgui](doc/Test_Fluorescence.png "mxgui: Test_Fluorescence")
 
@@ -110,6 +112,25 @@ Then press the **[Plot]** button. The integrated intensity on each detector is d
 
 
 ## Going further: realistic X-ray beam-line models with samples
+
+We shall now use a model of the [DIFFABS](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/diffabs) beam-line, which handles fluorescence (XRF as above) and diffraction (XRD).
+
+#### The DIFFABS beam-line geometry
+
+From the _File_ menu, select **New From Template... > SOLEIL > SOLEIL_DIFFABS**, and save the `SOLEIL_DIFFABS.instr` file in your home directory. Click on the **[Run]** button to assemble the model.
+
+:warning: **NOTE** : you will probably have to enter the full path the LaB6 crystal structure e.g. `/usr/share/mcxtrace/3.4-20240304/data/LaB6_660b_AVID2.hkl`. In case of error, the path to that file will be displayed in the main interface output frame (green text).
+
+![run trace](doc/Run-Trace.png "Run Trace")
+
+Now, in the _Simulation/Trace_ drop-down of the "Start simulation" window, select "Trace", then press **[Start]**. A 3D representation of the beam-line geometry will be displayed in a browser. You may rotate/zoom/pan with the mouse, as well as control the particle tracking.
+
+![mxdisplay](doc/MxDisplay-DIFFABS.png "MxDisplay")
+
+The last element is the detector cradle, which spans on a wide angle. Identify where the double monochromator is located (about in the middle), and zoom in order to visualise the photon beam through it.
+
+In this model, we consider powder diffraction.
+
 
 ---
 ![SOLEIL](doc/soleil-logo.png  "SOLEIL") ![HECULES](doc/hercules-logo.png  "HERCULES") ![McXtrace](doc/mcxtrace-logo.png "McXtrace")

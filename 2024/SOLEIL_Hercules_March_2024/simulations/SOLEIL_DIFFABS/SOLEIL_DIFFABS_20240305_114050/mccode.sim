@@ -1,0 +1,31 @@
+McXtrace simulation description file for SOLEIL_DIFFABS.
+Date:    Tue Mar  5 11:40:50 2024
+Program: McXtrace 3.4-20240304 - mars. 05, 2024
+
+begin instrument: SOLEIL_DIFFABS
+  File: /home/experiences/grades/farhie/dev/Schools/2024/SOLEIL_Hercules_March_2024/simulations/SOLEIL_DIFFABS/SOLEIL_DIFFABS_20240305_114050/mccode
+  Source: SOLEIL_DIFFABS.instr
+  Parameters:  E0(double) dE(double) M1_angle(double) M1_radius(double) M2_radius(double) DCM_theta(double) sample(string)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: /home/experiences/grades/farhie/dev/Schools/2024/SOLEIL_Hercules_March_2024/simulations/SOLEIL_DIFFABS/SOLEIL_DIFFABS_20240305_114050
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McXtrace 3.4-20240304 - mars. 05, 2024
+  Instrument: SOLEIL_DIFFABS.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1709635250683849
+  Directory: /home/experiences/grades/farhie/dev/Schools/2024/SOLEIL_Hercules_March_2024/simulations/SOLEIL_DIFFABS/SOLEIL_DIFFABS_20240305_114050
+  Param: E0=13
+  Param: dE=1
+  Param: M1_angle=0
+  Param: M1_radius=1400
+  Param: M2_radius=1400
+  Param: DCM_theta=0
+  Param: sample=LaB6_660b_AVID2.hkl
+end simulation
