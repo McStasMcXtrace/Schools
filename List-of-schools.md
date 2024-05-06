@@ -29,6 +29,7 @@
 | 2013/09/16-20    | Joint VITESS McStas Training and Workshop in Berlin  | [Legacy McStas school site](https://2013.essworkshop.org)    |
 | 2012/06/16-20    | McStas/Vitess Training at INSIS 2012 | [Legacy McStas SChool site](http://schools.mcstas.org/INSIS_2012_Frascati/)    |
 | 2011/06/13-17    | [2011 Vik - Neutron Instrument Design School](https://vik2011.essworkshop.org)   | [NIDS materials](https://vik2011.essworkshop.org/index/second-week-material.html)     |
+| 2010/06/28-07/2  | McStas/VITESS session @ PNCMI Delft | no files |
 | 2010/05/17-21    | [McStas/VITESS user training workshop 2010, Ven](https://ven2010.essworkshop.org)  | [Legacy McStas school site](http://schools.mcstas.org/McStas-Vitess-Backafallsbyn-Ven2010/)   |
 | 2009/06/22-26    | Nuclear Malaysia McStas training (ICNX2009) | [Legacy McStas school site](http://schools.mcstas.org/McStas-Malaysia-Tutorial-2009/)    | 
 | 2009/05 | McStas training at ICNS2009, Knoxville | no files |
