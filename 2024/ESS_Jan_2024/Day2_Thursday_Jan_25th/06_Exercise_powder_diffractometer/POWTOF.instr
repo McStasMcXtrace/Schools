@@ -27,7 +27,7 @@
 * %End
 *******************************************************************************/
 
-DEFINE INSTRUMENT POWTOF_solution(Lmin=0.5, Wavelength_band=4.5, npulses=1)
+DEFINE INSTRUMENT POWTOF_solution(Lmin=0.5, Wavelength_band=4.5, npulses=1, string filename="Na2Ca3Al2F14.laz")
 
 /* The DECLARE section allows us to declare variables or  small      */
 /* functions in C syntax. These may be used in the whole instrument. */
@@ -128,6 +128,25 @@ COMPONENT TOFLambda3all = TOFLambda_monitor(
   nL=100, Lmin=Lmin, Lmax=Lmax,
   filename="TOFLambda3all", restore_neutron=1)
 AT (0, 0, 1e-6) RELATIVE TOFLambda3
+
+COMPONENT sa_arm = Arm()
+AT (0, 0, 160) RELATIVE Source
+
+SPLIT 10 COMPONENT sample = PowderN (
+	d_phi=D_PHI,radius=0.006, yheight=0.01, DW=Dw, reflections = filename)
+AT ( 0, 0, 0) RELATIVE sa_arm
+
+COMPONENT STOP = Beamstop(radius=0.3)
+AT (0,0,1.4) RELATIVE sa_arm
+ROTATED (0,0,0) RELATIVE sa_arm
+
+
+COMPONENT Detector = Monitor_nD(
+  xwidth=4.0, yheight=0.09, filename="detector.dat",
+  options="banana, theta limits=[10 170] bins=320, t limits=[0 1] bins=10000")
+AT (0,0,0) RELATIVE sa_arm
+ROTATED (0, 0, 180) RELATIVE sa_arm
+
 
 
 
