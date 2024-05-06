@@ -21,9 +21,11 @@
 | 2018/10/30-11/02  | ESS DMSC McStas training Jun. 2018 |   [Legacy McStas school site](http://schools.mcstas.org/ESS_DMSC_June_2018/) |
 | 2017/04/26-28    | McStas training at ISIS STFC | [Legacy McStas school site](http://schools.mcstas.org/April_2017_ISIS_STFC) |
 | 2016/10/20-21       | McStas training at NOBUGS 2016, Copenhagen | [Legacy McStas school site](http://schools.mcstas.org/NOBUGS_2016/)|
+| 2016/07/14 | McStas talk + demo at FRM-II | no files |
 | 2016/05/30-06/01 | ESS McStas Training 2016 | [Legacy McStas school site](http://schools.mcstas.org/ESS_May_2016/) |
 | 2016/02/15-19 | Bariloche McStas school | [Legacy McStas school site](http://schools.mcstas.org/Bariloche_2016/) |
 | 2014-17    | Several smaller events at ESS in Lund   | no files |
+| 2013/10/23-24/ | FRM-II McStas+Vitess workshop | no files |
 | 2013/09/16-20    | Joint VITESS McStas Training and Workshop in Berlin  | [Legacy McStas school site](https://2013.essworkshop.org)    |
 | 2012/06/16-20    | McStas/Vitess Training at INSIS 2012 | [Legacy McStas SChool site](http://schools.mcstas.org/INSIS_2012_Frascati/)    |
 | 2011/06/13-17    | [2011 Vik - Neutron Instrument Design School](https://vik2011.essworkshop.org)   | [NIDS materials](https://vik2011.essworkshop.org/index/second-week-material.html)     |
