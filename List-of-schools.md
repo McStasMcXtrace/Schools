@@ -18,7 +18,8 @@
 | 2018/10/30-11/02  | ESS DMSC McStas training Oct. 2018 |   [Legacy McStas school site](http://schools.mcstas.org/ESS_DMSC_Oct-Nov_2018/) |
 | 2018/10/18-19    | ORNL McStas training 2018   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2018/ORNL_October_2018)
 | 2018/09/24-28    | [MDANSE 2018](https://mdanse2018.essworkshop.org)   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2018/MDANSE_Tenerife_September_2018)
-| 2018/10/30-11/02  | ESS DMSC McStas training Jun. 2018 |   [Legacy McStas school site](http://schools.mcstas.org/ESS_DMSC_June_2018/) |
+| 2018/07/9-13  | McStas session @ [2018 Erice SONS](http://sons.uniroma2.it/ericeneutronschool/v-course-2018/) |   no files |
+| 2018/06/20-22  | ESS DMSC McStas training Jun. 2018 |   [Legacy McStas school site](http://schools.mcstas.org/ESS_DMSC_June_2018/) |
 | 2017/04/26-28    | McStas training at ISIS STFC | [Legacy McStas school site](http://schools.mcstas.org/April_2017_ISIS_STFC) |
 | 2016/10/20-21       | McStas training at NOBUGS 2016, Copenhagen | [Legacy McStas school site](http://schools.mcstas.org/NOBUGS_2016/)|
 | 2016/07/14 | McStas talk + demo at FRM-II | no files |
