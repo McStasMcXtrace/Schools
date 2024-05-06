@@ -12,7 +12,7 @@
 | 2022/03/09-11   | SOLEIL McXtrace training 2022 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SOLEIL_March_2022)|
 | 2021/05/05-07    | HighNESS ESS **online** training (Gathertown)    | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2021/ESS_May_2021)|
 | 2021/04/13-25    | ISIS STFC **online** training (Gathertown)    | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2021/ISIS_April_2021)|
-| 2019/10/03-04   | SOLEIL McXtrace training 2019 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2019/SOLEIL_December_2019)|
+| 2019/12/03-04   | SOLEIL McXtrace training 2019 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2019/SOLEIL_December_2019)|
 | 2019/07/17-19   | McStas + Neutron optics @ BNS2019, Bilbao | no files |
 | 2019/03/25-29   | CSNS McStas training 2019 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2019/CSNS_March_2019)|
 | 2019/02/21-22   | ESS DMSC McStas training Feb. 2019 | [Legacy McStas School site](http://schools.mcstas.org/ESS_DMSC_Feb_2019) |
