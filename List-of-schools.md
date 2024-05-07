@@ -4,7 +4,10 @@
 |:----------|:----------|:----------|
 | 2024/03    | SOLEIL McXtrace HERCULES session   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2024/SOLEIL_Hercules_March_2024)  |
 | 2024/01/24-26    | ESS Lund/Copenhagen McStas training   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2024/ESS_Jan_2024)    |
+| 2023/09/1-5    | ESS Lund/Copenhagen DMSC Summer School   | [GitHub](https://github.com/ess-dmsc-dram/dmsc-school) |
 | 2023/05/09-12 | SOLEIL McXtrace training 2023 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2023/SOLEIL_May_2023) |
+| 2023/09/1-5    | ESS Lund/Copenhagen DMSC Summer School   | [GitHub](https://github.com/ess-dmsc-dram/dmsc-school) |
+| 2022/12/7-15 | University of Copenhagen McStas Advanced Design School | [GitHub](https://github.com/PaNOSC-ViNYL/McStasScript-notebooks/tree/main/McStas_Advanced_Design_School) |
 | 2022/09/05-08 | McXtrace [1st Greek Summer School on Synchrotron Radiation](http://xafslab.physics.auth.gr/srss22.html) | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2022/SRSS22_Sept_2022_McXtrace) |
 | 2022/06/29-07/01 | McStas-McXtrace for MDANSE 2022 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2022/MDANSE2022_McStas_McXtrace)|
 | 2022/05-07   | ESS DMSC McStas training May/June/July 2022 | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2022/ESS_May_June_2022)|
