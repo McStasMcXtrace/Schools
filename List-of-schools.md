@@ -2,6 +2,7 @@
 
 | Dates  | Title/website/description  | Link to material |
 |:----------|:----------|:----------|
+| 2024/10/7-11  | NECSA McStas-McXtrace school | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2024/NECSA_October_2024)  |
 | 2024/03    | SOLEIL McXtrace HERCULES session   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2024/SOLEIL_Hercules_March_2024)  |
 | 2024/01/24-26    | ESS Lund/Copenhagen McStas training   | [GitHub](https://github.com/McStasMcXtrace/Schools/tree/master/2024/ESS_Jan_2024)    |
 | 2023/09/1-5    | ESS Lund/Copenhagen DMSC Summer School   | [GitHub](https://github.com/ess-dmsc-dram/dmsc-school) |
