@@ -1,0 +1,115 @@
+McStas simulation description file for reference.
+Date:    Wed Jan 24 15:47:50 2024
+Program: McStas 3.4 - Sep. 19, 2023
+
+begin instrument: reference
+  File: Exercise_solution_elliptic_20240124_154731/3/mccode
+  Source: Exercise_solution_elliptic.instr
+  Parameters:  lambda_min(double) lambda_max(double) guide_length(double) guide_width(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: Exercise_solution_elliptic_20240124_154731/3
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator: McStas 3.4 - Sep. 19, 2023
+  Instrument: Exercise_solution_elliptic.instr
+  Ncount: 10000000
+  Trace: no
+  Gravitation: no
+  Seed: 1706107670745549
+  Directory: Exercise_solution_elliptic_20240124_154731/3
+  Nodes: 12
+  Param: lambda_min=3
+  Param: lambda_max=8
+  Param: guide_length=40
+  Param: guide_width=0.03
+end simulation
+
+begin data
+  Date: Wed Jan 24 15:48:00 2024 (1706107680)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_solution_elliptic.instr)
+  component: PSD_2D
+  position: 0 0 42.5
+  title: PSD monitor
+  Ncount: 9999996
+  filename: PSD_2D.dat
+  statistics: X0=-0.000249803; dX=1.01602; Y0=0.00081386; dY=1.01605;
+  signal: Min=3.12244e-10; Max=2.06742e-06; Mean=5.61953e-07;
+  values: 0.0224781 1.36924e-05 4.54435e+06
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -2.5 2.5 -2.5 2.5
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Jan 24 15:48:00 2024 (1706107680)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_solution_elliptic.instr)
+  component: DIV_2D
+  position: 0 0 42.5
+  title: Divergence monitor
+  Ncount: 9999996
+  filename: DIV_2D.dat
+  statistics: X0=-0.000245784; dX=1.12559; Y0=0.00122044; dY=1.12534;
+  signal: Min=5.19158e-22; Max=2.23521e-06; Mean=5.61953e-07;
+  values: 0.0224781 1.36924e-05 4.44431e+06
+  xvar: X 
+  yvar: Y 
+  xlabel: X divergence [deg]
+  ylabel: Y divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -3 3 -3 3
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Jan 24 15:48:00 2024 (1706107680)
+  type: array_1d(100)
+  Source: reference (Exercise_solution_elliptic.instr)
+  component: Wavelength_1D
+  position: 0 0 42.5
+  title: Wavelength monitor
+  Ncount: 9999996
+  filename: Wavelength_1D.dat
+  statistics: X0=6.06557; dX=1.34186;
+  signal: Min=0; Max=0.000503274; Mean=0.000224781;
+  values: 0.0224781 1.36924e-05 4.54435e+06
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 3 9.6
+  variables: L I I_err N
+end data
+
+begin data
+  Date: Wed Jan 24 15:48:00 2024 (1706107680)
+  type: array_2d(200, 200)
+  Source: reference (Exercise_solution_elliptic.instr)
+  component: POS_DIV_2D
+  position: 0 0 42.5
+  title: Position-divergence monitor
+  Ncount: 9999996
+  filename: POS_DIV_2D.dat
+  statistics: X0=-2.49792e-06; dX=0.0101602; Y0=-0.000245794; dY=1.12559;
+  signal: Min=0; Max=4.78326e-06; Mean=5.61953e-07;
+  values: 0.0224781 1.36924e-05 4.49363e+06
+  xvar: po
+  yvar: di
+  xlabel: pos [m]
+  ylabel: divergence [deg]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.025 0.025 -3 3
+  variables: I I_err N
+end data
