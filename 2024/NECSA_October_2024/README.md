@@ -39,3 +39,12 @@ and hosted at the [NECSA SAFARI](https://www.necsa.co.za/) research reactor in S
 
 Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and Deon Marais.
 
+---
+
+[![McStas](pics/mcstas_logo.png)](https://mcstas.org/) - 
+[![McXtrace](pics/mcxtrace-logo.png)](https://mcxtrace.org/) - 
+[![DTU](pics/dtu_logo.gif)](https://www.dtu.dk/) - 
+[![SOLEIL](pics/soleil-logo.png)](https://www.synchrotron-soleil.fr/en) - 
+[![NECSA](pics/necsa_logo-1.png)](https://www.necsa.co.za/)
+
+
