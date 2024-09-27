@@ -46,6 +46,6 @@ Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and De
 [![McXtrace](pics/mcxtrace-logo.png)](https://mcxtrace.org/) - 
 [![DTU](pics/dtu_logo.gif)](https://www.dtu.dk/) - 
 [![SOLEIL](pics/soleil-logo.png)](https://www.synchrotron-soleil.fr/en) - 
-[![NECSA](pics/necsa_logo-1.png | height=100)](https://www.necsa.co.za/)
+[![NECSA](pics/necsa_logo-1.png)](https://www.necsa.co.za/)
 
 
