@@ -41,6 +41,7 @@ Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and De
 
 ---
 
+[![IAEA](pics/IAEA.png)]([https://mcstas.org/](https://www.iaea.org)) - 
 [![McStas](pics/mcstas_logo.png)](https://mcstas.org/) - 
 [![McXtrace](pics/mcxtrace-logo.png)](https://mcxtrace.org/) - 
 [![DTU](pics/dtu_logo.gif)](https://www.dtu.dk/) - 
