@@ -41,11 +41,11 @@ Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and De
 
 ---
 
-[![IAEA](pics/IAEA.png)]([https://mcstas.org/](https://www.iaea.org)) - 
-[![McStas](pics/mcstas_logo.png)](https://mcstas.org/) - 
-[![McXtrace](pics/mcxtrace-logo.png)](https://mcxtrace.org/) - 
-[![DTU](pics/dtu_logo.gif)](https://www.dtu.dk/) - 
-[![SOLEIL](pics/soleil-logo.png)](https://www.synchrotron-soleil.fr/en) - 
-[![NECSA](pics/necsa_logo-1.png)](https://www.necsa.co.za/)
+[![IAEA](pics/IAEA.png | height=100)]([https://mcstas.org/](https://www.iaea.org)) - 
+[![McStas](pics/mcstas_logo.png | height=100)](https://mcstas.org/) - 
+[![McXtrace](pics/mcxtrace-logo.png | height=100)](https://mcxtrace.org/) - 
+[![DTU](pics/dtu_logo.gif | height=100)](https://www.dtu.dk/) - 
+[![SOLEIL](pics/soleil-logo.png | height=100)](https://www.synchrotron-soleil.fr/en) - 
+[![NECSA](pics/necsa_logo-1.png | height=100)](https://www.necsa.co.za/)
 
 
