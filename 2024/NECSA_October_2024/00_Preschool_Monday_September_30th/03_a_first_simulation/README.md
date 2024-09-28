@@ -21,10 +21,33 @@
   instrument
   * Use geometry `wxidth=0.11, yheight=0.11` and place `AT (0,0,0.001) RELATIVE origin`
   ![PSD](PSD.png)
-* Run a first simulation and click `Plot`
+
 * You should now have arrived at
   * Code looking like this:
   ![Code](code1.png)
-  * Output looking like this:
+
+* Run a first simulation and click `Plot`
+  * Output should look something like this:
   ![Plot](plot1.png)
-*
+
+* Next, `Insert->Samples->PowderN`
+  * Add a cylindrical sample via `radius=0.005`, `yheight=0.07`
+  * Set `reflections="Fe.laz"` (note the quotes)
+  * Place `AT (0,0,10) RELATIVE origin"`
+  ![Sample](sample.png)
+
+* Finally, add Insert->Monitors->PSD_monitor_4PI`
+  * place it `AT (0,0,0) RELATIVE sample`
+  ![PSD4pi](PSD4pi.png)
+
+* Run a simulation and click `Plot`
+  * You sould arrive at something like
+  ![Plot](plot2.png)
+  * Not much to see....? Spot in the middle is direct beam, try pressing 'l' in the plotting 
+  window to apply a logarithm  
+  ![Plot](plot2log.png)
+
+* Your final instrument should look something like this:
+  ![Code](code2.png)
+
+* Congratulations, you have performed a first simulation!
