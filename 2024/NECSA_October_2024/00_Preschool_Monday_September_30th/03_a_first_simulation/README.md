@@ -15,11 +15,12 @@
   * Use `0.03*Lambda` as input for the `dlambda` parameter
   * Define "phasespace" to simulate (aka. "focusing") by setting `dist=10`, `focus_xw=0.01`, `focus_yh=0.07`
   * place it `AT (0,0,0) RELATIVE origin`
+  ![source](source.png)
 
 * Use `Insert->Monitors->PSD_monitor` to measure the beam outgoingdefine the source of your new
   instrument
   * Use geometry `wxidth=0.11, yheight=0.11` and place `AT (0,0,0.001) RELATIVE origin`
-
+  ![PSD](PSD.png)
 * Run a first simulation and click `Plot`
 * You should now have arrived at
   * Code looking like this:
