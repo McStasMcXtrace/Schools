@@ -12,10 +12,10 @@
 - Once Jupyter has started, click on the "Desktop" icon
 - May always be found back later via the "+"
 ![Jupyter](07_Jupyter.png)
-- Once your Desktop is visible, click to start a terminal - and enter `mcgui` (optionally with an `&` added to start in the background
+- Once your Desktop is visible, click to start a terminal - and enter `mcgui` (optionally with an `&` added to start in the background)
 ![Desktop](08_Desktop_terminal.png)
 ![mcgui command](09_mcgui_cmd.png)
-- McStas mcgui is now running. To start the McXtrace gui, write `mxgui` in a new terminal (optionally with an `&` added to start in the background
+- McStas mcgui is now running. To start the McXtrace gui, write `mxgui` in a new terminal (optionally with an `&` added to start in the background)
 ![mxgui](10_mxgui_cmd.png)
 - Finally, both the McStas (`mcgui`) and McXtrace (`mxgui`) tools are running
 ![UIs running](11_mcstas-mcxtrace-guis.png)
