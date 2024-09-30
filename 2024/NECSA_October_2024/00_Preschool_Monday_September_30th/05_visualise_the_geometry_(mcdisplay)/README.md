@@ -7,9 +7,9 @@
 ![webgl-classic select](mcdisplay-webgl-classic.png)
 - After pressing run you should get an output like this:
 ![webgl-classic view](mcdisplay-webgl-classic2.png)
-- The display is interactive, you may move, pan and zoom using your mouse in combination with clicking/right-clicking and/or scrooling. There are also various visualisation options available on the top menu of the browser.
+- The display is interactive, you may move, pan and zoom using your mouse in combination with clicking/right-clicking and/or scrooling. There are also various visualisation options available on the top menu of the browser.	
 - When you need a measurement of positioning, `mcdisplay-pyqtgraph` is useful. It renders the instrument in 3 axis-parallel views (top, side, end). Please choose it in the run dialogue:
 ![pyqtgraph select](mcdisplay-pyqtgraph.png)
 - After pressing run you should get an output like this:
-![pyqtgraph view](mcdisplay-pyqtgraph-classic2.png)
+![pyqtgraph view](mcdisplay-pyqtgraph2.png)
 - The display is interactive, you may move, pan and zoom using your mouse in combination with clicking/right-clicking and/or scrooling. Using `space` will render the neutron rays in the instrument one at a time.
