@@ -3,9 +3,9 @@
 ## Open mcgui and use File->New
 
 * Save your file with suitable name in a suitable place
-* Edit the line `DEFINE INSTRUMENT template(Par1=1)` to match your
-  chosen filename and exchange `Par1=1` for `Lambda=1.5`
-  (This adds a runtime-input that we may later vary)
+* Good practice is to edit `DEFINE INSTRUMENT template(Par1=1)` 
+  to match you chosen filename.
+  * Please also exchange `Par1=1` for `Lambda=1.5` (This adds a runtime-input that we may later vary)
 * Use `Insert->Source->Source_simple` to define the source of your new
   instrument
   * **Important:** The cursor should be whered you want to insert the component. Components are inserted in a list between 
