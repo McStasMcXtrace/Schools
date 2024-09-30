@@ -5,7 +5,8 @@
 ![Define a series](scan1.png)
 - Pressing `Start` will run the series. Once finished you may `Plot`, which will initially show the *integrated intensity* as function of `Lambda` for our 2 monitors (Which is perhaps not so interesting. :-))
 ![Output1](scan2.png)
-- `Ctrl+click` on the lower graph will show you the monitor output as function of the `Lambda` scan:
+- `Ctrl+click` on the upper graph will show you the first monitor output as function of the `Lambda` scan:
 ![Output2](scan3.png)
-- Press `l` again to apply a logarithm:
+- Right-click or press `b` to come back to the overview
+- `Ctrl+click` on the **lower** graph will show you the second monitor output as function of the `Lambda` scan (Press `l` again to apply a logarithm):
 ![Output3](scan4.png)
