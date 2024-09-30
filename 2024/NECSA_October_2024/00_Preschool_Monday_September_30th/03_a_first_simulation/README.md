@@ -51,3 +51,5 @@
   ![Code](code2.png)
 
 * Congratulations, you have performed a first simulation!
+
+* In [../04_output_data_(mcplot)](../04_output_data_\(mcplot\)/) we will take a closer look at the output data and the plotting utility `mcplot`

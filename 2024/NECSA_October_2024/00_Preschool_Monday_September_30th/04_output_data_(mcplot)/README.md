@@ -9,3 +9,4 @@
 ![mcplot](plot2log.png)
 - There are several other possiblitites, try pressing `h` for help and you will get a list
 ![help](help.png)
+- Once done here, we will have a look at [displaying the instrument geometry](../05_visualise_the_geometry_\(mcdisplay\)/)

@@ -21,3 +21,5 @@
 ![UIs running](11_mcstas-mcxtrace-guis.png)
 
 - Also consult the [Tool overview](tools/README.md)
+
+- Once you feel ready, please procceed to [../02_accessing_documentation/README.md](../02_accessing_documentation/README.md)
