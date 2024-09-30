@@ -13,3 +13,5 @@
 - After pressing run you should get an output like this:
 ![pyqtgraph view](mcdisplay-pyqtgraph2.png)
 - The display is interactive, you may move, pan and zoom using your mouse in combination with clicking/right-clicking and/or scrooling. Using `space` will render the neutron rays in the instrument one at a time.
+
+- Once you are done experimenting with the visualisation, please proceed to [../06_scan/](../06_scan/README.md)
