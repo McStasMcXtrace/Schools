@@ -3,7 +3,7 @@
 ![mcdoc](11_mcdoc.png)
 - the McStas `mcdoc` (and `mxdoc`for McXtrace) provides the main entry-point to documentation - will come in handy later.
 
-- This will provide documentation on components and datafiles
+- This will provide documentation on components, example instruments and datafiles
 - Includes links to website and PDF documentation (somewhat outdated)
 
 # User tool information
