@@ -1,5 +1,13 @@
 # Welcome to the October 2024 McStas-McXtrace Workshop at NECSA
 
+
+| Date      | Oct 7-11th, 2024 |
+|-----------|-------------------|
+|Location   | [NECSA](https://www.necsa.co.za/)      |
+| Topic     | Neutron and X-ray beam-line modelling with samples |
+| Language  | English                                |
+
+
 ## Workshop programme
 
 [![Workshop programme](pics/programme.png)](https://docs.google.com/spreadsheets/d/1PozT8aH9RE5SZ5jEX8cpKLu-l-wqrZfPHrYnqLqC1vo/edit?usp=sharing)
@@ -30,14 +38,14 @@ Local installations of
   - [McStas 3.5.1](https://github.com/McStasMcXtrace/McCode/tree/main/INSTALL-McStas)
   - [McXtrace 3.5.1](https://github.com/McStasMcXtrace/McCode/tree/main/INSTALL-McXtrace)
 
-Account at [pan-training](https://e-learning.pan-training.eu)
+Account at [pan-training](https://e-learning.pan-training.eu).
 
 ## Credits
 
 This training is funded by the IAEA under programme TN-SAF1007-EVT2300649, 
 and hosted at the [NECSA SAFARI](https://www.necsa.co.za/) research reactor in South Africa.
 
-Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and Deon Marais.
+(c) 2024 Teachers are Peter Willendrup and Emmanuel Farhi. Hosts are Andrew Venter and Deon Marais.
 
 ---
 

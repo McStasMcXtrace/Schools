@@ -1,13 +1,65 @@
 # Oct 9th 2024: Lesson 14: McXtrace Source modelling and Monitors.
 
+![McXtrace](../../pics/mcxtrace-logo.png  "McXtrace")
+
+You will learn: Modelling beam-lines with [McXtrace](http://www.mcxtrace.org/), adding samples, coupling with other software, etc... We shall focus on lab-scale instruments, rather than large-scale beam-lines.
+
 In this lesson we shall present:
 
 - X-ray sources in McXtrace and some possibilities for coupling McXtrace to other packages.
 - An overview of common monitors (e.g. detectors), i.e. ways to *detect/measure* X-rays.
 
-## X-ray photon sources
 
-These components emit X-ray pseudo particles, which are modelled as vectors:
+## Introduction
+
+[**McXtrace**](https://mcxtrace.org/) is a Monte-Carlo X-ray ray-tracing modelling software derived from its neutron counterpart [**McStas**](https://mcstas.org/).
+
+In short, a McXtrace model is a text-file (extension `.instr`) which describes a beam-line geometry as a sequence of so-called "components", just like in real life. The text-file is then assembled as an executable programme which takes as input the model parameters, and produces output data files. There are currently more than 200 such components describing for instance:
+
+- photon sources (lab sources, bending magnets, undulators, etc)
+- optics (monochromators, mirrors and KB, lenses and CRL, zone-plates, filters, slits, etc)
+- samples (absorption/XAS, fluorescence, tomography, large-scale structures/SAXS, powder diffraction, MX / Single crystal diffraction)
+- monitors/detectors (single point, 1D sensor, image, volumes/stack of images, etc)
+
+In addition, McXtrace comes with dedicated GUI's to edit models, start simulations, and plot results.
+
+McXtrace and McStas share the same basic concepts and tools. The computational part is programmed in C, the user interfaces are mostly in Python. The source code is hosted on [Github](https://github.com/McStasMcXtrace/McCode), and it runs on all architectures.
+
+The typical McXtrace instrument/beam-line description file has the following structure (just as McStas):
+
+```c
+DEFINE name(parameter1=value, parameter2=value...)
+
+DEFINE %{
+// C-syntax, global variable definitions.
+%}
+
+USERVARS %{
+// C-syntax, variables that are attached to each photon.
+%}
+
+INITIALIZE %{
+// C-syntax, things to do at start. Can use parameter1, parameter2, ...
+%}
+
+TRACE // list of components
+...
+
+COMPONENT name = comp(parameters) 
+  AT (...) [RELATIVE [reference|PREVIOUS] | ABSOLUTE]
+  {ROTATED {RELATIVE [reference|PREVIOUS] | ABSOLUTE} }
+
+...
+END
+```
+
+Additional keywords have been presented on [day2/lesson 10 "Full grammar"](../../02_Tuesday_October_8th/10_Full_grammar).
+
+--------------------------------------------------------------------------------
+
+## 1. X-ray photon sources
+
+The photon source components emit X-ray pseudo particles, which are modelled as vectors:
 
 ```c
 (x,y,z,kx,ky,kz,phi,t,Ex,Ey,Ez,p)
@@ -18,241 +70,360 @@ where `x,y,z` are spatial coordinates (in m), `kx,ky,kz` are the photon momentum
 time (in seconds - very small), `Ex,Ey,Ez` is the electric field components, and `p`
 is the statistical weight (which sum is the beam intensity).
 
-### Laboratory sources
+The `Y` axis is usually set as "vertical", `Z` is forward, and in direct frame, `X` is left wise (when looking forward).
 
-- `Source_lab` (e.g. rotating anode)
+Compared with McStas, the velocity `v` is turned into a wavevector `k`, the spin `s` is turned to electrical field `E` (linear polarisation), and there is an additional phase `phi` to model coherent beams.
 
-- `Source_pt`
+![](pics/Principles-of-X-ray-generation-in-X-ray-tube-bending-magnet-wiggler-undulator-and.png)
 
-- `Source_div`
+McStas provides a set of components to model all types of sources.
 
-- `Source-flat`
+### 1.1 X-ray laboratory sources
 
-### Synchrotron sources
+McXtrace provides a number of 'simple' X-ray sources well suited to model typical [laboratory sources](https://en.wikipedia.org/wiki/X-ray_tube).
+
+![An X-ray lab diffractometer](pics/csm_RDA_Panalytical_cccd4c5e10.jpg)
+
+
+#### `Source_pt`: the simplest point source
+
+This component models a source emitting photon from a single point, along `Z`. 
+The target area (along `Z`) and spectrum profile can be tuned. 
+
+This is probably the simplest source that you should use to e.g. quickly set-up
+a model without spending time in the parameters. You should still know which 
+energy will be needed for the simulations (set `E0` or `lambda0`).
+
+A typical example would be (TRACE section):
+```c
+Source_pt(E0 = 5, dE = 1, flux = 1, focus_xw = 0.01, focus_yh = 0.01, dist = 1)
+```
+
+You shall find many other (12) usage examples for this component, among which:
+
+- `NBI/NBI_Lab_TOMO.instr` (Mo, using a tabulated spectrum file)
+- `DTU/Pump_probe.instr` (single sharp line)
+
+#### `Source_flat`: flat surface emitting photons
+
+This component is similar to the `Source_pt`, and models a flat surface that emits 
+photons along `Z`. The target area and spectrum profile can be tuned. 
+
+This is probably the most used photon source within McXtrace examples. The surface 
+geometry (square or disk), the emission spectrum (energy line) and the target 
+area should be defined. The divergence is defined by the source emission
+surface and the target dimension.
+
+A typical example would be (TRACE section):
+```c
+Source_flat(xwidth=1e-3, yheight=2e-3, E0 = 5, dE = 1, flux = 1, 
+    focus_xw = 0.01, focus_yh = 0.01, dist = 1)
+```
+
+You shall find many (29) other usage examples for this component, among which:
+
+- `Tests_sources/Test_Sources.instr`
+- `Tests_samples/Test_Fluorescence.instr ` (to measure sample composition)
+- `Tests_samples/Test_Saxs_spheres.instr` (to measure e.g. polymer structure)
+- `Tests_samples/Test_PowderN.instr` (to measure powder structure and composition)
+
+#### `Source_div`: flat surface emitting photons, with divergence
+
+This source component is similar to the `Source_flat`, and defines specifically 
+an emission divergence cone that is used for each location on the emission surface.
+This component is useful when you wish to fully control the divergence, whereas 
+the divergence from the `Source_flat` is a combination of the emission and target 
+dimensions.
+
+A typical example would be (TRACE section):
+```c
+Source_div(xwidth=1e-3, yheight=1e-3, E0=5, dE=1, 
+    focus_aw=2e-3, focus_ah=0.5e-3, gauss_a=1)
+```
+
+You shall find many (28) other usage examples for this component, among which:
+
+- `Tests_sources/Test_Sources.instr`
+- `Tests_optics/Test_Mask.instr`
+
+It is also highly used in the special 'astroX' satellite models.
+
+####  `Source_lab`: stationary, rotating and liquid anode source
+
+This component describes a usual laboratory source, such as a stationary, 
+rotating and liquid anode sources.
+
+![Rotating anode](pics/Rotating_anode_x-ray_tube.jpg)
+
+A electron beam (e.g. emitted from a heated surface) is sent to a metallic target  
+on a high voltage vacuum tube.
+
+Typical materials for rotating anode are W/Re, Rh, Cu, Cr, Cu/Cr, Mo, Cu/Co. The
+advantage is that the anode damage is distributed along a larger disk, so that
+higher intensities can be applied still retaining a long life-time. The X-rays
+are emitted perpendicularly (within a 10-15 deg cone) to the tube with 1%
+efficiency (yes, this is low). But still this is amongst the best X-ray lab
+sources.
+
+The liquid and wire sources allow to reduce the emission surface, thus improving 
+the spatial resolution.
+
+The emission lines for each material (e.g. K, L, M) define sharp photon-energies 
+on top of a 'pink' bremsstrahlung background.
+
+We show below a set of common anode materials:
+
+Anode | Kα (L->K) | Kβ (M->K)
+------|----|-----
+W  | 59 keV             | 67 keV 
+Rh | 20 keV             | 22.7 keV
+Cu | 1.54184 Å 8.04 keV | 1.39222 Å 8.9 keV
+Mo | 0.71073 Å 17.9 keV | 0.63229 Å 19.5 keV
+Co | 1.79 Å 6.92 keV    | 1.62 Å 7.65 keV
+Cr | 2.29 Å 5.41 keV    | 2.08 Å 5.96 keV
+
+and E(keV) = 12.4/lambda[Å]
+
+To model such a source in McXtrace, one needs to add in the `TRACE` section
+(usually just at the beginning):
+```c
+  COMPONENT Source_lab(material_datafile="Cu.txt",Emin=1, E0=80)
+```
+
+Tune the voltage `E0` in case the emission lines are not generated for the 
+specified material.
+
+You may find usage examples (5) for this component e.g. in:
+
+- `NIST/DBD_IBM_Si_analyzer_BC.instr` (Mo)
+- `Tests_sources/Test_source_lab.instr` (Cu)
+
+--------------------------------------------------------------------------------
+
+### 1.2 Synchrotron sources
 
 Perhaps less relevant for NECSA people, but may be useful if you wish to perform 
-experiments at a synchrotron, or plan to design a future synchrotron beam-line.
+experiments at a [synchrotron](https://en.wikipedia.org/wiki/Synchrotron), or plan to design a future synchrotron beam-line.
 
-- Bending magnet
+#### `Bending_magnet`: a dipole
 
-see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+A bending magnet is just a large U-shaped dipole, just like in books. 
+Electrons are forced to deviate horizontally by the vertical magnetic field, and 
+loose energy by emitting X-ray photons in the forward direction, on a large 
+energy spectrum range. The emission spectrum is continuous, and the divergence 
+is large (e.g. distributed along the whole magnetic curve).
 
-- Wiggler
+![Bending magnet](pics/magnet_fig_new.png)
 
-see B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+Beamlines that require a large adjustable energy band selection, for e.g. 
+absorption spectroscopy, often use such sources. Bending magnets are anyway
+necessary in synchrotrons in order to deviate the beam after straight sections, 
+so that the accelerator forms a ring.
 
-- Undulator
+A typical example would be (TRACE section):
+```c
+Bending_magnet(E0=15.918, dE = 0.1,
+    Ee = 2.75, Ie = 0.5, B = 1.72, sigex=54.9e-6, sigey=20.2e-6)
+```
 
-see K.J. Kim, AIP, conf. proc., 184, 1989
+You may find useful exmaples in e.g.: 
 
-### Source interfaces with other simulation codes
+- `Tests_sources/Test_BM.instr`
+- `SOLEIL/SOLEIL_ROCK.instr`
+- a few SOLEIL absorption spectroscopy beam-lines
+
+Reference: B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+
+#### `Wiggler`: a series of alternating dipoles
+
+A [wiggler](https://en.wikipedia.org/wiki/Wiggler_(synchrotron)) is composed of 
+a set of alternating dipoles, so that the electron beam 
+is forced to wiggle along the propagation direction. Each wiggle in the path produces 
+an x-ray emission in the propagation direction. 
+
+Wigglers are inserted inside synchrotron straight sections (insertion devices),
+and the x-rays must be extracted on the sides of the electron beam axis. 
+
+As the dipole arrays are well separated are with a rather 
+large spatial period, each wiggle beam is emitted independently from the others,
+so that the total emission spectra is continuous, but with a larger intensity 
+as in bending magnets, and a narrower divergence.
+
+![Wiggler](pics/HalbachArrayFEL2.png)
+
+The Wiggler is characterised by its strength parameter K:
+
+<p style="text-align:center;">
+K = Bλ<sub>u</sub> e/(2πmc)
+</p>
+
+where B is the magnetic field, λ<sub>u</sub> is the spatial period of the magnets, 
+m and e are the electron rest mass and charge, and c is the speed of light. 
+For a wiggler, K >> 1 implies that the electron oscillations are large, each one 
+behaving as a bending magnet.
+
+A typical usage example (in the TRACE section) is:
+```c
+Wiggler(E0 = 31, dE = 1, Ee = 2.4, Ie = 0.5, 
+   B = 2.1, Nper=41, sigey=9.3e-6, sigex=215.7e-6, length=38*50e-3, K=10)
+```
+
+The Wiggler component can be used as a bending magnet when setting the number of 
+poles `Nper` to 1.
+
+A number of examples are provided with McXtrace, e.g.:
+
+- `Tests_sources/Test_BM.instr`
+- `SSRL/SSRL_bl_11_2_white_src.instr`
+- `SOLEIL/SOLEIL_PSICHE.instr`
+
+Reference: B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
+
+#### `Undulator`: a compact series of alternating dipoles
+
+[Undulators](https://en.wikipedia.org/wiki/Undulator) result from an evolution of 
+wiggler, using a compact layout. The spatial magnetic period λ<sub>u</sub> is 
+usually smaller, and the magnetic field is high. The strength parameter K is 
+smaller than 1, so that the electron beam oscillations overlap and the x-ray
+generated spectrum shows interference (the undulator resonance orders), and
+the intensity on these are amplified. The divergence is very narrow (beam is 
+focused).
+
+![Undulator](pics/600px-Undulator.png)
+
+However, the ability to freely tune the energy for further use is affected. 
+One must tune the optics so that the energy bandwidth matches a resonance to get 
+a very high intensity.
+
+Undulators are inserted inside synchrotron straight sections (insertion devices),
+and the x-rays must be extracted on the sides of the electron beam axis. 
+
+A typical usage example (in the TRACE section) is:
+```c
+Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.03118, Nper=140, lu=32e-3, 
+  sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, dist=50, E1st=12.400)
+```
+
+The Undulator component can be used as a wiggler when setting K to e.g. 5-10.
+
+A number of examples are provided with McXtrace, e.g.:
+
+- `Tests_sources/Test_undulator.instr`
+- `MAXIV/MAXIV_Bloch.instr`
+- `SOLEIL/SOLEIL_LUCIA.instr`
+
+
+Reference: K.J. Kim, AIP, conf. proc., 184, 1989
+
+### 1.3 Source interfaces with other simulation codes
+
+Just as with McStas , McXtrace can interface with other simulation codes. We won't 
+detail much this part, and simply list the current interfaces.
 
 - Spectra (R) <http://spectrax.org/spectra/>
-- Simplex (R) <http://spectrax.org/simplex/index.html >
+- Simplex (R) <http://spectrax.org/simplex/index.html>
 - Genesis (R) <http://genesis.web.psi.ch/>
 - Shadow (RW) <https://github.com/oasys-kit/shadow3>
 - MCPL (GEANT4, PHITS, MCNP,SRW) (RW) <https://mctools.github.io/mcpl/>
 - SRW (R) <https://github.com/ochubar/SRW> Our converter generates an MCPL exchange file from SRW. You may also look at [OASYS](https://www.aps.anl.gov/Science/Scientific-Software/OASYS) to export interchange formats.
 
+In practice, we recommend to make use of the MCPL exchange file format.
 
+--------------------------------------------------------------------------------
 
+## 2 Monitors
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Undulator.png/600px-Undulator.png">
+After having positioned a source, e.g. `AT(0,0,0)`, it is desirable to actually 
+detect something. Monitors are, in most cases, perfect detectors that count 
+statistics and generate data files.
 
-The default Undulator model is well suited to model a photon source [Ref: K.J. Kim, AIP, conf. proc., 184, 1989. doi:10.1063/1.38046](https://pubs.aip.org/aip/acp/article/184/1/565/788822/Characteristics-of-synchrotron-radiation). 
+The McXtrace monitors work exactly the same as with McStas, and are often the same.
 
-Currently, there exists a set of undulator uses in the McXtrace examples.
+Here is a short description of the monitors currently available:
 
-Undulators | parameters
------------|-----------
-Test\_BM Undulator | `Undulator(Ee=1.5, K=1, E0=0.39, dE=0.2, Ie=0.4, B=0, gap=4.2, Nper=134, lu=3.65e-2, sigex=0.05367e-3, sigey=0.004e-3, focus_xw=10e-3,focus_yh=10e-3, dist=20)`
-Test\_BM Wiggler | `Wiggler(E0 = 25, dE = 24, phase = 0, randomphase = 1, Ee = 2.4, Ie = 0.4, B = 1.6, K=10, Nper=41)`
-MaxIV / Bloch | `Undulator(E0=0.6,dE=0.4,Ee=1.5,dEe=((6e-9)*(60e-12))/1.5,Ie=0.5,tbunch=43,K=5.6,gap=14e-3,Nper=187,lu=84e-3,sigey=1.3e-5,sigex=185e-5,sigepx=32e-6,sigepy=4.6e-6,focus_xw=1.1e-3,focus_yh=1.1e-3,dist=zm_mirror1,E1st=1.0018*E0/5)`
-MaxIV DanMAX | `Undulator(E0=35, dE=0.05, E1st=E0/15, dist=20, Ie=0.5, Ee=3.0, dEe=0.0008, K=0, B=0,quick_integ=1, Nper=187, lu=0.016, sigex=53.66e-6, sigey=4.008e-6, sigepx=5.963e-6, sigepy=2.004e-6)`
-SOLEIL U18 ANATOMIX (long) | `Undulator( E0=17, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.03118, Nper=140, lu=32e-3, sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, dist=50, E1st=12.400)`
-SOLEIL U24 PX2a (medium straight section) | `Undulator( E0=12.65, dE=1, Ee=2.75, dEe=0.001, Ie=0.5, K=1.788, Nper=80, lu=24e-3, sigey=9.3e-6, sigex=215.7e-6, sigepx=29.3e-6, sigepy=4.2e-6, dist=29.5, E1st=12.400)`
+Monitor             | Description               | Example
+--------------------|---------------------------|-------------------------
+`DivE_monitor`      | Divergence/Energy monitor | `DivE_monitor(nE=20, nh=20, filename="Output.div",xwidth=0.1, yheight=0.1,maxdiv_h=2, Emin=2, Emax=10)`
+`Divergence_monitor`| Divergence monitor        | `Divergence_monitor(nh=20, nv=20, filename="Output.pos", xwidth=0.1, yheight=0.1,maxdiv_h=2, maxdiv_v=2)`
+`DivPos_monitor`    | Divergence/position monitor (acceptance diagram) | `DivPos_monitor(nh=20, ndiv=20, filename="Output.dip",xwidth=0.1, yheight=0.1, maxdiv_h=2)`
+`E_monitor`         | Energy-sensitive monitor  | `E_monitor(xwidth=0.1, yheight=0.1,Emin=1, Emax=50, nE=20, filename="Output.nrj")`
+`EPSD_monitor`      | Position-energy-sensitive monitor | `EPSD_monitor(xwidth=0.1, yheight=0.1,nE=10,nx=90, ny=90, filename="Output.psd")`
+`Flex_monitor_1D`   | Flexible monitor, 1D      | `Flex_monitor_1D(nU=20, filename="Output", ustring="x", Umin=-.1, Umax=.1)`
+`Flex_monitor_2D`   | Flexible monitor, 2D      | `Flex_monitor_2D(nU1=20, nU2=20, filename="Output", ustring1="x", ustring2="y", Umin1=-.1, Umax1=.1, Umin2=-.1, Umax2=.1)`
+`Flex_monitor_3D`   | Flexible monitor, 3D      | `Flex_monitor_3D(nU1=20, nU2=20, nU3=20, filename="Output", ustring1="x", ustring2="y", ustring1="z", Umin1=-.1, Umax1=.1, Umin2=-.1, Umax2=.1, Umin3=-.1, Umax3=.1)`
+`L_monitor`         | Wavelength-sensitive monitor | `L_monitor(xmin=-0.1, xwidth=0.1, yheight=0.1,nL=20, filename="Output.L", Lmin=0.1, Lmax=1)`
+`Monitor`           | Simple monitor            | `Monitor(xwidth=0.1, yheight=0.1)`
+`Monitor_nD`        | French army knife monitor | `Monitor_nD(xwidth = 0.1, yheight = 0.1, zdepth = 0,options = "banana, theta limits=[10,130], bins=120, y")`
+`PSD_monitor`       | Position-sensitive monitor| `PSD_monitor(xwidth=0.1, yheight=0.1,nx=90, ny=90, filename="Output.psd")`
+`PSD_monitor_4PI`   | Spherical position-sensitive detector | `PSD_monitor_4PI(radius=0.1,nx=90, ny=90, filename="Output.psd")`
+`PSD_monitor_coh`   | Position-sensitive monitor with phase integration (coherence) | `PSD_monitor_coh(xwidth=0.1, yheight=0.1,nx=90, ny=90, filename="Output.psd")`
+`W_psd_monitor`     | Position-sensitive wattage monitor | `W_psd_monitor(xwidth=0.1, yheight=0.1,nx=90, ny=90, filename="Output.psd")`
 
-In order to model the SOLEIL photon sources, we first need to refer to the storage ring parameters for SOLEIL:
+It is possible to add as many monitors as needed in a beam-line/instrument model. 
+Monitors may even overlap, but then require to set `restore_xray=1` to avoid
+cross shielding.
 
-- [https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source](https://www.synchrotron-soleil.fr/en/research/sources-and-accelerators/electron-beam-parameters/transverse-size-electron-beam-source)
-
-Then we may for instance look at the [LUCIA](https://www.synchrotron-soleil.fr/fr/lignes-de-lumiere/lucia) beam-line (SD03C) which is illuminated with an Undulator HU52 "Apple II" type (NdFeB magnets), 32 periods, gap 15-150mm, variable linear polarization, left and right circular polarizations, operating on harmonics 3 to 21. The energy range is 0.6-8 keV on LUCIA. 
-
-
-HU52 parameter | symbol/unit | value
-------------------------|-----------|-----
-Period | (mm) | 52.4
-Nb of periods  | lambda_U | 32
-Gap | mm | 15.5-150
-Field remanence | Br(T) | 1.26
-Magnetic field Z, max | Bz (T) | 1.974*exp(-3.1754*Gap/lambda_U)
-Magnetic field X, max | Bx (T) | 1.901*exp(-4.3387*Gap/lambda_U)
-Function beta horizontal |	beta_x (m)	|1.4
-Function beta vertical|	beta_z ( m)	|1.4
-emittance horizontale | ex (pm.rad)	|82.0
-betatron	coupling | % | 30.0
-emittance vertical |	ez (pm.rad)	|24.6
-dimension RMS horizontal|	sigma_x (µm)	|218.2(current) / 10.7(upgrade)
-dimension RMS vertical	|sigma_z (µm)	|8.2(current) / 5.9(upgrade)
-divergence RMS horizontal	|sigma_x' (µrad)	|30(current) / 7.7(upgrade)
-divergence RMS vertical	|sigma_z' (µrad)|	3.7(current) / 4.2(upgrade)
-
-The corresponding HU52 Undulator component parameters are then:
-``` c
-Undulator(
-  E0     = 3,
-  dE     = 2.9,
-  Ee     = 2.75,
-  dEe    = 0.001,
-  Ie     = 0.5,
-  B      = 0.42, // for a 15.5 mm gap
-  Nper   = 32,
-  lu     = 52.4e-3,
-  sigex  = 218.2e-6,
-  sigey  = 8.2e-6,
-  sigepx = 30e-6,
-  sigepy = 3.7e-6) 
+It is rather convenient to position monitors after the previous component using the syntax
+```c
+COMPONENT blah=Monitor(...)
+AT (0,0,0.1) RELATIVE PREVIOUS
 ```
 
-1. Start a new simulation and insert an Undulator source in it. The Undulator component has many possible parameters. In McXtrace, the (0,0,0)-point is taken to be the exit plane of the undulator. X is left-wise, Y is vertical, Z is forward. Use the typical HU52 Undulator component parameters for LUCIA or DEIMOS undulators.
+where the third `AT` coordinate along `Z` corresponds with the propagation axis (here 10 cm).
 
-2. Insert monitors **20 m** downstream: for instance one PSD "x y", one energy-resolved monitor, one divergence monitor "dx dy". Make sure that the monitors are big enough to catch all the radiation you expect, including the energy range. By using the `Monitor_nD`, you may add the "all auto" option to automatically adapt the monitor bounds to catch all photons. The corresponding code for the PSD could be `Monitor_nD(xwidth=0.1, yheight=0.1, bins=512, options="x y, all auto")` or the `PSD_monitor` component. You should get results such as ![HU52](images/mcplot_1.png?raw=true "")
+#### Data format
 
-3. Repeat the simulation with the expected SOLEIL-II Upgrade storage ring. Compare results in photon beam size and divergence.
- 
+Most monitors will generate files, which default format is text-based, and human 
+readable. It is also possible to switch to HDF5 "NeXus", which is a
+binary format that can be opened with e.g. [Silx](http://www.silx.org/doc/silx/latest/overview.html)
+and [NexPy](https://github.com/nexpy/nexpy).
 
-References:
-
-- F. Briquez et al., Proceedings of FEL08, Gyeongju, Korea 2008, [https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf](https://accelconf.web.cern.ch/fel2008/papers/tupph015.pdf)
-- T. Moreno et al., J Sync Rad 19 (2012) 179, [https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html](https://journals.iucr.org/s/issues/2012/02/00/kt5033/index.html)
-- T. Moreno et al., [Proceedings Volume 8141, Advances in Computational Methods for X-Ray Optics II; 81410H (2011) DOI: 10.1117/12.893778](https://www.researchgate.net/publication/258548494_Undulator_emission_analysis_Comparison_between_measurements_and_simulations)
-- M.E. Couperie 2013, [https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf](https://accelconf.web.cern.ch/ipac2013/talks/mozb102_talk.pdf)
-- K. Desjardins et al [The DiagOn : An undulator diagnostic for SOLEIL low energy beamlines, Conference: Nuclear Science Symposium Conference Record, 2008. NSS '08. IEEE     DOI: 10.1109/NSSMIC.2008.4774883](https://www.researchgate.net/publication/224380923_The_DiagOn_An_undulator_diagnostic_for_SOLEIL_low_energy_beamlines)
-
-## Exercise: using the native McXtrace Wiggler model for SOLEIL photon sources
-
-We may replace the Undulator by a Wiggler, which is an Undulator for which K >> 1 i.e. `lu*B` is large. 
-
-The PSICHE Wiggler at SOLEIL is built with 41 magnetic elements of period 50 mm each, and a field of 2.1 T. The electron beam cross-section at the centre is 333x5.9 µm^2, a 500 mA current at 2.75 GeV.
-
-1. Create a copy of the above model, and change the photon source for a Wiggler feeding the PSICHE beam-line (E0=15-100 keV).
-
-2. Update the e-beam parameters for the SOLEIL-II storage ring. Compare results in photon beam size and divergence.
-
-## Exercise: Using the native McXtrace Bender model for SOLEIL photon sources
-
-Let's now model a Bender at SOLEIL. For this we use the `Bending_magnet` component. Replace the above source by a `Bending_magnet` with a 1.72 T field, a 500 mA electron current at 2.75 GeV (for the ROCK@SOLEIL bender). The beam size at ROCK is 54.9 µm x 20.2 µm.
-
-1. Create a copy of the above model, and change the photon source for a Bending_magnet feeding the ROCK beam-line (E0=4.5-40 keV).
-
-2. Update the e-beam parameters for the SOLEIL-II storage ring. Compare results in photon beam size and divergence.
-
----
-
-# SOLEIL electron beam specifications
-
-We show below the e-beam at SOLEIL along the storage ring.
-
-BeamLineName| Long_Pos(m)| RMS_H_Size(µm)| RMS_V_Size(µm)| RMS_H_div(µrad)| RMS_V_div(µrad)
------|----|--|--|--|--
-PtINJ|  1,4125|322,3|16,8|18|2
-VSCRAP|4,295|330,3|19,3|18|2
-MRSV|9,3169|87,6|20,4|140,7|1,8
-HSCRAP_int|12,2845|336,7|11,7|23,2|2,9
-ODE|14,8687|54,6|21|120,1|1,7
-SMIS|28,232|87,9|22|142,6|1,6
-THz|37,1005|55,5|22,2|117,8|1,5
-PHC1|37,3625|45,2|22,6|95,8|1,5
-AILES|50,4638|89,8|25|139,1|2,6
-MARS|50,5573|79,6|25,3|124,9|2,2
-PSICHE|55,4572|333,3|5,9|17|5,3
-PLEIADES_1|64,6436|229,1|10,5|29,4|3,7
-PLEIADES_2|67,3881|221,9|8,7|29,4|3,7
-PHC2|78,2287|59,3|18,5|133,5|2
-DISCO|78,4205|45,5|18,4|113,1|2
-DESIRS|88,523|255,2|16|26,1|1,9
-METRO|103,3917|56,3|20,5|125|1,8
-PUMA_IdEntrance|109,053|213,9|9,9|31|3,6
-PUMA|110,553|206,5|8,5|31|3,6
-PUMA_IdExit|112,053|209,3|10,2|31|3,6
-CRISTAL|121,7489|332,9|9,3|17,3|3,6
-DEIMOS_1|132,4453|206,5|8|31,6|4
-DEIMOS_2|134,4113|216,2|9,7|31,6|4
-GALAXIES|143,9812|330,3|10,2|16,8|3,1
-TEMPOCHI2|153,5048|217,3|9,5|29,9|4,1
-TEMPO_1|154,6012|215,9|8,2|29,9|4,1
-TEMPO_2|156,3502|223,8|9,9|29,9|4,1
-SAMBA|191,9163|53,2|23,6|119,4|1,5
-HERMES_1|199,0776|222,1|8|30,6|4,2
-HERMES_2|200,9266|228,3|10,3|30,6|4,2
-PX1|210,2734|311|9,9|17,1|3,2
-PX2sp|222,8306|219,1|9,8|31,6|3,7
-SWING|232,5058|321|9,4|17|3,5
-ANTARES_1|241,7122|223,2|10,4|30,3|3,9
-ANTARES_2|244,4367|214,7|8,7|30,3|3,9
-AXD|250,1002|53,8|21,7|102,3|1,6
-ROCK|255,3434|54,9|20,2|126,3|1,8
-ANATOMIX|262,1977|267,9|8,4|30,1|3,9
-NANOSCOPIUM|268,9467|258,6|8,8|31,2|3,5
-DIFFABS|280,441|55,1|20,6|123,7|1,6
-SEXTANTS_1|287,6024|210,7|8|30,9|3,5
-SEXTANTS_2|289,3484|216,5|10,1|30,9|3,5
-SIXS|298,7982|325,5|9,5|17,2|3,3
-CASSIOPEE_1|308,0047|217,4|10,6|31,4|4,2
-CASSIOPEE_2|310,6492|214,7|8,2|31,4|4,2
-SIRIUS|320,9505|324,5|10|16,8|3,1
-LUCIA|332,067|218,2|8|30|3,7
-HSCRAP_ext|341,2838|329,4|11,8|22,8|3,2
-PHC3|343,8681|62,2|17,3|128|2
-
-And here are estimates of the e-beam specifications after the SOLEIL-II Upgrade, taken from the Conceptual Design Report, page 62.
-
-![SOLEIL Upgrade](images/SOLEIL-CDR-p62-ebeam-size.png)
-
----
-
-## Exercise: Use MCPL files to couple to e.g. SRW and other codes (optional)
-
-### Using the Undulator model
-
-The typical Undulator parameters for a SPring-8 insertion device are:
-``` c
-    E0=13, dE=1, Ee=8, dEe=0.001, Ie=0.1, 
-    K=1.03118, Nper=140, lu=3.2e-2, 
-    sigey=6.17e-6, sigex=0.29979e-3, sigepx=0.01226e-3, sigepy=1.1e-6, 
-    dist=20, E1st=12.400
+A typical 1D monitor (vector) text file looks like:
+```python
+# Format: McCode with text headers
+# URL: http://www.mccode.org
+# Creator: McXtrace 3.4-20240304 - mars. 05, 2024
+# Instrument: Test_Fluorescence.instr
+# Ncount: 250000
+# Trace: no
+# Gravitation: no
+# Seed: 1709631302248251
+# Directory: /home/experiences/grades/farhie/dev/Schools/2024/SOLEIL_Hercules_March_2024/simulations/Test_Fluorescence/Test_Fluorescence_20240305_103458
+# Nodes: 4
+# Param: material=LaB6
+# Param: E0=39
+# Param: dE=0.06
+# Date: Tue Mar  5 10:35:15 2024 (1709631315)
+# type: array_1d(2001)
+# Source: Test_Fluorescence (Test_Fluorescence.instr)
+# component: emon_fluo
+# position: 0 0 3.3
+# title: Energy monitor
+# Ncount: 1000000
+# filename: Fluorescence.dat
+# statistics: X0=27.1593; dX=13.3875;
+# signal: Min=0; Max=6.94828e-15; Mean=1.83245e-17;
+# values: 3.66672e-14 1.50524e-16 61375
+# xvar: E
+# yvar: (I,I_err)
+# xlabel: Energy [keV]
+# ylabel: Intensity
+# xlimits: 0 46.8
+# variables: E I I_err N
+0.01169415292 0 0 0 
+0.03508245877 0 0 0 
+...
 ```
 
-1. Copy the initial SOLEIL Undulator model above, and use the SPring-8 parameters.
+where the data block has 4 columns standing for an axis (e.g. energy `E`), 
+the intensity in the bin `I`, the uncertainty on the intensity `I_err`, and
+the number of pseudo particle/rays, which is a pure computational quantity
+that e.g. indicates if there is enough statistics in the bin.
 
-2. Perform a simulation using a large energy range, and look at the beam energy and spatial distribution, 20 m down-stream.
+Monitors with 2D data contain a similar text header. The axes are given in the 
+`xylimits: XMIN XMAX YMIN YMAX ...` header line, and the matrix dimension is in 
+the `type: array_dd(N,M)`. So the 1st axis spans from `XMIN` to `XMAX` in `N` bins.
+The monitor data (tally) is stored as a matrix after a `Data [...] I:` tag,
+the uncertainty matrix follows the `# Errors [...] I_err:` tag.
 
-### Using MCPL files which store photon events
 
-We will now use a different utility to drive a McXtrace-simulation: MCPL. 
-
-[MCPL](https://mctools.github.io/mcpl/) is an interchange file format to communicate with e.g. GEANT4, PHITS, MCNP, and SRW. The SOLEIL Optics group is developing the [OptiX](https://gitlab.synchrotron-soleil.fr/OPTIQUE/optical-simulation/pyoptix) code which generates MCPL as well.
-
-In this case the MCPL-file is actually generated using [SRW](https://www.github.com/ochubar/SRW). The expert tool for this purpose, a C++-program [`srw2mcpl`](https://github.com/McStasMcXtrace/srw2mcpl) is in development status and based on SRWlib and MCPL. The tool makes repeated calls to SRW and generates rays from that, and is not in its current form in an end-user state. 
-
-The method of calling SRW pr. ray is rather slow, so for this tutorial (to save time) we provide a pre-generated MCPL-file that you may use. We are working on solutions to make the program available to McXtrace users in an easy-to use form. 
-
-The file you need is called [sp8stdU.mcpl.gz](data/sp8stdU.mcpl.gz?raw=true ""). There is also a bigger version of this same file for better sampling [sp8stdUl.mcpl.gz](data/sp8stdUl.mcpl.gz?raw=true ""). But this obviously takes longer to download.
-
-1. Use the McXtrace component **MCPL_input** to read rays from it and start them in a McXtrace simulation. 
-2. Insert a downstream `PSD_monitor` and an `E_monitor` to catch the generated radiation. Leave some room (2 m or so) between the MCPL-file and the monitor. SRW considers the undulator centre its reference point and so rays may actually originate there. 
-3. What was the fundamental energy of the 1st harmonic?
-4. This procedure relies on the undulator spectrum being sufficiently sampled by the `srw2mcpl`-program. Determine the sampling limits of the file using your monitors. 
-5. Compare with the pure McXtrace Undulator model above.
-
-### References:
-
-- [Undulators](https://en.wikipedia.org/wiki/Undulator) at Wikipedia
-- [Kim, AIP Conference Proceedings 184, 565–632 (1989)](data/Kim_Undulator-1989.pdf) dealing with Undulators, Wigglers and Bending magnets
-- [Patterson, American Journal of Physics 79, 1046 (2011); doi: 10.1119/1.3614033](data/Patterson-2011a.pdf)
-- [Elleaume 1992 EPAC](data/Elleaume-1992-EPAC1992_0661.PDF) Undulators and Wigglers
-- [Elleaume 1990](data/Elleaume-Undulator-p142-1990.pdf) Undulators and Wigglers
-- [Elleaume 2005](data/Elleaume-2005.pdf) presentation about Undulators
-- [Chavanne 1998](data/Chavanne-1998.pdf) presentation about Undulators
-- [Bartolini 2016](data/Bartolini-2016-Lecture2Undulatorsandwigglers.pdf)
-- [Barret 2016)(data/Barrett_2016-TOGIS.pdf)
