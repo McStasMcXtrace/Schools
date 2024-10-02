@@ -68,14 +68,6 @@ AT (0, 0, 0) RELATIVE PREVIOUS
 </code>
 - Replace the Single crystal with a Powder - and does that make sense?
 
-# PART 2 - Powder scattering
-Start a new instrument simulation, but this time start with the PSI_DMC instrument model that is included in the McStas distribution.
-Look into the instrument file and find the sample.
-Run a simulation with the default parameters and see if the result make sense.
 
-Now try to modify the instrument to resolve the signal in the vertical direction. We will do this by increasing the height of the banana 
-shaped detector: 'options="banana, theta y auto limits bins=20", yheight=0.3' in the appropriate place.
-
-See if you can get a signal by replacing the Powder sample with the single crystal Al block you used before.
 
 
