@@ -14,6 +14,8 @@ We will insert a source and two monitors and then modify these to examine some i
 5. Now change the source to be of the type Source_div. This also implies replacing the "focus_xw", "focus_yh", and "dist" parameter with the angular focusing parameters: "focus_ah" and "focus_aw".
 6. Try to switch "gauss" off, to see what happens.
 
+# Now, please head back for the second presentation!!!
+
 ## Exercise 2: More Monitors
 
 1. Start a new instrument file, named ‘sources_monitors_ex.instr’.
