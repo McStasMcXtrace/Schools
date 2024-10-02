@@ -1,4 +1,4 @@
-# Lecture on samples, plus advanced grammar for the instrument
+# Advanced grammar for the instrument
 
 Also includes some advanced grammar features like **EXTEND**, **GROUP**, and **JUMP**
 # COMPONENT syntax in beam-line models
