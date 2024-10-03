@@ -1,6 +1,6 @@
 ## TASK  Velocity_selector
 
-[Instrumentfile to start from](Ex_selector.instr)
+Instrumentfile: ![Ex_selector.instr](Ex_selector.instr)
 
 ![Look around](Vsel_1.png)
 
