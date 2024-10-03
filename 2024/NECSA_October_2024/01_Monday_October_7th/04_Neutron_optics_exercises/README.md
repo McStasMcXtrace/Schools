@@ -12,8 +12,9 @@ You may start from Exercise_chopper.instr
 
 You _may_ cheat by looking at the solution file
 
-### TASK2 - Velocity_selector
-Replace the higher order suppressing chopper with a velocity selector which only
+### TASK - Velocity_selector
+Start from the instrument file [Exercise_vselector_start.instr](Exercise_vselector_start.instr)
+Replace the higher suppressing chopper with a velocity selector which only
 allows the deisred wavelength through.
 
 ### HINTS
