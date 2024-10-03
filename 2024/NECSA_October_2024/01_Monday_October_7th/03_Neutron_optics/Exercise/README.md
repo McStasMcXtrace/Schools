@@ -8,9 +8,9 @@ Solutions are available in `solution/Exercise_solution_straight.instr` and `solu
 - Task 2
     - Introduce a parameter that control width of the guide (default 3 cm)
     - Compare two runs with different guide widths (e.g. half and double the width)
-- Task 3
+- OPTIONAL Task 3
     - Check how much gravity impacts the output (set `G` to 0 and Jupyter `2.528*G`)
-- Task 4 (optional)
+- OPTIONAL Task 4 (optional)
     - Exchange the last 20% of the guide with an elliptic nose.
     - See the geometry with `mcdisplay` (3D view)
     - Identify how the resulting beam has changed
