@@ -2,6 +2,6 @@
 
 !!Under construction!!
 
-![Monochromator slides](Monochromators.pdf)
+[Monochromator slides](Monochromators.pdf)
 
 ##TASKS
