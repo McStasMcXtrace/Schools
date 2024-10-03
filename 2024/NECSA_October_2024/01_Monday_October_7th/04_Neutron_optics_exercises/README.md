@@ -1,6 +1,6 @@
 ## Exercises
 
-![Animation](ILL_SANS_instrument_D11_1_Velocity_selector_4_5.gif)
+![Animation](pics/ILL_SANS_instrument_D11_1_Velocity_selector_4_5.gif)
 
 1. [Velocity selector](Exercise_selector)
 
