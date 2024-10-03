@@ -1,7 +1,7 @@
 /*******************************************************************************
 *         McStas instrument definition URL=http://www.mcstas.org
 *
-* Instrument: test (rename also the example and DEFINE lines below)
+* Instrument: Exercise_guides
 *
 * %Identification
 * Written by: Mads Bertelsen (mads.bertelsen@esss.se)
@@ -26,7 +26,7 @@
 *
 * %End
 *******************************************************************************/
-DEFINE INSTRUMENT reference(lambda_min=3.0, lambda_max=8.0, guide_length=10.0)
+DEFINE INSTRUMENT Exercise_guides(lambda_min=3.0, lambda_max=8.0, guide_length=10.0)
 
 TRACE
 
