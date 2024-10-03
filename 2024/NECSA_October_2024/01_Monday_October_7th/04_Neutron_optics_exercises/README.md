@@ -4,6 +4,6 @@
 
 1. [Velocity selector](Exercise_selector/README.md)
 
-Missing image Mono
+![Monochromator](pics/mono.png)
 
 2. [Monochromator](Exercise_monochromator/README.md)
