@@ -1,7 +1,9 @@
-## TASK  Velocity_selector
+## Exercises
 
-![Look around](Vsel_1.png)
+![Animation](ILL_SANS_instrument_D11_1_Velocity_selector_4_5.gif)
 
-![Simulation tasks](Vsel_2.png)
+1. [Velocity selector](Exercise_selector)
 
-![Analytical consideration](Vsel_3.png)
+Missing image Mono
+
+2. [Monochromator](Exercise_monochromator)
