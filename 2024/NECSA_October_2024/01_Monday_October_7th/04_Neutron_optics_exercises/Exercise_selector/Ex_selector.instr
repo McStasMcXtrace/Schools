@@ -30,6 +30,14 @@
 /* Change name of instrument and input parameters with default values */
 DEFINE INSTRUMENT Ex_selector(f=300)
 
+DECLARE %{
+  // Late in the exercise following line should be uncommented
+  // double f;
+%}
+
+INITIALIZE %{
+  // This section should later contain your equation for $f(\lambda)
+%}
 
 TRACE
 
