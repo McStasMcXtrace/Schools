@@ -12,10 +12,18 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 
 ![Analytical consideration](pics/Vsel_3.png)
 
-### RESULT: Please form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 4 below.
+### RESULT: Please form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 3 below.
 <hr>
 
-## Bonus task 3: Data analysis in NeXpy
+## BONUS TASK 3 (or DEMO): Implement result from TASK 2 for futher work
+* Exchange the instrument input-parameter `f` for a `lambda` (add a default of e.g. 6Å)
+* In the `DECLARE` section, uncomment the `// double f;` -> `double f;`
+* Add your equation in c-code under `INITIALIZE`
+
+**RESULT: Save this instrument file for further work on Tuesday**
+<hr>
+
+## BONUS TASK 4 (or DEMO): Data analysis in NeXpy
 * On the run dialogue in mcgui, select `Output format: NeXus -c` (-c means recompile to ensure format is supported) and run a simulation
 * Plot and NeXpy should appear:
 ![NeXpy](pics/nexpy.png)
@@ -30,10 +38,4 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 ![NeXpy-fit-report](pics/nexpy-fit-report.png)
 
 **Hint:** If you `save` your fits or parameters, these will become available in the left pane of NeXpy and can be saved by using a right-click menu point
-<hr>
-
-## Bonus task 4:
-* Exchange the instrument input-parameter `f` for a `lambda` (add a default of e.g. 6Å)
-* In the `DECLARE` section, uncomment the `//double f; ` -> `double f; `
-* Add your equation in c-code under `INITIALIZE`
 
