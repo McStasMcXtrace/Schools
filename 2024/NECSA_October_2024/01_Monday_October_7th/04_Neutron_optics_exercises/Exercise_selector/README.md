@@ -12,7 +12,7 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 
 ![Analytical consideration](pics/Vsel_3.png)
 
-### Please form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 4 below.
+### RESULT: Please form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 4 below.
 <hr>
 
 ## Bonus task 3: Data analysis in NeXpy
