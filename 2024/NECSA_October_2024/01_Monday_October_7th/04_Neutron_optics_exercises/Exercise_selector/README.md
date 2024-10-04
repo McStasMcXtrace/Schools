@@ -34,6 +34,6 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 
 ## Bonus task 4:
 * Exchange the instrument input-parameter `f` for a `lambda` (add a default of e.g. 6Å)
-* In the `DECLARE` section, uncomment the `//double f;` -> `double f;`
+* In the `DECLARE` section, uncomment the `//double f; ` -> `double f; `
 * Add your equation in c-code under `INITIALIZE`
 
