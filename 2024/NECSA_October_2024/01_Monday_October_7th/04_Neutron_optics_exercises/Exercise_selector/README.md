@@ -8,11 +8,12 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 
 
 ## TASK 2 improve the instrument file:
-Using this information:
+### Given that:
 
 ![Analytical consideration](pics/Vsel_3.png)
 
-* Form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 4 below.
+### Please form an expression of selector frequency as function of desired wavelength $f(\lambda)$ - may be used in Bonus task 4 below.
+<hr>
 
 ## Bonus task 3: Data analysis in NeXpy
 * On the run dialogue in mcgui, select `Output format: NeXus -c` (-c means recompile to ensure format is supported) and run a simulation
@@ -27,7 +28,10 @@ Using this information:
 ![NeXpy-fit-data](pics/nexpy-fit-data.png)
 ![NeXpy-fit-plot](pics/nexpy-fit-plot.png)
 ![NeXpy-fit-report](pics/nexpy-fit-report.png)
+
 **Hint:** If you `save` your fits or parameters, these will become available in the left pane of NeXpy and can be saved by using a right-click menu point
+<hr>
+
 ## Bonus task 4:
 * Exchange the instrument input-parameter `f` for a `lambda` (add a default of e.g. 6Å)
 * In the `DECLARE` section, uncomment the `//double f;` -> `double f;`
