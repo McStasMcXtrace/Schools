@@ -45,15 +45,19 @@ INITIALIZE %{
 TRACE // list of components
 ...
 
-COMPONENT name = comp(parameters) 
+COMPONENT name = comp(parameters=values, ...) 
+  WHEN (condition)
   AT (...) [RELATIVE [reference|PREVIOUS] | ABSOLUTE]
   {ROTATED {RELATIVE [reference|PREVIOUS] | ABSOLUTE} }
+  EXTEND %{
+    // C-syntax, things to do after, using e.g. if(SCATTERED) ...
+  %}
 
 ...
 END
 ```
 
-Additional keywords have been presented on [day2/lesson 10 "Full grammar"](../../02_Tuesday_October_8th/10_Full_grammar).
+Additional keywords have been presented on [day2/lesson 20 "Full grammar"](../../02_Tuesday_October_8th/20_Full_grammar) in a more detailed way.
 
 --------------------------------------------------------------------------------
 
@@ -72,7 +76,7 @@ is the statistical weight (which sum is the beam intensity).
 
 The `Y` axis is usually set as "vertical", `Z` is forward, and in direct frame, `X` is left wise (when looking forward).
 
-Compared with McStas, the velocity `v` is turned into a wavevector `k`, the spin `s` is turned to electrical field `E` (linear polarisation), and there is an additional phase `phi` to model coherent beams.
+Compared with McStas, the velocity `v` is turned into a wavevector `k`, the spin `s` is turned into electrical field `E` (linear polarisation), and there is an additional phase `phi` to model coherent beams.
 
 ![](pics/Principles-of-X-ray-generation-in-X-ray-tube-bending-magnet-wiggler-undulator-and.png)
 
