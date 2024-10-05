@@ -4,10 +4,6 @@ In this session, we shall collect information about the existing SAFARI instrume
 
 see [presentation of SAFARI-1](pics/2002StrydomCopidT97p045.pdf)
 
-## Neutron Imaging (INDLOVU NRAD) 
-
-see [project](pics/deBeeretal.-2020-OverviewoftheConceptualDesignoftheUpgradedNeutronRadiographyFacilityINDLOVUattheSAFARI-1Researc.pdf)
-
 
 ## Powder Instrument For Transition In Structure Investigations (PITSI) 
 
