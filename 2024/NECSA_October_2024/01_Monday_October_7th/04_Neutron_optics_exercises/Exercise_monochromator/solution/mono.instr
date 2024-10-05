@@ -1,0 +1,88 @@
+/*******************************************************************************
+* Instrument: mono
+*
+* %I
+* Written by: Peter Willendrup
+* Date: current date
+* Origin: your institution
+* %INSTRUMENT_SITE: Necsa_training
+*
+* Instrument "solution" for Monochromator exercise
+*
+* %D
+* Instrument "solution" for Monochromator exercise
+*
+* Example: parameters=values
+*
+* %P
+* source_lam_min: [AA] Minimum wavelength produced from source
+* source_lam_max: [AA] Maximum wavelength produced from source
+* A1:            [deg] Monochromator rotation angle
+* A2:            [deg] Monochromator scattering angle "2\theta" 
+*
+* %L
+* <reference/HTML link>
+*
+* %E
+*******************************************************************************/
+DEFINE INSTRUMENT mono(source_lam_min=0.5, source_lam_max=6.5, A1=17.3472,A2=34.6943)
+
+DECLARE
+%{
+%}
+
+USERVARS
+%{
+%}
+
+INITIALIZE
+%{
+%}
+
+TRACE
+
+COMPONENT origin = Progress_bar()
+AT (0, 0, 0) RELATIVE ABSOLUTE
+
+// insert components here (e.g. Insert -> Source -> ...)
+
+COMPONENT  Source = Source_gen(
+    radius = 0.0905, dist = 4, focus_xw = 0.1, focus_yh = 0.1,
+    Lmin = source_lam_min, Lmax = source_lam_max, I1 = 0)
+  AT (0, 0, 0) RELATIVE origin
+
+COMPONENT Source_spectrum = L_monitor(
+    nL=101,
+    Lmin=0, 
+    Lmax=source_lam_max+0.5)
+AT (0, 0, 0.001) RELATIVE PREVIOUS
+
+COMPONENT Mono_arm = Arm()
+AT (0,0,4) RELATIVE Source
+ROTATED (0,A1,0) RELATIVE Source
+
+COMPONENT monochromator_flat = Monochromator_flat()
+AT (0, 0, 0) RELATIVE Mono_arm
+
+COMPONENT Mono_out = Arm()
+AT (0,0,4) RELATIVE Source
+ROTATED (0,A2,0) RELATIVE Source
+
+COMPONENT Mono_spectrum = L_monitor(
+    nL=101,
+    Lmin=0, 
+    Lmax=source_lam_max+0.5,
+    xwidth=0.05,yheight=0.05)
+AT (0, 0, 2) RELATIVE Mono_out
+
+COMPONENT PSD = PSD_monitor(xwidth=0.05,yheight=0.05)
+AT (0, 0, 0.001) RELATIVE Mono_spectrum
+
+COMPONENT Samplepos = Arm()
+AT (0,0,2.1) RELATIVE Mono_out
+
+FINALLY
+%{
+%}
+
+END

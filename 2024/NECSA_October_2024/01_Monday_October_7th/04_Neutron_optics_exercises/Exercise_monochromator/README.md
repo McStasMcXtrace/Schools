@@ -61,3 +61,5 @@ and be able to see the reflection sweeping by the monitor if crontol-cliking on 
    * What we might do to increase neutron intensity scattered from the monochromator
 <hr>
 18. Add another `Arm` 2.1 m from `Mono_out` which will serve as sample position later. Save the file for further work in another exercise.
+<hr>
+19. **Optional bonus-task**: Investigate the example instrument `Test_Monochromators` for a good overview of available monochromator models (Hint: find it via `Docs`)
