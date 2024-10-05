@@ -5,6 +5,8 @@ First a briefing by Peter on McStas monochromator models:
 
 ## TASKS
 
+(If you get stuck along the way, there is a solution [here](solution/mono.instr))
+
 1. Create yourself a new instrument file and name to your liking
 2. Add a `Source_gen` to your instrument, by copy-paste from:
 
@@ -26,3 +28,5 @@ COMPONENT  Source = Source_gen(
 10. Insert another `L_monitor` instance 2 m after the `Mono_out` instance to (once we are ready) measure the reflected beam from the monochromator. Use the same range of wavelength measurement as the earlier wavelength monitor.
 11. Following 0.001 mm after the (10.) L_monitor, insert a 0.1 x 0.1 m `PSD` to look at the reflected beam spot.
 12. Verify that you have built something reasonable by means of a `TRACE` setting `A1=45` and `A2=90`, it should all togetherlook something like this:
+![3D](pics/mcdisplay_1.png)
+![3D](pics/mcdisplay_2.png)
