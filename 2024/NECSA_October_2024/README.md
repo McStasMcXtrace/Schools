@@ -10,8 +10,6 @@
 
 ## Workshop programme
 
-[![Workshop programme](pics/programme.png)](https://docs.google.com/spreadsheets/d/1PozT8aH9RE5SZ5jEX8cpKLu-l-wqrZfPHrYnqLqC1vo/edit?usp=sharing)
-
 Here is a detailed programme with links to all lessons and practicals.
 
 
@@ -29,6 +27,8 @@ Here is a detailed programme with links to all lessons and practicals.
 | *14:30-15:00*       |                                    | *Coffee break*                      | *Coffee break*                                                                                         | *Coffee break*                                       | *Coffee break*                          | *Coffee break*                                                         |
 | 15:00-15:30         | Your first simulation, cont'd                                     | [Neutron optics](01_Monday_October_7th/03_Neutron_optics) | cont'd | [McXtrace sources and monitors](03_Wednesday_October_9th/13_McXtrace_sources_and_monitors) | [Modelling the Necsa X-ray machines](04_Thursday_October_10th/19_NECSA_Xray_machines) | [McStas and McXtrace on GPU](05_Friday_October_11th/22_McStas_and_McXtrace_on_GPU) |
 | 15:30-16:00         |                                    | [Neutron optics excercises](01_Monday_October_7th/04_Neutron_optics_exercises) | cont'd                                                      | [McXtrace intro exercise](03_Wednesday_October_9th/14_McXtrace_intro_exercise) | cont'd        | cont'd                                                                 |
+
+(Programme is also available [on google sheets](https://docs.google.com/spreadsheets/d/1PozT8aH9RE5SZ5jEX8cpKLu-l-wqrZfPHrYnqLqC1vo/edit?usp=sharing) and [locally as a png](pics/programme.png))
 
 ## Prerequisites
 
