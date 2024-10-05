@@ -1,4 +1,4 @@
-# Oct 9th 2024: Lesson 15: McXtrace intro exercise.
+# McXtrace introductory exercise.
 
 ![McXtrace](../../pics/mcxtrace-logo.png  "McXtrace")
 

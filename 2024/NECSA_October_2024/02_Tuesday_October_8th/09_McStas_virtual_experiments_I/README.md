@@ -1,4 +1,4 @@
-# Oct 8th 2024: Lesson 11: "Virtual experiments" modelling SAFARI-1 instruments
+# "Virtual experiments": modelling SAFARI-1 instruments
 
 In this session, we shall collect information about the existing SAFARI instruments.
 

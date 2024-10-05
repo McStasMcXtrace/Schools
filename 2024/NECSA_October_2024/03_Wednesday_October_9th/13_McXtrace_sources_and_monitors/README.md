@@ -1,4 +1,4 @@
-# Oct 9th 2024: Lesson 14: McXtrace Source modelling and Monitors.
+# McXtrace Source modelling and Monitors.
 
 ![McXtrace](../../pics/mcxtrace-logo.png  "McXtrace")
 

@@ -1,13 +1,15 @@
-# Oct 11th 2024: Lesson 20: NECSA X-ray machines
+# NECSA X-ray machines
+
+![McXtrace](../../pics/mcxtrace-logo.png  "McXtrace")
 
 In this session, we shall collect information about the existing NECSA X-ray instruments.
 
 ## Global methodology
 
 1. Assemble a succinct list of elements that compose your beam-line. As a start, focus on the main components.
-2. Identify which [McXtrace components](http://mcxtrace.org/download/components/) best match your beam-line elements. Prefer simple components when there are many possibilities.
+2. Identify which [McXtrace components](https://github.com/McStasMcXtrace/McCode/tree/main/mcxtrace-comps) best match your beam-line elements. Prefer simple components when there are many possibilities.
 3. Search for existing models that use these components. They are often in the 'Tests' category, but you may as well find a model which is pretty close in spirit to your beam-line. These examples will demonstrate how to actually use the components (syntax, parameters, etc) you envisage. Get inspiration here.
-4. For each identified [McXtrace component](http://mcxtrace.org/download/components/), look at their main properties (parameters, geometry) and search for these in real life. This means you will need to estimate plausible values, and potentially refer to some documentation. As a start, use approximate values to avoid loosing time in details.
+4. For each identified [McXtrace component](https://github.com/McStasMcXtrace/McCode/tree/main/mcxtrace-comps), look at their main properties (parameters, geometry) and search for these in real life. This means you will need to estimate plausible values, and potentially refer to some documentation. As a start, use approximate values to avoid loosing time in details.
 5. Position these elements in space w.r.t. the other elements. :bulb: A special note on mirrors and monochromators: the positioning/orientation of these can be tricky. It is usually a good advice to search for examples that contain them, and copy/paste/adapt the corresponding code in your own model. You will save a lot of time scratching your head this way.
 6. Once done, you may optionally identify which values/parameters could be tunable in the beam-line model in order for instance to further scan or optimize their values. This can be an initial energy, a slit aperture size, a sample tilt, etc. These can then be moved to the `DEFINE INSTRUMENT` line as a variable, and transferred where appropriate in the `INITIALIZE` and `TRACE` sections. Set default values for these parameters.
 7. Complete the header at the beginning of the `.instr` file to reflect your institution (NECSA), the beam-line, yourself as author, a description of the beam-line, a description of the model parameters (those from the step above).
@@ -24,7 +26,9 @@ The structure of a beam line should have:
 
 ## Compilation errors
 
-Of course, your model will hardly compile initially. Read the compilation output to decode the cryptic messages and identify where errors could be. An other strategy is to comment (use `/* ... */`) most of the components and leave only the source. Then compile and iteratively un-comment components one-by-one with intermediate compilation checks.
+Of course, your model may not compile initially. Read the compilation output to decode the cryptic messages and identify where errors could be. An other strategy is to comment (use `/* ... */`) most of the components and leave only the source. Then compile and iteratively un-comment components one-by-one with intermediate compilation checks.
+
+To help building the model, assemble bits and pieces in sequence, and check regularly the 3D geometry with the "Trace 3D" instead of "Simulation" mode (Run dialogue). The `mxdisplay` tool will be used.
 
 ---
 
