@@ -1,4 +1,4 @@
-## Exercises
+## Further Exercises on Neutron Optics: Monochromatisation
 
 ![Animation](pics/ILL_SANS_instrument_D11_1_Velocity_selector_4_5.gif)
 
