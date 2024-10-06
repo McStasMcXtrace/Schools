@@ -41,7 +41,7 @@ The transmission follows the classical Beer's exponential attenuation law:
 
 $I/I_0 = exp^{-d \mu(E)}$
 
-where $I_0$ is the incoming intensity, $I$ is the transmitted intensity, $d$ is the propagation distance into the material, and $\mu(E)$ is the absorption coefficient. In practice, the data is normalised, and we rather show $1-T$.
+where $I_0$ is the incoming intensity, $I$ is the transmitted intensity, $d$ is the propagation distance into the material, and $\mu(E)$ is the absorption coefficient. In practice, the data is normalised, and we rather show $1-T$. The $\mu(E)$ is usually obtained from tabulated values per atom, or computed from e.g. XRayLib.
 
 So, by just changing the incident energy, across absorption edges, it is possible to identify the material composition (XAS), as well as its oxidation state (XANES) and even local neighbours (EXAFS). This is the absorption spectroscopy.
 
@@ -65,11 +65,7 @@ Limitations:
 
 - The absorption is modelled "ideally", i.e. only the absorption threshold/edge. No XANES, no EXAFS.
 - All components, except `Fluorescence` require to have prepared some material data files, which are e.g. mono-atomic. This is why I personally use `Fluorescence` (but it is slower to compute).
-- No phase contrast imaging (afaik).
-
-#### Tomography
-
-Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is the tomography.
+- Phase contrast imaging remains experimental.
 
 The following image has been obtained with the `Test_Absorption` model, which goes through a block of manganese Mn. A polychromatic beam goes through the sample. The energy-sensitive detector shows the absorption spectra without the need to scan (one of the many advantages of simulations).
 
@@ -77,9 +73,19 @@ The following image has been obtained with the `Test_Absorption` model, which go
 
 The top curve shows intensity as a function of the energy. There is a drop after the Mn K-edge (1s) $E_K=6539$ keV. The image bellow shows the shadow of the block. The absorbed X-rays are converted into e.g. fluorescence and Auger electrons (not modelled here).
 
+#### Tomography
+
+Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is the tomography.
+
 In practice, to model a tomography set-up, one needs to use any of the absorption samples, with a geometric shape (e.g. OFF/PLY), and use a 2D detector in transmission to record projections.
 
 The OFF/PLY files can be generated from tools such as MeshLab, FreeCAD, Admesh, ...
+
+A laboratory tomograph is given as an example as the `NBI/NBI_Lab_TOMO` model. A point source (Mo) is used to illuminate a chess king.
+
+![Tomo Mo](pics/Tomo.png)
+
+Computation is rather long, and could most probably be improved in efficiency.
 
 ## Fluorescence
 
@@ -87,14 +93,25 @@ The fluorescence is a secondary process triggered by absorption. The ejected ele
 
 The fluorescence detectors can be of many types, including portable ones. In practice, fluorescence detectors equip many X-ray instruments as this is a "cheap" method that provides a lot of information.
 
+The first part of the fluorescence computation starts with an absorption, as explained above, i.e. an exponential decay for which the attenuation $\mu$ is the sum for all atom types in the material (computed with XRayLib). This determines the decay, and a random number on this exponential is chosen to mimic the penetration ratio. Then, an outgoing direction is chosen randomly (as fluorescence is isotropic), as well as an energy amongst the possible transitions, with given strength (yield). Then the photon is re-emitted with given direction and energy. Further cascade fluorescence may be triggered until the light gets out. A geometric shielding is taken into account, that is photons may escape the surface, but will most probably be absorbed again in the bulk.
+
+In practice, fluorescence is often considered as a background, so that some detectors on beam-lines are tuned (gains/thresholds) to remove photons below a given energy.
+
 ![Fluo](pics/Fluo.png)
 
+Running the `Test_Fluorescence` example produces the above spectrum. Scattering is shielded at 90 degrees, and maximal forward and backwards. The material can be specified as a file, or a chemical formulae.
 
 ## Powder diffraction
+
+Powder diffraction is produced by a periodic atom structure, i.e. a crystallographic lattice.
 
 ![PowderN](pics/PowderN.png)
 
 See a nice lecture from NSLS-2 about [diffraction](https://www.bnl.gov/nsls2/userguide/lectures/lecture-3-dooryhee.pdf).
+
+You can get an extensive list of many measured/calculated crystal structures at:
+- https://next-gen.materialsproject.org/
+- https://www.crystallography.net/
 
 ## Single crystal diffraction
 
