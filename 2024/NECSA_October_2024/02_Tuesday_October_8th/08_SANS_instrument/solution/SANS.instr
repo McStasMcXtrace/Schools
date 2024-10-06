@@ -1,0 +1,115 @@
+/*******************************************************************************
+*         McStas instrument definition URL=http://www.mcstas.org
+*
+* Instrument: SANS
+*
+* %Identification
+* Written by: Peter Willendrup
+* Date: October 2024
+* Origin: DTU
+* Release: McStas 3.5.1
+* Version: 0.2
+* %INSTRUMENT_SITE: Necsa_training
+*
+* Instrument containing a velocity selector for later use in SANS
+*
+* %Description
+* Instrument containing a velocity selector for later use in SANS
+*
+* %Parameters
+* lambda:         [AA] Wavelength to let through the selector
+* slit1:           [m] Radius of slit1
+* slit2:           [m] Radius of slit2
+* LC:              [m] Length of collimation section
+* LD:              [m] Length from slit2/sample to detector
+* R:              [AA] Radius of hard-spheres in thin solution
+* rstop:           [m] Radius of beamstop
+*
+* %Link
+* A reference/HTML link for more information
+*
+* %End
+*******************************************************************************/
+
+/* Change name of instrument and input parameters with default values */
+DEFINE INSTRUMENT SANS(lambda=6,slit1=0.02,slit2=0.02,LC=3,LD=3,R=150,rstop=0.03)
+
+DECLARE %{
+  // Late in the exercise following line should be uncommented
+  double f;
+  double alpha;
+  double V;
+  double L;
+%}
+
+INITIALIZE %{
+  alpha=42.298;
+  V=3956/lambda;
+  L=0.25;
+  // This section should later contain your equation for $f(\lambda)
+  f=(alpha/360) * (V/L);
+  printf("lambda=%g, V=%g, f=%g\n",lambda,V,f);
+%}
+
+TRACE
+
+/* The Arm() class component defines reference points and orientations  */
+/* in 3D space. Every component instance must have a unique name. Here, */
+/* Origin is used. This Arm() component is set to define the origin of  */
+/* our global coordinate system (AT (0,0,0) ABSOLUTE). It may be used   */
+/* for further RELATIVE reference, Other useful keywords are : ROTATED  */
+/* EXTEND GROUP PREVIOUS. Also think about adding a neutron source !    */
+/* Progress_bar is an Arm displaying simulation progress.               */
+COMPONENT Origin = Progress_bar()
+  AT (0,0,0) ABSOLUTE
+
+
+COMPONENT Source = Source_simple(
+    radius = 0.12, dist = 0, focus_xw = slit2, focus_yh = slit2, target_index= 7,
+    lambda0 = lambda, dlambda = 0.1*lambda)
+  AT (0, 0, 0) RELATIVE Origin
+
+COMPONENT Lmon0 = L_monitor(filename="LmonSource", nL=100, Lmin=0.99, Lmax=20.01, xwidth=0.1, yheight=0.1)
+  AT (0, 0, 0) RELATIVE Origin
+
+COMPONENT Guide = Guide(
+    w1 = 0.06, h1 = 0.06, w2 = 0.06, h2 = 0.06, l = 20, m = 3)
+  AT (0, 0, 1.5) RELATIVE Source
+
+COMPONENT Lmon1 = L_monitor(filename="LmonGuide", nL=100, Lmin=0.99, Lmax=20.01, xwidth=0.1, yheight=0.1)
+  AT (0, 0, 20.001) RELATIVE Guide
+
+COMPONENT Vel = V_selector(xwidth=0.03, yheight=0.05, zdepth =0.30, radius=0.12, alpha = alpha,
+           length=L, d=0.0004, nu=f, nslit=72)
+  AT (0, 0, 0.3) RELATIVE PREVIOUS
+
+COMPONENT Lmon2 = L_monitor(filename="LmonVel", nL=100, Lmin=0.99, Lmax=20.01, xwidth=0.1, yheight=0.1)
+  AT (0, 0, 0.3) RELATIVE PREVIOUS
+
+COMPONENT slit1 = Slit(radius=slit1)
+  AT (0,0,0.001) RELATIVE PREVIOUS
+  
+COMPONENT slit2 = Slit(radius=slit2)
+  AT (0,0,LC) RELATIVE slit1
+
+SPLIT 100 COMPONENT Sample = SANS_spheres2(xwidth=0.1,yheight=0.1,R=R)
+  AT(0,0,0.1) RELATIVE slit2
+
+COMPONENT STOP=Beamstop(radius=rstop)
+  AT(0,0,LD-0.1) RELATIVE slit2
+
+COMPONENT PSD = PSD_monitor(xwidth=0.5,yheight=0.5,nx=512,ny=512,restore_neutron=1)
+  AT(0,0,LD) RELATIVE slit2
+
+COMPONENT detector2 = PSD_monitor_rad(rmax=0.5, nr=500, filename="PSDr.dat", filename_av="PSDr_av.dat")
+  AT (0, 0, 0.001) RELATIVE PSD
+
+  
+/* This section is executed when the simulation ends (C code). Other    */
+/* optional sections are : SAVE                                         */
+FINALLY
+%{
+%}
+/* The END token marks the instrument definition end */
+END
+
