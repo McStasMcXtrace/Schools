@@ -36,14 +36,38 @@ It is best to first search for existing beam-line models that make use of these 
 
 ## Absorption (spectroscopy and tomography)
 
-The absorption spectroscopy is a very simple measurement technique. The idea is to send an X-ray beam (white, pink or monochromatic beam), and illuminate a sample. The incident X-ray photons then traverse the sample volume. The absorption fraction depends on the incident energy. Indeed, above a given energy for each atom (the threshold), the X-rays eject inner electrons (e.g. from the K-edge, photo-emission). The energy levels are perfectly tabulated and specific to each atom. The X-rays are then 'absorbed' which means that the transmitted beam is decreased.
-The transmission follows the classical Beer's law:
+The absorption spectroscopy is a very simple measurement technique. The idea is to send an X-ray beam (white, pink or monochromatic), and illuminate a sample. The incident X-ray photons then traverse the sample volume. The absorption fraction depends on the incident energy and the material. Indeed, above a given energy for each atom (the threshold), the X-rays eject inner electrons (e.g. from the K-edge, photo-emission). The energy levels are perfectly tabulated and specific to each atom. These X-rays are then 'absorbed' which means that the transmitted beam is decreased.
+The transmission follows the classical Beer's exponential attenuation law:
 
 $I/I_0 = exp^{-d \mu(E)}$
 
-where $I_0$ is the incoming intensity, $I$ is the transmitted intensity, $d$ is the propagation distance into the material, and $\mu(E)$ is the absorption coefficient. In practice, the data is normalised, and we rather show 1-T.
+where $I_0$ is the incoming intensity, $I$ is the transmitted intensity, $d$ is the propagation distance into the material, and $\mu(E)$ is the absorption coefficient. In practice, the data is normalised, and we rather show $1-T$.
 
 So, by just changing the incident energy, across absorption edges, it is possible to identify the material composition (XAS), as well as its oxidation state (XANES) and even local neighbours (EXAFS). This is the absorption spectroscopy.
+
+See a very nice lesson from [B. Ravel at NSLS-2 about XAS](https://www.bnl.gov/nsls2/userguide/lectures/lecture-4-ravel.pdf).
+
+#### Absorption samples
+
+McXtrace provides a set of components to model material absorption. 
+
+Component           | Description | Syntax
+--------------------|-------------|------------------
+`Absorption_sample` | 1 or 2 absorbing materials  | `Absorption_sample( material_datafile_o="Mn.txt", xwidth_o = 0.5, yheight_o = 0.5, zdepth_o = 0.0001, rho_o=7.15 )`
+`Filter`            | absorption and refraction   | `Filter(material_datafile="Ge.txt",geometry="wire.ply",xwidth=0.02,yheight=0,zdepth=0)`
+`Abs_objects`       | series of objects (OFF/PLY) | `Abs_objects(objects="input_abs_objects_template.dat")`
+`Fluorescence`      | any material (formulae/CIF), abs+fluo+Rayleigh+Compton | `Fluorescence(material="LaB6", xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99, target_index=1, focus_xw=0.0005, focus_yh=0.0005)`
+
+All components support "any-shape" geometry via 3D OFF/PLY files (similar to STL).
+The `Fluorescence` sample also handles concentric geometries (e.g. sample holders, cryostats, etc). The `Tests_samples/Test_Absorption` allows to compare the usage/syntax and output of each.
+
+Limitations: 
+
+- The absorption is modelled "ideally", i.e. only the absorption threshold/edge. No XANES, no EXAFS.
+- All components, except `Fluorescence` require to have prepared some material data files, which are e.g. mono-atomic. This is why I personally use `Fluorescence` (but it is slower to compute).
+- No phase contrast imaging (afaik).
+
+#### Tomography
 
 Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is the tomography.
 
@@ -51,15 +75,26 @@ The following image has been obtained with the `Test_Absorption` model, which go
 
 ![Absorption Mn](pics/Absorption.png)
 
-The top curve shows intensity as a function of the energy. There is a drop after the Mn K-adge $E_K=6539$ keV. The image bellow shows the shadow of the block. The absorbed X-rays are converted into e.g. fluorescence and Auger electrons (not modelled here).
+The top curve shows intensity as a function of the energy. There is a drop after the Mn K-edge (1s) $E_K=6539$ keV. The image bellow shows the shadow of the block. The absorbed X-rays are converted into e.g. fluorescence and Auger electrons (not modelled here).
+
+In practice, to model a tomography set-up, one needs to use any of the absorption samples, with a geometric shape (e.g. OFF/PLY), and use a 2D detector in transmission to record projections.
+
+The OFF/PLY files can be generated from tools such as MeshLab, FreeCAD, Admesh, ...
 
 ## Fluorescence
 
+The fluorescence is a secondary process triggered by absorption. The ejected electron creates a hole, which is then filled by "re-ordering" the existing electronic states. Then many transitions between the atom energy levels are involved (e.g. Kα = M->K, Kβ = L->K, Lα = M->L, etc), and secondary photons are emitted with energies corresponding to the level differences. The spectrum is thus specific to each atom, and the intensity depends on the material composition fractions and self shielding. 
+
+The fluorescence detectors can be of many types, including portable ones. In practice, fluorescence detectors equip many X-ray instruments as this is a "cheap" method that provides a lot of information.
+
 ![Fluo](pics/Fluo.png)
+
 
 ## Powder diffraction
 
 ![PowderN](pics/PowderN.png)
+
+See a nice lecture from NSLS-2 about [diffraction](https://www.bnl.gov/nsls2/userguide/lectures/lecture-3-dooryhee.pdf).
 
 ## Single crystal diffraction
 
@@ -69,4 +104,15 @@ The top curve shows intensity as a function of the energy. There is a drop after
 
 ![SAXS](pics/SAXS.png)
 
+## Imaging
 
+Transmission imaging is based on absorption. However, it is also possible to record images with a focused incoming X-ray beam while (X,Y) scanning the object and record e.g. 
+
+- diffraction pattern
+- fluorescence
+- absorption spectrum (scanning the incident energy)
+- small angle scattering
+
+See the nice presentations from [NSLS-II](https://www.bnl.gov/nsls2/userguide/lectures/lecture-11-qshen.pdf) and [NSLS-II](https://www.bnl.gov/nsls2/userguide/lectures/lecture-9-wklee.pdf).
+
+So, in short, just refer to the other sample models, and combine measurement strategies...
