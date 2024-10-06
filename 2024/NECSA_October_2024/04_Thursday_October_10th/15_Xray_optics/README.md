@@ -1,5 +1,6 @@
 # X-ray Optics components
 
+In this lesson, we shall review common optics components found on X-ray beam-lines.
 
 ## `Mirror` (flat), `Mirror_curved`, `Multilayer_elliptic`, `TwinKB_ML` (multi-layer)
 
