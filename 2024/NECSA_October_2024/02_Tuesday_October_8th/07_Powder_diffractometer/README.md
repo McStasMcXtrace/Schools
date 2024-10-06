@@ -13,7 +13,7 @@ powder diffractometer.
 5. We should now optimise a bit:
    * Assign only a tiny fraction of stats to "direct beam", set `p_transmit=1e-6`
    * Assign just 3% to incoherent scattering `p_inc=0.03`
-   * Let us use a `d_phi` limitation, corresponding to detector height / detector radius ~14deg0.
+   * Let us use a `d_phi` limitation, corresponding to detector height / detector radius ~14 deg.
    * Let us only scatter to the negative side (detector only in place there) `tth_sign=-1`
    * Use a `SPLIT` of ~ 800, corresponding to the number of dspacings available in the reflection file
 6. Rerun with `MPI` (auto will run on all available cores) and 1e7 rays, much better:
