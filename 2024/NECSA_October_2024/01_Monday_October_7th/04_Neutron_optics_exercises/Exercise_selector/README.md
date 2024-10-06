@@ -36,6 +36,7 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 ![NeXpy-fit-data](pics/nexpy-fit-data.png)
 ![NeXpy-fit-plot](pics/nexpy-fit-plot.png)
 ![NeXpy-fit-report](pics/nexpy-fit-report.png)
+(For those thinking a Gaussian is not a correct model in this case, this is correct. The v-selector transmission is in fact triangular ;-))
 
 **Hint:** If you `save` your fits or parameters, these will become available in the left pane of NeXpy and can be saved by using a right-click menu point
 
