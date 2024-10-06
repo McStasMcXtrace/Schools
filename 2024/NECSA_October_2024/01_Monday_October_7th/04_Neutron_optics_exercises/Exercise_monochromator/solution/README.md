@@ -1,7 +1,7 @@
 # Solutions and ideas
 The instruments in this "solution" folder are:
 * [`mono.instr`](mono.instr) is the result of the exercise steps
-* [`mono_optims.instr`](mono_optims.instr) is meant as an inspiration catalogue for a subset of many optimistaions possible. 
+* [`mono_optims.instr`](mono_optims.instr) is meant as an inspiration catalogue for a subset of the many optimisaions possible. 
 
 The listing below highlights the differences between the two instruments:
 
