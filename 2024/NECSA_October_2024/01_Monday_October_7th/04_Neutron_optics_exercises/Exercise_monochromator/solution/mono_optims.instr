@@ -41,7 +41,7 @@
 *
 * %E
 *******************************************************************************/
-DEFINE INSTRUMENT mono_optims(source_lam_min=0.5, source_lam_max=6.5, A1=17.3472,A2=34.6943, lambda=0, coll_in=0, coll_out=0, RV=0)
+DEFINE INSTRUMENT mono_optims(source_lam_min=1.95, source_lam_max=2.05, A1=17.3472,A2=34.6943, lambda=2, coll_in=30, coll_out=30, RV=0.6)
 
 DECLARE
 %{
@@ -60,7 +60,7 @@ INITIALIZE
 %{
   // Initalise constant(s)
   Mono_D=3.3539; // Mono PG 002
-  Mono_w=0.1;    // Mono width
+  Mono_w=0.05;    // Mono width
   MSdist=2.1;    // Mono-sample distance
 
   /* Optimisation 1) - 
