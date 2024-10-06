@@ -52,6 +52,7 @@ COMPONENT  Source = Source_gen(
   AT (0, 0, 0) RELATIVE origin
 
 COMPONENT Source_spectrum = L_monitor(
+    xwidth=0.2,yheight=0.2,
     nL=101,
     Lmin=0, 
     Lmax=source_lam_max+0.5)
