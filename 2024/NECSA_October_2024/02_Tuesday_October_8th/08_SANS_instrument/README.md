@@ -37,3 +37,14 @@ SPLIT 100 COMPONENT Sample = SANS_spheres2(xwidth=0.1,yheight=0.1,R=R)
 
     ![Output 1](pics/output2.png)
     ![Log Output 1 SANS](pics/log-output2.png)
+12. Finally, the current detector measures in real-space, let us add a Q-sensitive detector instead, add something like this after your PSD:
+```c
+COMPONENT detector2 = PSD_monitor_rad(rmax=0.5, nr=500, filename="PSDr.dat", filename_av="PSDr_av.dat")
+  AT (0, 0, 0.001) RELATIVE PSD
+```
+13. We are now finally ready to explore:
+    * Investigate how the pattern changes with varying `R` of the sample    
+    * Investigate how the pattern changes with varying `lambda`
+    * Investigate how the resolution of the pattern changes with varying `LC`
+    * Investigate how the resolution of the pattern changes with varying `LD`
+	* Investigate how the resolution of the pattern changes with varying `slit1` and `slit2`
