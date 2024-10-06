@@ -20,7 +20,7 @@ COMPONENT  Source = Source_gen(
 ```
 3. Add corresponding instrument input paramters for your source: `source_lam_min=0.5, source_lam_max=6.5`,
 
-4. Insert an `L_monitor` a short distance after the `Source` to measure the initial spectrum, dependent on the `source_lam*` parameters. Use e.g. 101 bins. Check out the meaning of the parameters via the component insertion dialogue.
+4. Insert an `L_monitor` a short distance after the `Source` to measure the initial spectrum, dependent on the `source_lam*` parameters. Use e.g. 101 bins and `xwidth=0.2`, `yheight=0.2` to measure all stats from the circular source. Check out the meaning of the parameters via the component insertion dialogue.
 
 5. Run a simulation to verify output on the monitor
 
@@ -34,9 +34,9 @@ COMPONENT  Source = Source_gen(
 
 9. Now insert a Monochromator_flat between `Mono_arm` and `Mono_out` using the (002) reflection of PG with `Q=1.8734` or `DM=2*PI/Q`. (This is what you will get if you assume all defaults)
 
-10. Insert a small 5x5 cm `L_monitor` instance 2 m after the `Mono_out` instance to (once we are ready) measure the reflected beam from the monochromator. Use the same range of wavelength measurement as the earlier wavelength monitor.
+10. Insert a small 10x10 cm `L_monitor` instance 2 m after the `Mono_out` instance to (once we are ready) measure the reflected beam from the monochromator. Use the same range of wavelength measurement as the earlier wavelength monitor.
 
-11. Following 0.001 mm after the (10.) L_monitor, insert a 5x5 cm `PSD` to look at the reflected beam spot.
+11. Following 0.001 mm after the (10.) L_monitor, insert a 10x10 cm `PSD` to look at the reflected beam spot.
 
 12. Verify that you have built something reasonable by means of a `TRACE` setting `A1=45` and `A2=90`, it should all togetherlook something like this:
 
@@ -66,3 +66,7 @@ and be able to see the reflection sweeping by the monitor if crontol-cliking on 
 18. Add another `Arm` 2.1 m from `Mono_out` which will serve as sample position later. Save the file for further work in another exercise.
 
 19. **Optional bonus-task**: Investigate the example instrument `Test_Monochromators` for a good overview of available monochromator models (Hint: find it via `Docs`)
+
+20. A couple of instruments are left in the [solution](solution) folder. One (`mono.instr`) is the result of the above steps, the other (`mono_optims.instr`) is meant as an inspiration catalogue for a subset of many optimistaions possible. 
+
+21. Also, remember to use the `examples` as inspiration! Several world-class diffractomer models are available, e.g. `ILL_D20` and `ILL_D2B`.
