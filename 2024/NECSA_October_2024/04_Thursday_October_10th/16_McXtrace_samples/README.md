@@ -1,4 +1,5 @@
 # McXtrace Samples
+<!-- render LaTex with e.g. pandoc README.md --mathml -o README.pdf -->
 
 ![McXtrace](../../pics/mcxtrace-logo.png  "McXtrace")
 
@@ -56,7 +57,7 @@ Component           | Description | Syntax
 `Absorption_sample` | 1 or 2 absorbing materials  | `Absorption_sample( material_datafile_o="Mn.txt", xwidth_o = 0.5, yheight_o = 0.5, zdepth_o = 0.0001, rho_o=7.15 )`
 `Filter`            | absorption and refraction   | `Filter(material_datafile="Ge.txt",geometry="wire.ply",xwidth=0.02,yheight=0,zdepth=0)`
 `Abs_objects`       | series of objects (OFF/PLY) | `Abs_objects(objects="input_abs_objects_template.dat")`
-`Fluorescence`      | any material (formulae/CIF), abs+fluo+Rayleigh+Compton | `Fluorescence(material="LaB6", xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99, target_index=1, focus_xw=0.0005, focus_yh=0.0005)`
+`Fluorescence`      | any material (formulae/CIF), abs fluo Rayleigh Compton | `Fluorescence(material="LaB6", xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99, target_index=1, focus_xw=0.0005, focus_yh=0.0005)`
 
 All components support "any-shape" geometry via 3D OFF/PLY files (similar to STL).
 The `Fluorescence` sample also handles concentric geometries (e.g. sample holders, cryostats, etc). The `Tests_samples/Test_Absorption` allows to compare the usage/syntax and output of each.
@@ -65,7 +66,6 @@ Limitations:
 
 - The absorption is modelled "ideally", i.e. only the absorption threshold/edge. No XANES, no EXAFS.
 - All components, except `Fluorescence` require to have prepared some material data files, which are e.g. mono-atomic. This is why I personally use `Fluorescence` (but it is slower to compute).
-- Phase contrast imaging remains experimental.
 
 The following image has been obtained with the `Test_Absorption` model, which goes through a block of manganese Mn. A polychromatic beam goes through the sample. The energy-sensitive detector shows the absorption spectra without the need to scan (one of the many advantages of simulations).
 
@@ -75,21 +75,36 @@ The top curve shows intensity as a function of the energy. There is a drop after
 
 #### Tomography
 
-Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is the tomography.
+Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is computerised tomography (CT).
 
 In practice, to model a tomography set-up, one needs to use any of the absorption samples, with a geometric shape (e.g. OFF/PLY), and use a 2D detector in transmission to record projections.
 
 The OFF/PLY files can be generated from tools such as MeshLab, FreeCAD, Admesh, ...
 
-A laboratory tomograph is given as an example as the `NBI/NBI_Lab_TOMO` model. A point source (Mo) is used to illuminate a chess king.
+A laboratory tomograph is given as an example as the `NBI/NBI_Lab_TOMO` model. A point source (Mo) is used to illuminate a chess pawn.
 
 ![Tomo Mo](pics/Tomo.png)
 
-Computation is rather long, and could most probably be improved in efficiency.
+In this example, the sample is described as:
+```c
+Filter(material_datafile="Glass.dat", geometry="king.off", 
+  xwidth=1.5e-2,yheight=1.5e-2,zdepth=1.5e-2)
+```
+
+A more advanced model could advantageously add the fluorescence contribution (for elemental analysis) with syntax:
+```c
+Fluorescence(material="SiO2", geometry="king.off", 
+  xwidth=1.5e-2,yheight=1.5e-2,zdepth=1.5e-2)
+```
+which has the advantage that the material can be specified as a chemical formulae.
+
+Limitations:
+
+- Phase contrast imaging remains experimental.
 
 ## Fluorescence
 
-The fluorescence is a secondary process triggered by absorption. The ejected electron creates a hole, which is then filled by "re-ordering" the existing electronic states. Then many transitions between the atom energy levels are involved (e.g. Kα = M->K, Kβ = L->K, Lα = M->L, etc), and secondary photons are emitted with energies corresponding to the level differences. The spectrum is thus specific to each atom, and the intensity depends on the material composition fractions and self shielding. 
+The fluorescence is a secondary process triggered by absorption. The ejected electron creates a hole, which is then filled by "re-ordering" the existing electronic states. Then many transitions between the atom energy levels are involved (e.g. K$\alpha$ = M->K, K$\beta$ = L->K, L$\alpha$ = M->L, etc), and secondary photons are emitted with energies corresponding to the level differences. The spectrum is thus specific to each atom, and the intensity depends on the material composition fractions and self shielding. 
 
 The fluorescence detectors can be of many types, including portable ones. In practice, fluorescence detectors equip many X-ray instruments as this is a "cheap" method that provides a lot of information.
 
@@ -99,23 +114,64 @@ In practice, fluorescence is often considered as a background, so that some dete
 
 ![Fluo](pics/Fluo.png)
 
-Running the `Test_Fluorescence` example produces the above spectrum. Scattering is shielded at 90 degrees, and maximal forward and backwards. The material can be specified as a file, or a chemical formulae.
+Running the `Test_Fluorescence` example produces the above spectrum. Scattering is shielded at 90 degrees, and maximal forward and backwards. The material can be specified as a CIF file, or a chemical formulae. The corresponding sample description is e.g.:
+```c
+Fluorescence(material="LaB6",
+  xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99,
+  target_index=1, focus_xw=0.0005, focus_yh=0.0005)
+```
 
 ## Powder diffraction
 
-Powder diffraction is produced by a periodic atom structure, i.e. a crystallographic lattice.
+Powder diffraction is produced by a periodic atom structure, i.e. a crystallographic lattice. This structure defines an infinite number of parallel planes, each of which can reflect the X-ray beam as a mirror. Each plane is labelled using the Miller indices (h,k,l) which corresponds with its normal vector. In addition, the probe particle wavelength $\lambda$ (in $\AA$) must obey the Bragg law
 
-![PowderN](pics/PowderN.png)
+$n \lambda = 2 d sin(\theta)$
 
-See a nice lecture from NSLS-2 about [diffraction](https://www.bnl.gov/nsls2/userguide/lectures/lecture-3-dooryhee.pdf).
+where $d$ is the distance (in $\AA$) which separates the (h,k,l) planes, $n$ is an integer, and $\theta$ is the scattering angle. The larger the (h,k,l), the smaller $d$. Last, the scattered intensity is quantified from the so-called structure factor $F(hkl)$ which is computed from the atom types and locations:
+
+$F(hkl) = \sum_j{f_j e^{2i\pi(hx_j+ky_j+lz_j)}}$
+
+where $f_j$ is the scattering factor for atom $j$ at $(x,y,z)_j$. In practice, each scattering plane (h,k,l) deflects the beam as a mirror when the energy matches the Bragg law, with an intensity proportional to F^2^. 
+
+For a single crystal, the diffraction appears as single spots on a flat 2D detector, while for a powder, which is a large set of small crystals, we get Debye-Scherrer rings (rotation of the single crystal spots around the incoming beam direction).
+
+![Diffraction principle](pics/Diffraction.png)
+
+The `PowderN` component models scattering from any powder compound. It is used in many McXtrace instrument models, with a syntax such as:
+```c
+PowderN(radius=0.5e-4, yheight=1e-3, reflections="LaB6.cif")
+```
+The material can be specified either via a F^2^ pre-computed list (e.g. `.lau`,`.laz`,`.hkl` file), or a CIF file for which the `cif2hkl` tool is called transparently. The following plot shows the Debye-Scherrer rings from the `Tests_samples/Test_PowderN` example.
+
+![PowderN Debye-Scherrer rings](pics/PowderN.png)
+
+Looking at this example, we notice that the same scattering can also be obtained using the `Single_crystal` component in "powder" mode. The syntax is then the same, but an additional `powder` argument can be given. A value of 0 is for a single crystal, a value of 1 is for a powder, and an intermediate value corresponds with a 'textured' powder that is a powder exhibiting preferred orientations.
+```c
+Single_crystal(radius=0.5e-4, yheight=1e-3, reflections="LaB6.cif",
+    powder=1, mosaic=5)
+```
 
 You can get an extensive list of many measured/calculated crystal structures at:
+
 - https://next-gen.materialsproject.org/
 - https://www.crystallography.net/
+- https://alexandria.icams.rub.de/
 
 ## Single crystal diffraction
 
-![SX](pics/SX.png)
+The single crystal diffraction obeys the same rules as powders, however, the scattering appears as well separated spots. The calculation is slightly more involved still, but for the user, it "just works" as for powders.
+
+```c
+Single_crystal(radius=0.5e-4, yheight=1e-3, reflections="LaB6.cif")
+```
+
+In addition, this component allows to transform continuously a single crystal to a powder by adding cristallite orientation disorder with the `powder` parameter (see the Powder section above).
+
+The following picture shows single crystal Laue diffraction from a polychromatic beam onto a LaB<sub>6</sub> single crystal, obtained from the `Tests_samples/Test_SX` example. The Bragg spots are clearly visible.
+
+![Single crystal Laue diffraction](pics/SX.png)
+
+In practice, single crystal diffraction can be visible even when studying powders, originating from e.g. larger crystallites, filters and windows through which the beam travels. The single crystal diffraction is easier to see when relaxing the Bragg law, i.e. working in Laue mode with a wide energy range.
 
 ## Small angle-scattering (diffraction)
 
