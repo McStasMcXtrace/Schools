@@ -34,4 +34,4 @@ We will insert a source and two monitors and then modify these to examine some i
     - 2D Divergence monitor (Divergence_monitor)  
     - Divergence-position monitor for the x-direction (DivPos_monitor)  
 1. Try to replace the monitors by Monitor_nD-instances. You will need to use `mcdoc Monitor_nD` for this.
-2. Try to change your source into a pulsed source, for instance by adding an EXTEND block to your source where you set the neutron clock to something known. Then add two (or more) TOF_monitors and check the behaviour of you neutron beam - does it work as you expected?
+2. **Optional** Try to change your source into a pulsed source, for instance by adding an EXTEND block to your source where you set the neutron clock to something known. Then add two (or more) TOF_monitors and check the behaviour of you neutron beam - does it work as you expected?
