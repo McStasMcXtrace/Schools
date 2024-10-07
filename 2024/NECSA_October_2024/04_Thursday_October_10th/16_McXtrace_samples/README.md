@@ -35,7 +35,7 @@ McXtrace comes with a [material data base](https://github.com/McStasMcXtrace/McC
 
 It is best to first search for existing beam-line models that make use of these samples, to learn how to configure and insert the sample in a model.
 
-## Absorption (spectroscopy and tomography)
+## Absorption (spectroscopy, XAS)
 
 The absorption spectroscopy is a very simple measurement technique. The idea is to send an X-ray beam (white, pink or monochromatic), and illuminate a sample. The incident X-ray photons then traverse the sample volume. The absorption fraction depends on the incident energy and the material. Indeed, above a given energy for each atom (the threshold), the X-rays eject inner electrons (e.g. from the K-edge, photo-emission). The energy levels are perfectly tabulated and specific to each atom. These X-rays are then 'absorbed' which means that the transmitted beam is decreased.
 The transmission follows the classical Beer's exponential attenuation law:
@@ -54,10 +54,10 @@ McXtrace provides a set of components to model material absorption.
 
 Component           | Description | Syntax
 --------------------|-------------|------------------
-`Absorption_sample` | 1 or 2 absorbing materials  | `Absorption_sample( material_datafile_o="Mn.txt", xwidth_o = 0.5, yheight_o = 0.5, zdepth_o = 0.0001, rho_o=7.15 )`
-`Filter`            | absorption and refraction   | `Filter(material_datafile="Ge.txt",geometry="wire.ply",xwidth=0.02,yheight=0,zdepth=0)`
-`Abs_objects`       | series of objects (OFF/PLY) | `Abs_objects(objects="input_abs_objects_template.dat")`
-`Fluorescence`      | any material (formulae/CIF), abs fluo Rayleigh Compton | `Fluorescence(material="LaB6", xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99, target_index=1, focus_xw=0.0005, focus_yh=0.0005)`
+`Absorption_sample` | One or two absorbing materials  | `Absorption_sample( material_datafile_o="Mn.txt", xwidth_o = 0.5, yheight_o = 0.5, zdepth_o = 0.0001, rho_o=7.15 )`
+`Filter`            | Absorption and refraction   | `Filter(material_datafile="Ge.txt",geometry="wire.ply",xwidth=0.02,yheight=0,zdepth=0)`
+`Abs_objects`       | Series of objects (OFF/PLY) | `Abs_objects(objects="input_abs_objects_template.dat")`
+`Fluorescence`      | Any material (formulae/CIF), abs fluo Rayleigh Compton | `Fluorescence(material="LaB6", xwidth=0.001,yheight=0.001,zdepth=0.0001, p_interact=0.99, target_index=1, focus_xw=0.0005, focus_yh=0.0005)`
 
 All components support "any-shape" geometry via 3D OFF/PLY files (similar to STL).
 The `Fluorescence` sample also handles concentric geometries (e.g. sample holders, cryostats, etc). The `Tests_samples/Test_Absorption` allows to compare the usage/syntax and output of each.
@@ -73,7 +73,7 @@ The following image has been obtained with the `Test_Absorption` model, which go
 
 The top curve shows intensity as a function of the energy. There is a drop after the Mn K-edge (1s) $E_K=6539$ keV. The image bellow shows the shadow of the block. The absorbed X-rays are converted into e.g. fluorescence and Auger electrons (not modelled here).
 
-#### Tomography
+## Tomography (CT)
 
 Illuminating a volumetric sample, and placing an image detector after the sample, a transmitted projection is obtained. The images are 'semi-transparent' as a function of the X-ray energy and material. By rotating the sample, and taking many images, it is possible to reconstruct the 3D volume (with the object internals) from the projections. At Synchrotron SOLEIL, we use codes such as PyHST2, Nabu, TomoPy, Astra, and UFO. This is computerised tomography (CT).
 
@@ -102,7 +102,7 @@ Limitations:
 
 - Phase contrast imaging remains experimental.
 
-## Fluorescence
+## Fluorescence (XRF)
 
 The fluorescence is a secondary process triggered by absorption. The ejected electron creates a hole, which is then filled by "re-ordering" the existing electronic states. Then many transitions between the atom energy levels are involved (e.g. K$\alpha$ = M->K, K$\beta$ = L->K, L$\alpha$ = M->L, etc), and secondary photons are emitted with energies corresponding to the level differences. The spectrum is thus specific to each atom, and the intensity depends on the material composition fractions and self shielding. 
 
@@ -121,7 +121,7 @@ Fluorescence(material="LaB6",
   target_index=1, focus_xw=0.0005, focus_yh=0.0005)
 ```
 
-## Powder diffraction
+## Powder diffraction (XRD)
 
 Powder diffraction is produced by a periodic atom structure, i.e. a crystallographic lattice. This structure defines an infinite number of parallel planes, each of which can reflect the X-ray beam as a mirror. Each plane is labelled using the Miller indices (h,k,l) which corresponds with its normal vector. In addition, the probe particle wavelength $\lambda$ (in $\AA$) must obey the Bragg law
 
@@ -145,11 +145,13 @@ The material can be specified either via a F^2^ pre-computed list (e.g. `.lau`,`
 
 ![PowderN Debye-Scherrer rings](pics/PowderN.png)
 
-Looking at this example, we notice that the same scattering can also be obtained using the `Single_crystal` component in "powder" mode. The syntax is then the same, but an additional `powder` argument can be given. A value of 0 is for a single crystal, a value of 1 is for a powder, and an intermediate value corresponds with a 'textured' powder that is a powder exhibiting preferred orientations.
+Looking at this example, we notice that the same scattering can also be obtained using the `Single_crystal` component in "powder" mode. The syntax is then the same, but an additional `powder` argument can be given.
 ```c
 Single_crystal(radius=0.5e-4, yheight=1e-3, reflections="LaB6.cif",
     powder=1, mosaic=5)
 ```
+
+A `powder` value of 0 is for a single crystal, a value of 1 is for a powder, and intermediate values correspond with gradually 'textured' powders, that is a powder exhibiting preferred orientations. In this case, the intensity along the rings is not constant.
 
 You can get an extensive list of many measured/calculated crystal structures at:
 
@@ -173,7 +175,24 @@ The following picture shows single crystal Laue diffraction from a polychromatic
 
 In practice, single crystal diffraction can be visible even when studying powders, originating from e.g. larger crystallites, filters and windows through which the beam travels. The single crystal diffraction is easier to see when relaxing the Bragg law, i.e. working in Laue mode with a wide energy range.
 
-## Small angle-scattering (diffraction)
+## Small angle scattering (SAXS)
+
+This is again diffraction, except that this time the scattering units are not lattice cells, but larger units such as proteins, colloids, polymers in form of pellets, rings, etc. The underlying theory is still the Bragg law, but the characteristic $d$ spacing is much larger, corresponding with larger molecules.
+
+In homogeneous materials, the scattering looks like Debye-Scherrer rings as for powders. For textured and oriented materials, the scattering will be anisotropic, i.e. the intensity along the rings is not constant.
+
+SAXS can be observed in many materials, including from the sample environments/holders.
+
+McXtrace provide a vast number of small angle scattering models. We only provide a few in the table below.
+
+Component           | Description | Syntax
+--------------------|-------------|------------------
+`Saxs_sphere`       | Spherical objects     | `Saxs_spheres(R = 100, Phi = 0.1, Delta_rho = 1.6, yheight = 1e-3, radius = 0.25e-3, sphere_mtrl="Be.txt")`
+`SAXSCylinders`     | Cylindrical objects   | `SAXSCylinders(R=40,xwidth = 0.01,yheight = 0.01,zdepth = 0.01,	SampleToDetectorDistance = 1,DetectorRadius = 0.5)`
+`SAXSPDBFast`       | Scattering from a PDB | `SAXSPDB(PDBFilepath="3v03.pdb", xwidth=0.01,yheight = 0.01,zdepth = 0.01,SampleToDetectorDistance = 1,DetectorRadius = 0.5)`
+`sasmodels`         | 96 SASView models | semi-crystal, core-shell, micelles, fractal, Guinier, lamellar, Porod, stacked, ...
+
+The following scattering is obtained using the `Tests_samples/Test_SAXS` model with a sphere model `Saxs_sphere`. It does look like a powder scattering. Reality is often more complex.
 
 ![SAXS](pics/SAXS.png)
 
