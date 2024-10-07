@@ -31,7 +31,7 @@ Instrumentfile: [Ex_selector.instr](Ex_selector.instr)
 * Double-click `data` inside and select `Axis 0` to be Wavelength in Å, a plot should appear:
 ![NeXpy-plot](pics/nexpy-plot.png)
 * Clicking the `y` tab will give access to the `Fit` button, and pressing will bring up a new small window:
-![NeXpy-fit](nexpy-fit.png)
+![NeXpy-fit](pics/nexpy-fit.png)
 * Add a Gaussian Model, `Fit`, `Plot Model` and `Show Fit Report`
 ![NeXpy-fit-data](pics/nexpy-fit-data.png)
 ![NeXpy-fit-plot](pics/nexpy-fit-plot.png)

@@ -177,7 +177,7 @@ on top of a 'pink' bremsstrahlung background.
 
 We show below a set of common anode materials:
 
-Anode | Kα (L->K) | Kβ (M->K)
+Anode | K$\alpha$ (L->K) | K$\beta$ (M->K)
 ------|----|-----
 W  | 59 keV             | 67 keV 
 Rh | 20 keV             | 22.7 keV
@@ -258,10 +258,10 @@ as in bending magnets, and a narrower divergence.
 The Wiggler is characterised by its strength parameter K:
 
 <p style="text-align:center;">
-K = Bλ<sub>u</sub> e/(2πmc)
+$K = B \lambda_u e/(2\pi mc)$
 </p>
 
-where B is the magnetic field, λ<sub>u</sub> is the spatial period of the magnets, 
+where B is the magnetic field, $\lambda_u$ is the spatial period of the magnets, 
 m and e are the electron rest mass and charge, and c is the speed of light. 
 For a wiggler, K >> 1 implies that the electron oscillations are large, each one 
 behaving as a bending magnet.
@@ -286,7 +286,7 @@ Reference: B.D. Patterson, Am. J. Phys. 79, 1046 (2011)
 #### `Undulator`: a compact series of alternating dipoles
 
 [Undulators](https://en.wikipedia.org/wiki/Undulator) result from an evolution of 
-wiggler, using a compact layout. The spatial magnetic period λ<sub>u</sub> is 
+wiggler, using a compact layout. The spatial magnetic period $\lambda_u$ is 
 usually smaller, and the magnetic field is high. The strength parameter K is 
 smaller than 1, so that the electron beam oscillations overlap and the x-ray
 generated spectrum shows interference (the undulator resonance orders), and

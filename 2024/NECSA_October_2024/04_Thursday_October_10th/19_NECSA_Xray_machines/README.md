@@ -65,10 +65,10 @@ Monochromator: PG
 - X-ray Tubes	Cu (1.54 Å), Co (1.79 Å), Cr (2.29 Å)
 - Incident beam conditioning	PG incident beam monochromator
 - Beam diameters	2.0, 0.8, 0.5, 0.3, 0.1, 0.05 mm
-- Sample stage	¼ Cradle with integrated φ, χ, x, y, z
+- Sample stage	Cradle with integrated $\phi, \chi, x, y, z$
 - Sample setup	Video laser system, accurate to 20 microns
 - Detector	Vantec 500
-- Two-theta range	10° ≤ 2θ ≤ 108° (front)
+- Two-theta range	$10^o < 2\theta < 108^o$ (front)
 - x, y, z range	: +/- 75, +/- 75, -1:11
 
 Full user manual [here](pics/d8_advance_discover_user_manual_vol._1_doc-m88-exx153_v6.pdf)
