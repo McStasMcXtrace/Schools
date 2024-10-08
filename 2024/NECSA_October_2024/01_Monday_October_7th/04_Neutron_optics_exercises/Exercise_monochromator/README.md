@@ -46,7 +46,7 @@ COMPONENT  Source = Source_gen(
 
 13. Use Braggs law $n\lambda=2d\sin(\theta)$ to find calculate (pen and paper / caclulator for now) the correct `A1,A2` values to reflect a 2Å beam. (Hints: Calculate for `n=1`, and that in reflection, `A2`=$2\theta$ and `A1`=`A2/2`
 
-14. Using your result from 13, run a simulation to confirm. Optional: Try switching to 
+14. Using your result from 13, run a simulation to confirm.
 
 15. Discuss with your neighbour, what are the other, lower-wavelength peaks?
 **Optional bonus-task**: Try switching to to `Output format: NeXus -c` and fit the peaks using `NeXpy`
