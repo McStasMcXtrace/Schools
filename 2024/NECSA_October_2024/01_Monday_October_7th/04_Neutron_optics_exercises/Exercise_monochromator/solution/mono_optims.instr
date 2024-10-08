@@ -95,7 +95,7 @@ AT (0, 0, 0) RELATIVE ABSOLUTE
 // insert components here (e.g. Insert -> Source -> ...)
 
 COMPONENT  Source = Source_gen(
-    radius = 0.0905, dist = 4, focus_xw = 0.1, focus_yh = 0.1,
+    radius = 0.0905, dist = 4, focus_xw = Mono_w_src, focus_yh = 0.1,
     Lmin = source_lam_min, Lmax = source_lam_max, I1 = 0)
   AT (0, 0, 0) RELATIVE origin
 
