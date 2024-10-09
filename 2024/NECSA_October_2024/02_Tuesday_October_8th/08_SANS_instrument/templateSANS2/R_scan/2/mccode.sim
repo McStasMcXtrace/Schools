@@ -1,0 +1,224 @@
+mcstas simulation description file for templateSANS2.
+Date:    Wed Oct  9 15:33:27 2024
+Program:  3.5.2, git
+
+begin instrument: templateSANS2
+  File: R_scan/2/mccode
+  Source: templateSANS2.instr
+  Parameters:  lambda(double) dlambda(double) r(double) PHI(double) Delta_Rho(double) frac_dir(double) frac_inc(double) slit1(double) slit2(double) LC(double) LD(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: R_scan/2
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator:  3.5.2, git
+  Instrument: templateSANS2.instr
+  Ncount: 10000000
+  Trace: no
+  Gravitation: no
+  Seed: 1728480807551738
+  Directory: R_scan/2
+  Nodes: 12
+  Param: lambda=6
+  Param: dlambda=0.6
+  Param: r=150
+  Param: PHI=0.001
+  Param: Delta_Rho=6e+10
+  Param: frac_dir=0.03
+  Param: frac_inc=0.01
+  Param: slit1=0.02
+  Param: slit2=0.02
+  Param: LC=3
+  Param: LD=3
+end simulation
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_2d(90, 90)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: Sample_in
+  position: 0 0 3.2
+  title: PSD monitor
+  Ncount: 9999996
+  filename: SamplePos.dat
+  statistics: X0=-0.000234895; dX=0.478303; Y0=-1.0092e-05; dY=0.478155;
+  signal: Min=0; Max=0.831465; Mean=0.499123;
+  values: 4042.9 1.30133 9.65182e+06
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -1 1 -1 1
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_2d(128, 128)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: detector
+  position: 0 0 6.2
+  title: PSD monitor
+  Ncount: 9999996
+  filename: PSD.dat
+  statistics: X0=0.000574236; dX=4.39365; Y0=0.000131219; dY=4.39385;
+  signal: Min=1.60749e-05; Max=0.0486598; Mean=0.000728716;
+  values: 11.9393 0.00270666 6.62853e+07
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -30 30 -30 30
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_2d(128, 128)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: detectorSANS
+  position: 0 0 6.2
+  title: PSD monitor
+  Ncount: 9999996
+  filename: SANS.dat
+  statistics: X0=0.000574236; dX=4.39365; Y0=0.000131219; dY=4.39385;
+  signal: Min=1.60749e-05; Max=0.0486598; Mean=0.000728716;
+  values: 11.9393 0.00270666 6.62853e+07
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -30 30 -30 30
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_2d(128, 128)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: detectorDB
+  position: 0 0 6.2
+  title: PSD monitor
+  Ncount: 9999996
+  filename: Direct.dat
+  statistics: X0=0; dX=0; Y0=0; dY=0;
+  signal: Min=0; Max=0; Mean=0;
+  values: 0 0 0
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [cm]
+  ylabel: Y position [cm]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -30 30 -30 30
+  variables: I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_1d(1000)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: Ldetector
+  position: 0 0 6.2
+  title: Wavelength monitor
+  Ncount: 9999996
+  filename: Edet.dat
+  statistics: X0=6.02682; dX=0.287709;
+  signal: Min=0.00816852; Max=0.0119176; Mean=0.00994178;
+  values: 9.94178 0.00246431 5.52366e+07
+  xvar: L
+  yvar: (I,I_err)
+  xlabel: Wavelength [AA]
+  ylabel: Intensity
+  xlimits: 5.5 6.5
+  variables: L I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_1d(100)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: PSDrad
+  position: 0 0 6.2
+  title: PSD monitor radial sum
+  Ncount: 9999996
+  filename: psd2.dat
+  statistics: X0=0.0430179; dX=0.0377567;
+  signal: Min=0.00518809; Max=0.756023; Mean=0.11863;
+  values: 11.863 0.00270558 6.52633e+07
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity
+  xlimits: 0.0015 0.3015
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_1d(100)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: PSDrad
+  position: 0 0 6.2
+  title: PSD monitor radial average
+  Ncount: 9999996
+  filename: psd2_av.dat
+  statistics: X0=0.0248448; dX=0.0205972;
+  signal: Min=1.04172; Max=2223.59; Mean=269.589;
+  values: 26958.9 5.39224 7.83159e+08
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity/m^2
+  xlimits: 0.0015 0.3015
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_1d(100)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: PSDrad_full
+  position: 0 0 6.2
+  title: PSD monitor radial sum
+  Ncount: 9999996
+  filename: psd2_full.dat
+  statistics: X0=0.0430179; dX=0.0377567;
+  signal: Min=0.00518809; Max=0.756023; Mean=0.11863;
+  values: 11.863 0.00270558 6.52633e+07
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity
+  xlimits: 0.0015 0.3015
+  variables: r I I_err N
+end data
+
+begin data
+  Date: Wed Oct  9 15:33:30 2024 (1728480810)
+  type: array_1d(100)
+  Source: templateSANS2 (templateSANS2.instr)
+  component: PSDrad_full
+  position: 0 0 6.2
+  title: PSD monitor radial average
+  Ncount: 9999996
+  filename: psd2_av_full.dat
+  statistics: X0=0.0248448; dX=0.0205972;
+  signal: Min=1.04172; Max=2223.59; Mean=269.589;
+  values: 26958.9 5.39224 7.83159e+08
+  xvar: r
+  yvar: (I,I_err)
+  xlabel: Radius [m]
+  ylabel: Intensity/m^2
+  xlimits: 0.0015 0.3015
+  variables: r I I_err N
+end data

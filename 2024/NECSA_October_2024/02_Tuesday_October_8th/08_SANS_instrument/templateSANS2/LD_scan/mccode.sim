@@ -1,0 +1,27 @@
+begin instrument:
+  Creator: mcstas 3.5.2
+  Source: templateSANS2.instr
+  Parameters:  LD
+  Trace_enabled: no
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation
+Date: Wed Oct 09 15 38 2024
+Ncount: 10000000
+Numpoints: 10
+Param: LD = 1, LD = 10
+end simulation
+
+begin data
+type: multiarray_1d(10)
+title: Scan of LD
+xvars: LD
+yvars: (Sample_in_I,Sample_in_ERR (detector_I,detector_ERR (detectorSANS_I,detectorSANS_ERR (detectorDB_I,detectorDB_ERR (Ldetector_I,Ldetector_ERR (PSDrad_I,PSDrad_ERR (PSDrad_I,PSDrad_ERR (PSDrad_full_I,PSDrad_full_ERR (PSDrad_full_I,PSDrad_full_ERR
+xlabel: 'LD'
+ylabel: 'Intensity'
+xlimits: 1 10
+filename: mccode.dat
+variables: LDSample_in_I Sample_in_ERR detector_I detector_ERR detectorSANS_I detectorSANS_ERR detectorDB_I detectorDB_ERR Ldetector_I Ldetector_ERR PSDrad_I PSDrad_ERR PSDrad_I PSDrad_ERR PSDrad_full_I PSDrad_full_ERR PSDrad_full_I PSDrad_full_ERR
+end data
