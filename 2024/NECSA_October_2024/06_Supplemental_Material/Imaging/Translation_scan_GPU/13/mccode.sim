@@ -1,0 +1,116 @@
+mcxtrace simulation description file for Airp_scannerII.
+Date:    Fri Oct 11 07:56:11 2024
+Program:  3.5.2, git
+
+begin instrument: Airp_scannerII
+  File: Airport_scannerII_20241011_075532/13/mccode
+  Source: Airport_scannerII.instr
+  Parameters:  SFILE(string) ANGLE(double) posX(double) posY(double) posZ(double) Ncount(double)
+  Trace_enabled: yes
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation: Airport_scannerII_20241011_075532/13
+  Format: McCode with text headers
+  URL: http://www.mccode.org
+  Creator:  3.5.2, git
+  Instrument: Airport_scannerII.instr
+  Ncount: 1000000
+  Trace: no
+  Gravitation: no
+  Seed: 1728633370915387
+  Directory: Airport_scannerII_20241011_075532/13
+  Param: SFILE=input_abs_objects_template.dat
+  Param: ANGLE=130
+  Param: posX=-0.5
+  Param: posY=-0.3
+  Param: posZ=0
+  Param: Ncount=0
+end simulation
+
+begin data
+  Date: Fri Oct 11 07:56:12 2024 (1728633372)
+  type: array_2d(101, 101)
+  Source: Airp_scannerII (Airport_scannerII.instr)
+  component: psd0
+  position: 0 0 0.1
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psd0.dat
+  statistics: X0=-3.87292e-06; dX=0.00372413; Y0=-1.58042e-06; dY=0.00372325;
+  signal: Min=0; Max=0.000194944; Mean=1.01449e-07;
+  values: 0.00103488 1.03488e-06 1e+06
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.25 0.25 -0.25 0.25
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Oct 11 07:56:12 2024 (1728633372)
+  type: array_1d(101)
+  Source: Airp_scannerII (Airport_scannerII.instr)
+  component: emon
+  position: 0 0 0.11
+  title: Energy monitor
+  Ncount: 1000000
+  filename: emon.dat
+  statistics: X0=70.0858; dX=39.8406;
+  signal: Min=0; Max=1.51382e-05; Mean=1.02463e-05;
+  values: 0.00103488 1.03488e-06 1e+06
+  xvar: E
+  yvar: (I,I_err)
+  xlabel: Energy [keV]
+  ylabel: Intensity
+  xlimits: 0 200
+  variables: E I I_err N
+end data
+
+begin data
+  Date: Fri Oct 11 07:56:12 2024 (1728633372)
+  type: array_2d(200, 200)
+  Source: Airp_scannerII (Airport_scannerII.instr)
+  component: psd2
+  position: 0 0 4
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psd2.dat
+  statistics: X0=-9.62198e-05; dX=0.115436; Y0=8.06986e-07; dY=0.115276;
+  signal: Min=4.14506e-09; Max=3.94192e-08; Mean=1.98303e-08;
+  values: 0.000793211 9.06484e-07 765700
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.2 0.2 -0.2 0.2
+  variables: I I_err N
+end data
+
+begin data
+  Date: Fri Oct 11 07:56:12 2024 (1728633372)
+  type: array_2d(200, 200)
+  Source: Airp_scannerII (Airport_scannerII.instr)
+  component: psd_far
+  position: 0 0 20
+  title: PSD monitor
+  Ncount: 1000000
+  filename: psdfar.dat
+  statistics: X0=-0.00120106; dX=0.116031; Y0=0.000357785; dY=0.115557;
+  signal: Min=0; Max=7.27547e-09; Mean=7.98006e-10;
+  values: 3.19203e-05 1.82134e-07 30715
+  xvar: X 
+  yvar: Y 
+  xlabel: X position [m]
+  ylabel: Y position [m]
+  zvar: I
+  zlabel: Signal per bin
+  xylimits: -0.2 0.2 -0.2 0.2
+  variables: I I_err N
+end data

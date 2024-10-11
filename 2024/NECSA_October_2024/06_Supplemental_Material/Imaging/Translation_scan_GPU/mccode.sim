@@ -1,0 +1,27 @@
+begin instrument:
+  Creator: mcxtrace 3.5.2
+  Source: Airport_scannerII.instr
+  Parameters:  ANGLE
+  Trace_enabled: no
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation
+Date: Fri Oct 11 07 55 2024
+Ncount: 1000000
+Numpoints: 18
+Param: ANGLE = 0, ANGLE = 170
+end simulation
+
+begin data
+type: multiarray_1d(18)
+title: Scan of ANGLE
+xvars: ANGLE
+yvars: (psd0_I,psd0_ERR (emon_I,emon_ERR (psd2_I,psd2_ERR (psd_far_I,psd_far_ERR
+xlabel: 'ANGLE'
+ylabel: 'Intensity'
+xlimits: 0 170
+filename: mccode.dat
+variables: ANGLEpsd0_I psd0_ERR emon_I emon_ERR psd2_I psd2_ERR psd_far_I psd_far_ERR
+end data
