@@ -1,0 +1,27 @@
+begin instrument:
+  Creator: mcxtrace 3.5.2
+  Source: Airport_scannerII.instr
+  Parameters:  posX
+  Trace_enabled: no
+  Default_main: yes
+  Embedded_runtime: yes
+end instrument
+
+begin simulation
+Date: Fri Oct 11 09 35 2024
+Ncount: 1000000
+Numpoints: 25
+Param: posX = -0.6, posX = 0
+end simulation
+
+begin data
+type: multiarray_1d(25)
+title: Scan of posX
+xvars: posX
+yvars: (psd0_I,psd0_ERR (emon_I,emon_ERR (psd2_I,psd2_ERR (psd_far_I,psd_far_ERR
+xlabel: 'posX'
+ylabel: 'Intensity'
+xlimits: -0.6 0
+filename: mccode.dat
+variables: posXpsd0_I psd0_ERR emon_I emon_ERR psd2_I psd2_ERR psd_far_I psd_far_ERR
+end data
