@@ -53,6 +53,10 @@ This is a Nikon XTH 225 ST micro-focus X-ray tomography:
 
 Full user manual [here](pics/xt_h_225.pdf)
 
+NECSA page [XTH Tomo](https://www.necsa.co.za/service/micro-focus-x-ray-radiography-and-tomography-facility-mixrad/)
+
+[McXtrace model](https://github.com/McStasMcXtrace/McCode/tree/main/mcxtrace-comps/examples/NECSA/NECSA_MIXRAD_Nikon_Tomo)
+
 ## X-Ray Strain Scanner (D8 Discover)
 
 This is a Bruker D8 Discover.
@@ -73,6 +77,8 @@ Monochromator: PG
 
 Full user manual [here](pics/d8_advance_discover_user_manual_vol._1_doc-m88-exx153_v6.pdf)
 
+NECSA page [D8 Discover](https://www.necsa.co.za/service/x-ray-strain-scanner-d8-discover/)
+
 ## X-Ray Powder Diffraction (D8 Advance)
 
 This is a Bruker D8 Advance diffractometer.
@@ -86,4 +92,8 @@ This is a Bruker D8 Advance diffractometer.
 - Detector LynxEye 1D 192 pixels 14.4 x 16 mm
 
 Full user manual [here](pics/d8_advance_discover_user_manual_vol._1_doc-m88-exx153_v6.pdf)
+
+NECSA page [D8 Advance](https://www.necsa.co.za/service/x-ray-powder-diffraction-d8-advance/)
+
+[McXtrace model](https://github.com/McStasMcXtrace/McCode/tree/main/mcxtrace-comps/examples/NECSA/NECSA_Brucker_D8_Advance)
 
